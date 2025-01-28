@@ -17,6 +17,12 @@ export default {
         warning: "#F9C74F",
         lightWarning: "#F9F2E2",
       },
+      fontFamily: {
+        nexaRegular: ["Regular"],
+        nexaBold: ["Bold"],
+        nexaHeavy: ["Heavy"],
+        nexaLight: ["Light"],
+      },
     },
   },
   plugins: [],

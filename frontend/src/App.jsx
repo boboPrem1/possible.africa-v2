@@ -20,6 +20,7 @@ import Organisations from "./pages/Organisations";
 import Search from "./pages/Search.jsx";
 import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
+import Yperlink from "./pages/Yperlink.jsx";
 
 function App() {
   const MODE = import.meta.env.VITE_APP_MODE;
@@ -47,19 +48,11 @@ function App() {
                 </Route>
                 <Route path="/actualites">
                   {/* <Route index path="/actualites" element={<Actualites />} /> */}
-                  <Route
-                    index
-                    path="/actualites"
-                    element={<Actualites />}
-                  />
+                  <Route index path="/actualites" element={<Actualites />} />
                   <Route path="/actualites/:slug" element={<OneActualite />} />
                 </Route>
                 <Route path="/actualites2">
-                  <Route
-                    index
-                    path="/actualites2"
-                    element={<Actualites />}
-                  />
+                  <Route index path="/actualites2" element={<Actualites />} />
                 </Route>
                 <Route path="/interviews">
                   <Route index path="/interviews" element={<Interviews />} />
@@ -88,6 +81,9 @@ function App() {
                   <Route index path="/search" element={<Search />} />
                 </Route>
               </Route>
+            </Route>
+            <Route path="/newpage">
+              <Route index path="/newpage" element={<Yperlink />} />
             </Route>
           </Routes>
         </BrowserRouter>

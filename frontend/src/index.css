@@ -2,9 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Regular";
+  src: local("Nexa-Regular"),
+    url("../fonts/Nexa-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Bold";
+  src: local("Nexa-Bold"),
+    url("../fonts/Nexa-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Heavy";
+  src: local("Nexa-Heavy"),
+    url("../fonts/Nexa-Heavy.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Light";
+  src: local("NexaLight"),
+    url("../fonts/NexaLight.ttf") format("truetype");
+}
+
 @keyframes loading {
   0% {
-    opacity: .5;
+    opacity: 0.5;
     rotate: 25deg;
   }
   50% {
@@ -14,13 +38,13 @@
   100% {
     rotate: -25deg;
     translate: 100px 0;
-    opacity: .5;
+    opacity: 0.5;
     /* transform: translateX(200px); */
   }
 }
 @keyframes loadingMini {
   0% {
-    opacity: .5;
+    opacity: 0.5;
     rotate: 25deg;
   }
   50% {
@@ -30,7 +54,7 @@
   100% {
     rotate: -25deg;
     translate: 35px 0;
-    opacity: .5;
+    opacity: 0.5;
     /* transform: translateX(200px); */
   }
 }
