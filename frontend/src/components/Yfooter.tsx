@@ -7,7 +7,7 @@ const Yfooter = () => {
     <div className="">
       <footer className="bg-white py-4">
         <div className="flex flex-col md:flex-row items-center pb-4 justify-between w-[80%] mx-auto">
-          <div className="flex items-center lg:flex-col justify-end items-end space-x-4">
+          <div className="flex items-center lg:flex-col justify-end space-x-4">
             <img
               src={yperLinkLogo}
               width={288}

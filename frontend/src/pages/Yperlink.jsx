@@ -12,7 +12,7 @@ import RegistrationForm from "../components/RegistrationForm";
 
 const Yperlink = () => {
   return (
-    <div className="bg-[#F0F0F0">
+    <div className="font-nexaRegular">
       <div>
         <YnavBar />
         <div className="py-10 bg-gray-100">

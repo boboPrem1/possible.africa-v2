@@ -4,26 +4,22 @@
 
 @font-face {
   font-family: "Regular";
-  src: local("Nexa-Regular"),
-    url("../fonts/Nexa-Regular.otf") format("opentype");
+  src: url("../src/assets/fonts/Nexa-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Bold";
-  src: local("Nexa-Bold"),
-    url("../fonts/Nexa-Bold.otf") format("opentype");
+  src: url("../src/assets/fonts/Nexa\ Bold.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Heavy";
-  src: local("Nexa-Heavy"),
-    url("../fonts/Nexa-Heavy.ttf") format("truetype");
+  src: url("../src/assets/fonts/Nexa-Heavy.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Light";
-  src: local("NexaLight"),
-    url("../fonts/NexaLight.ttf") format("truetype");
+  src: url("../src/assets/fonts/NexaLight.ttf") format("truetype");
 }
 
 @keyframes loading {

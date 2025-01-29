@@ -2,15 +2,15 @@ import React from "react";
 
 const Participate = () => {
   return (
-    <div className="bg-white">
-      <div className="rounded-lg w-[90%] lg:w-[80%] flex flex-col lg:flex-row justify-between items-center mx-auto py-10 lg:py-20">
+    <div id="participate" className="bg-white">
+      <div className="rounded-lg w-[90%] lg:w-[80%] flex flex-col gap-4 lg:flex-row justify-between items-center mx-auto py-10 lg:py-20">
         <div className="lg:w-[40%]">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold mb-4 lg:py-6 text-center">
             Pourquoi participer au Startup Challenge Africa 2025 ?
           </h2>
           <div className="pt-4 text-sm md:text-base hidden lg:block text-center">
             <button className="bg-[#3030F9] text-white py-2 px-4 rounded">
-              Soumettre ma candidature
+              <a href="#register">Soumettre ma candidature</a>
             </button>
           </div>
         </div>

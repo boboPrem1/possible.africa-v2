@@ -42,25 +42,25 @@ const YnavBar = () => {
         >
           <div className="text-sm lg:text-base lg:flex-grow">
             <a
-              href="#"
-              className="block mt-4 text-[#3030F9] active:text-blue-500 lg:inline-block lg:mt-0 text-white-200 mr-4"
+              href="#participate"
+              className="block mt-4 active:text-blue-500 lg:inline-block lg:mt-0 text-white-200 mr-4"
             >
               Pourquoi participer
             </a>
             <a
-              href="#"
+              href="#apply"
               className="block mt-4 active:text-blue-500 lg:inline-block lg:mt-0 text-white-200 mr-4"
             >
               Recompense
             </a>
             <a
-              href="#"
+              href="#eligibiltyCriteria"
               className="block mt-4 active:text-blue-500 lg:inline-block lg:mt-0 text-white-200 mr-4"
             >
               Critères d’éligibilité
             </a>
             <a
-              href="#"
+              href="#register"
               className="block mt-4 active:text-blue-500 lg:inline-block lg:mt-0 text-white-200 mr-4"
             >
               Candidature

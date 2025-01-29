@@ -33,8 +33,9 @@ const RegistrationForm = () => {
 
   return (
     <form
+      id="register"
       onSubmit={handleSubmit}
-      className=" md:w-[40%] lg:w-[60%] mx-auto p-4 bg-white rounded-lg"
+      className=" md:w-[80%] lg:w-[60%] mx-auto p-4 bg-white rounded-lg"
     >
       <h2 className="text-xl md:text-2xl lg:text-4xl lg:py-10 text-center font-semibold mb-4">
         Inscrivez-vous dès maintenant pour transformer votre startup
