@@ -16,7 +16,7 @@ const ZeroToOne = () => {
               src={zeroToOne}
               width={187}
               height={148}
-              className="md:w-[40%] h-auto"
+              className="md:w-[40%] max-w-[40%] h-auto"
               alt="zero to one"
             />
             <img

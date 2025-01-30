@@ -15,7 +15,7 @@ const Yperlink = () => {
     <div className="font-nexaRegular">
       <div>
         <YnavBar />
-        <div className="py-10 bg-gray-100">
+        <div className="py-10 mt-16 lg:mt-0 bg-gray-100">
           <Yheader />
         </div>
         <div className="bg-white">
