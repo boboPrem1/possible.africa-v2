@@ -1,9 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import yperLinkLogo from "../assets/yperlink-logo.svg";
-import YnavBar from "../components/YnavBar";
 import EligibilityCriteria from "../components/EligibilityCriteria";
-import Yfooter from "../components/Yfooter";
 import lamPossibleicon from "../assets/lam-africapossible.png";
 import Hero from "../assets/hero.png";
 import yperLinkLogo from "../assets/yperlink-logo.svg";
