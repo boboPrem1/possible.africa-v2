@@ -4,12 +4,9 @@ import yperLinkLogo from "../assets/yperlink-logo.svg";
 import EligibilityCriteria from "../components/EligibilityCriteria";
 import lamPossibleicon from "../assets/lam-africapossible.png";
 import Hero from "../assets/hero.png";
-import yperLinkLogo from "../assets/yperlink-logo.svg";
 import zeroToOne from "../assets/zero-to-one.png";
 import h7 from "../assets/h7.png";
 import info from "../assets/info.png";
-import yperLinkLogo from "../assets/yperlink-logo.svg";
-import lamPossibleicon from "../assets/lam-africapossible.png";
 
 const Yperlink = () => {
   return (
