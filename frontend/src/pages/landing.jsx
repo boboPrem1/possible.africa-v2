@@ -20,7 +20,7 @@ const Landing = () => {
               <option value="en">EN</option>
               <option value="fr">FR</option>
             </select>
-            <button className="flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px]">
+            <button className="flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white">
               <span>+</span>
               <span>Free first campaign</span>
             </button>
