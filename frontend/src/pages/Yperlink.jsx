@@ -134,7 +134,7 @@ const Yheader = () => {
         </div>
       </div>
       <div className="hidden md:block">
-        <img src={Hero} width={412} height={420} alt="YperLink challenge" />
+        <img src={Hero} width={412} height={420} alt="YperLink challenge" className="-mb-10" />
       </div>
     </div>
   );
