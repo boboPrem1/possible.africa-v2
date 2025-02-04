@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -25,10 +26,33 @@ const RegistrationForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    // Ajoutez ici le code pour soumettre les données du formulaire
+
+    const apiKey = "pat2732ViJYBSSYs2.0e2362370755861a7ce8546aeebb17a9ccfeef0b472b154a36b03134944763c6";
+    const baseId = "apptABNLl0Crx6A9o";
+    const tableId = "tblhAon3drcSAI68r";
+    const url = `https://api.airtable.com/v0/${baseId}/${tableId}`;
+
+    try {
+      const response = await axios.post(
+        url,
+        {
+          "fields": formData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Data submitted successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting data:", error.message);
+      console.error("Error submitting data:", error.type);
+    }
   };
 
   return (
