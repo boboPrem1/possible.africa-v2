@@ -92,10 +92,11 @@ exports.protect = async (req, res, next) => {
           "/storage/logos/",
           "/public/storage/logos/",
         ];
+        console.log(req.path)
     
         // Vérifie si la requête concerne une route publique
         if (publicRoutes.some(route => req.path.startsWith(route))) {
-          return next(); // Autorise la requête sans vérifier le token
+          next(); // Autorise la requête sans vérifier le token
         }
     // 1) Getting token and check if it's there
     let token;
