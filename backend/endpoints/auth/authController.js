@@ -87,17 +87,15 @@ exports.signin = async (req, res, next) => {
 
 exports.protect = async (req, res, next) => {
   try {
-        // ✅ 1) Autoriser certaines routes sans authentification
-        const publicRoutes = [
-          "/storage/logos/",
-          "/public/storage/logos/",
-        ];
-        console.log(req.path)
-    
-        // Vérifie si la requête concerne une route publique
-        if (publicRoutes.some(route => req.path.startsWith(route))) {
-          next(); // Autorise la requête sans vérifier le token
-        }
+    // ✅ 1) Autoriser certaines routes sans authentification
+    const publicRoutes = ["/storage/logos/", "/public/storage/logos/"];
+    console.log(req.path);
+
+    // Vérifie si la requête concerne une route publique
+    if (publicRoutes.some((route) => req.path.startsWith(route))) {
+      next(); // Autorise la requête sans vérifier le token
+      return;
+    }
     // 1) Getting token and check if it's there
     let token;
     let way;
