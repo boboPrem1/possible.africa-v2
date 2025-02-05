@@ -22,6 +22,8 @@ import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
 import Yperlink from "./pages/Yperlink.jsx";
 import Landing from "./pages/landing.jsx";
+import Database from "./pages/database.jsx";
+import News from "./pages/Actualites/NewActualite.jsx";
 
 function App() {
   const MODE = import.meta.env.VITE_APP_MODE;
@@ -33,7 +35,7 @@ function App() {
       ) : (
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={[<Header key="1" />, <Footer key="2" />]}>
+            {/* <Route path="/" element={[<Header key="1" />, <Footer key="2" />]}>
               <Route path="/" element={<HomeHeader />}>
                 <Route index element={<Accueil />} />
                 <Route path="/organisations">
@@ -48,7 +50,6 @@ function App() {
                   />
                 </Route>
                 <Route path="/actualites">
-                  {/* <Route index path="/actualites" element={<Actualites />} /> */}
                   <Route index path="/actualites" element={<Actualites />} />
                   <Route path="/actualites/:slug" element={<OneActualite />} />
                 </Route>
@@ -82,12 +83,18 @@ function App() {
                   <Route index path="/search" element={<Search />} />
                 </Route>
               </Route>
-            </Route>
+            </Route> */}
             <Route path="/yperlink">
               <Route index path="/yperlink" element={<Yperlink />} />
             </Route>
-            <Route path="/landing">
-              <Route index path="/landing" element={<Landing />} />
+            <Route path="/">
+              <Route index path="/" element={<Landing />} />
+            </Route>
+            <Route path="/database">
+              <Route index path="/database" element={<Database />} />
+            </Route>
+            <Route path="/news">
+              <Route index path="/news" element={<News />} />
             </Route>
           </Routes>
         </BrowserRouter>
