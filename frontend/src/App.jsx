@@ -21,6 +21,7 @@ import Search from "./pages/Search.jsx";
 import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
 import Yperlink from "./pages/Yperlink.jsx";
+import Landing from "./pages/landing.jsx";
 
 function App() {
   const MODE = import.meta.env.VITE_APP_MODE;
@@ -82,8 +83,11 @@ function App() {
                 </Route>
               </Route>
             </Route>
-            <Route path="/newpage">
-              <Route index path="/newpage" element={<Yperlink />} />
+            <Route path="/yperlink">
+              <Route index path="/yperlink" element={<Yperlink />} />
+            </Route>
+            <Route path="/landing">
+              <Route index path="/landing" element={<Landing />} />
             </Route>
           </Routes>
         </BrowserRouter>
