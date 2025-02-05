@@ -45,7 +45,7 @@ const Landing = () => {
     return (
       <div className="flex justify-center">
         <div className="flex flex-col w-11/12">
-          <Header page="database"/>
+          <Header page="database" />
           <div className="h-[400px] w-full m-auto flex justify-center items-center">
             <img
               src={Loader}
@@ -67,7 +67,7 @@ const Landing = () => {
   return (
     <div className="flex justify-center">
       <div className="flex flex-col w-11/12">
-        <Header page="/"/>
+        <Header page="/" />
         <div className="w-full flex justify-between px-5 gap-x-5">
           <div className="w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
             <div className="flex justify-between items-center mb-5">
@@ -458,11 +458,13 @@ const PyramidLogo = () => {
   );
 };
 
-export const Header = ({page}) => {
+export const Header = ({ page }) => {
   return (
     <>
       <div className="h-24 w-full flex justify-between items-center mb-10">
-        <img src={Logo} alt="" className="w-[100px] h-[50px]" />
+        <div className="w-6/12 md:">
+          <img src={Logo} alt="" className="w-[100px] h-[50px]" />
+        </div>
         <div className="flex justify-between w-5/12 items-center">
           <span className="text-xl font-medium text-[#242827]">
             # Connect AfricaTech Ecosystem
@@ -484,10 +486,47 @@ export const Header = ({page}) => {
       {/* <div> */}
       <div className="flex justify-start items-start gap-x-10 mb-6 px-5">
         {/* <span className="border-b-2 border-primary">Overview</span> */}
-        <a href="/" className={`text-lg font-medium ${page === '/' ? "font-black text-primary underline underline-offset-8" : ''}`}>Home</a>
-        <a href="/news" className={`text-lg font-medium ${page === '/news' ? "font-black text-primary underline underline-offset-8" : ''}`}>News</a>
-        <a href="/database" className={`text-lg font-medium ${page === '/database' ? "font-black text-primary underline underline-offset-8" : ''}`}>Database</a>
-        <a href="/yperlink" target="_blank" className={`text-lg font-medium ${page === '/yperlink' ? "font-black text-primary underline underline-offset-8" : ''}`}>Yperlink</a>
+        <a
+          href="/"
+          className={`text-lg font-medium ${
+            page === "/"
+              ? "font-black text-primary underline underline-offset-8"
+              : ""
+          }`}
+        >
+          Home
+        </a>
+        <a
+          href="/news"
+          className={`text-lg font-medium ${
+            page === "/news"
+              ? "font-black text-primary underline underline-offset-8"
+              : ""
+          }`}
+        >
+          News
+        </a>
+        <a
+          href="/database"
+          className={`text-lg font-medium ${
+            page === "/database"
+              ? "font-black text-primary underline underline-offset-8"
+              : ""
+          }`}
+        >
+          Database
+        </a>
+        <a
+          href="/yperlink"
+          target="_blank"
+          className={`text-lg font-medium ${
+            page === "/yperlink"
+              ? "font-black text-primary underline underline-offset-8"
+              : ""
+          }`}
+        >
+          Yperlink
+        </a>
       </div>
       {/* </div> */}
     </>

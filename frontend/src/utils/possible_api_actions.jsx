@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const apiKey = process.env.NEXT_PUBLIC_POSSIBLE_APIKEY;
-const apiKey = "94cb26H6b7a882e9c5713a10c6826706b17";
+const apiKey = import.meta.env.VITE_POSSIBLE_API_KEY;
 
 // Configuration de base pour l'instance Axios
 const axiosInstance = axios.create({
@@ -33,21 +32,7 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-
-
-type Params = {
-  query?: string;
-  page?: string;
-  limit?: string;
-  region?: string;
-  sector?: string;
-  headquarter?: string;
-  subSector?: string;
-  tier?: string;
-  operatingCountries?: string;
-};
-
-function actionQueryTransformer(params: Params, resource: string): string {
+function actionQueryTransformer(params, resource) {
   let baseQueryString = `/${resource}`;
   const { limit = 10, page = 1, ...filters } = params;
   let _start = 0;
@@ -64,14 +49,14 @@ function actionQueryTransformer(params: Params, resource: string): string {
   // Ajoute les filtres (autres paramètres)
   Object.entries(filters).forEach(([key, value]) => {
     if (value !== undefined && value !== "") {
-      baseQueryString += `&${key}=${encodeURIComponent(value as string)}`;
+      baseQueryString += `&${key}=${encodeURIComponent(value)}`;
     }
   });
 
   return baseQueryString;
 }
 
-export async function fetchResource(resource: string, params: any) {
+export async function fetchResource(resource, params) {
   const queryString = actionQueryTransformer(params, resource);
   const data = await axiosInstance.get(queryString);
   return data;
