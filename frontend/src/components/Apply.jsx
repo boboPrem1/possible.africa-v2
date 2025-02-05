@@ -1,12 +1,11 @@
 import React from "react";
 
-
 const Apply = () => {
   return (
     <div className="bg-gray-100 py-16">
       <div id="apply" className="w-[90%] mx-auto">
         <h2 className="text-xl md:text-2xl lg:text-4xl font-extrabold text-center text-gray-900 mb-10">
-          Pourquoi Postuler ?
+          Récompense
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-4">
           {/* Voyage */}

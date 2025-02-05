@@ -27,13 +27,17 @@ const RegistrationForm = () => {
     };
 
     if (type === "checkbox") {
-      let solution = updatedFormData.Solution.split(",").filter((item) => item);
+      let solution = Array.isArray(updatedFormData.Solution)
+      ? updatedFormData.Solution
+      : [];
       if (checked) {
+      if (!solution.includes(name)) {
         solution.push(name);
-      } else {
-        solution = solution.filter((item) => item !== name);
       }
-      updatedFormData.Solution = solution.join(",");
+      } else {
+      solution = solution.filter((item) => item !== name);
+      }
+      updatedFormData.Solution = solution;
     }
 
     // Remove all checkbox fields from the formData
