@@ -245,6 +245,18 @@ exports.getAllTotaux = async (req, res) => {
       .limit(10 * 1)
       .skip(0)
       .sort({ airDateAdded: -1 });
+      const lastPostsEng = await Post.find({
+        "airTrans": 'eng'
+      })
+        .limit(10 * 1)
+        .skip(0)
+        .sort({ airDateAdded: -1 });
+        const lastPostsFr = await Post.find({
+          "airTrans": 'fr'
+        })
+          .limit(10 * 1)
+          .skip(0)
+          .sort({ airDateAdded: -1 });
     let lastYearPosts = await Post.find({
       airDateAdded: {
         $gte: startOfYear,
@@ -351,6 +363,10 @@ exports.getAllTotaux = async (req, res) => {
       posts: {
         all: Math.ceil(posts / 2),
         last: lastPosts,
+        lastByLang: {
+          en: lastPostsEng,
+          fr: lastPostsFr,
+        },
         year: {
           evolution: Math.ceil((lastYearPosts / posts) * 100),
           length: Math.ceil(lastYearPosts / 2),
