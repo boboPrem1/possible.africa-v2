@@ -246,13 +246,13 @@ exports.getAllTotaux = async (req, res) => {
       .skip(0)
       .sort({ airDateAdded: -1 });
       const lastPostsEng = await Post.find({
-        "airTrans": 'eng'
+        "airLanguage": 'ENG'
       })
         .limit(10 * 1)
         .skip(0)
         .sort({ airDateAdded: -1 });
         const lastPostsFr = await Post.find({
-          "airTrans": 'fr'
+          "airLanguage": 'FR'
         })
           .limit(10 * 1)
           .skip(0)
