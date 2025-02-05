@@ -90,6 +90,7 @@ exports.protect = async (req, res, next) => {
         // ✅ 1) Autoriser certaines routes sans authentification
         const publicRoutes = [
           "/storage/logos/",
+          "/public/storage/logos/",
         ];
     
         // Vérifie si la requête concerne une route publique
