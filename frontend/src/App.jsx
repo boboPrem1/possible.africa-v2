@@ -22,7 +22,7 @@ import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
 import Yperlink from "./pages/Yperlink.jsx";
 import Landing from "./pages/landing.jsx";
-import Database from "./pages/database.jsx";
+import Database from "./pages/Database.jsx";
 import News from "./pages/Actualites/NewActualite.jsx";
 
 function App() {
