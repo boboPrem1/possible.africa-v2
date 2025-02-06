@@ -495,7 +495,7 @@ export const Header = ({ page }) => {
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              className="bg-white w-[300px] flex flex-col shadow-xl"
+              className="bg-white w-[300px] flex flex-col shadow-xl mt-6 ml-2"
             >
               <a
                 href="/"
