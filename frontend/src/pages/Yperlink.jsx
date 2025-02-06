@@ -41,24 +41,24 @@ export default Yperlink;
 const Participate = () => {
   return (
     <div id="participate" className="bg-white">
-      <div className="rounded-lg w-[90%] lg:w-[80%] flex flex-col gap-4 lg:flex-row justify-between items-center mx-auto py-10 lg:py-20">
-        <div className="lg:w-[40%]">
-          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold mb-4 lg:py-6 text-center">
+      <div className="rounded-lg w-[90%] lg:w-[73%] flex flex-col gap-4 lg:flex-row justify-between items-center mx-auto py-10 lg:py-20">
+        <div className="lg:w-[50%]">
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold mb-4 lg:py-6 md:text-start text-center">
             Pourquoi participer au challenge yperlink ?
           </h2>
-          <div className="pt-4 text-sm md:text-base hidden lg:block text-center">
+          <div className="pt-4 text-sm md:text-base hidden lg:block md:text-start text-center">
             <button className="bg-[#3030F9] text-white py-2 px-4 rounded">
               <a href="#register">Soumettre ma candidature</a>
             </button>
           </div>
         </div>
-        <div className="lg:w-[60%]">
+        <div className="lg:w-[50%]">
           <p className="text-base md:text-md lg:text-lg">
             <span className="text-[#3030F9] font-bold mr-1">
               10 startups sélectionnées
             </span>
             bénéficieront d’un programme intensif en ligne comprenant 4
-            programmes de Venture Building avec nos experts par nos experts
+            programmes de Venture Building avec nos experts
           </p>
           <ul className="list-disc list-inside text-sm md:text-base lg:text-md my-4">
             <li>Accélérer la croissance</li>
@@ -230,7 +230,7 @@ const YnavBar = () => {
 const Apply = () => {
   return (
     <div className="bg-gray-100 py-16">
-      <div id="apply" className="w-[80%] mx-auto">
+      <div id="apply" className="w-[73%] mx-auto">
         <h2 className="text-xl md:text-2xl lg:text-4xl font-extrabold text-center text-gray-900 mb-10">
           Récompense
         </h2>
