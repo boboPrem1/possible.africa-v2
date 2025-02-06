@@ -16,14 +16,14 @@ import OneInterview from "./pages/OneInterview.jsx";
 import OneOpportunity from "./pages/OneOpportunity.jsx";
 import OneOrganisation from "./pages/OneOrganisation.jsx";
 import Opportunites from "./pages/Opportunites";
-import Organisations from "./pages/Organisations";
 import Search from "./pages/Search.jsx";
 import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
-import Yperlink from "./pages/Yperlink.jsx";
+import Yprlink from "./pages/Yprlink.jsx";
 import Landing from "./pages/landing.jsx";
 import Database from "./pages/Database.jsx";
 import News from "./pages/Actualites/NewActualite.jsx";
+import Organisations from "./pages/NewOrganisations.jsx";
 
 function App() {
   const MODE = import.meta.env.VITE_APP_MODE;
@@ -84,8 +84,8 @@ function App() {
                 </Route>
               </Route>
             </Route> */}
-            <Route path="/yperlink">
-              <Route index path="/yperlink" element={<Yperlink />} />
+            <Route path="/yprlink">
+              <Route index path="/yprlink" element={<Yprlink />} />
             </Route>
             <Route path="/">
               <Route index path="/" element={<Landing />} />
@@ -95,6 +95,9 @@ function App() {
             </Route>
             <Route path="/news">
               <Route index path="/news" element={<News />} />
+            </Route>
+            <Route path="/organisations">
+              <Route index path="/organisations" element={<Organisations />} />
             </Route>
           </Routes>
         </BrowserRouter>

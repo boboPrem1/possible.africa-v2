@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 // import yperLinkLogo from "../assets/yperlink-logo.svg";
 
 import yperLinkLogo from "../assets/logo_hyperlink.png";
@@ -10,7 +11,7 @@ import zeroToOne from "../assets/zero-to-one.png";
 import h7 from "../assets/h7.png";
 import info from "../assets/info.png";
 
-const Yperlink = () => {
+const Yprlink = () => {
   return (
     <div className="font-nexaRegular">
       <div>
@@ -18,10 +19,13 @@ const Yperlink = () => {
         <div className="py-10 mt-16 lg:mt-0 bg-gray-100">
           <Yheader />
         </div>
+        <div>
+          <Timeline />
+        </div>
         <div className="bg-white">
           <Participate />
         </div>
-        <div className="py-10">
+        <div>
           <Apply />
         </div>
         {/* <EligibilityCriteria /> */}
@@ -36,14 +40,14 @@ const Yperlink = () => {
   );
 };
 
-export default Yperlink;
+export default Yprlink;
 
 const Participate = () => {
   return (
     <div id="participate" className="bg-white">
       <div className="rounded-lg w-[90%] lg:w-[73%] flex flex-col gap-4 lg:flex-row justify-between items-center mx-auto py-10 lg:py-20">
         <div className="lg:w-[50%]">
-          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold mb-4 lg:py-6 md:text-start text-center">
+          <h2 className="text-2xl md:text-2xl lg:text-3xl font-bold mb-4 lg:py-6 md:text-start text-center">
             Pourquoi participer au challenge yperlink ?
           </h2>
           <div className="pt-4 text-sm md:text-base hidden lg:block md:text-start text-center">
@@ -92,7 +96,7 @@ const Yheader = () => {
   return (
     <div className="flex text-sm md:text-base lg:text-lg flex-col md:flex-row w-[90%] mx-auto items-center justify-center">
       <div className="md:w-[75%] lg:w-[50%]">
-        <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-[#3030F9]">
+        <h1 className="text-2xl md:text-2xl lg:text-4xl font-bold text-[#3030F9]">
           Challenge Tech Africa
         </h1>
         <p className="py-6">
@@ -123,18 +127,9 @@ const Yheader = () => {
         <button className="px-4 py-2 lg:text-lg bg-[#3030F9] text-white rounded-lg">
           <a href="#register">Soumettre ma candidature</a>
         </button>
-        <h2 className="text-md lg:text-lg py-6 text-center md:text-start font-medium text-[#3030F9]">
+        <h2 className="text-md lg:text-lg pt-6 text-center md:text-start font-medium text-[#3030F9]">
           Candidature ouverte jusqu’au 10 mars 2025
         </h2>
-        <div className="flex flex-row items-center md:justify-end justify-center">
-          <img
-            src={lamPossibleicon}
-            width={246}
-            height={85}
-            className="w-[30%]"
-            alt="Africa Mobile X Possible Africa"
-          />
-        </div>
       </div>
       <div className="hidden md:block">
         <img
@@ -153,7 +148,7 @@ const YnavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed lg:static bg-white shadow-md lg:shadow-none z-50 w-full top-0">
+    <div className="fixed lg:sticky bg-white shadow-md lg:shadow-none z-50 w-full top-0">
       <nav className="flex items-center w-[90%] mx-auto text-sm justify-between flex-wrap px-6 py-4">
         {/* <div className="flex flex-row items-start text-white lg:mr-72"></div> */}
         {/* <div className=" w-[50%] h-auto"> */}
@@ -231,7 +226,7 @@ const Apply = () => {
   return (
     <div className="bg-gray-100 py-16">
       <div id="apply" className="w-[73%] mx-auto">
-        <h2 className="text-xl md:text-2xl lg:text-4xl font-extrabold text-center text-gray-900 mb-10">
+        <h2 className="text-2xl md:text-2xl lg:text-4xl font-extrabold text-center text-gray-900 mb-10">
           Récompense
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-6">
@@ -246,7 +241,7 @@ const Apply = () => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <rect width="48" height="48" rx="12" fill="#242827" />
-                <g clip-path="url(#clip0_2009_143)">
+                <g clipPath="url(#clip0_2009_143)">
                   <path
                     d="M27.2138 26.2171C26.3315 27.2228 25.2572 28.0457 24.0481 28.6422V32.0708C24.0481 32.3739 23.9276 32.6646 23.7133 32.8789C23.499 33.0932 23.2083 33.2137 22.9052 33.2137H16.0481C15.745 33.2137 15.4543 33.0932 15.2399 32.8789C15.0256 32.6646 14.9052 32.3739 14.9052 32.0708V28.6422C12.4968 27.4401 10.6557 25.3418 9.77684 22.7976C8.89799 20.2534 9.05147 17.4661 10.2044 15.0338C11.3572 12.6015 13.4177 10.718 15.9434 9.7876C18.4692 8.85717 21.2591 8.95392 23.7143 10.0571M14.9052 38.8571H24.0481"
                     stroke="#FFBE00"
@@ -409,8 +404,8 @@ const Apply = () => {
               >
                 <rect width="48" height="48" rx="12" fill="#242827" />
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M22.6667 10.6666C20.8986 10.6666 19.2029 11.369 17.9527 12.6192C16.7025 13.8695 16.0001 15.5652 16.0001 17.3333C16.0001 19.1014 16.7025 20.7971 17.9527 22.0473C19.2029 23.2976 20.8986 24 22.6667 24C24.4349 24 26.1305 23.2976 27.3808 22.0473C28.631 20.7971 29.3334 19.1014 29.3334 17.3333C29.3334 15.5652 28.631 13.8695 27.3808 12.6192C26.1305 11.369 24.4349 10.6666 22.6667 10.6666ZM18.6667 17.3333C18.6667 16.808 18.7702 16.2879 18.9712 15.8026C19.1722 15.3173 19.4669 14.8763 19.8383 14.5049C20.2098 14.1334 20.6507 13.8388 21.136 13.6378C21.6213 13.4368 22.1415 13.3333 22.6667 13.3333C23.192 13.3333 23.7122 13.4368 24.1975 13.6378C24.6828 13.8388 25.1237 14.1334 25.4952 14.5049C25.8666 14.8763 26.1612 15.3173 26.3623 15.8026C26.5633 16.2879 26.6667 16.808 26.6667 17.3333C26.6667 18.3942 26.2453 19.4116 25.4952 20.1617C24.745 20.9119 23.7276 21.3333 22.6667 21.3333C21.6059 21.3333 20.5885 20.9119 19.8383 20.1617C19.0882 19.4116 18.6667 18.3942 18.6667 17.3333ZM21.7827 28.028C22.1357 28.0055 22.4652 27.8438 22.6989 27.5783C22.9325 27.3129 23.0512 26.9655 23.0287 26.6126C23.0063 26.2597 22.8446 25.9302 22.5791 25.6965C22.3137 25.4628 21.9663 25.3442 21.6134 25.3666C18.6667 25.5533 16.0201 26.5106 14.0787 27.784C13.1081 28.4213 12.2814 29.1586 11.6841 29.9573C11.0934 30.7426 10.6667 31.6733 10.6667 32.6666C10.6667 34.7133 12.3707 35.7946 13.9934 36.3506C15.7001 36.936 17.9801 37.2013 20.4361 37.2933C20.7841 37.2979 21.12 37.1662 21.3723 36.9265C21.6245 36.6867 21.773 36.3578 21.786 36.0101C21.7991 35.6623 21.6757 35.3233 21.4421 35.0653C21.2086 34.8073 20.8834 34.6508 20.5361 34.6293C18.1481 34.5386 16.1854 34.2826 14.8587 33.8293C13.6161 33.4026 13.3787 32.9826 13.3401 32.7493L13.3334 32.6666C13.3334 32.4426 13.4387 32.0613 13.8174 31.5546C14.1894 31.0586 14.7667 30.5226 15.5414 30.0133C17.0894 28.9986 19.2921 28.1866 21.7827 28.028ZM30.6667 26.52C32.5414 26.52 34.1761 27.3626 35.3201 28.3733C35.8743 28.8561 36.3498 29.4225 36.7294 30.052C37.0654 30.6213 37.3334 31.3053 37.3334 32.0013C37.3334 32.6986 37.0667 33.3813 36.7294 33.9506C36.3499 34.5805 35.8744 35.1474 35.3201 35.6306C34.1761 36.64 32.5414 37.484 30.6667 37.484C28.7921 37.484 27.1574 36.64 26.0134 35.6306C25.4591 35.1474 24.9836 34.5805 24.6041 33.9506C24.2667 33.38 24.0001 32.696 24.0001 32C24.0001 31.304 24.2667 30.62 24.6041 30.0506C24.9836 29.4207 25.4591 28.8539 26.0134 28.3706C27.1574 27.3613 28.7921 26.5173 30.6667 26.5173V26.52ZM30.6667 29.1866C29.5961 29.1866 28.5641 29.6773 27.7774 30.372C27.4338 30.6691 27.1383 31.0177 26.9014 31.4053C26.814 31.5468 26.7446 31.6986 26.6947 31.8573L26.6681 31.9733V32.0293L26.6947 32.1453C26.7254 32.248 26.7854 32.3986 26.9014 32.5986C27.0934 32.9226 27.3894 33.288 27.7774 33.6306C28.5641 34.324 29.5961 34.8173 30.6667 34.8173C31.7374 34.8173 32.7694 34.324 33.5561 33.6306C33.8997 33.3335 34.1952 32.9849 34.4321 32.5973C34.5481 32.4 34.6081 32.248 34.6387 32.1453L34.6654 32.0293L34.6667 32L34.6561 31.9226C34.6083 31.7389 34.5328 31.5636 34.4321 31.4026C34.1951 31.0155 33.8996 30.6674 33.5561 30.3706C32.7694 29.6773 31.7374 29.184 30.6667 29.184V29.1866ZM30.7827 30.6733C30.686 30.8427 30.6476 31.0392 30.6735 31.2325C30.6994 31.4259 30.7882 31.6053 30.9261 31.7432C31.0641 31.8812 31.2435 31.9699 31.4369 31.9958C31.6302 32.0218 31.8267 31.9834 31.9961 31.8866L32.0001 32.0013C32.0001 32.27 31.919 32.5324 31.7674 32.7542C31.6157 32.9759 31.4006 33.1467 31.1502 33.2442C30.8999 33.3416 30.6259 33.3611 30.3642 33.3001C30.1026 33.2392 29.8654 33.1006 29.6839 32.9025C29.5023 32.7045 29.3848 32.4562 29.3468 32.1902C29.3088 31.9243 29.352 31.653 29.4708 31.4121C29.5896 31.1711 29.7784 30.9716 30.0125 30.8398C30.2466 30.7079 30.5151 30.6499 30.7827 30.6733Z"
                   fill="#FFBE00"
                 />
@@ -448,7 +443,7 @@ const Apply = () => {
         className="relative py-16 w-[90%] mx-auto overflow-hidden"
       >
         <div className="mt-2 md:mt-0 py-12 pb-6 sm:py-16 lg:pb-12 overflow-hidden">
-          <h2 className="text-xl md:text-2xl lg:text-4xl font-bold text-center text-gray-800 mb-12">
+          <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-center text-gray-800 mb-12">
             Critères d’éligibilité
           </h2>
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 relative">
@@ -465,9 +460,9 @@ const Apply = () => {
                   <path
                     d="M2 29C20.2154 33.6961 38.9915 35.1324 57.6111 37.5555C80.2065 40.496 102.791 43.3231 125.556 44.5555C163.184 46.5927 201.26 45 238.944 45C312.75 45 385.368 30.7371 458.278 20.6666C495.231 15.5627 532.399 11.6429 569.278 6.11109C589.515 3.07551 609.767 2.09927 630.222 1.99998C655.606 1.87676 681.208 1.11809 706.556 2.44442C739.552 4.17096 772.539 6.75565 805.222 11.5C828 14.8064 850.34 20.2233 873 24"
                     stroke="#3030F9"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-dasharray="1 12"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray="1 12"
                   />
                 </svg>
               </div>
@@ -619,7 +614,7 @@ const RegistrationForm = () => {
     <div>
       <div
         id="toast"
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 text-white px-4 py-2 rounded shadow-lg opacity-0 transition-opacity duration-300"
+        className="fixed top-20 left-1/2 transform -translate-x-1/2 text-white px-4 py-2 rounded shadow-lg opacity-0 transition-opacity duration-300"
       >
         <span id="desc"></span>
       </div>
@@ -628,7 +623,7 @@ const RegistrationForm = () => {
         onSubmit={handleSubmit}
         className=" md:w-[80%] lg:w-[60%] mx-auto p-4 bg-white rounded-lg"
       >
-        <h2 className="text-xl md:text-2xl lg:text-4xl lg:py-10 text-center font-semibold mb-4">
+        <h2 className="text-2xl md:text-2xl lg:text-4xl lg:py-10 text-center font-semibold mb-4">
           Inscrivez-vous dès maintenant pour transformer votre startup
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 md:text-base lg:text-lg gap-4">
@@ -879,18 +874,72 @@ const ZeroToOne = () => {
   );
 };
 
+const Timeline = () => {
+  const events = [
+    {
+      title: "Fin appel à candidature",
+      date: "10/03/25",
+      bgColor: "bg-sky-400", // Bleu ciel
+    },
+    {
+      title: "Annonce des finalistes",
+      date: "15/04/25",
+      bgColor: "bg-yellow-400", // Jaune
+    },
+    {
+      title: "Semaine Venture Building",
+      date: "01/05/25",
+      bgColor: "bg-teal-400", // Vert
+    },
+    {
+      title: "Participation à zéro to one",
+      date: "22/05/25",
+      bgColor: "bg-blue-700", // Bleu foncé
+    },
+  ];
+
+  return (
+    <div className="lg:w-[73%] w-[80%] sm:w-[90%] mx-auto flex flex-col sm:flex-row justify-center sm:justify-between">
+      <div className="lg:w-[55%] w-[60%] sm:w-[50%] sm:gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center items-center mt-6">
+          {events.map((event, index) => (
+            <div key={index}>
+              <p className="text-start text-black font-medium">{event.title}</p>
+              <div
+                className={`text-white font-bold py-2 px-6 rounded-full mt-2 ${event.bgColor}`}
+              >
+                {event.date}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-row items-center md:justify-end justify-center">
+        <img
+          src={lamPossibleicon}
+          width={246}
+          height={85}
+          className=""
+          alt="Africa Mobile X Possible Africa"
+        />
+      </div>
+    </div>
+  );
+};
+
 const Yfooter = () => {
   return (
     <div className="">
       <footer className="bg-white py-4">
-        <div className="flex flex-col md:flex-row items-center pb-4 justify-between w-[80%] mx-auto">
+        <div className="flex flex-col md:flex-row items-center pb-4 justify-between w-[73%] mx-auto">
           <div className="flex items-center lg:flex-col justify-end space-x-4">
             <img
               src={yperLinkLogo}
               width={288}
               height={73}
               alt="yperlink logo"
-              className="w-[50%] h-auto"
+              className="h-auto"
             />
             <span className="text-gray-600">
               Yperlink.com - Challenge Tech Africa
@@ -902,23 +951,23 @@ const Yfooter = () => {
               width={318}
               height={107}
               alt="possible africa logo"
-              className="h-auta w-full mx-auto"
+              className="h-auto w-full mx-auto"
             />
           </div>
         </div>
         <div className="border-b-2 border-gray-200"></div>
-        <div className="flex flex-col lg:justify-between md:justify-center flex-wrap overflow-x-scroll md:flex-row items-center justify-between w-[80%] mx-auto mt-4">
+        <div className="flex flex-col lg:justify-between md:justify-center flex-wrap overflow-x-scroll md:flex-row items-center justify-between w-[73%] mx-auto mt-4">
           <div className="flex space-x-2 text-gray-600">
-            <a href="#" className="hover:underline">
+            <a href="#participate" className="hover:underline">
               Pourquoi participer
             </a>
-            <a href="#" className="hover:underline">
+            <a href="#apply" className="hover:underline">
               Recompense
             </a>
-            <a href="#" className="hover:underline">
+            <a href="#eligibiltyCriteria" className="hover:underline">
               Critères d'éligibilité
             </a>
-            <a href="#" className="hover:underline">
+            <a href="#register" className="hover:underline">
               Candidature
             </a>
           </div>

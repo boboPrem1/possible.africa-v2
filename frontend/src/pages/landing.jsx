@@ -69,7 +69,7 @@ const Landing = () => {
       <div className="flex flex-col w-11/12">
         <Header page="/" />
         <div className="w-full flex justify-between px-5 gap-x-5">
-          <div className="w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
+          <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
             <div className="flex justify-between items-center mb-5">
               <span className="text-lg font-medium">Last news (980)</span>
               <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
@@ -106,7 +106,7 @@ const Landing = () => {
               })}
             </div>
           </div>
-          <div className="min-h-16 w-3/12 p-5 rounded-xl shadow-xl">
+          <div className="w-full md:min-h-16 md:w-3/12 p-5 rounded-xl shadow-xl">
             <div className="flex justify-between items-center mb-5">
               <span className="text-lg font-medium">
                 Last organisations (105)
@@ -149,7 +149,7 @@ const Landing = () => {
         <div className="p-5">
           <div className="shadow-xl rounded-xl">
             <div className="p-5 text-2xl">Our services</div>
-            <div className="grid grid-cols-2 gap-10 pb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-10">
               <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
                 <span className="inline-block w-3/12">
                   <ExaLogo />
@@ -164,8 +164,8 @@ const Landing = () => {
                   <PyramidLogo />
                 </span>
                 <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
+                  Africaleads : Easy-to-use CRM and lead gen tool. Get more
+                  qualified leads and grow your business with our sales CRM.
                 </span>
               </div>
               <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -178,8 +178,9 @@ const Landing = () => {
                   />
                 </span>
                 <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
+                  Africa Tech Industry : Network of decision-makers and leaders
+                  placing African markets at the heart of their innovation and
+                  development strategy.
                 </span>
               </div>
               <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -192,8 +193,9 @@ const Landing = () => {
                   />
                 </span>
                 <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
+                  Yprlink est un concours qui offre aux startups africaines
+                  l’opportunité unique de bénéficier d’un accompagnement
+                  stratégique
                 </span>
               </div>
             </div>
@@ -462,11 +464,11 @@ export const Header = ({ page }) => {
   return (
     <>
       <div className="h-24 w-full flex justify-between items-center mb-10">
-        <div className="w-6/12 md:">
+        <div className="w-6/12">
           <img src={Logo} alt="" className="w-[100px] h-[50px]" />
         </div>
-        <div className="flex justify-between w-5/12 items-center">
-          <span className="text-xl font-medium text-[#242827]">
+        <div className="flex justify-end md:justify-between w-6/12 items-center gap-x-3">
+          <span className="text-xl font-medium text-[#242827] hidden md:inline-block">
             # Connect AfricaTech Ecosystem
           </span>
           <select
@@ -477,14 +479,27 @@ export const Header = ({ page }) => {
             <option value="en">EN</option>
             <option value="fr">FR</option>
           </select>
-          <button className="flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white">
+          <div className="md:hidden w-11 h-11 rounded border border-gray-darkest shadow-xl p-[4px] flex justify-center items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"
+              />
+            </svg>
+          </div>
+          <button className="hidden md:flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white">
             <span>+</span>
             <span>Free first campaign</span>
           </button>
         </div>
       </div>
       {/* <div> */}
-      <div className="flex justify-start items-start gap-x-10 mb-6 px-5">
+      <div className="hidden md:flex justify-start items-start gap-x-10 mb-6 px-5">
         {/* <span className="border-b-2 border-primary">Overview</span> */}
         <a
           href="/"
@@ -517,15 +532,25 @@ export const Header = ({ page }) => {
           Database
         </a>
         <a
-          href="/yperlink"
-          target="_blank"
+          href="/organisations"
           className={`text-lg font-medium ${
-            page === "/yperlink"
+            page === "/organisations"
               ? "font-black text-primary underline underline-offset-8"
               : ""
           }`}
         >
-          Yperlink
+          Organisations
+        </a>
+        <a
+          href="/yprlink"
+          target="_blank"
+          className={`text-lg font-medium ${
+            page === "/yprlink"
+              ? "font-black text-primary underline underline-offset-8"
+              : ""
+          }`}
+        >
+          Yprlink
         </a>
       </div>
       {/* </div> */}
