@@ -586,7 +586,7 @@ function Organisations() {
                     className={
                       isFetching || organisationsLengthIsFetching
                         ? "w-full md:flex md:justify-between"
-                        : "w-full md:flex md:justify-end"
+                        : "w-full md:flex md:justify-center"
                     }
                   >
                     {(isFetching || organisationsLengthIsFetching) && (
@@ -601,7 +601,7 @@ function Organisations() {
                       />
                     )}
                     <button
-                      className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300"
+                      className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
                       onClick={() => {
                         setPageS((s) => s + 1);
                         setPage((s) => s + 1);
