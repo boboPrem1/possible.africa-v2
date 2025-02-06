@@ -578,7 +578,7 @@ function Organisations() {
                 return <Tr org={organisation} date={date} />;
               })}
             </tbody>
-            <tfoot className="sticky bottom-0 py-2">
+            <tfoot className="sticky bottom-0 py-2 bg-white">
               {/* paginnation */}
               <tr className="sticky bottom-0">
                 <td colSpan={7}>
@@ -633,7 +633,7 @@ function Tr({ org, date }) {
       <td>
         <span className="flex justify-start gap-x-3 items-center">
           <img
-            src={socialMedias.includes(org?.logo) ? logoPlaceholder : org?.logo}
+            src={socialMedias.includes(org?.logo) ? logoPlaceholder : `https://logo.clearbit.com/${org.website}`}
             alt=""
             height={40}
             width={40}

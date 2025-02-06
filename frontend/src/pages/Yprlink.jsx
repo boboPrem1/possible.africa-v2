@@ -902,7 +902,7 @@ const Yfooter = () => {
               width={318}
               height={107}
               alt="possible africa logo"
-              className="h-auta w-full mx-auto"
+              className="h-auta w-full md:min-w-[170px] mx-auto"
             />
           </div>
         </div>
