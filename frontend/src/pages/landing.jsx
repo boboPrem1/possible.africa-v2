@@ -523,15 +523,15 @@ export const Header = ({ page }) => {
           Organisations
         </a>
         <a
-          href="/yperlink"
+          href="/yprlink"
           target="_blank"
           className={`text-lg font-medium ${
-            page === "/yperlink"
+            page === "/yprlink"
               ? "font-black text-primary underline underline-offset-8"
               : ""
           }`}
         >
-          Yperlink
+          Yprlink
         </a>
       </div>
       {/* </div> */}
