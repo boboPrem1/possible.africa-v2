@@ -28,11 +28,11 @@ export default function SectorSelector({
     return (
         <>
             <div className="flex justify-between items-center mb-5">
-                <div className="text-2xl">Organizations by sector</div>
+                <div className="text-base md:text-2xl">Organizations by sector</div>
                 <select
                     name="list_type"
                     id="listTypeSelect"
-                    className="text-gray-medium-300 border border-gray-light-300 w-[320px] h-[60px] rounded-full px-4"
+                    className="text-gray-medium-300 border border-gray-light-300 w-[160px] md:w-[320px] h-[30px] md:h-[60px] rounded-full px-4"
                     value={byListOfSectors}
                     onChange={(e) => setByListOfSectors(e.target.value)}
                 >

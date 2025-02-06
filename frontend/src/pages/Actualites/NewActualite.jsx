@@ -157,40 +157,44 @@ function News() {
 
   if (isLoading || allNewsLengthIsLoading) {
     return (
-      <div className="flex justify-center">
-        <div className="flex flex-col w-11/12">
-          <Header page="/news"/>
-          <div className="h-[400px] w-full m-auto flex justify-center items-center">
-            <img
-              src={Loader}
-              style={{
-                transformOrigin: "bottom center",
-                translate: "-100px 0",
-              }}
-              alt="Loader possible"
-              className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
-            />
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <div className="h-[400px] w-full m-auto flex justify-center items-center">
+              <img
+                src={Loader}
+                style={{
+                  transformOrigin: "bottom center",
+                  translate: "-100px 0",
+                }}
+                alt="Loader possible"
+                className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
   if (isError || error) {
     return (
-      <div className="flex justify-center">
-        <div className="flex flex-col w-11/12">
-          <Header page="/news"/>
-          <NoData />
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <NoData />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
     <>
+      <Header page="/news" />
       <div className="flex justify-center">
         <div className="flex flex-col w-11/12">
-          <Header page="/news"/>
           <div
             onClick={() => setMobileFilterIsVisible(!mobileFilterIsVisible)}
             className={`cursor-pointer md:hidden text-2xl p-2 bg-white text-primary border-l-0 border-2 ${

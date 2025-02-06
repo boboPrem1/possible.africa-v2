@@ -9,6 +9,7 @@ import Hero from "../assets/hero.png";
 import zeroToOne from "../assets/zero-to-one.png";
 import h7 from "../assets/h7.png";
 import info from "../assets/info.png";
+import axios from "axios"
 
 const Yprlink = () => {
   return (

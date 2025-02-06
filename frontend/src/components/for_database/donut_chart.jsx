@@ -172,3 +172,112 @@ export const ResponsiveCloropleth = ({
     </div>
   );
 };
+
+
+export const MobileResponsiveCloropleth = ({
+  data,
+  style,
+  className,
+}) => {
+  const [features, setFeatures] = useState([]);
+
+  useEffect(() => {
+    fetch("/assets/data/africa_old.json")
+      .then((response) => response.json())
+      .then((data) => setFeatures(data.features));
+  }, []);
+
+  if (features.length === 0) {
+    return <div>Loading map...</div>;
+  }
+  return (
+    <div style={{ ...style }} className={className}>
+      <ResponsiveChoropleth
+        data={data}
+        features={features}
+        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+        colors="nivo"
+        domain={[0, 100000]}
+        unknownColor="#666666"
+        label="properties.name"
+        key="properties.name"
+        valueFormat=".2s"
+        projectionScale={250}
+        projectionTranslation={[0.3, 0.55]}
+        projectionRotation={[0, 0, 0]}
+        enableGraticule={true}
+        graticuleLineColor="#dddddd"
+        borderWidth={0.5}
+        borderColor="#152538"
+        defs={[
+          {
+            id: "dots",
+            type: "patternDots",
+            background: "inherit",
+            color: "#38bcb2",
+            size: 4,
+            padding: 1,
+            stagger: true,
+          },
+          {
+            id: "lines",
+            type: "patternLines",
+            background: "inherit",
+            color: "#eed312",
+            rotation: -45,
+            lineWidth: 6,
+            spacing: 10,
+          },
+          {
+            id: "gradient",
+            type: "linearGradient",
+            colors: [
+              {
+                offset: 0,
+                color: "#124B42",
+              },
+              {
+                offset: 100,
+                color: "inherit",
+              },
+            ],
+          },
+        ]}
+        fill={[
+          ...data.map((d) => ({
+            match: {
+              id: d.id,
+            },
+            id: representations[Math.floor(Math.random() * representations.length)],
+          })),
+        ]}
+        legends={[
+          {
+            anchor: "bottom-left",
+            direction: "column",
+            justify: true,
+            translateX: 25,
+            translateY: -75,
+            itemsSpacing: 0,
+            itemWidth: 94,
+            itemHeight: 18,
+            itemDirection: "left-to-right",
+            itemTextColor: "#444",
+            itemOpacity: 0.85,
+            symbolSize: 18,
+            effects: [
+              {
+                on: "hover",
+                style: {
+                  itemTextColor: "#000",
+                  itemOpacity: 1,
+                },
+              },
+              
+            ],
+          },
+        ]}
+      />
+    </div>
+  );
+};

@@ -6,6 +6,7 @@ import LogoHyperlink from "../assets/logo_hyperlink.png";
 import { useEffect, useState } from "react";
 import { fetchResource } from "../utils/possible_api_actions";
 import Loader from "../assets/icons/loader.svg";
+import { AnimatePresence, motion } from "framer-motion";
 
 function getDate(dateSended) {
   const date = new Date(dateSended);
@@ -43,166 +44,170 @@ const Landing = () => {
 
   if (!dashBoardData) {
     return (
-      <div className="flex justify-center">
-        <div className="flex flex-col w-11/12">
-          <Header page="database" />
-          <div className="h-[400px] w-full m-auto flex justify-center items-center">
-            <img
-              src={Loader}
-              style={{
-                transformOrigin: "bottom center",
-                translate: "-100px 0",
-              }}
-              alt="Loader possible"
-              className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
-            />
+      <>
+        <Header page="database" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <div className="h-[400px] w-full m-auto flex justify-center items-center">
+              <img
+                src={Loader}
+                style={{
+                  transformOrigin: "bottom center",
+                  translate: "-100px 0",
+                }}
+                alt="Loader possible"
+                className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
   // return <div>{JSON.stringify()}</div>
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col w-11/12">
-        <Header page="/" />
-        <div className="w-full flex justify-between px-5 gap-x-5">
-          <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
-            <div className="flex justify-between items-center mb-5">
-              <span className="text-lg font-medium">Last news (980)</span>
-              <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
-                <span className="text-nowrap">View more</span>
-                <svg
-                  width="28"
-                  height="28"
-                  viewBox="0 0 28 28"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="0.5"
-                    y="0.5"
-                    width="27"
-                    height="27"
-                    rx="13.5"
-                    stroke="#666968"
-                  />
-                  <path
-                    d="M18.3766 10.325H10.6985C10.5418 10.325 10.3916 10.2628 10.2809 10.1521C10.1701 10.0413 10.1079 9.89107 10.1079 9.73442C10.1079 9.57778 10.1701 9.42755 10.2809 9.31679C10.3916 9.20603 10.5418 9.1438 10.6985 9.1438H18.9672C19.1239 9.1438 19.2741 9.20603 19.3849 9.31679C19.4956 9.42755 19.5579 9.57778 19.5579 9.73442V18.0032C19.5579 18.1598 19.4956 18.31 19.3849 18.4208C19.2741 18.5316 19.1239 18.5938 18.9672 18.5938C18.8106 18.5938 18.6604 18.5316 18.5496 18.4208C18.4388 18.31 18.3766 18.1598 18.3766 18.0032V10.325Z"
-                    fill="#242827"
-                  />
-                  <path
-                    d="M18.5483 9.31627C18.6592 9.20537 18.8096 9.14307 18.9665 9.14307C19.1233 9.14307 19.2737 9.20537 19.3847 9.31627C19.4956 9.42718 19.5579 9.5776 19.5579 9.73444C19.5579 9.89128 19.4956 10.0417 19.3847 10.1526L9.34403 20.1932C9.23313 20.3041 9.08271 20.3664 8.92587 20.3664C8.76903 20.3664 8.61861 20.3041 8.5077 20.1932C8.3968 20.0823 8.3345 19.9319 8.3345 19.7751C8.3345 19.6182 8.3968 19.4678 8.5077 19.3569L18.5483 9.31627Z"
-                    fill="#242827"
-                  />
-                </svg>
+    <>
+      <Header page="/" />
+      <div className="flex justify-center">
+        <div className="flex flex-col w-11/12">
+          <div className="w-full flex justify-between px-5 gap-x-5 flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
+              <div className="flex justify-between items-center mb-5">
+                <span className="text-lg font-medium">Last news (980)</span>
+                <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
+                  <span className="text-nowrap">View more</span>
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="0.5"
+                      y="0.5"
+                      width="27"
+                      height="27"
+                      rx="13.5"
+                      stroke="#666968"
+                    />
+                    <path
+                      d="M18.3766 10.325H10.6985C10.5418 10.325 10.3916 10.2628 10.2809 10.1521C10.1701 10.0413 10.1079 9.89107 10.1079 9.73442C10.1079 9.57778 10.1701 9.42755 10.2809 9.31679C10.3916 9.20603 10.5418 9.1438 10.6985 9.1438H18.9672C19.1239 9.1438 19.2741 9.20603 19.3849 9.31679C19.4956 9.42755 19.5579 9.57778 19.5579 9.73442V18.0032C19.5579 18.1598 19.4956 18.31 19.3849 18.4208C19.2741 18.5316 19.1239 18.5938 18.9672 18.5938C18.8106 18.5938 18.6604 18.5316 18.5496 18.4208C18.4388 18.31 18.3766 18.1598 18.3766 18.0032V10.325Z"
+                      fill="#242827"
+                    />
+                    <path
+                      d="M18.5483 9.31627C18.6592 9.20537 18.8096 9.14307 18.9665 9.14307C19.1233 9.14307 19.2737 9.20537 19.3847 9.31627C19.4956 9.42718 19.5579 9.5776 19.5579 9.73444C19.5579 9.89128 19.4956 10.0417 19.3847 10.1526L9.34403 20.1932C9.23313 20.3041 9.08271 20.3664 8.92587 20.3664C8.76903 20.3664 8.61861 20.3041 8.5077 20.1932C8.3968 20.0823 8.3345 19.9319 8.3345 19.7751C8.3345 19.6182 8.3968 19.4678 8.5077 19.3569L18.5483 9.31627Z"
+                      fill="#242827"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex justify-start flex-col gap-y-3">
+                {dashBoardData.posts?.lastByLang["en"].map((post) => {
+                  return <New post={post} />;
+                })}
               </div>
             </div>
-            <div className="flex justify-start flex-col gap-y-3">
-              {dashBoardData.posts?.lastByLang["en"].map((post) => {
-                return <New post={post} />;
-              })}
+            <div className="w-full md:min-h-16 md:w-3/12 p-5 rounded-xl shadow-xl">
+              <div className="flex justify-between items-center mb-5">
+                <span className="text-lg font-medium">
+                  Last organisations (105)
+                </span>
+                <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
+                  <span className="text-nowrap">View more</span>
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="0.5"
+                      y="0.5"
+                      width="27"
+                      height="27"
+                      rx="13.5"
+                      stroke="#666968"
+                    />
+                    <path
+                      d="M18.3766 10.325H10.6985C10.5418 10.325 10.3916 10.2628 10.2809 10.1521C10.1701 10.0413 10.1079 9.89107 10.1079 9.73442C10.1079 9.57778 10.1701 9.42755 10.2809 9.31679C10.3916 9.20603 10.5418 9.1438 10.6985 9.1438H18.9672C19.1239 9.1438 19.2741 9.20603 19.3849 9.31679C19.4956 9.42755 19.5579 9.57778 19.5579 9.73442V18.0032C19.5579 18.1598 19.4956 18.31 19.3849 18.4208C19.2741 18.5316 19.1239 18.5938 18.9672 18.5938C18.8106 18.5938 18.6604 18.5316 18.5496 18.4208C18.4388 18.31 18.3766 18.1598 18.3766 18.0032V10.325Z"
+                      fill="#242827"
+                    />
+                    <path
+                      d="M18.5483 9.31627C18.6592 9.20537 18.8096 9.14307 18.9665 9.14307C19.1233 9.14307 19.2737 9.20537 19.3847 9.31627C19.4956 9.42718 19.5579 9.5776 19.5579 9.73444C19.5579 9.89128 19.4956 10.0417 19.3847 10.1526L9.34403 20.1932C9.23313 20.3041 9.08271 20.3664 8.92587 20.3664C8.76903 20.3664 8.61861 20.3041 8.5077 20.1932C8.3968 20.0823 8.3345 19.9319 8.3345 19.7751C8.3345 19.6182 8.3968 19.4678 8.5077 19.3569L18.5483 9.31627Z"
+                      fill="#242827"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex justify-start flex-col gap-y-3">
+                {dashBoardData.organisations?.last.map((organisation) => {
+                  return <Organisation org={organisation} />;
+                })}
+              </div>
             </div>
           </div>
-          <div className="w-full md:min-h-16 md:w-3/12 p-5 rounded-xl shadow-xl">
-            <div className="flex justify-between items-center mb-5">
-              <span className="text-lg font-medium">
-                Last organisations (105)
-              </span>
-              <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
-                <span className="text-nowrap">View more</span>
-                <svg
-                  width="28"
-                  height="28"
-                  viewBox="0 0 28 28"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="0.5"
-                    y="0.5"
-                    width="27"
-                    height="27"
-                    rx="13.5"
-                    stroke="#666968"
-                  />
-                  <path
-                    d="M18.3766 10.325H10.6985C10.5418 10.325 10.3916 10.2628 10.2809 10.1521C10.1701 10.0413 10.1079 9.89107 10.1079 9.73442C10.1079 9.57778 10.1701 9.42755 10.2809 9.31679C10.3916 9.20603 10.5418 9.1438 10.6985 9.1438H18.9672C19.1239 9.1438 19.2741 9.20603 19.3849 9.31679C19.4956 9.42755 19.5579 9.57778 19.5579 9.73442V18.0032C19.5579 18.1598 19.4956 18.31 19.3849 18.4208C19.2741 18.5316 19.1239 18.5938 18.9672 18.5938C18.8106 18.5938 18.6604 18.5316 18.5496 18.4208C18.4388 18.31 18.3766 18.1598 18.3766 18.0032V10.325Z"
-                    fill="#242827"
-                  />
-                  <path
-                    d="M18.5483 9.31627C18.6592 9.20537 18.8096 9.14307 18.9665 9.14307C19.1233 9.14307 19.2737 9.20537 19.3847 9.31627C19.4956 9.42718 19.5579 9.5776 19.5579 9.73444C19.5579 9.89128 19.4956 10.0417 19.3847 10.1526L9.34403 20.1932C9.23313 20.3041 9.08271 20.3664 8.92587 20.3664C8.76903 20.3664 8.61861 20.3041 8.5077 20.1932C8.3968 20.0823 8.3345 19.9319 8.3345 19.7751C8.3345 19.6182 8.3968 19.4678 8.5077 19.3569L18.5483 9.31627Z"
-                    fill="#242827"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div className="flex justify-start flex-col gap-y-3">
-              {dashBoardData.organisations?.last.map((organisation) => {
-                return <Organisation org={organisation} />;
-              })}
-            </div>
-          </div>
-        </div>
-        <div className="p-5">
-          <div className="shadow-xl rounded-xl">
-            <div className="p-5 text-2xl">Our services</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-10">
-              <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                <span className="inline-block w-3/12">
-                  <ExaLogo />
-                </span>
-                <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
-                </span>
-              </div>
-              <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                <span className="inline-block w-3/12">
-                  <PyramidLogo />
-                </span>
-                <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Africaleads : Easy-to-use CRM and lead gen tool. Get more
-                  qualified leads and grow your business with our sales CRM.
-                </span>
-              </div>
-              <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                <span className="inline-block w-3/12">
-                  <img
-                    src={AfricanTechIndustry}
-                    width={172}
-                    alt={`media img's logo`}
-                    className="min-w-10 min-h-10"
-                  />
-                </span>
-                <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Africa Tech Industry : Network of decision-makers and leaders
-                  placing African markets at the heart of their innovation and
-                  development strategy.
-                </span>
-              </div>
-              <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                <span className="inline-block w-3/12">
-                  <img
-                    src={LogoHyperlink}
-                    width={172}
-                    alt={`media img's logo`}
-                    className="min-w-10 min-h-10"
-                  />
-                </span>
-                <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Yprlink est un concours qui offre aux startups africaines
-                  l’opportunité unique de bénéficier d’un accompagnement
-                  stratégique
-                </span>
+          <div className="p-5">
+            <div className="shadow-xl rounded-xl">
+              <div className="p-5 text-2xl">Our services</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-10">
+                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
+                  <span className="inline-flex justify-center md:inline-block w-6/12 md:w-3/12">
+                    <ExaLogo />
+                  </span>
+                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
+                    Exa Consulting : Work with us or hire a consultant from our
+                    network to expand your business on the African Continent.
+                  </span>
+                </div>
+                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
+                  <span className="inline-flex justify-center md:inline-block w-full md:w-3/12">
+                    <PyramidLogo />
+                  </span>
+                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
+                    Africaleads : Easy-to-use CRM and lead gen tool. Get more
+                    qualified leads and grow your business with our sales CRM.
+                  </span>
+                </div>
+                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
+                  <span className="inline-flex justify-center md:inline-block w-full md:w-3/12">
+                    <img
+                      src={AfricanTechIndustry}
+                      width={172}
+                      alt={`media img's logo`}
+                      className="min-w-10 min-h-10"
+                    />
+                  </span>
+                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
+                    Africa Tech Industry : Network of decision-makers and
+                    leaders placing African markets at the heart of their
+                    innovation and development strategy.
+                  </span>
+                </div>
+                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
+                  <span className="inline-flex justify-center md:inline-block w-full md:w-3/12">
+                    <img
+                      src={LogoHyperlink}
+                      width={172}
+                      alt={`media img's logo`}
+                      className="min-w-10 min-h-10"
+                    />
+                  </span>
+                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
+                    Yprlink est un concours qui offre aux startups africaines
+                    l’opportunité unique de bénéficier d’un accompagnement
+                    stratégique
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -219,18 +224,25 @@ const New = ({ post }) => {
               [post.airLogo.split("/").length - 1].split(".jpg")[0]
               .split("com")[0]
           }.com`}
-          height={40}
-          width={40}
           alt={`media img's logo`}
-          className="min-w-10 min-h-10"
+          className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
         />
       </div>
-      <div className="flex flex-col justify-start items-center gap-y-1 w-11/12">
+      <div className="flex flex-col justify-start items-center gap-y-1 w-11/12 overflow-hidden">
         <div className="flex justify-between w-full">
-          <span className="font-semibold">{post.airMedia}</span>
-          <span>{getDate(post.airDateAdded)}</span>
+          <span className="font-semibold text-sm md:text-base">
+            {post.airMedia}
+          </span>
+          <span className="text-sm md:text-base">
+            {getDate(post.airDateAdded)}
+          </span>
         </div>
-        <div className="w-full font-medium">{post.title}</div>
+        <div className="w-full text-sm md:text-base font-medium md:hidden">
+          {post.title.length > 45 ? post.title.slice(0, 45) + " ..." : post.title}
+        </div>
+        <div className="hidden md:block w-full text-sm md:text-base font-medium">
+          {post.title.length > 120 ? post.title.slice(0, 120) + " ..." : post.title}
+        </div>
         <div className="w-full text-xs flex justify-start gap-x-2 overflow-auto scrollbar-hidden">
           {post.airTags &&
             post.airTags.split(", ").map((tag) => {
@@ -282,7 +294,7 @@ const Organisation = ({ org }) => {
           <span className="text-xs font-semibold mr-3">{org.sector}</span>
         </div>
         <div className="w-full text-xs font-medium text-[#7C7E7D]">
-          {org.description.slice(0, 45) + " ..."}
+          {org.description.length > 45 ? org.description.slice(0, 45) + " ..." : org.description}
         </div>
         <div className="flex justify-start gap-x-2.5 w-full text-[#7C7E7D]">
           <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
@@ -461,13 +473,141 @@ const PyramidLogo = () => {
 };
 
 export const Header = ({ page }) => {
+  const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
   return (
-    <>
-      <div className="h-24 w-full flex justify-between items-center mb-10">
-        <div className="w-6/12">
-          <img src={Logo} alt="" className="w-[100px] h-[50px]" />
+    <div className="sticky top-0 right-0 left-0 bg-white shadow-lg px-5 md:px-28 md:pb-2.5 z-50">
+      <AnimatePresence>
+        {mobileMenuIsVisible && (
+          <motion.div
+            initial={{
+              scale: 0,
+            }}
+            animate={{
+              scale: 1,
+            }}
+            exit={{
+              scale: 0,
+            }}
+            onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
+            className="origin-top-left md:hidden fixed top-0 bottom-0 left-0 right-0 z-50 bg-black/75"
+          >
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="bg-white w-[300px] flex flex-col shadow-xl"
+            >
+              <a
+                href="/"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/" ? "font-black text-primary bg-primary-200" : ""
+                }`}
+              >
+                Home
+              </a>
+              <a
+                href="/news"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/news"
+                    ? "font-black text-primary bg-primary-200"
+                    : ""
+                }`}
+              >
+                News
+              </a>
+              <a
+                href="/database"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/database"
+                    ? "font-black text-primary bg-primary-200"
+                    : ""
+                }`}
+              >
+                Database
+              </a>
+              <a
+                href="/organisations"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/organisations"
+                    ? "font-black text-primary bg-primary-200"
+                    : ""
+                }`}
+              >
+                Organisations
+              </a>
+              <a
+                href="/yprlink"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/yprlink"
+                    ? "font-black text-primary bg-primary-200"
+                    : ""
+                }`}
+              >
+                Yperlink
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="h-24 w-full flex justify-between items-center">
+        <div className="w-6/12 flex justify-start gap-20 items-center">
+          <img src={Logo} alt="" className="w-[100px] h-[50px] " />
+          <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
+            {/* <span className="border-b-2 border-primary">Overview</span> */}
+            <a
+              href="/"
+              className={`text-lg font-medium ${
+                page === "/"
+                  ? "font-black text-primary underline underline-offset-8"
+                  : ""
+              }`}
+            >
+              Home
+            </a>
+            <a
+              href="/news"
+              className={`text-lg font-medium ${
+                page === "/news"
+                  ? "font-black text-primary underline underline-offset-8"
+                  : ""
+              }`}
+            >
+              News
+            </a>
+            <a
+              href="/database"
+              className={`text-lg font-medium ${
+                page === "/database"
+                  ? "font-black text-primary underline underline-offset-8"
+                  : ""
+              }`}
+            >
+              Database
+            </a>
+            <a
+              href="/organisations"
+              className={`text-lg font-medium ${
+                page === "/organisations"
+                  ? "font-black text-primary underline underline-offset-8"
+                  : ""
+              }`}
+            >
+              Organisations
+            </a>
+            <a
+              href="/yprlink"
+              target="_blank"
+              className={`text-lg font-medium ${
+                page === "/yprlink"
+                  ? "font-black text-primary underline underline-offset-8"
+                  : ""
+              }`}
+            >
+              Yprlink
+            </a>
+          </div>
         </div>
-        <div className="flex justify-end md:justify-between w-6/12 items-center gap-x-3">
+        <div className="flex justify-end  w-6/12 items-center gap-x-3 md:gap-x-5">
           <span className="text-xl font-medium text-[#242827] hidden md:inline-block">
             # Connect AfricaTech Ecosystem
           </span>
@@ -479,18 +619,36 @@ export const Header = ({ page }) => {
             <option value="en">EN</option>
             <option value="fr">FR</option>
           </select>
-          <div className="md:hidden w-11 h-11 rounded border border-gray-darkest shadow-xl p-[4px] flex justify-center items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"
-              />
-            </svg>
+          <div
+            onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
+            className="md:hidden w-11 h-11 rounded border border-white shadow-xl p-[4px] flex justify-center items-center z-[100]"
+          >
+            {mobileMenuIsVisible ? (
+              <svg
+                className="text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"
+                />
+              </svg>
+            )}
           </div>
           <button className="hidden md:flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white">
             <span>+</span>
@@ -499,61 +657,8 @@ export const Header = ({ page }) => {
         </div>
       </div>
       {/* <div> */}
-      <div className="hidden md:flex justify-start items-start gap-x-10 mb-6 px-5">
-        {/* <span className="border-b-2 border-primary">Overview</span> */}
-        <a
-          href="/"
-          className={`text-lg font-medium ${
-            page === "/"
-              ? "font-black text-primary underline underline-offset-8"
-              : ""
-          }`}
-        >
-          Home
-        </a>
-        <a
-          href="/news"
-          className={`text-lg font-medium ${
-            page === "/news"
-              ? "font-black text-primary underline underline-offset-8"
-              : ""
-          }`}
-        >
-          News
-        </a>
-        <a
-          href="/database"
-          className={`text-lg font-medium ${
-            page === "/database"
-              ? "font-black text-primary underline underline-offset-8"
-              : ""
-          }`}
-        >
-          Database
-        </a>
-        <a
-          href="/organisations"
-          className={`text-lg font-medium ${
-            page === "/organisations"
-              ? "font-black text-primary underline underline-offset-8"
-              : ""
-          }`}
-        >
-          Organisations
-        </a>
-        <a
-          href="/yprlink"
-          target="_blank"
-          className={`text-lg font-medium ${
-            page === "/yprlink"
-              ? "font-black text-primary underline underline-offset-8"
-              : ""
-          }`}
-        >
-          Yprlink
-        </a>
-      </div>
+
       {/* </div> */}
-    </>
+    </div>
   );
 };

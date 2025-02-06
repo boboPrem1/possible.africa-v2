@@ -514,109 +514,110 @@ function Organisations() {
 
   if (isLoading || organisationsLengthIsLoading) {
     return (
-      <div className="flex justify-center">
-        <div className="flex flex-col w-11/12">
-          <Header page="/news" />
-          <div className="h-[400px] w-full m-auto flex justify-center items-center">
-            <img
-              src={Loader}
-              style={{
-                transformOrigin: "bottom center",
-                translate: "-100px 0",
-              }}
-              alt="Loader possible"
-              className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
-            />
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <div className="h-[400px] w-full m-auto flex justify-center items-center">
+              <img
+                src={Loader}
+                style={{
+                  transformOrigin: "bottom center",
+                  translate: "-100px 0",
+                }}
+                alt="Loader possible"
+                className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
   if (isError || error) {
     return (
-      <div className="flex justify-center">
-        <div className="flex flex-col w-11/12">
-          <Header page="/news" />
-          <NoData />
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <NoData />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col w-11/12">
-        <Header page="/organisations" />
-
-        <div className="h-[80vh] border w-full overflow-y-scroll">
-          <table className="table-fixed w-full">
-            <thead className="bg-[#F9FAFB] sticky top-0">
-              <tr className="h-11">
-                <th>
-                  <span className="flex justify-center">
-                    <input type="checkbox" name="" id="" className="h-5 w-5" />
-                  </span>
-                </th>
-                <th className="text-start">Name of The Company</th>
-                <th className="text-start">Sector</th>
-                <th className="text-start">Location</th>
-                <th className="text-start">Contact Person</th>
-                <th className="text-start">Option</th>
-                <th className="text-start">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {organisations.map((organisation, index) => {
-                const createdAt = new Date(organisation?.dateAdded);
-                // transform date to french format
-                const date =
-                  createdAt.getDate() +
-                  "/" +
-                  (createdAt.getMonth() + 1) +
-                  "/" +
-                  createdAt.getFullYear();
-                return <Tr org={organisation} date={date} />;
-              })}
-            </tbody>
-            <tfoot className="sticky bottom-0 py-2 bg-white">
-              {/* paginnation */}
-              <tr className="sticky bottom-0">
-                <td colSpan={7}>
-                  <div
-                    className={
-                      isFetching || organisationsLengthIsFetching
-                        ? "w-full md:flex md:justify-between"
-                        : "w-full md:flex md:justify-center"
-                    }
-                  >
-                    {(isFetching || organisationsLengthIsFetching) && (
-                      <img
-                        src={Loader}
-                        style={{
-                          transformOrigin: "bottom center",
-                          translate: "-35px 0",
-                        }}
-                        alt="Loader possible"
-                        className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
+    <>
+      <Header page="/organisations" />
+      <div className="flex justify-center mt-10">
+        <div className="flex flex-col w-11/12">
+          <div className="h-[80vh] flex justify-center overflow-y-scroll">
+            <table className="table-fixed min-w-[1400px] overflow-scroll mt-[350px] md:mt-3">
+              <thead className="bg-[#F9FAFB]">
+                <tr className="h-11">
+                  <th className="w-[100px]">
+                    <span className="flex justify-center">
+                      <input
+                        type="checkbox"
+                        name=""
+                        id=""
+                        className="h-5 w-5"
                       />
-                    )}
-                    <button
-                      className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
-                      onClick={() => {
-                        setPageS((s) => s + 1);
-                        setPage((s) => s + 1);
-                      }}
-                    >
-                      Charger plus de résultats
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+                    </span>
+                  </th>
+                  <th className="text-start text-nowrap">
+                    Name of The Company
+                  </th>
+                  <th className="text-start text-nowrap">Sector</th>
+                  <th className="text-start text-nowrap">Location</th>
+                  <th className="text-start text-nowrap">Contact Person</th>
+                  <th className="text-start text-nowrap">Option</th>
+                  <th className="text-start text-nowrap">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {organisations.map((organisation, index) => {
+                  const createdAt = new Date(organisation?.dateAdded);
+                  // transform date to french format
+                  const date =
+                    createdAt.getDate() +
+                    "/" +
+                    (createdAt.getMonth() + 1) +
+                    "/" +
+                    createdAt.getFullYear();
+                  return <Tr org={organisation} date={date} />;
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div
+            className="w-full md:flex md:justify-center"
+          >
+            <button
+              className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
+              onClick={() => {
+                setPageS((s) => s + 1);
+                setPage((s) => s + 1);
+              }}
+            >
+              {(isFetching || organisationsLengthIsFetching) && (
+                <img
+                  src={Loader}
+                  style={{
+                    transformOrigin: "bottom center",
+                    translate: "-35px 0",
+                  }}
+                  alt="Loader possible"
+                  className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
+                />
+              )}
+              Charger plus de résultats
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -633,7 +634,11 @@ function Tr({ org, date }) {
       <td>
         <span className="flex justify-start gap-x-3 items-center">
           <img
-            src={socialMedias.includes(org?.logo) ? logoPlaceholder : `https://logo.clearbit.com/${org.website}`}
+            src={
+              socialMedias.includes(org?.logo)
+                ? logoPlaceholder
+                : `https://logo.clearbit.com/${org.website}`
+            }
             alt=""
             height={40}
             width={40}
@@ -658,7 +663,7 @@ function Tr({ org, date }) {
           ? org.sector.slice(0, 20) + " . . ."
           : org.sector}
       </td>
-      <td>Nigeria</td>
+      <td>{org.headquarter || "-"}</td>
       <td>
         <span className="flex justify-start gap-x-3 items-center">
           <span className="inline-block w-8 h-8 border-2 rounded-full"></span>
