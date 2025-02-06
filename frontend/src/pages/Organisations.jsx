@@ -463,11 +463,11 @@ function Organisations() {
   const [mobileFilterIsVisible, setMobileFilterIsVisible] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
   const [pageS, setPageS] = useState(page + 1);
-  const [engPage, setEngPage] = useState(1);
-  const [frPage, setFrPage] = useState(1);
-  const [languageChanging, setLanguageChanging] = useState(false);
-  const [language, setLanguage] = useState("fr");
-  const [infiniteScrollIsFetching] = useState(false);
+  // const [engPage, setEngPage] = useState(1);
+  // const [frPage, setFrPage] = useState(1);
+  // const [languageChanging, setLanguageChanging] = useState(false);
+  // const [language, setLanguage] = useState("fr");
+  // const [infiniteScrollIsFetching] = useState(false);
   const [pageEq, dispatch] = useReducer(pageEqReducer, [
     { field: "name", value: "" },
     { field: "source", value: "" },

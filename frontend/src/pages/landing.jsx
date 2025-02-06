@@ -155,8 +155,7 @@ const Landing = () => {
                   <ExaLogo />
                 </span>
                 <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
+                Exa Consulting : Work with us or hire a consultant from our network to expand your business on the African Continent.
                 </span>
               </div>
               <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -164,8 +163,7 @@ const Landing = () => {
                   <PyramidLogo />
                 </span>
                 <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
+                Africaleads : Easy-to-use CRM and lead gen tool. Get more qualified leads and grow your business with our sales CRM.
                 </span>
               </div>
               <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -178,8 +176,7 @@ const Landing = () => {
                   />
                 </span>
                 <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
+                Africa Tech Industry : Network of decision-makers and leaders placing African markets at the heart of their innovation and development strategy.
                 </span>
               </div>
               <div className="m-auto flex justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -192,8 +189,7 @@ const Landing = () => {
                   />
                 </span>
                 <span className="inline-block w-9/12 text-xl text-[#666968]">
-                  Exa Consulting : Work with us or hire a consultant from our
-                  network to expand your business on the African Continent.
+                Yprlink est un concours qui offre aux startups africaines l’opportunité unique de bénéficier d’un accompagnement stratégique
                 </span>
               </div>
             </div>
@@ -515,6 +511,16 @@ export const Header = ({ page }) => {
           }`}
         >
           Database
+        </a>
+        <a
+          href="/organisations"
+          className={`text-lg font-medium ${
+            page === "/organisations"
+              ? "font-black text-primary underline underline-offset-8"
+              : ""
+          }`}
+        >
+          Organisations
         </a>
         <a
           href="/yperlink"
