@@ -72,7 +72,7 @@ const Landing = () => {
       <Header page="/" />
       <div className="flex justify-center">
         <div className="flex flex-col w-11/12">
-          <div className="w-full flex justify-between px-5 gap-x-5 flex-wrap md:flex-nowrap">
+          <div className="w-full flex justify-between px-5 gap-5 flex-wrap md:flex-nowrap">
             <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
               <div className="flex justify-between items-center mb-5">
                 <span className="text-lg font-medium">Last news (980)</span>
@@ -317,8 +317,8 @@ const ExaLogo = () => {
       fill="#319795"
     >
       <defs></defs>
-      <g id="Calque_2" data-name="Calque 2">
-        <g id="Layer_1" data-name="Layer 1">
+      <g id="Calque_2" dataName="Calque 2">
+        <g id="Layer_1" dataName="Layer 1">
           <path
             class="cls-1"
             d="M266.54,171.7v4.06h4.12v.9h-4.12v4.12h4.58v.9h-5.67V170.8h5.67v.9Z"
