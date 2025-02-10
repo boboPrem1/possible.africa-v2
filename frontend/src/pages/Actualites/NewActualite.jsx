@@ -19,7 +19,7 @@ import Loader from "../../assets/icons/loader.svg";
 import tagSolid from "../../assets/icons/tag-solid.svg";
 import filterSolid from "../../assets/icons/filter-solid.svg";
 import xmarkSolid from "../../assets/icons/xmark-solid.svg";
-import { Header } from "../landing.jsx";
+import { Header } from "../Landing.jsx";
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",

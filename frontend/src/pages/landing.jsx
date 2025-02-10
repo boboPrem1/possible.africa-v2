@@ -70,7 +70,7 @@ const Landing = () => {
   return (
     <>
       <Header page="/" />
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-10">
         <div className="flex flex-col w-11/12">
           <div className="w-full flex justify-between px-5 gap-5 flex-wrap md:flex-nowrap">
             <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">

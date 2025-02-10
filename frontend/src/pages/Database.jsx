@@ -14,7 +14,7 @@ import SectorSubsectorSelector from "../components/for_database/sector_sub_secto
 import SectorSelector from "../components/for_database/sector_selector";
 import Logo from "../assets/LogoPossible.png";
 import Loader from "../assets/icons/loader.svg";
-import { Header } from "./landing";
+import { Header } from "./Landing"
 
 export default function Database() {
   const [dashBoardData, setDashboardData] = useState();
@@ -219,7 +219,7 @@ export default function Database() {
   return (
     <>
       <Header page="/database" />
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-10">
         <div className="flex flex-col w-11/12">
           <div className="flex flex-col gap-y-5 relative">
             <GrowingEnterAnimation>
@@ -268,7 +268,7 @@ export default function Database() {
             {/* <GrowingEnterAnimation></GrowingEnterAnimation> */}
 
             <GrowingEnterAnimation className=" w-full">
-              <div className="w-full rounded-2xl grid grid-cols-1 md:grid-cols-4 gap-x-4">
+              <div className="w-full rounded-2xl grid grid-cols-1 md:grid-cols-4 md:gap-x-4">
                 <div className="col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-5">
                   <div className="flex justify-between items-center h-16 gap-x-3">
                     <div className="text-2xl w-6/12">Last news</div>
@@ -380,7 +380,7 @@ export default function Database() {
                     data={uniqueHeadquarters}
                   />
                 </div>
-                <div className="md:hidden col-span-2 h-[500px] w-10/12 bg-custom-white rounded-2xl">
+                <div className="md:hidden col-span-2 h-[500px] w-10/12 bg-custom-white rounded-2xl mx-auto">
                   <MobileResponsiveCloropleth
                     style={{
                       height: "473px",
@@ -393,7 +393,7 @@ export default function Database() {
                   <div className="flex justify-start items-center h-16 gap-x-1.5">
                     <div className="text-2xl w-6/12">Last additions</div>
                   </div>
-                  <div className="flex flex-col gap-y-2.5 overflow-auto h-full p-1 scrollbar-hidden">
+                  <div className="flex flex-col gap-y-2.5 overflow-auto h-full p-1 scrollbar-hidden mx-auto">
                     {dashBoardData?.organisations?.last.map((organisation) => {
                       return (
                         <div

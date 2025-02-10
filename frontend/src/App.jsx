@@ -20,10 +20,10 @@ import Search from "./pages/Search.jsx";
 import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
 import Yprlink from "./pages/Yprlink.jsx";
-import Landing from "./pages/landing.jsx";
 import Database from "./pages/Database.jsx";
 import News from "./pages/Actualites/NewActualite.jsx";
 import Organisations from "./pages/NewOrganisations.jsx";
+import Landing from "./pages/Landing.jsx";
 
 function App() {
   const MODE = import.meta.env.VITE_APP_MODE;

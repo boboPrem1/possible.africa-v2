@@ -1,4 +1,4 @@
-import { Header } from "./landing";
+import { Header } from "./Landing";
 import MediaImg from "../assets/media_img.png";
 import { useEffect, useReducer, useState } from "react";
 import { useGetOrganisationsQuery } from "../features/api/apiSlice";
@@ -550,13 +550,13 @@ function Organisations() {
   return (
     <>
       <Header page="/organisations" />
-      <div className="flex justify-center mt-10">
-        <div className="flex flex-col w-11/12">
-          <div className="h-[80vh] flex justify-center overflow-y-scroll">
-            <table className="table-fixed min-w-[1400px] overflow-scroll mt-[350px] md:mt-3">
+      <div className="flex justify-center border-2">
+        <div className="flex flex-col justify-start w-11/12">
+          <div className="h-[80vh] flex justify-start overflow-y-scroll">
+            <table className="min-w-full mt-10">
               <thead className="bg-[#F9FAFB]">
                 <tr className="h-11">
-                  <th className="w-[100px]">
+                  <th className="px-10">
                     <span className="flex justify-center">
                       <input
                         type="checkbox"
@@ -566,14 +566,14 @@ function Organisations() {
                       />
                     </span>
                   </th>
-                  <th className="text-start text-nowrap">
+                  <th className="text-start text-nowrap px-10">
                     Name of The Company
                   </th>
-                  <th className="text-start text-nowrap">Sector</th>
-                  <th className="text-start text-nowrap">Location</th>
-                  <th className="text-start text-nowrap">Contact Person</th>
-                  <th className="text-start text-nowrap">Option</th>
-                  <th className="text-start text-nowrap">Action</th>
+                  <th className="text-start text-nowrap px-10">Sector</th>
+                  <th className="text-start text-nowrap px-10">Location</th>
+                  <th className="text-start text-nowrap px-10">Contact Person</th>
+                  <th className="text-start text-nowrap px-10">Option</th>
+                  <th className="text-start text-nowrap px-10">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -626,12 +626,12 @@ export default Organisations;
 function Tr({ org, date }) {
   return (
     <tr className="border border-[#EAECF0] h-20">
-      <td>
+      <td className="px-10">
         <span className="w-full flex justify-center">
           <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" />
         </span>
       </td>
-      <td>
+      <td className="px-10">
         <span className="flex justify-start gap-x-3 items-center">
           <img
             src={
@@ -658,22 +658,22 @@ function Tr({ org, date }) {
           </span>
         </span>
       </td>
-      <td className="font-medium">
+      <td className="font-medium px-10">
         {org.sector.length > 20
           ? org.sector.slice(0, 20) + " . . ."
           : org.sector}
       </td>
-      <td>{org.headquarter || "-"}</td>
-      <td>
+      <td className="px-10">{org.headquarter || "-"}</td>
+      <td className="px-10">
         <span className="flex justify-start gap-x-3 items-center">
           <span className="inline-block w-8 h-8 border-2 rounded-full"></span>
           <span>Kristin Watson</span>
         </span>
       </td>
-      <td>
+      <td className="px-10">
         <input type="radio" name="" id="" className="h-5 w-5" />
       </td>
-      <td>...</td>
+      <td className="px-10">...</td>
     </tr>
   );
 }
