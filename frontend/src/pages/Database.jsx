@@ -14,7 +14,7 @@ import SectorSubsectorSelector from "../components/for_database/sector_sub_secto
 import SectorSelector from "../components/for_database/sector_selector";
 import Logo from "../assets/LogoPossible.png";
 import Loader from "../assets/icons/loader.svg";
-import { Header } from "./Landing"
+import { Header } from "./Landing";
 
 export default function Database() {
   const [dashBoardData, setDashboardData] = useState();
@@ -225,7 +225,7 @@ export default function Database() {
             <GrowingEnterAnimation>
               <div className="w-full bg-custom-white rounded-2xl p-6">
                 <div className="flex flex-col justify-center">
-                  <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-x-11 gap-y-10">
+                  <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-x-11 gap-y-10">
                     <div className="w-full h-[112px] bg-primary-100 rounded-2xl p-6 flex flex-col justify-between">
                       <div className="font-medium text-base">
                         Total Organisations
@@ -234,7 +234,54 @@ export default function Database() {
                         {dashBoardData?.organisations?.all}
                       </div>
                     </div>
-                    <div className="w-full h-[112px] bg-primary-100 rounded-2xl p-6">
+
+                    <div className="md:hidden h-[380px] w-full bg-custom-white rounded-2xl mx-auto">
+                      <MobileResponsiveCloropleth
+                        style={{
+                          height: "380px",
+                          width: "100%",
+                        }}
+                        data={uniqueHeadquarters}
+                      />
+                    </div>
+
+                    <div className="md:hidden col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-2.5">
+                      <div className="flex justify-start items-center h-16 gap-x-1.5">
+                        <div className="text-2xl w-full">Last additions</div>
+                      </div>
+                      <div className="flex flex-col gap-y-2.5 overflow-auto h-full p-1 scrollbar-hidden mx-auto">
+                        {dashBoardData?.organisations?.last.map(
+                          (organisation) => {
+                            return (
+                              <div
+                                key={organisation.name}
+                                className="flex justify-between items-center gap-x-2.5 border border-gray-light-300 bg-primary-50 rounded-md min-h-18 p-2.5"
+                              >
+                                <div className="w-12 h-12 flex justify-center items-center bg-custom-white rounded">
+                                  <img
+                                    src={`https://logo.clearbit.com/${organisation.website}`}
+                                    height={40}
+                                    width={40}
+                                    alt={`${organisation.name}'s logo`}
+                                    className="w-10 h-10"
+                                  />
+                                </div>
+                                <div className="flex flex-col justify-center items-center gap-y-1 w-11/12">
+                                  <div className="w-full text-xs font-semibold">
+                                    {organisation.name}
+                                  </div>
+                                  <div className="w-full text-xs">
+                                    {organisation.description.slice(0, 45) +
+                                      " ..."}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+                    </div>
+                    <div className="hidden md:block w-full h-[112px] bg-primary-100 rounded-2xl p-6">
                       {" "}
                       <div className="font-medium text-base">Sectors</div>
                       <div className="text-2xl font-bold">
@@ -245,7 +292,7 @@ export default function Database() {
                       byRegionsData={byRegionsData}
                       byTiersData={byTiersData}
                     />
-                    <div className="w-full h-[112px] bg-primary-100 rounded-2xl p-6">
+                    <div className="hidden md:block w-full h-[112px] bg-primary-100 rounded-2xl p-6">
                       {" "}
                       <div className="font-medium text-base">
                         Covered Countries
@@ -254,7 +301,7 @@ export default function Database() {
                         {sum(Object.keys(COUNTRIES).map((o) => o.length))}
                       </div>
                     </div>
-                    <div className="w-full h-[112px] bg-primary-100 rounded-2xl p-6">
+                    <div className="hidden md:block w-full h-[112px] bg-primary-100 rounded-2xl p-6">
                       {" "}
                       <div className="font-medium text-base">Sub-Sectors</div>
                       <div className="text-2xl font-bold">
@@ -267,7 +314,7 @@ export default function Database() {
             </GrowingEnterAnimation>
             {/* <GrowingEnterAnimation></GrowingEnterAnimation> */}
 
-            <GrowingEnterAnimation className=" w-full">
+            <GrowingEnterAnimation className="hidden md:block w-full">
               <div className="w-full rounded-2xl grid grid-cols-1 md:grid-cols-4 md:gap-x-4">
                 <div className="col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-5">
                   <div className="flex justify-between items-center h-16 gap-x-3">
@@ -380,16 +427,7 @@ export default function Database() {
                     data={uniqueHeadquarters}
                   />
                 </div>
-                <div className="md:hidden col-span-2 h-[500px] w-10/12 bg-custom-white rounded-2xl mx-auto">
-                  <MobileResponsiveCloropleth
-                    style={{
-                      height: "473px",
-                      width: "100%",
-                    }}
-                    data={uniqueHeadquarters}
-                  />
-                </div>
-                <div className="col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-2.5">
+                <div className="hidden md:flex col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 md:flex-col md:gap-y-2.5">
                   <div className="flex justify-start items-center h-16 gap-x-1.5">
                     <div className="text-2xl w-6/12">Last additions</div>
                   </div>
@@ -424,14 +462,14 @@ export default function Database() {
                 </div>
               </div>
             </GrowingEnterAnimation>
-            <GrowingEnterAnimation>
+            <GrowingEnterAnimation className='hidden md:block'>
               <div className="w-full bg-custom-white rounded-2xl p-6 h-[350px]">
                 <SectorSelector
                   organisationsBySector={dashBoardData.OrganisationsBySectors}
                 />
               </div>
             </GrowingEnterAnimation>
-            <GrowingEnterAnimation>
+            <GrowingEnterAnimation className='hidden md:block'>
               <div className="w-full bg-custom-white rounded-2xl p-6 h-[350px]">
                 <SectorSubsectorSelector
                   organisationsBySubSectors={

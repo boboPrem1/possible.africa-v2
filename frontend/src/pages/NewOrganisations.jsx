@@ -4,6 +4,8 @@ import { useEffect, useReducer, useState } from "react";
 import { useGetOrganisationsQuery } from "../features/api/apiSlice";
 import NoData from "../utils/NoData";
 import Loader from "../assets/icons/loader.svg";
+import Popover from "../components/popover";
+import { Button } from "@chakra-ui/react";
 
 const countries = {
   all: [
@@ -571,8 +573,9 @@ function Organisations() {
                   </th>
                   <th className="text-start text-nowrap px-10">Sector</th>
                   <th className="text-start text-nowrap px-10">Location</th>
-                  <th className="text-start text-nowrap px-10">Contact Person</th>
-                  <th className="text-start text-nowrap px-10">Option</th>
+                  <th className="text-start text-nowrap px-10">
+                    Contact Person
+                  </th>
                   <th className="text-start text-nowrap px-10">Action</th>
                 </tr>
               </thead>
@@ -591,9 +594,7 @@ function Organisations() {
               </tbody>
             </table>
           </div>
-          <div
-            className="w-full md:flex md:justify-center"
-          >
+          <div className="w-full md:flex md:justify-center">
             <button
               className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
@@ -624,6 +625,69 @@ function Organisations() {
 export default Organisations;
 
 function Tr({ org, date }) {
+  const names = [
+    "Jean Dupont",
+    "Marie Martin",
+    "Pierre Lefèvre",
+    "Sophie Moreau",
+    "Antoine Dubois",
+    "Camille Laurent",
+    "Thomas Garnier",
+    "Émilie Rousseau",
+    "Nicolas Petit",
+    "Claire Durand",
+    "Lucie Simon",
+    "Hugo Fontaine",
+    "Alice Renault",
+    "Gabriel Caron",
+    "Manon Robert",
+    "Lucas Mercier",
+    "Chloé Marchand",
+    "Maxime Bernard",
+    "Simon Boucher",
+    "Juliette Blanchard",
+    "Alexandre Girard",
+    "Élise Faure",
+    "Benjamin Roux",
+    "Cécile Morin",
+    "Arthur Dumas",
+    "Léa Lambert",
+    "Mathieu Renaud",
+    "Clara Dupuis",
+    "Vincent Masson",
+    "Anaïs Perrin",
+    "Kevin Robin",
+    "Sarah Vidal",
+    "Florian Olivier",
+    "Amélie Lefebvre",
+    "Romain Carpentier",
+    "Inès Charpentier",
+    "Sébastien Perrot",
+    "Julie Denis",
+    "Guillaume Marchal",
+    "Marion Chevalier",
+    "Jérémy Morel",
+    "Emilie Perrier",
+    "Mathieu Chabert",
+    "Caroline Blanc",
+    "François Millet",
+    "Isabelle Aubert",
+    "David Pelletier",
+    "Valérie Guerin",
+    "Olivier Barre",
+    "Sandrine Dufour",
+  ];
+
+  function randomName() {
+    const name = names[Math.floor(Math.random() * names.length)];
+    const initials = name.split(" ");
+    return {
+      name,
+      initials: `${initials[0][0]}.${initials[1][0]}`,
+    };
+  }
+
+  const { name, initials } = randomName();
   return (
     <tr className="border border-[#EAECF0] h-20">
       <td className="px-10">
@@ -634,11 +698,7 @@ function Tr({ org, date }) {
       <td className="px-10">
         <span className="flex justify-start gap-x-3 items-center">
           <img
-            src={
-              socialMedias.includes(org?.logo)
-                ? logoPlaceholder
-                : `https://logo.clearbit.com/${org.website}`
-            }
+            src={org?.logo}
             alt=""
             height={40}
             width={40}
@@ -666,14 +726,18 @@ function Tr({ org, date }) {
       <td className="px-10">{org.headquarter || "-"}</td>
       <td className="px-10">
         <span className="flex justify-start gap-x-3 items-center">
-          <span className="inline-block w-8 h-8 border-2 rounded-full"></span>
-          <span>Kristin Watson</span>
+          <span className="w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center">{initials}</span>
+          <span>{name}</span>
         </span>
       </td>
       <td className="px-10">
-        <input type="radio" name="" id="" className="h-5 w-5" />
+        <Popover btnTitle="Actions">
+          <div className="flex flex-col gap-3">
+            <Button>Contacter le prospect</Button>
+            <Button>Lancer une campagne</Button>
+          </div>
+        </Popover>
       </td>
-      <td className="px-10">...</td>
     </tr>
   );
 }

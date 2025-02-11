@@ -218,12 +218,8 @@ const New = ({ post }) => {
     <div className="flex justify-between items-center gap-x-5  bg-[#D9D9D9]/20 rounded-md min-h-26 p-2.5 min-w-full">
       <div className="w-1/12 flex justify-center items-center">
         <img
-          src={`https://logo.clearbit.com/${
-            post.airLogo
-              .split("/")
-              [post.airLogo.split("/").length - 1].split(".jpg")[0]
-              .split("com")[0]
-          }.com`}
+          src={
+            post.airLogo}
           alt={`media img's logo`}
           className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
         />
@@ -274,6 +270,7 @@ const New = ({ post }) => {
   );
 };
 const Organisation = ({ org }) => {
+  // console.log(org)
   return (
     <div
       key="Jumia"
@@ -281,7 +278,7 @@ const Organisation = ({ org }) => {
     >
       <div className="w-12 h-12 flex justify-center items-center self-start bg-custom-white rounded">
         <img
-          src={`https://logo.clearbit.com/${org.website}`}
+          src={org.logo}
           height={40}
           width={40}
           alt={`${org.name}'s logo`}
