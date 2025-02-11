@@ -1,14 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-// import yperLinkLogo from "../assets/yperlink-logo.svg";
-
+import h7 from "../assets/h-7.png";
 import yperLinkLogo from "../assets/logo_hyperlink.png";
-import EligibilityCriteria from "../components/EligibilityCriteria";
 import lamPossibleicon from "../assets/lam-africapossible.png";
 import Hero from "../assets/hero.png";
-import zeroToOne from "../assets/zero-to-one.png";
-import h7 from "../assets/h7.png";
 import info from "../assets/info.png";
 
 const Yprlink = () => {
@@ -19,9 +15,6 @@ const Yprlink = () => {
         <div className="py-10 mt-16 lg:mt-0 bg-gray-100">
           <Yheader />
         </div>
-        <div>
-          <Timeline />
-        </div>
         <div className="bg-white">
           <Participate />
         </div>
@@ -30,10 +23,12 @@ const Yprlink = () => {
         </div>
         {/* <EligibilityCriteria /> */}
         <RegistrationForm />
-        <div className="py-10">
+        <div>
+          <Timeline />
+        </div>
+        <div>
           <ZeroToOne />
         </div>
-        <div></div>
         <Yfooter />
       </div>
     </div>
@@ -45,24 +40,22 @@ export default Yprlink;
 const Participate = () => {
   return (
     <div id="participate" className="bg-white">
-      <div className="rounded-lg w-[90%] lg:w-[73%] flex flex-col gap-4 lg:flex-row justify-between items-center mx-auto py-10 lg:py-20">
+      <div className="rounded-lg w-[90%] lg:w-[73%] flex flex-col gap-4 lg:flex-row justify-between lg:items-start items-center mx-auto py-10 lg:py-20">
         <div className="lg:w-[50%]">
-          <h2 className="text-2xl md:text-2xl lg:text-3xl font-bold mb-4 lg:py-6 md:text-start text-center">
-            Pourquoi participer au challenge yperlink ?
+          <h2 className="text-2xl md:text-2xl lg:text-3xl font-bold mb-4 lg:pb-6 md:text-start text-center">
+            Pourquoi participer à yperlink ?
           </h2>
           <div className="pt-4 text-sm md:text-base hidden lg:block md:text-start text-center">
             <button className="bg-[#3030F9] text-white py-2 px-4 rounded">
-              <a href="#register">Soumettre ma candidature</a>
+              <a href="#register">Je candidate</a>
             </button>
           </div>
         </div>
         <div className="lg:w-[50%]">
           <p className="text-base md:text-md lg:text-lg">
-            <span className="text-[#3030F9] font-bold mr-1">
-              10 startups sélectionnées
-            </span>
-            bénéficieront d’un programme intensif en ligne comprenant 4
-            programmes de Venture Building avec nos experts
+            <span className="text-[#3030F9] font-bold mr-1">10 startups</span>
+            sélectionnées bénéficieront d'un programme d'accompagnement autour
+            de 4 piliers:
           </p>
           <ul className="list-disc list-inside text-sm md:text-base lg:text-md my-4">
             <li>Accélérer la croissance</li>
@@ -78,13 +71,13 @@ const Participate = () => {
               22 Mai pour participer au Zero To One,
             </span>{" "}
             avec frais de voyage et d’hébergement pris en charge. Ils
-            bénéficieront également d’un accompagnement venture building avec
-            Possible.Africa et d’un accompagnement technologique de
-            LAfricaMobile.
+            bénéficieront également d'une visibilité médiatique, d’un
+            accompagnement entrepreneurial et technologique  personnalisé avec
+            Possible.Africa, LAfricamobile & H7
           </p>
           <div className="pt-4 flex flex-col text-sm lg:hidden md:text-base items-center">
             <button className="bg-[#3030F9] text-white py-2 px-4 rounded">
-              Soumettre ma candidature
+              Je candidate
             </button>
           </div>
         </div>
@@ -121,13 +114,14 @@ const Yheader = () => {
             H7
           </a>{" "}
           , yprlink est un concours qui offre aux startups africaines
-          l’opportunité de bénéficier d’un accompagnement et de présenter leur
-          projet à Lyon lors de l’événement Zero To One.
+          l’opportunité de bénéficier d’un accompagnement et de pitcher leur
+          projet devant des investisseurs et des partenaires potentiels lors de
+          zero to one, l'événement start-up à Lyon.
         </p>
         <button className="px-4 py-2 lg:text-lg bg-[#3030F9] text-white rounded-lg">
-          <a href="#register">Soumettre ma candidature</a>
+          <a href="#register">Je candidate</a>
         </button>
-        <h2 className="text-md lg:text-lg pt-6 text-center md:text-start font-medium text-[#3030F9]">
+        <h2 className="text-md lg:text-xl lg:mt-8 pt-6 text-center md:text-start font-medium text-[#3030F9]">
           Candidature ouverte jusqu’au 10 mars 2025
         </h2>
       </div>
@@ -270,7 +264,7 @@ const Apply = () => {
             <p className="text-gray-600 text-sm md:text-base lg:text-md">
               Accès gratuit aux APIs de Lafricamobile et accompagnement
               personnalisé en co-développement produit pour booster vos
-              capacités technologiques
+              capacités technologique pendant 6 mois
             </p>
           </div>
           {/* Formation */}
@@ -624,7 +618,7 @@ const RegistrationForm = () => {
         className=" md:w-[80%] lg:w-[60%] mx-auto p-4 bg-white rounded-lg"
       >
         <h2 className="text-2xl md:text-2xl lg:text-4xl lg:py-10 text-center font-semibold mb-4">
-          Inscrivez-vous dès maintenant pour transformer votre startup
+          Inscrivez-vous dès maintenant pour accélérer votre start-up
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 md:text-base lg:text-lg gap-4">
           <div className="mb-4">
@@ -785,7 +779,7 @@ const RegistrationForm = () => {
             required
           />
         </div>
-        <div className="lg:w-[50%] mx-auto lg:py-6">
+        <div className="w-full mx-auto lg:py-6">
           <button
             type="submit"
             className="w-full lg:justify-center bg-[#3030F9] text-white md:text-base lg:text-lg py-2 px-4 rounded-xl hover:bg-blue-600"
@@ -799,75 +793,30 @@ const RegistrationForm = () => {
 };
 const ZeroToOne = () => {
   return (
-    <section className="bg-black text-white py-10 px-5">
-      <h2 className="text-lg md:text-3xl text-center font-bold pb-6">
+    <section className="bg-black text-white py-8 md:py-16 px-5">
+      <h2 className="text-lg md:text-3xl text-center font-bold pb-4 md:pb-10">
         A Propos de zero to one
       </h2>
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 justify-between">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row lg:items-start lg:justify-between">
         {/* Texte principal à gauche */}
         <div>
-          <div className="flex items-center gap-6 mb-4">
-            <img
-              src={zeroToOne}
-              width={187}
-              height={148}
-              className="md:w-[40%] max-w-[40%] h-auto"
-              alt="zero to one"
-            />
-            <img
-              src={h7}
-              width={187}
-              height={148}
-              className="md:w-[40%] h-auto"
-              alt="h7"
-            />
-          </div>
           <p className="text-base md:text-lg uppercase tracking-wide mb-4">
             L’événement start-up à Lyon
           </p>
           <p className="text-lg md:text-lg font-medium mb-4">22 Mai 2025</p>
-          <p className="text-base md:text-xl leading-relaxed mb-6">
+          <p className="text-base md:text-xl w-[90%] leading-relaxed mb-6">
             UNE JOURNÉE POUR S’INSPIRER DES TALENTS DES PLUS BELLES START-UP
           </p>
-          <p className="text-base md:text-lg leading-relaxed">
+        </div>
+
+        {/* Liste des chiffres à droite */}
+        <div className="lg:w-1/2 w-full">
+          <p className="text-base md:text-xl leading-relaxed">
             Fondateurs, fondatrices, ces femmes et hommes aux parcours
             inspirants vous racontent leur passage de 0 à 1. Découvrez leurs
             histoires et leur capacité à remettre en question l’existant pour
             créer de la valeur économique et sociétale.
           </p>
-        </div>
-
-        {/* Liste des chiffres à droite */}
-        <div className="flex md:justify-end">
-          <div className="grid gap-4">
-            <div className="text-6xl font-bold">
-              1200<span className="ml-2 text-xl font-normal">Participants</span>
-            </div>
-            <div className="text-6xl font-bold">
-              1M
-              <span className="ml-2 text-xl font-normal">
-                De personnes touchées
-              </span>
-            </div>
-            <div className="text-6xl font-bold">
-              30<span className="ml-2 text-xl font-normal">Speakers</span>
-            </div>
-            <div className="text-6xl font-bold">
-              20<span className="ml-2 text-xl font-normal">Conférences</span>
-            </div>
-            <div className="text-6xl font-bold">
-              10
-              <span className="ml-2 text-xl font-normal">Heures de lives</span>
-            </div>
-            <div className="flex justify-start gap-4 items-center">
-              <div>
-                <img src={info} width={48} height={48} alt="info image" />
-              </div>
-              <div className="text-lg font-normal">
-                Plus d’infos : <a href="https://www.h-7.eu">www.h-7.eu</a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -899,30 +848,37 @@ const Timeline = () => {
   ];
 
   return (
-    <div className="lg:w-[73%] w-[80%] sm:w-[90%] mx-auto flex flex-col sm:flex-row justify-center sm:justify-between">
-      <div className="lg:w-[55%] w-[60%] sm:w-[50%] sm:gap-4 mb-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center items-center mt-6">
-          {events.map((event, index) => (
-            <div key={index}>
-              <p className="text-start text-black font-medium">{event.title}</p>
-              <div
-                className={`text-white font-bold py-2 px-6 rounded-full mt-2 ${event.bgColor}`}
-              >
-                {event.date}
+    <div className="bg-gray-100 py-10 md:py-14">
+      <div className="w-[80%] sm:w-[90%] mx-auto">
+        <h4 className="font-bold text-2xl text-center">
+          Chronologie des dates
+        </h4>
+        <div className="lg:w-[70%] w-[60%] sm:w-[60%] mx-auto sm:gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center items-center mt-6">
+            {events.map((event, index) => (
+              <div className="text-sm md:text-base" key={index}>
+                <p className="text-start w-3/4 text-black font-medium">
+                  {event.title}
+                </p>
+                <div
+                  className={`text-white font-bold text-center px-1 py-2 lg:py-4 lg:px-6 rounded-lg mt-2 ${event.bgColor}`}
+                >
+                  {event.date}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-row items-center md:justify-end justify-center">
-        <img
-          src={lamPossibleicon}
-          width={246}
-          height={85}
-          className=""
-          alt="Africa Mobile X Possible Africa"
-        />
+        {/* <div className="flex flex-row items-center md:justify-end justify-center">
+          <img
+            src={lamPossibleicon}
+            width={246}
+            height={85}
+            className=""
+            alt="Africa Mobile X Possible Africa"
+          />
+        </div> */}
       </div>
     </div>
   );
@@ -930,36 +886,43 @@ const Timeline = () => {
 
 const Yfooter = () => {
   return (
-    <div className="">
+    <div>
       <footer className="bg-white py-4">
-        <div className="flex flex-col md:flex-row items-center pb-4 justify-between w-[73%] mx-auto">
-          <div className="flex items-center lg:flex-col justify-end space-x-4">
+        <div className="flex flex-col md:flex-row items-center pb-4 w-[90%] md:w-[73%] mx-auto">
+          <div className="flex items-center w-fit lg:w-1/2 lg:flex-col justify-end space-x-4">
             <img
               src={yperLinkLogo}
               width={288}
               height={73}
               alt="yperlink logo"
-              className="h-auto"
+              className="w-2/4"
             />
-            <span className="text-gray-600">
+            <span className="text-gray-600 text-sm">
               Yperlink.com - Challenge Tech Africa
             </span>
           </div>
-          <div className="flex items-center space-x-4 mt-4 md:mt-0">
+          <div className="flex items-center space-x-4 mt-4 justify-center md:mt-0">
             <img
               src={lamPossibleicon}
               width={318}
               height={107}
               alt="possible africa logo"
-              className="h-auto w-full mx-auto"
+              className="lg:w-full w-1/2"
+            />
+            <img
+              src={h7}
+              width={88}
+              height={84}
+              alt="possible africa logo"
+              className="lg:w-full w-1/6"
             />
           </div>
         </div>
         <div className="border-b-2 border-gray-200"></div>
-        <div className="flex flex-col lg:justify-between md:justify-center flex-wrap overflow-x-scroll md:flex-row items-center justify-between w-[73%] mx-auto mt-4">
+        <div className="flex flex-col lg:justify-between md:justify-center text-sm flex-wrap overflow-x-scroll md:flex-row items-center justify-between w-[90%] md:w-[73%] mx-auto mt-4">
           <div className="flex space-x-2 text-gray-600">
             <a href="#participate" className="hover:underline">
-              Pourquoi participer
+              Les bénéfices du programme
             </a>
             <a href="#apply" className="hover:underline">
               Recompense
