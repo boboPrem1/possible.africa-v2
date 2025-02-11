@@ -6,6 +6,7 @@ import yperLinkLogo from "../assets/logo_hyperlink.png";
 import lamPossibleicon from "../assets/lam-africapossible.png";
 import Hero from "../assets/hero.png";
 import info from "../assets/info.png";
+import YperLinkEligibilityCriteria from "../assets/YperLinkEligibilityCriteria.png";
 
 const Yprlink = () => {
   return (
@@ -434,9 +435,9 @@ const Apply = () => {
       </div>
       <section
         id="eligibiltyCriteria"
-        className="relative py-16 w-[90%] mx-auto overflow-hidden"
+        className="relative pt-16 w-[90%] mx-auto min-h-screen overflow-hidden"
       >
-        <div className="mt-2 md:mt-0 py-12 pb-6 sm:py-16 lg:pb-12 overflow-hidden">
+        {/* <div className="mt-2 md:mt-0 py-12 pb-6 sm:py-16 lg:pb-12 overflow-hidden">
           <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-center text-gray-800 mb-12">
             Critères d’éligibilité
           </h2>
@@ -468,7 +469,7 @@ const Apply = () => {
                     </span>
                   </div>
                   <p className="mt-3 sm:mt-4 text-base">
-                    Siège social en France ou en Afrique
+                    Siège social en France ou en Afrique. 
                   </p>
                 </div>
                 <div>
@@ -506,6 +507,116 @@ const Apply = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div> */}
+        <div>
+          {/* Section 1: Header */}
+          <div className="w-[90%] mx-auto px-4 pt-12">
+            <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-center text-gray-800 mb-12">
+              Critères d’éligibilité
+            </h2>
+            {/* Content */}
+            <div className="flex flex-col mt-16 lg:flex-row">
+              {/* Left Section: Image */}
+              <div className="w-full lg:w-1/2 lg:flex hidden justify-center md:mr-6 mb-8 md:mb-0">
+                <img
+                  src={YperLinkEligibilityCriteria}
+                  alt="YperLink Eligibility Criteria"
+                  width={543}
+                  height={521}
+                  className="rounded-lg"
+                />
+              </div>
+              {/* Right Section: Steps */}
+              <div className="w-full lg:w-1/2 space-y-8">
+                <div className="flex flex-col items-start">
+                  {/* Step 1 */}
+                  <div className="flex items-start mb-7 relative">
+                    <div className="flex flex-col lg:pb-20 items-center">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                        1
+                      </div>
+                      <div className="md:h-32 h-36 w-[3px] bg-black absolute left-5 top-8"></div>
+                    </div>
+                    <div className="ml-6">
+                      <p className="text-gray-600 text-sm md:text-md xl:text-lg">
+                        Siège social en France ou en Afrique.
+                      </p>
+                    </div>
+                  </div>
+                  {/* Step 2 */}
+                  <div className="flex items-start mb-7 lg:pb-20 relative">
+                    <div className="flex flex-col items-center">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                        2
+                      </div>
+                      <div className="md:h-32 h-44 w-[3px] bg-black absolute left-5 top-8"></div>
+                    </div>
+                    <div className="ml-6">
+                      <p className="text-gray-600 text-sm md:text-md xl:text-lg">
+                        Modèle économique à fort potentiel s’appuyant sur une
+                        offre technologique innovante
+                      </p>
+                    </div>
+                  </div>
+                  {/* Step 3 */}
+                  <div className="flex items-start mb-7 lg:pb-20 relative">
+                    <div className="flex flex-col items-center">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                        3
+                      </div>
+                      <div className="md:h-28 h-28 lg:h-36 w-[3px] bg-black absolute left-5 top-8"></div>
+                    </div>
+                    <div className="ml-6">
+                      <p className="text-gray-600 text-sm md:text-md xl:text-lg">
+                        Produit ou service déjà opérationnel (minimum viable
+                        product - MVP) avec un minimum de traction existante
+                      </p>
+                    </div>
+                  </div>
+                  {/* Step 4 */}
+                  <div className="flex items-start mb-7 lg:pb-20 relative">
+                    <div className="flex flex-col items-center">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                        4
+                      </div>
+                      <div className="h-20 sm:h-10 lg:h-32 w-[3px] bg-black absolute left-5 top-8"></div>
+                    </div>
+                    <div className="ml-6">
+                      <p className="text-gray-600 text-sm md:text-md xl:text-lg">
+                        Equipe dirigeante mature, capable de porter l’ambition
+                        de l’entreprise
+                      </p>
+                    </div>
+                  </div>
+                  {/* Step 5 */}
+                  <div className="flex items-start mb-7">
+                    <div className="flex flex-col items-center">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                        5
+                      </div>
+                    </div>
+                    <div className="ml-6">
+                      <p className="text-gray-600 text-sm md:text-md xl:text-lg">
+                        Votre entreprise développe une innovation technologique
+                        qui vise à réduire les inégalités d’accès aux services
+                        financiers, à la connectivité, aux services en ligne, à
+                        l’information, et à l’accessibilité pour le secteur
+                        informel ou en zone rural en Afrique.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Repeat for Step 3, 4, 5 */}
+                </div>
+              </div>
+            </div>
+            {/* Call to Action */}
+            {/* <div className="flex justify-center mt-12">
+              <button className="px-6 py-3 bg-primary text-white rounded-lg shadow-lg">
+                Discover Our Database
+              </button>
+            </div> */}
           </div>
         </div>
       </section>
