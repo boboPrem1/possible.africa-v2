@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import h7 from "../assets/h7.png";
+import h7 from "../assets/h-7.png";
 import yperLinkLogo from "../assets/logo_hyperlink.png";
 import lamPossibleicon from "../assets/lam-africapossible.png";
 import Hero from "../assets/hero.png";
@@ -43,10 +43,10 @@ const Participate = () => {
     <div id="participate" className="bg-white">
       <div className="rounded-lg w-[90%] lg:w-[73%] flex flex-col gap-4 lg:flex-row justify-between lg:items-start items-center mx-auto py-10 lg:py-20">
         <div className="lg:w-[50%]">
-          <h2 className="text-2xl md:text-2xl lg:text-3xl font-bold mb-4 lg:pb-6 md:text-start text-center">
-            Pourquoi participer à yperlink ?
+          <h2 className="text-2xl md:text-2xl lg:text-3xl font-bold mb-4 lg:pb-2 md:text-start text-center">
+            Pourquoi participer à <br />yprlink ?
           </h2>
-          <div className="pt-4 text-sm md:text-base hidden lg:block md:text-start text-center">
+          <div className="pt-0 text-sm md:text-base hidden lg:block md:text-start text-center">
             <button className="bg-[#3030F9] text-white py-2 px-4 rounded">
               <a href="#register">Je candidate</a>
             </button>
@@ -122,7 +122,7 @@ const Yheader = () => {
         <button className="px-4 py-2 lg:text-lg bg-[#3030F9] text-white rounded-lg">
           <a href="#register">Je candidate</a>
         </button>
-        <h2 className="text-md lg:text-xl lg:mt-8 pt-6 text-center md:text-start font-medium text-[#3030F9]">
+        <h2 className="text-md lg:text-xl lg:mt-8 pt-6 text-start font-medium text-[#3030F9]">
           Candidature ouverte jusqu’au 10 mars 2025
         </h2>
       </div>
@@ -144,7 +144,7 @@ const YnavBar = () => {
 
   return (
     <div className="fixed lg:sticky bg-white shadow-md lg:shadow-none z-50 w-full top-0">
-      <nav className="flex items-center w-[90%] mx-auto text-sm justify-between flex-wrap px-6 py-4">
+      <nav className="flex items-center w-[90%] mx-auto text-sm justify-between flex-wrap md:px-6 py-4">
         {/* <div className="flex flex-row items-start text-white lg:mr-72"></div> */}
         {/* <div className=" w-[50%] h-auto"> */}
         <img
@@ -435,7 +435,7 @@ const Apply = () => {
       </div>
       <section
         id="eligibiltyCriteria"
-        className="relative pt-16 w-[90%] mx-auto min-h-screen overflow-hidden"
+        className="relative pt-16 w-[90%] mx-auto lg:min-h-[70vh] overflow-hidden"
       >
         {/* <div className="mt-2 md:mt-0 py-12 pb-6 sm:py-16 lg:pb-12 overflow-hidden">
           <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-center text-gray-800 mb-12">
@@ -518,25 +518,25 @@ const Apply = () => {
             {/* Content */}
             <div className="flex flex-col mt-16 lg:flex-row">
               {/* Left Section: Image */}
-              <div className="w-full lg:w-1/2 lg:flex hidden justify-center md:mr-6 mb-8 md:mb-0">
+              <div className="w-full lg:w-1/2 lg:flex hidden justify-start ps-16 md:mr-6 mb-8 md:mb-0">
                 <img
                   src={YperLinkEligibilityCriteria}
                   alt="YperLink Eligibility Criteria"
-                  width={543}
-                  height={521}
+                  width={487}
+                  // height={521}
                   className="rounded-lg"
                 />
               </div>
               {/* Right Section: Steps */}
-              <div className="w-full lg:w-1/2 space-y-8">
-                <div className="flex flex-col items-start">
+              <div className="w-full lg:w-1/2 space-y-2">
+                <div className="flex flex-col h-full justify-center items-start lg:pr-12">
                   {/* Step 1 */}
                   <div className="flex items-start mb-7 relative">
-                    <div className="flex flex-col lg:pb-20 items-center">
-                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                    <div className="flex flex-col lg:pb-5 items-center">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold z-20">
                         1
                       </div>
-                      <div className="md:h-32 h-36 w-[3px] bg-black absolute left-5 top-8"></div>
+                      <div className="md:h-16 h-36 w-[3px] bg-black absolute left-5 top-8"></div>
                     </div>
                     <div className="ml-6">
                       <p className="text-gray-600 text-sm md:text-md xl:text-lg">
@@ -545,12 +545,12 @@ const Apply = () => {
                     </div>
                   </div>
                   {/* Step 2 */}
-                  <div className="flex items-start mb-7 lg:pb-20 relative">
+                  <div className="flex items-start mb-7 relative">
                     <div className="flex flex-col items-center">
-                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold z-20">
                         2
                       </div>
-                      <div className="md:h-32 h-44 w-[3px] bg-black absolute left-5 top-8"></div>
+                      <div className="md:h-16 h-44 w-[3px] bg-black absolute left-5 top-8"></div>
                     </div>
                     <div className="ml-6">
                       <p className="text-gray-600 text-sm md:text-md xl:text-lg">
@@ -560,12 +560,12 @@ const Apply = () => {
                     </div>
                   </div>
                   {/* Step 3 */}
-                  <div className="flex items-start mb-7 lg:pb-20 relative">
+                  <div className="flex items-start mb-7 relative">
                     <div className="flex flex-col items-center">
-                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold z-20">
                         3
                       </div>
-                      <div className="md:h-28 h-28 lg:h-36 w-[3px] bg-black absolute left-5 top-8"></div>
+                      <div className="md:h-16 h-28 lg:h-16 w-[3px] bg-black absolute left-5 top-8"></div>
                     </div>
                     <div className="ml-6">
                       <p className="text-gray-600 text-sm md:text-md xl:text-lg">
@@ -575,12 +575,12 @@ const Apply = () => {
                     </div>
                   </div>
                   {/* Step 4 */}
-                  <div className="flex items-start mb-7 lg:pb-20 relative">
+                  <div className="flex items-start mb-10 md:mb-8 lg:mb-14 relative">
                     <div className="flex flex-col items-center">
-                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold z-20">
                         4
                       </div>
-                      <div className="h-20 sm:h-10 lg:h-32 w-[3px] bg-black absolute left-5 top-8"></div>
+                      <div className="h-20 sm:h-10 lg:h-16 w-[3px] bg-black absolute left-5 top-8"></div>
                     </div>
                     <div className="ml-6">
                       <p className="text-gray-600 text-sm md:text-md xl:text-lg">
@@ -592,17 +592,13 @@ const Apply = () => {
                   {/* Step 5 */}
                   <div className="flex items-start mb-7">
                     <div className="flex flex-col items-center">
-                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold">
+                      <div className="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold z-20">
                         5
                       </div>
                     </div>
                     <div className="ml-6">
                       <p className="text-gray-600 text-sm md:text-md xl:text-lg">
-                        Votre entreprise développe une innovation technologique
-                        qui vise à réduire les inégalités d’accès aux services
-                        financiers, à la connectivité, aux services en ligne, à
-                        l’information, et à l’accessibilité pour le secteur
-                        informel ou en zone rural en Afrique.
+                      Entreprise développant des solutions innovantes pour les marchés émergents
                       </p>
                     </div>
                   </div>
