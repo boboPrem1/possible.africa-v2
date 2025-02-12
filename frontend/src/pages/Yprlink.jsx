@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import h7 from "../assets/h-7.png";
+import h7 from "../assets/h7_mini_bg_black.png";
 import yperLinkLogo from "../assets/logo_hyperlink.png";
 import lamPossibleicon from "../assets/lam-africapossible.png";
 import Hero from "../assets/hero.png";
