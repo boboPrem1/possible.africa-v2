@@ -12,9 +12,9 @@ const theme = extendTheme;
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ApiProvider api={apiSlice}>
-      <ChakraProvider theme={theme}>
-        <App className="App" />
-      </ChakraProvider>
+    <ChakraProvider theme={theme}>
+     <App className="App w-full"/>
+    </ChakraProvider>
     </ApiProvider>
   </React.StrictMode>
 );

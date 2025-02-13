@@ -1,9 +1,11 @@
-import { Header } from "./landing";
+import { Header } from "./Landing";
 import MediaImg from "../assets/media_img.png";
 import { useEffect, useReducer, useState } from "react";
 import { useGetOrganisationsQuery } from "../features/api/apiSlice";
 import NoData from "../utils/NoData";
 import Loader from "../assets/icons/loader.svg";
+import Popover from "../components/popover";
+import { Button } from "@chakra-ui/react";
 
 const countries = {
   all: [
@@ -514,126 +516,189 @@ function Organisations() {
 
   if (isLoading || organisationsLengthIsLoading) {
     return (
-      <div className="flex justify-center">
-        <div className="flex flex-col w-11/12">
-          <Header page="/news" />
-          <div className="h-[400px] w-full m-auto flex justify-center items-center">
-            <img
-              src={Loader}
-              style={{
-                transformOrigin: "bottom center",
-                translate: "-100px 0",
-              }}
-              alt="Loader possible"
-              className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
-            />
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <div className="h-[400px] w-full m-auto flex justify-center items-center">
+              <img
+                src={Loader}
+                style={{
+                  transformOrigin: "bottom center",
+                  translate: "-100px 0",
+                }}
+                alt="Loader possible"
+                className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
   if (isError || error) {
     return (
-      <div className="flex justify-center">
-        <div className="flex flex-col w-11/12">
-          <Header page="/news" />
-          <NoData />
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <NoData />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col w-11/12">
-        <Header page="/organisations" />
-
-        <div className="h-[80vh] border w-full overflow-y-scroll">
-          <table className="table-fixed w-full">
-            <thead className="bg-[#F9FAFB] sticky top-0">
-              <tr className="h-11">
-                <th>
-                  <span className="flex justify-center">
-                    <input type="checkbox" name="" id="" className="h-5 w-5" />
-                  </span>
-                </th>
-                <th className="text-start">Name of The Company</th>
-                <th className="text-start">Sector</th>
-                <th className="text-start">Location</th>
-                <th className="text-start">Contact Person</th>
-                <th className="text-start">Option</th>
-                <th className="text-start">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {organisations.map((organisation, index) => {
-                const createdAt = new Date(organisation?.dateAdded);
-                // transform date to french format
-                const date =
-                  createdAt.getDate() +
-                  "/" +
-                  (createdAt.getMonth() + 1) +
-                  "/" +
-                  createdAt.getFullYear();
-                return <Tr org={organisation} date={date} />;
-              })}
-            </tbody>
-            <tfoot className="sticky bottom-0 py-2 bg-white">
-              {/* paginnation */}
-              <tr className="sticky bottom-0">
-                <td colSpan={7}>
-                  <div
-                    className={
-                      isFetching || organisationsLengthIsFetching
-                        ? "w-full md:flex md:justify-between"
-                        : "w-full md:flex md:justify-center"
-                    }
-                  >
-                    {(isFetching || organisationsLengthIsFetching) && (
-                      <img
-                        src={Loader}
-                        style={{
-                          transformOrigin: "bottom center",
-                          translate: "-35px 0",
-                        }}
-                        alt="Loader possible"
-                        className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
+    <>
+      <Header page="/organisations" />
+      <div className="flex justify-center border-2">
+        <div className="flex flex-col justify-start w-11/12">
+          <div className="h-[80vh] flex justify-start overflow-y-scroll">
+            <table className="min-w-full mt-10">
+              <thead className="bg-[#F9FAFB]">
+                <tr className="h-11">
+                  <th className="px-10">
+                    <span className="flex justify-center">
+                      <input
+                        type="checkbox"
+                        name=""
+                        id=""
+                        className="h-5 w-5"
                       />
-                    )}
-                    <button
-                      className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
-                      onClick={() => {
-                        setPageS((s) => s + 1);
-                        setPage((s) => s + 1);
-                      }}
-                    >
-                      Charger plus de résultats
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+                    </span>
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    Name of The Company
+                  </th>
+                  <th className="text-start text-nowrap px-10">Sector</th>
+                  <th className="text-start text-nowrap px-10">Location</th>
+                  <th className="text-start text-nowrap px-10">
+                    Contact Person
+                  </th>
+                  <th className="text-start text-nowrap px-10">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {organisations.map((organisation, index) => {
+                  const createdAt = new Date(organisation?.dateAdded);
+                  // transform date to french format
+                  const date =
+                    createdAt.getDate() +
+                    "/" +
+                    (createdAt.getMonth() + 1) +
+                    "/" +
+                    createdAt.getFullYear();
+                  return <Tr org={organisation} date={date} />;
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="w-full md:flex md:justify-center">
+            <button
+              className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
+              onClick={() => {
+                setPageS((s) => s + 1);
+                setPage((s) => s + 1);
+              }}
+            >
+              {(isFetching || organisationsLengthIsFetching) && (
+                <img
+                  src={Loader}
+                  style={{
+                    transformOrigin: "bottom center",
+                    translate: "-35px 0",
+                  }}
+                  alt="Loader possible"
+                  className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
+                />
+              )}
+              Charger plus de résultats
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
 export default Organisations;
 
 function Tr({ org, date }) {
+  const names = [
+    "Jean Dupont",
+    "Marie Martin",
+    "Pierre Lefèvre",
+    "Sophie Moreau",
+    "Antoine Dubois",
+    "Camille Laurent",
+    "Thomas Garnier",
+    "Émilie Rousseau",
+    "Nicolas Petit",
+    "Claire Durand",
+    "Lucie Simon",
+    "Hugo Fontaine",
+    "Alice Renault",
+    "Gabriel Caron",
+    "Manon Robert",
+    "Lucas Mercier",
+    "Chloé Marchand",
+    "Maxime Bernard",
+    "Simon Boucher",
+    "Juliette Blanchard",
+    "Alexandre Girard",
+    "Élise Faure",
+    "Benjamin Roux",
+    "Cécile Morin",
+    "Arthur Dumas",
+    "Léa Lambert",
+    "Mathieu Renaud",
+    "Clara Dupuis",
+    "Vincent Masson",
+    "Anaïs Perrin",
+    "Kevin Robin",
+    "Sarah Vidal",
+    "Florian Olivier",
+    "Amélie Lefebvre",
+    "Romain Carpentier",
+    "Inès Charpentier",
+    "Sébastien Perrot",
+    "Julie Denis",
+    "Guillaume Marchal",
+    "Marion Chevalier",
+    "Jérémy Morel",
+    "Emilie Perrier",
+    "Mathieu Chabert",
+    "Caroline Blanc",
+    "François Millet",
+    "Isabelle Aubert",
+    "David Pelletier",
+    "Valérie Guerin",
+    "Olivier Barre",
+    "Sandrine Dufour",
+  ];
+
+  function randomName() {
+    const name = names[Math.floor(Math.random() * names.length)];
+    const initials = name.split(" ");
+    return {
+      name,
+      initials: `${initials[0][0]}.${initials[1][0]}`,
+    };
+  }
+
+  const { name, initials } = randomName();
   return (
     <tr className="border border-[#EAECF0] h-20">
-      <td>
+      <td className="px-10">
         <span className="w-full flex justify-center">
           <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" />
         </span>
       </td>
-      <td>
+      <td className="px-10">
         <span className="flex justify-start gap-x-3 items-center">
           <img
-            src={socialMedias.includes(org?.logo) ? logoPlaceholder : `https://logo.clearbit.com/${org.website}`}
+            src={org?.logo}
             alt=""
             height={40}
             width={40}
@@ -653,22 +718,26 @@ function Tr({ org, date }) {
           </span>
         </span>
       </td>
-      <td className="font-medium">
+      <td className="font-medium px-10">
         {org.sector.length > 20
           ? org.sector.slice(0, 20) + " . . ."
           : org.sector}
       </td>
-      <td>Nigeria</td>
-      <td>
+      <td className="px-10">{org.headquarter || "-"}</td>
+      <td className="px-10">
         <span className="flex justify-start gap-x-3 items-center">
-          <span className="inline-block w-8 h-8 border-2 rounded-full"></span>
-          <span>Kristin Watson</span>
+          <span className="w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center">{initials}</span>
+          <span>{name}</span>
         </span>
       </td>
-      <td>
-        <input type="radio" name="" id="" className="h-5 w-5" />
+      <td className="px-10">
+        <Popover btnTitle="Actions">
+          <div className="flex flex-col gap-3">
+            <Button>Contacter le prospect</Button>
+            <Button>Lancer une campagne</Button>
+          </div>
+        </Popover>
       </td>
-      <td>...</td>
     </tr>
   );
 }

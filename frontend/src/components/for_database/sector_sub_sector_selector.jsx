@@ -23,13 +23,13 @@ export default function SectorSubsectorSelector({
   }
 
   return <>
-    <div className="flex justify-between items-center mb-5">
-      <div className="text-2xl">Organizations by sub sector</div>
-      <div className="flex justify-center gap-5">
+    <div className="w-full flex justify-between items-center mb-5">
+      <div className="text-base md:text-2xl">Organizations by sub sector</div>
+      <div className="flex justify-center flex-col md:flex-row gap-2 md:gap-5">
         <select
           name="sector"
           id="sectorSelect"
-          className="text-gray-medium-300 border border-gray-light-300 w-[320px] h-[60px] rounded-full px-4"
+          className="text-gray-medium-300 border border-gray-light-300 w-[160px] md:w-[320px] h-[30px] md:h-[60px] rounded-full px-4"
           value={sector}
           onChange={(e) => setSector(e.target.value)}
         >
@@ -41,7 +41,7 @@ export default function SectorSubsectorSelector({
           id="listTypeSelect"
           value={byListOfSubSectors}
           onChange={(e) => setByListOfSubSectors(e.target.value)}
-          className="text-gray-medium-300 border border-gray-light-300 w-[320px] h-[60px] rounded-full px-4"
+          className="text-gray-medium-300 border border-gray-light-300 w-[160px] md:w-[320px] h-[30px] md:h-[60px] rounded-full px-4"
         >
           <option value="unique">Unique sectors</option>
           <option value="list">List of sectors</option>
