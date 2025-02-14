@@ -16,42 +16,38 @@ export default function Waitlist() {
       return;
     }
 
-    
     const airtableApiKey = import.meta.env.VITE_AIRTABLE_API_KEY;
     const contactsBaseaseId = import.meta.env.VITE_AIRTABLE_CONTACTS_BASE_ID;
     const waitListTableId = import.meta.env.VITE_AIRTABLE_WAITLIST_TABLE_ID;
 
-    
     const url = `https://api.airtable.com/v0/${contactsBaseaseId}/${waitListTableId}`;
 
-    
     try {
-        setLoading(true)
-        const response = await axios.post(
-          url,
-          {
-            fields: {"Email": email},
+      setLoading(true);
+      const response = await axios.post(
+        url,
+        {
+          fields: { Email: email },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${airtableApiKey}`,
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              Authorization: `Bearer ${airtableApiKey}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        
-      setSuccessMessage("Merci ! Vous serez informé du lancement.");
-      setLoading(false)
-      } catch (error) {
-        console.error("Error submitting data:", error.message);
-        
-      setErrorMessage("Erreur ! Quelque chose s'est mal passé durant l'envoi de la requête.");
-      }
+        }
+      );
 
-    // Simulation d'une soumission
-    setTimeout(() => {
-      setEmail("");
-    }, 1000);
+      setSuccessMessage("Merci ! Vous serez informé du lancement.");
+      setLoading(false);
+    } catch (error) {
+      console.error("Error submitting data:", error.message);
+
+      setErrorMessage(
+        "Erreur ! Quelque chose s'est mal passé durant l'envoi de la requête."
+      );
+
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,13 +76,17 @@ export default function Waitlist() {
             />
             <button
               type="submit"
-              className={`bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-3 rounded-lg transition duration-300 ${loading ? 'animate-pulse' : ''}`}
+              className={`bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-3 rounded-lg transition duration-300 ${
+                loading ? "animate-pulse" : ""
+              }`}
             >
               Je veux en savoir plus
             </button>
           </form>
 
-          {successMessage && <p className="mt-4 text-[#2BB19C]">{successMessage}</p>}
+          {successMessage && (
+            <p className="mt-4 text-[#2BB19C]">{successMessage}</p>
+          )}
           {errorMessage && <p className="mt-4 text-red-400">{errorMessage}</p>}
 
           <p className="mt-6 text-sm text-gray-400">
