@@ -533,9 +533,19 @@ export const Header = ({ page }) => {
                 Organisations
               </a>
               <a
-                href="/yprlink"
+                href="/waitlist"
                 className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/yprlink"
+                  page === "/waitlist"
+                    ? "font-black text-primary bg-primary-200"
+                    : ""
+                }`}
+              >
+                Rejoindre notre waitlist
+              </a>
+              <a
+                href="https://yprlink.africa"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "https://yprlink.africa"
                     ? "font-black text-primary bg-primary-200"
                     : ""
                 }`}
@@ -547,7 +557,7 @@ export const Header = ({ page }) => {
         )}
       </AnimatePresence>
       <div className="h-24 w-full flex justify-between items-center">
-        <div className="w-6/12 flex justify-start gap-20 items-center">
+        <div className="w-7/12 flex justify-start gap-20 items-center">
           <img src={Logo} alt="" className="w-[100px] h-[50px] " />
           <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
             {/* <span className="border-b-2 border-primary">Overview</span> */}
@@ -591,11 +601,21 @@ export const Header = ({ page }) => {
             >
               Organisations
             </a>
+              <a
+                href="/waitlist"
+                className={`text-lg font-medium text-nowrap ${
+                  page === "/waitlist"
+                    ? "font-black text-primary underline underline-offset-8"
+                    : ""
+                }`}
+              >
+                Rejoindre notre waitlist
+              </a>
             <a
-              href="/yprlink"
+              href="https://yprlink.africa"
               target="_blank"
               className={`text-lg font-medium ${
-                page === "/yprlink"
+                page === "https://yprlink.africa"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
               }`}
@@ -604,7 +624,7 @@ export const Header = ({ page }) => {
             </a>
           </div>
         </div>
-        <div className="flex justify-end  w-6/12 items-center gap-x-3 md:gap-x-5">
+        <div className="flex justify-end  w-5/12 items-center gap-x-3 md:gap-x-5">
           <span className="text-xl font-medium text-[#242827] hidden md:inline-block">
             # Connect AfricaTech Ecosystem
           </span>

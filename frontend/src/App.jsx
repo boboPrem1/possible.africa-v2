@@ -24,6 +24,7 @@ import Database from "./pages/Database.jsx";
 import News from "./pages/Actualites/NewActualite.jsx";
 import Organisations from "./pages/NewOrganisations.jsx";
 import Landing from "./pages/Landing.jsx";
+import Waitlist from "./pages/Waitlist.jsx";
 
 function App() {
   const MODE = import.meta.env.VITE_APP_MODE;
@@ -84,8 +85,8 @@ function App() {
                 </Route>
               </Route>
             </Route> */}
-            <Route path="/yprlink">
-              <Route index path="/yprlink" element={<Yprlink />} />
+            <Route path="/waitlist">
+              <Route index path="/waitlist" element={<Waitlist />} />
             </Route>
             <Route path="/">
               <Route index path="/" element={<Landing />} />

@@ -726,15 +726,24 @@ function Tr({ org, date }) {
       <td className="px-10">{org.headquarter || "-"}</td>
       <td className="px-10">
         <span className="flex justify-start gap-x-3 items-center">
-          <span className="w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center">{initials}</span>
+          <span className="w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center">
+            {initials}
+          </span>
           <span>{name}</span>
         </span>
       </td>
       <td className="px-10">
         <Popover btnTitle="Actions">
           <div className="flex flex-col gap-3">
-            <Button>Contacter le prospect</Button>
-            <Button>Lancer une campagne</Button>
+            <a href="/waitlist">
+              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">Contact</button>
+            </a>
+            <a href="/waitlist">
+              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">Add to leads</button>
+            </a>
+            <a href="/waitlist">
+              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">See</button>
+            </a>
           </div>
         </Popover>
       </td>
