@@ -429,7 +429,7 @@ function pageEqReducer(state, action) {
   return [...state];
 }
 
-function Organisations() {
+function Organisations({ withoutHeader }) {
   const initialPageEq = [
     { field: "name", value: "" },
     { field: "source", value: "" },
@@ -546,6 +546,77 @@ function Organisations() {
           </div>
         </div>
       </>
+    );
+  }
+
+  if (withoutHeader) {
+    return (
+      <div className="flex justify-center border-2">
+        <div className="flex flex-col justify-start w-11/12">
+          <div className="h-[80vh] flex justify-start overflow-y-scroll">
+            <table className="min-w-full mt-10">
+              <thead className="bg-[#F9FAFB]">
+                <tr className="h-11">
+                  <th className="px-10">
+                    <span className="flex justify-center">
+                      <input
+                        type="checkbox"
+                        name=""
+                        id=""
+                        className="h-5 w-5"
+                      />
+                    </span>
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    Name of The Company
+                  </th>
+                  <th className="text-start text-nowrap px-10">Sector</th>
+                  <th className="text-start text-nowrap px-10">Location</th>
+                  <th className="text-start text-nowrap px-10">
+                    Contact Person
+                  </th>
+                  <th className="text-start text-nowrap px-10">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {organisations.map((organisation, index) => {
+                  const createdAt = new Date(organisation?.dateAdded);
+                  // transform date to french format
+                  const date =
+                    createdAt.getDate() +
+                    "/" +
+                    (createdAt.getMonth() + 1) +
+                    "/" +
+                    createdAt.getFullYear();
+                  return <Tr org={organisation} date={date} />;
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="w-full md:flex md:justify-center">
+            <button
+              className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
+              onClick={() => {
+                setPageS((s) => s + 1);
+                setPage((s) => s + 1);
+              }}
+            >
+              {(isFetching || organisationsLengthIsFetching) && (
+                <img
+                  src={Loader}
+                  style={{
+                    transformOrigin: "bottom center",
+                    translate: "-35px 0",
+                  }}
+                  alt="Loader possible"
+                  className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
+                />
+              )}
+              Charger plus de résultats
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -736,13 +807,19 @@ function Tr({ org, date }) {
         <Popover btnTitle="Actions">
           <div className="flex flex-col gap-3">
             <a href="/waitlist">
-              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">Contact</button>
+              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">
+                Contact
+              </button>
             </a>
             <a href="/waitlist">
-              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">Add to leads</button>
+              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">
+                Add to leads
+              </button>
             </a>
             <a href="/waitlist">
-              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">See</button>
+              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">
+                See
+              </button>
             </a>
           </div>
         </Popover>

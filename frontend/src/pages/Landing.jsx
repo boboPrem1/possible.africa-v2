@@ -3,10 +3,11 @@ import MediaImg from "../assets/media_img.png";
 import OrganisationImg from "../assets/jumia.jpg";
 import AfricanTechIndustry from "../assets/african_tech_industry.webp";
 import LogoHyperlink from "../assets/logo_hyperlink.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { fetchResource } from "../utils/possible_api_actions";
 import Loader from "../assets/icons/loader.svg";
 import { AnimatePresence, motion } from "framer-motion";
+import { LangContext, LangDispatchContext } from "../langContext";
 
 function getDate(dateSended) {
   const date = new Date(dateSended);
@@ -21,6 +22,8 @@ function getDate(dateSended) {
 }
 
 const Landing = () => {
+  
+  const lang = useContext(LangContext);
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -76,7 +79,7 @@ const Landing = () => {
             <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
               <div className="flex justify-between items-center mb-5">
                 <span className="text-lg font-medium">Last news (980)</span>
-                <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
+                <a href="/news" className="flex justify-end w-2/12 items-center self-center gap-x-3">
                   <span className="text-nowrap">View more</span>
                   <svg
                     width="28"
@@ -102,10 +105,10 @@ const Landing = () => {
                       fill="#242827"
                     />
                   </svg>
-                </div>
+                </a>
               </div>
               <div className="flex justify-start flex-col gap-y-3">
-                {dashBoardData.posts?.lastByLang["en"].map((post) => {
+                {dashBoardData.posts?.lastByLang[lang].map((post) => {
                   return <New post={post} />;
                 })}
               </div>
@@ -115,7 +118,7 @@ const Landing = () => {
                 <span className="text-lg font-medium">
                   Last organisations (105)
                 </span>
-                <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
+                <a href="/database" className="flex justify-end w-4/12 items-center self-center gap-x-3">
                   <span className="text-nowrap">View more</span>
                   <svg
                     width="28"
@@ -141,7 +144,7 @@ const Landing = () => {
                       fill="#242827"
                     />
                   </svg>
-                </div>
+                </a>
               </div>
               <div className="flex justify-start flex-col gap-y-3">
                 {dashBoardData.organisations?.last.map((organisation) => {
@@ -470,6 +473,8 @@ const PyramidLogo = () => {
 };
 
 export const Header = ({ page }) => {
+  const lang = useContext(LangContext);
+  const dispatch = useContext(LangDispatchContext);
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
   return (
     <div className="sticky top-0 right-0 left-0 bg-white shadow-lg px-5 md:px-28 md:pb-2.5 z-50">
@@ -521,16 +526,6 @@ export const Header = ({ page }) => {
                 }`}
               >
                 Database
-              </a>
-              <a
-                href="/organisations"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/organisations"
-                    ? "font-black text-primary bg-primary-200"
-                    : ""
-                }`}
-              >
-                Organisations
               </a>
               <a
                 href="/waitlist"
@@ -591,16 +586,6 @@ export const Header = ({ page }) => {
             >
               Database
             </a>
-            <a
-              href="/organisations"
-              className={`text-lg font-medium ${
-                page === "/organisations"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
-              }`}
-            >
-              Organisations
-            </a>
               <a
                 href="/waitlist"
                 className={`text-lg font-medium text-nowrap ${
@@ -631,7 +616,14 @@ export const Header = ({ page }) => {
           <select
             name=""
             id=""
+            defaultValue={lang}
             className="px-3 py-1 outline-none rounded-full text-[#124B42] font-semibold text-xl bg-[#C0E8E2]"
+            onChange={(e) => {
+              dispatch({
+                type: "change",
+                lang: e.target.value
+              })
+            }}
           >
             <option value="en">EN</option>
             <option value="fr">FR</option>
@@ -667,10 +659,10 @@ export const Header = ({ page }) => {
               </svg>
             )}
           </div>
-          <button className="hidden md:flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white">
+          <a href="/waitlist" className="hidden md:flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white">
             <span>+</span>
             <span>Free first campaign</span>
-          </button>
+          </a>
         </div>
       </div>
       {/* <div> */}

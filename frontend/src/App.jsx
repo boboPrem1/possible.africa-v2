@@ -25,83 +25,57 @@ import News from "./pages/Actualites/NewActualite.jsx";
 import Organisations from "./pages/NewOrganisations.jsx";
 import Landing from "./pages/Landing.jsx";
 import Waitlist from "./pages/Waitlist.jsx";
+import { useReducer } from "react";
+import { LangContext, LangDispatchContext } from "./langContext.js";
+
+function langReducer(lang, action) {
+  switch (action.type) {
+    case "change": {
+      return action.lang;
+    }
+    default: {
+      throw Error("Unknown action: " + action.type);
+    }
+  }
+}
+
+const initialLang = "en";
 
 function App() {
+  const [lang, dispatch] = useReducer(langReducer, initialLang);
   const MODE = import.meta.env.VITE_APP_MODE;
-  // console.log(MODE);
   return (
     <>
       {MODE === "maintenance" ? (
         <Maintenance />
       ) : (
-        <BrowserRouter>
-          <Routes>
-            {/* <Route path="/" element={[<Header key="1" />, <Footer key="2" />]}>
-              <Route path="/" element={<HomeHeader />}>
-                <Route index element={<Accueil />} />
+        <LangContext.Provider value={lang}>
+          <LangDispatchContext.Provider value={dispatch}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/waitlist">
+                  <Route index path="/waitlist" element={<Waitlist />} />
+                </Route>
+                <Route path="/">
+                  <Route index path="/" element={<Landing />} />
+                </Route>
+                <Route path="/database">
+                  <Route index path="/database" element={<Database />} />
+                </Route>
+                <Route path="/news">
+                  <Route index path="/news" element={<News />} />
+                </Route>
                 <Route path="/organisations">
                   <Route
                     index
                     path="/organisations"
                     element={<Organisations />}
                   />
-                  <Route
-                    path="/organisations/:slug"
-                    element={<OneOrganisation />}
-                  />
                 </Route>
-                <Route path="/actualites">
-                  <Route index path="/actualites" element={<Actualites />} />
-                  <Route path="/actualites/:slug" element={<OneActualite />} />
-                </Route>
-                <Route path="/actualites2">
-                  <Route index path="/actualites2" element={<Actualites />} />
-                </Route>
-                <Route path="/interviews">
-                  <Route index path="/interviews" element={<Interviews />} />
-                  <Route path="/interviews/:slug" element={<OneInterview />} />
-                </Route>
-                <Route path="/agenda">
-                  <Route index path="/agenda" element={<Agenda />} />
-                  <Route path="/agenda/:slug" element={<OneAgenda />} />
-                </Route>
-                <Route path="/opportunites">
-                  <Route
-                    index
-                    path="/opportunites"
-                    element={<Opportunites />}
-                  />
-                  <Route
-                    path="/opportunites/:slug"
-                    element={<OneOpportunity />}
-                  />
-                </Route>
-                <Route path="/emplois">
-                  <Route index path="/emplois" element={<Emplois />} />
-                  <Route path="/emplois/:slug" element={<OneEmplois />} />
-                </Route>
-                <Route path="/search">
-                  <Route index path="/search" element={<Search />} />
-                </Route>
-              </Route>
-            </Route> */}
-            <Route path="/waitlist">
-              <Route index path="/waitlist" element={<Waitlist />} />
-            </Route>
-            <Route path="/">
-              <Route index path="/" element={<Landing />} />
-            </Route>
-            <Route path="/database">
-              <Route index path="/database" element={<Database />} />
-            </Route>
-            <Route path="/news">
-              <Route index path="/news" element={<News />} />
-            </Route>
-            <Route path="/organisations">
-              <Route index path="/organisations" element={<Organisations />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+              </Routes>
+            </BrowserRouter>
+          </LangDispatchContext.Provider>
+        </LangContext.Provider>
       )}
     </>
   );

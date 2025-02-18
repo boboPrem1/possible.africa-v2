@@ -15,6 +15,7 @@ import SectorSelector from "../components/for_database/sector_selector";
 import Logo from "../assets/LogoPossible.png";
 import Loader from "../assets/icons/loader.svg";
 import { Header } from "./Landing";
+import Organisations from "./NewOrganisations";
 
 export default function Database() {
   const [dashBoardData, setDashboardData] = useState();
@@ -316,7 +317,7 @@ export default function Database() {
 
             <GrowingEnterAnimation className="hidden md:block w-full">
               <div className="w-full rounded-2xl grid grid-cols-1 md:grid-cols-4 md:gap-x-4">
-                <div className="col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-5">
+                {/* <div className="col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-5">
                   <div className="flex justify-between items-center h-16 gap-x-3">
                     <div className="text-2xl w-6/12">Last news</div>
                     <div className="flex justify-end items-center gap-x-3 w-6/12">
@@ -417,17 +418,17 @@ export default function Database() {
                       );
                     })}
                   </div>
-                </div>
+                </div> */}
                 <div className="hidden md:block col-span-2 h-[500px] w-10/12 bg-custom-white rounded-2xl">
                   <ResponsiveCloropleth
                     style={{
-                      height: "473px",
+                      height: "800px",
                       width: "100%",
                     }}
                     data={uniqueHeadquarters}
                   />
                 </div>
-                <div className="hidden md:flex col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 md:flex-col md:gap-y-2.5">
+                {/* <div className="hidden md:flex col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 md:flex-col md:gap-y-2.5">
                   <div className="flex justify-start items-center h-16 gap-x-1.5">
                     <div className="text-2xl w-6/12">Last additions</div>
                   </div>
@@ -459,17 +460,20 @@ export default function Database() {
                       );
                     })}
                   </div>
+                </div> */}
+                <div className="col-span-2">
+                  <Organisations withoutHeader={true} />
                 </div>
               </div>
             </GrowingEnterAnimation>
-            <GrowingEnterAnimation className='hidden md:block'>
+            <GrowingEnterAnimation className="hidden md:block">
               <div className="w-full bg-custom-white rounded-2xl p-6 h-[350px]">
                 <SectorSelector
                   organisationsBySector={dashBoardData.OrganisationsBySectors}
                 />
               </div>
             </GrowingEnterAnimation>
-            <GrowingEnterAnimation className='hidden md:block'>
+            <GrowingEnterAnimation className="hidden md:block">
               <div className="w-full bg-custom-white rounded-2xl p-6 h-[350px]">
                 <SectorSubsectorSelector
                   organisationsBySubSectors={
