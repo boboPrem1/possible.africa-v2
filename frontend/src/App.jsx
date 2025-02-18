@@ -65,13 +65,6 @@ function App() {
                 <Route path="/news">
                   <Route index path="/news" element={<News />} />
                 </Route>
-                <Route path="/organisations">
-                  <Route
-                    index
-                    path="/organisations"
-                    element={<Organisations />}
-                  />
-                </Route>
               </Routes>
             </BrowserRouter>
           </LangDispatchContext.Provider>
