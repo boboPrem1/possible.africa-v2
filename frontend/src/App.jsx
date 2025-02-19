@@ -1,37 +1,32 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
-import { HomeHeader } from "./components/HomeHeader";
-import Accueil from "./pages/Accueil";
-import Actualites from "./pages/Actualites/Actualites.jsx";
-import ActualitesCopy from "./pages/Actualites/Actualites_copy.jsx";
-import OneActualite from "./pages/Actualites/OneActualite";
-import Agenda from "./pages/Agenda";
-import Emplois from "./pages/Emplois";
-import Entrepreneurs from "./pages/Entrepreneurs";
-import Interviews from "./pages/Interviews";
-import OneAgenda from "./pages/OneAgenda.jsx";
-import OneEmplois from "./pages/OneEmplois.jsx";
-import OneInterview from "./pages/OneInterview.jsx";
-import OneOpportunity from "./pages/OneOpportunity.jsx";
-import OneOrganisation from "./pages/OneOrganisation.jsx";
-import Opportunites from "./pages/Opportunites";
-import Search from "./pages/Search.jsx";
-import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
-import Yprlink from "./pages/Yprlink.jsx";
 import Database from "./pages/Database.jsx";
 import News from "./pages/Actualites/NewActualite.jsx";
-import Organisations from "./pages/NewOrganisations.jsx";
 import Landing from "./pages/Landing.jsx";
 import Waitlist from "./pages/Waitlist.jsx";
-import { useReducer } from "react";
-import { LangContext, LangDispatchContext } from "./langContext.js";
+import { useEffect, useReducer } from "react";
+import { initialLang, LangTransContext, LangTransDispatchContext } from "./langTransContext.js";
+import { en_trans } from "./lang/en.js";
+import { fr_trans } from "./lang/fr.js";
 
-function langReducer(lang, action) {
+
+const existingLang = sessionStorage.getItem("lang");
+
+function langTransReducer(lang, action) {
   switch (action.type) {
     case "change": {
-      return action.lang;
+      let trans;
+      if(action.lang === 'fr'){
+        trans = {...fr_trans};
+      } else {
+        trans = {...en_trans};
+      }
+      // change lang key in session
+      sessionStorage.setItem("lang", action.lang);
+      return {
+        lang: action.lang,
+        _: trans,
+      };
     }
     default: {
       throw Error("Unknown action: " + action.type);
@@ -39,18 +34,23 @@ function langReducer(lang, action) {
   }
 }
 
-const initialLang = "en";
-
 function App() {
-  const [lang, dispatch] = useReducer(langReducer, initialLang);
+  const [lang_trans, dispatch] = useReducer(langTransReducer, initialLang);
+  
+  useEffect(() => {
+    if (existingLang) {
+      dispatch({ type: "change", lang: existingLang });
+    }
+  }, []);
+
   const MODE = import.meta.env.VITE_APP_MODE;
   return (
     <>
       {MODE === "maintenance" ? (
         <Maintenance />
       ) : (
-        <LangContext.Provider value={lang}>
-          <LangDispatchContext.Provider value={dispatch}>
+        <LangTransContext.Provider value={lang_trans}>
+          <LangTransDispatchContext.Provider value={dispatch}>
             <BrowserRouter>
               <Routes>
                 <Route path="/waitlist">
@@ -67,8 +67,8 @@ function App() {
                 </Route>
               </Routes>
             </BrowserRouter>
-          </LangDispatchContext.Provider>
-        </LangContext.Provider>
+          </LangTransDispatchContext.Provider>
+        </LangTransContext.Provider>
       )}
     </>
   );

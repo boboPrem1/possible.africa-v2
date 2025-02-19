@@ -1,11 +1,12 @@
 import { Header } from "./Landing";
 import MediaImg from "../assets/media_img.png";
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useGetOrganisationsQuery } from "../features/api/apiSlice";
 import NoData from "../utils/NoData";
 import Loader from "../assets/icons/loader.svg";
 import Popover from "../components/popover";
 import { Button } from "@chakra-ui/react";
+import { LangTransContext } from "../langTransContext";
 
 const countries = {
   all: [
@@ -430,6 +431,9 @@ function pageEqReducer(state, action) {
 }
 
 function Organisations({ withoutHeader }) {
+  const langTrans = useContext(LangTransContext);
+  const lang = langTrans.lang;
+  const _ = langTrans._;
   const initialPageEq = [
     { field: "name", value: "" },
     { field: "source", value: "" },
@@ -523,10 +527,6 @@ function Organisations({ withoutHeader }) {
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
               <img
                 src={Loader}
-                style={{
-                  transformOrigin: "bottom center",
-                  translate: "-100px 0",
-                }}
                 alt="Loader possible"
                 className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
               />
@@ -551,10 +551,10 @@ function Organisations({ withoutHeader }) {
 
   if (withoutHeader) {
     return (
-      <div className="flex justify-center border-2">
+      <div className="flex justify-center items-start">
         <div className="flex flex-col justify-start w-11/12">
           <div className="h-[80vh] flex justify-start overflow-y-scroll">
-            <table className="min-w-full mt-10">
+            <table className="min-w-full mt-5">
               <thead className="bg-[#F9FAFB]">
                 <tr className="h-11">
                   <th className="px-10">
@@ -568,14 +568,20 @@ function Organisations({ withoutHeader }) {
                     </span>
                   </th>
                   <th className="text-start text-nowrap px-10">
-                    Name of The Company
+                    {_.database_company_name}
                   </th>
-                  <th className="text-start text-nowrap px-10">Sector</th>
-                  <th className="text-start text-nowrap px-10">Location</th>
                   <th className="text-start text-nowrap px-10">
-                    Contact Person
+                    {_.database_sector}
                   </th>
-                  <th className="text-start text-nowrap px-10">Action</th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_location}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_contact_person}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_action}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -588,7 +594,7 @@ function Organisations({ withoutHeader }) {
                     (createdAt.getMonth() + 1) +
                     "/" +
                     createdAt.getFullYear();
-                  return <Tr org={organisation} date={date} />;
+                  return <Tr org={organisation} date={date} _={_} />;
                 })}
               </tbody>
             </table>
@@ -612,7 +618,7 @@ function Organisations({ withoutHeader }) {
                   className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
                 />
               )}
-              Charger plus de résultats
+              {_.load_more_results}
             </button>
           </div>
         </div>
@@ -640,14 +646,20 @@ function Organisations({ withoutHeader }) {
                     </span>
                   </th>
                   <th className="text-start text-nowrap px-10">
-                    Name of The Company
+                    {_.database_company_name}
                   </th>
-                  <th className="text-start text-nowrap px-10">Sector</th>
-                  <th className="text-start text-nowrap px-10">Location</th>
                   <th className="text-start text-nowrap px-10">
-                    Contact Person
+                    {_.database_sector}
                   </th>
-                  <th className="text-start text-nowrap px-10">Action</th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_location}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_contact_person}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_action}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -684,7 +696,7 @@ function Organisations({ withoutHeader }) {
                   className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
                 />
               )}
-              Charger plus de résultats
+              {_.load_more_results}
             </button>
           </div>
         </div>
@@ -695,7 +707,7 @@ function Organisations({ withoutHeader }) {
 
 export default Organisations;
 
-function Tr({ org, date }) {
+function Tr({ org, date, _ }) {
   const names = [
     "Jean Dupont",
     "Marie Martin",
@@ -750,15 +762,25 @@ function Tr({ org, date }) {
   ];
 
   function randomName() {
-    const name = names[Math.floor(Math.random() * names.length)];
-    const initials = name.split(" ");
+    const initialLengthRand = Math.floor(Math.random() * 6);
+    const plusLengthRand = Math.floor(Math.random() * 4);
+    const initialLength = initialLengthRand >= 2 ? initialLengthRand : 2;
+    const plusLength = plusLengthRand >= 1 ? plusLengthRand : 1;
+    const initials = [];
+
+    console.log(initialLength, plusLength);
+
+    for (let i = 0; i < initialLength; i++) {
+      const name = names[Math.floor(Math.random() * names.length)];
+      initials.push(`${name.split(" ")[0][0]}.${name.split(" ")[1][0]}`);
+    }
     return {
-      name,
-      initials: `${initials[0][0]}.${initials[1][0]}`,
+      plusLength,
+      initials,
     };
   }
 
-  const { name, initials } = randomName();
+  const { plusLength, initials } = randomName();
   return (
     <tr className="border border-[#EAECF0] h-20">
       <td className="px-10">
@@ -778,14 +800,6 @@ function Tr({ org, date }) {
           />
           <span className="flex flex-col">
             <span className="font-medium">{org.name}</span>
-            <span>
-              <a href={org.website} target="_blank" rel="noopener noreferrer">
-                {/* {org.website} */}
-                {org.website.length > 20
-                  ? org.website.slice(0, 20) + " . . ."
-                  : org.website}
-              </a>
-            </span>
           </span>
         </span>
       </td>
@@ -796,31 +810,46 @@ function Tr({ org, date }) {
       </td>
       <td className="px-10">{org.headquarter || "-"}</td>
       <td className="px-10">
-        <span className="flex justify-start gap-x-3 items-center">
-          <span className="w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center">
-            {initials}
+        <span className="flex items-center justify-start gap-2">
+          <span className="flex justify-start items-center">
+            {initials.length > 0 &&
+              initials.map((initial) => {
+                return (
+                  <span className="-m-1.5 w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center bg-white">
+                    {initial}
+                  </span>
+                );
+              })}
           </span>
-          <span>{name}</span>
+
+          <span className="pb-3 font-medium">+{plusLength}</span>
         </span>
       </td>
       <td className="px-10">
         <Popover btnTitle="Actions">
-          <div className="flex flex-col gap-3">
-            <a href="/waitlist">
-              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">
-                Contact
-              </button>
+          <div className="w-full flex flex-col gap-0">
+            <a className="inline-flex w-full" href="/waitlist">
+              <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                {_.database_action_contact}
+              </span>
             </a>
-            <a href="/waitlist">
-              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">
-                Add to leads
-              </button>
+            <a className="inline-flex w-full" href="/waitlist">
+              <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                {_.database_action_add_to_leads}
+              </span>
             </a>
-            <a href="/waitlist">
-              <button className="bg-[#2BB19C] hover:bg-[#248b7c] text-white font-bold py-2 px-3 rounded-lg transition duration-300">
-                See
-              </button>
+            <a className="inline-flex w-full" href="/waitlist">
+              <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                {_.database_action_see}
+              </span>
             </a>
+            {org.website && (
+              <a className="inline-flex w-full" href="/waitlist">
+                <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                  {_.database_action_visite_website}
+                </span>
+              </a>
+            )}
           </div>
         </Popover>
       </td>
