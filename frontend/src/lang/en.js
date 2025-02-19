@@ -47,7 +47,7 @@ export const en_trans = {
   database_action_contact: "Contact",
   database_action_add_to_leads: "Add to leads",
   database_action_see: "See",
-  database_action_visite_website: "Visite website",
+  database_action_visite_website: "Visit website",
   load_more_results: "Load more results",
   database_orgs_by_sector: "Organizations by sector",
   database_unique_sectors: "Unique sectors",
