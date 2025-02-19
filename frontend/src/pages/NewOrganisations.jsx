@@ -844,7 +844,7 @@ function Tr({ org, date, _ }) {
               </span>
             </a>
             {org.website && (
-              <a className="inline-flex w-full" href="/waitlist">
+              <a className="inline-flex w-full" href={org.website} target="_blank">
                 <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                   {_.database_action_visite_website}
                 </span>
