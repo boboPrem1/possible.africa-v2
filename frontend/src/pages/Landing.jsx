@@ -21,7 +21,8 @@ function getDate(dateSended) {
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
 
-  return `${day}/${month}/${year} à ${hours}:${minutes}`;
+  return `${day}/${month}`;
+  // return `${day}/${month}/${year} à ${hours}:${minutes}`;
 }
 
 const Landing = () => {
