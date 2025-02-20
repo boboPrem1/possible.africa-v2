@@ -42,7 +42,7 @@ export const en_trans = {
   database_company_name: "Name of The Company",
   database_sector: "Sector",
   database_location: "Location",
-  database_contact_person: "Contact Person",
+  database_contact_person: "Contact",
   database_action: "Action",
   database_action_contact: "Contact",
   database_action_add_to_leads: "Add to leads",

@@ -38,7 +38,7 @@ export const fr_trans = {
     database_company_name: "Nom de l'entreprise",
     database_sector: "Secteur",
     database_location: "Localisation",
-    database_contact_person: "Personne de contact",
+    database_contact_person: "Contact",
     database_action: "Action",
     database_action_contact: "Contacter",
     database_action_add_to_leads: "Ajouter aux prospects",

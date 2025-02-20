@@ -570,7 +570,9 @@ export const Header = ({ page }) => {
       </AnimatePresence>
       <div className="h-24 w-full flex justify-between items-center">
         <div className="w-6/12 flex justify-start gap-20 items-center">
+          <a href="/">
           <img src={Logo} alt="" className="w-[100px] h-[50px] " />
+          </a>
           <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
             {/* <span className="border-b-2 border-primary">Overview</span> */}
             <a
