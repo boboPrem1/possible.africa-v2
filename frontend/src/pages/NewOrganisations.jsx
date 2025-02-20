@@ -886,7 +886,7 @@ function Organisations({ withoutHeader }) {
                 <option value="Startups">Startups</option>
                 <option value="Local SMEs">Local SMEs</option>
               </CustumSelect>
-              <div className="flex justify-start gap-2 items-center sticky right-0 bg-white">
+              <div className="flex px-3 justify-start gap-2 items-center sticky right-0 bg-white">
                 <button
                   className="w-full min-w-[150px] h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
                   onClick={() => {
