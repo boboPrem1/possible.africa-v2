@@ -1,106 +1,78 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
-import { HomeHeader } from "./components/HomeHeader";
-import Accueil from "./pages/Accueil";
-import Actualites from "./pages/Actualites/Actualites.jsx";
-import ActualitesCopy from "./pages/Actualites/Actualites_copy.jsx";
-import OneActualite from "./pages/Actualites/OneActualite";
-import Agenda from "./pages/Agenda";
-import Emplois from "./pages/Emplois";
-import Entrepreneurs from "./pages/Entrepreneurs";
-import Interviews from "./pages/Interviews";
-import OneAgenda from "./pages/OneAgenda.jsx";
-import OneEmplois from "./pages/OneEmplois.jsx";
-import OneInterview from "./pages/OneInterview.jsx";
-import OneOpportunity from "./pages/OneOpportunity.jsx";
-import OneOrganisation from "./pages/OneOrganisation.jsx";
-import Opportunites from "./pages/Opportunites";
-import Search from "./pages/Search.jsx";
-import TimeForAfrica from "./pages/TimeForAfrica";
 import Maintenance from "./pages/Maintenance";
-import Yprlink from "./pages/Yprlink.jsx";
 import Database from "./pages/Database.jsx";
 import News from "./pages/Actualites/NewActualite.jsx";
-import Organisations from "./pages/NewOrganisations.jsx";
 import Landing from "./pages/Landing.jsx";
+import Waitlist from "./pages/Waitlist.jsx";
+import { useEffect, useReducer } from "react";
+import { initialLang, LangTransContext, LangTransDispatchContext } from "./langTransContext.js";
+import { en_trans } from "./lang/en.js";
+import { fr_trans } from "./lang/fr.js";
+import PyramidLanding from "./pages/PyramidLanding.jsx";
+
+
+const existingLang = sessionStorage.getItem("lang");
+
+function langTransReducer(lang, action) {
+  switch (action.type) {
+    case "change": {
+      let trans;
+      if(action.lang === 'fr'){
+        trans = {...fr_trans};
+      } else {
+        trans = {...en_trans};
+      }
+      // change lang key in session
+      sessionStorage.setItem("lang", action.lang);
+      return {
+        lang: action.lang,
+        _: trans,
+      };
+    }
+    default: {
+      throw Error("Unknown action: " + action.type);
+    }
+  }
+}
 
 function App() {
+  const [lang_trans, dispatch] = useReducer(langTransReducer, initialLang);
+  
+  useEffect(() => {
+    if (existingLang) {
+      dispatch({ type: "change", lang: existingLang });
+    }
+  }, []);
+
   const MODE = import.meta.env.VITE_APP_MODE;
-  // console.log(MODE);
   return (
     <>
       {MODE === "maintenance" ? (
         <Maintenance />
       ) : (
-        <BrowserRouter>
-          <Routes>
-            {/* <Route path="/" element={[<Header key="1" />, <Footer key="2" />]}>
-              <Route path="/" element={<HomeHeader />}>
-                <Route index element={<Accueil />} />
-                <Route path="/organisations">
-                  <Route
-                    index
-                    path="/organisations"
-                    element={<Organisations />}
-                  />
-                  <Route
-                    path="/organisations/:slug"
-                    element={<OneOrganisation />}
-                  />
+        <LangTransContext.Provider value={lang_trans}>
+          <LangTransDispatchContext.Provider value={dispatch}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/waitlist">
+                  <Route index path="/waitlist" element={<Waitlist />} />
                 </Route>
-                <Route path="/actualites">
-                  <Route index path="/actualites" element={<Actualites />} />
-                  <Route path="/actualites/:slug" element={<OneActualite />} />
+                <Route path="/">
+                  <Route index path="/" element={<Landing />} />
                 </Route>
-                <Route path="/actualites2">
-                  <Route index path="/actualites2" element={<Actualites />} />
+                <Route path="/database">
+                  <Route index path="/database" element={<Database />} />
                 </Route>
-                <Route path="/interviews">
-                  <Route index path="/interviews" element={<Interviews />} />
-                  <Route path="/interviews/:slug" element={<OneInterview />} />
+                <Route path="/news">
+                  <Route index path="/news" element={<News />} />
                 </Route>
-                <Route path="/agenda">
-                  <Route index path="/agenda" element={<Agenda />} />
-                  <Route path="/agenda/:slug" element={<OneAgenda />} />
+                <Route path="/pyramid">
+                  <Route index path="/pyramid" element={<PyramidLanding />} />
                 </Route>
-                <Route path="/opportunites">
-                  <Route
-                    index
-                    path="/opportunites"
-                    element={<Opportunites />}
-                  />
-                  <Route
-                    path="/opportunites/:slug"
-                    element={<OneOpportunity />}
-                  />
-                </Route>
-                <Route path="/emplois">
-                  <Route index path="/emplois" element={<Emplois />} />
-                  <Route path="/emplois/:slug" element={<OneEmplois />} />
-                </Route>
-                <Route path="/search">
-                  <Route index path="/search" element={<Search />} />
-                </Route>
-              </Route>
-            </Route> */}
-            <Route path="/yprlink">
-              <Route index path="/yprlink" element={<Yprlink />} />
-            </Route>
-            <Route path="/">
-              <Route index path="/" element={<Landing />} />
-            </Route>
-            <Route path="/database">
-              <Route index path="/database" element={<Database />} />
-            </Route>
-            <Route path="/news">
-              <Route index path="/news" element={<News />} />
-            </Route>
-            <Route path="/organisations">
-              <Route index path="/organisations" element={<Organisations />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+              </Routes>
+            </BrowserRouter>
+          </LangTransDispatchContext.Provider>
+        </LangTransContext.Provider>
       )}
     </>
   );

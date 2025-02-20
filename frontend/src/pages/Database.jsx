@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { sum } from "mathjs";
 import iso3166 from "iso-3166-1";
@@ -15,11 +15,15 @@ import SectorSelector from "../components/for_database/sector_selector";
 import Logo from "../assets/LogoPossible.png";
 import Loader from "../assets/icons/loader.svg";
 import { Header } from "./Landing";
+import Organisations from "./NewOrganisations";
+import { LangTransContext } from "../langTransContext";
 
 export default function Database() {
+  const langTrans = useContext(LangTransContext);
+  const lang = langTrans.lang;
+  const _ = langTrans._;
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [lang, setLang] = useState("en");
 
   useEffect(() => {
     let data;
@@ -202,10 +206,6 @@ export default function Database() {
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
               <img
                 src={Loader}
-                style={{
-                  transformOrigin: "bottom center",
-                  translate: "-100px 0",
-                }}
                 alt="Loader possible"
                 className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
               />
@@ -228,7 +228,7 @@ export default function Database() {
                   <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-x-11 gap-y-10">
                     <div className="w-full h-[112px] bg-primary-100 rounded-2xl p-6 flex flex-col justify-between">
                       <div className="font-medium text-base">
-                        Total Organisations
+                        {_.database_total_organisations}
                       </div>
                       <div className="text-2xl font-bold">
                         {dashBoardData?.organisations?.all}
@@ -245,7 +245,7 @@ export default function Database() {
                       />
                     </div>
 
-                    <div className="md:hidden col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-2.5">
+                    {/* <div className="hidden col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-2.5">
                       <div className="flex justify-start items-center h-16 gap-x-1.5">
                         <div className="text-2xl w-full">Last additions</div>
                       </div>
@@ -280,10 +280,10 @@ export default function Database() {
                           }
                         )}
                       </div>
-                    </div>
+                    </div> */}
                     <div className="hidden md:block w-full h-[112px] bg-primary-100 rounded-2xl p-6">
                       {" "}
-                      <div className="font-medium text-base">Sectors</div>
+                      <div className="font-medium text-base">{_.database_sectors}</div>
                       <div className="text-2xl font-bold">
                         {Object.keys(SUB_SECTORS).length}
                       </div>
@@ -295,7 +295,7 @@ export default function Database() {
                     <div className="hidden md:block w-full h-[112px] bg-primary-100 rounded-2xl p-6">
                       {" "}
                       <div className="font-medium text-base">
-                        Covered Countries
+                        {_.database_covered_countries}
                       </div>
                       <div className="text-2xl font-bold">
                         {sum(Object.keys(COUNTRIES).map((o) => o.length))}
@@ -303,7 +303,7 @@ export default function Database() {
                     </div>
                     <div className="hidden md:block w-full h-[112px] bg-primary-100 rounded-2xl p-6">
                       {" "}
-                      <div className="font-medium text-base">Sub-Sectors</div>
+                      <div className="font-medium text-base">{_.database_sub_sectors}</div>
                       <div className="text-2xl font-bold">
                         {sum(Object.keys(SUB_SECTORS).map((o) => o.length))}
                       </div>
@@ -316,7 +316,7 @@ export default function Database() {
 
             <GrowingEnterAnimation className="hidden md:block w-full">
               <div className="w-full rounded-2xl grid grid-cols-1 md:grid-cols-4 md:gap-x-4">
-                <div className="col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-5">
+                {/* <div className="col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 flex flex-col gap-y-5">
                   <div className="flex justify-between items-center h-16 gap-x-3">
                     <div className="text-2xl w-6/12">Last news</div>
                     <div className="flex justify-end items-center gap-x-3 w-6/12">
@@ -417,17 +417,17 @@ export default function Database() {
                       );
                     })}
                   </div>
-                </div>
-                <div className="hidden md:block col-span-2 h-[500px] w-10/12 bg-custom-white rounded-2xl">
+                </div> */}
+                <div className="hidden md:block col-span-1 h-[500px] w-full bg-custom-white rounded-2xl">
                   <ResponsiveCloropleth
                     style={{
-                      height: "473px",
+                      height: "800px",
                       width: "100%",
                     }}
                     data={uniqueHeadquarters}
                   />
                 </div>
-                <div className="hidden md:flex col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 md:flex-col md:gap-y-2.5">
+                {/* <div className="hidden md:flex col-span-1 h-[500px] w-full bg-custom-white rounded-2xl p-6 md:flex-col md:gap-y-2.5">
                   <div className="flex justify-start items-center h-16 gap-x-1.5">
                     <div className="text-2xl w-6/12">Last additions</div>
                   </div>
@@ -459,17 +459,20 @@ export default function Database() {
                       );
                     })}
                   </div>
+                </div> */}
+                <div className="col-span-3 w-full">
+                  <Organisations withoutHeader={true} />
                 </div>
               </div>
             </GrowingEnterAnimation>
-            <GrowingEnterAnimation className='hidden md:block'>
+            <GrowingEnterAnimation className="hidden md:block">
               <div className="w-full bg-custom-white rounded-2xl p-6 h-[350px]">
                 <SectorSelector
                   organisationsBySector={dashBoardData.OrganisationsBySectors}
                 />
               </div>
             </GrowingEnterAnimation>
-            <GrowingEnterAnimation className='hidden md:block'>
+            <GrowingEnterAnimation className="hidden md:block">
               <div className="w-full bg-custom-white rounded-2xl p-6 h-[350px]">
                 <SectorSubsectorSelector
                   organisationsBySubSectors={

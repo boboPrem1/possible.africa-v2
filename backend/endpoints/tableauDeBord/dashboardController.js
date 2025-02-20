@@ -132,7 +132,11 @@ const fetchAllDataPoints = async (apiKey, baseId, tableName) => {
       ) {
         subSectors["mobility "].push(el["mobility "][0]);
       }
-      if (el["logistic "] && el["logistic "][0] !== "All" && !el["logistic "][1]) {
+      if (
+        el["logistic "] &&
+        el["logistic "][0] !== "All" &&
+        !el["logistic "][1]
+      ) {
         subSectors["logistic "].push(el["logistic "][0]);
       }
       if (el["telecom "] && el["telecom "][0] !== "All" && !el["telecom "][1]) {
@@ -203,138 +207,106 @@ const fetchAllDataPoints = async (apiKey, baseId, tableName) => {
 // @access Private
 exports.getAllTotaux = async (req, res) => {
   try {
-    const lastOrganisations = await Organisation.find()
-      .limit(10 * 1)
-      .skip(0)
-      .sort({ dateAdded: -1 });
-    let organisations = await Organisation.find().count();
-    const OrganisationsBySectors = await Organisation.aggregate([
-      { $group: { _id: "$sector", nb: { $sum: 1 } } },
-    ]);
-    const OrganisationsBySubSectors = await Organisation.aggregate([
-      { $group: { _id: "$subSector", nb: { $sum: 1 } } },
-    ]);
-    let lastYearOrganisations = await Organisation.find({
-      dateAdded: {
-        $gte: startOfYear,
-        $lte: now,
-      },
-    }).count();
-    let lastMonthOrganisations = await Organisation.find({
-      dateAdded: {
-        $gte: startOfMonth,
-        $lte: now,
-      },
-    }).count();
-    let lastWeekOrganisations = await Organisation.find({
-      dateAdded: {
-        $gte: startOfWeek,
-        $lte: now,
-      },
-    }).count();
-    let todayOrganisations = await Organisation.find({
-      dateAdded: {
-        $gte: startOfDay,
-        $lte: now,
-      },
-    }).count();
-
-    // Pour les articles
-    const posts = await Post.find().count();
-    const lastPosts = await Post.find()
-      .limit(10 * 1)
-      .skip(0)
-      .sort({ airDateAdded: -1 });
-      const lastPostsEng = await Post.find({
-        "airLanguage": 'ENG',
-        "airTrans": 'eng'
-      })
-        .limit(10 * 1)
+    const [
+      lastOrganisations,
+      organisations,
+      OrganisationsBySectors,
+      OrganisationsBySubSectors,
+      lastYearOrganisations,
+      lastMonthOrganisations,
+      lastWeekOrganisations,
+      todayOrganisations,
+      posts,
+      lastPosts,
+      lastPostsEng,
+      lastPostsFr,
+      lastYearPosts,
+      lastMonthPosts,
+      lastWeekPosts,
+      todayPosts,
+      regions,
+      tiers,
+      headquarters,
+    ] = await Promise.all([
+      Organisation.find().limit(10).skip(0).sort({ dateAdded: -1 }),
+      Organisation.countDocuments(),
+      Organisation.aggregate([{ $group: { _id: "$sector", nb: { $sum: 1 } } }]),
+      Organisation.aggregate([
+        { $group: { _id: "$subSector", nb: { $sum: 1 } } },
+      ]),
+      Organisation.countDocuments({
+        dateAdded: { $gte: startOfYear, $lte: now },
+      }),
+      Organisation.countDocuments({
+        dateAdded: { $gte: startOfMonth, $lte: now },
+      }),
+      Organisation.countDocuments({
+        dateAdded: { $gte: startOfWeek, $lte: now },
+      }),
+      Organisation.countDocuments({
+        dateAdded: { $gte: startOfDay, $lte: now },
+      }),
+      Post.countDocuments(),
+      Post.find().limit(10).skip(0).sort({ airDateAdded: -1 }),
+      Post.find({ airTrans: "eng" })
+        .limit(10)
         .skip(0)
-        .sort({ airDateAdded: -1 });
-        const lastPostsFr = await Post.find({
-          $or:[
-            {"airLanguage": 'FR'},
-            {"airTrans": 'fr'},
-          ]
-        })
-          .limit(10 * 1)
-          .skip(0)
-          .sort({ airDateAdded: -1 });
-    let lastYearPosts = await Post.find({
-      airDateAdded: {
-        $gte: startOfYear,
-        $lte: now,
-      },
-    }).count();
-    let lastMonthPosts = await Post.find({
-      airDateAdded: {
-        $gte: startOfMonth,
-        $lte: now,
-      },
-    }).count();
-    let lastWeekPosts = await Post.find({
-      airDateAdded: {
-        $gte: startOfWeek,
-        $lte: now,
-      },
-    }).count();
-    let todayPosts = await Post.find({
-      airDateAdded: {
-        $gte: startOfDay,
-        $lte: now,
-      },
-    }).count();
-    const users = await User.find().count();
-
-    const records = await fetchAllDataPoints();
-    // console.log(records);
-
-    
-    // Get stats
-    const regions = await Organisation.aggregate([
-      {
-        $project: {
-          region: {
-            $split: ["$region", ", "], // Sépare les régions s'il s'agit d'une chaîne délimitée par une virgule et un espace
+        .sort({ airDateAdded: -1 }),
+      Post.find({ airTrans: "fr" })
+        .limit(10)
+        .skip(0)
+        .sort({ airDateAdded: -1 }),
+      Post.countDocuments({
+        airDateAdded: { $gte: startOfYear, $lte: now },
+      }),
+      Post.countDocuments({
+        airDateAdded: { $gte: startOfMonth, $lte: now },
+      }),
+      Post.countDocuments({
+        airDateAdded: { $gte: startOfWeek, $lte: now },
+      }),
+      Post.countDocuments({
+        airDateAdded: { $gte: startOfDay, $lte: now },
+      }),
+      Organisation.aggregate([
+        {
+          $project: {
+            region: { $split: ["$region", ", "] },
           },
         },
-      },
-      {
-        $unwind: "$region", // Décompose les listes de régions en documents individuels
-      },
-      {
-        $group: {
-          _id: "$region", // Regroupe par région unique
-          count: { $sum: 1 }, // Compte les occurrences de chaque région
+        { $unwind: "$region" },
+        {
+          $group: {
+            _id: "$region",
+            count: { $sum: 1 },
+          },
         },
-      },
-      {
-        $sort: { count: -1 }, // Trie par nombre décroissant
-      },
-    ]);
-    const tiers = await Organisation.aggregate([
-      {
-        $group: {
-          _id: "$tier", // Regroupe par région unique
-          count: { $sum: 1 }, // Compte les occurrences de chaque région
+        { $sort: { count: -1 } },
+      ]),
+      Organisation.aggregate([
+        {
+          $group: {
+            _id: "$tier",
+            count: { $sum: 1 },
+          },
         },
-      },
-      {
-        $sort: { count: -1 }, // Trie par nombre décroissant
-      },
-    ]);
-    const headquarters = await Organisation.aggregate([
-      {
-        $group: {
-          _id: "$headquarter", // Regroupe par région unique
-          count: { $sum: 1 }, // Compte les occurrences de chaque région
+        { $sort: { count: -1 } },
+      ]),
+      Organisation.aggregate([
+        {
+          $group: {
+            _id: "$headquarter",
+            count: { $sum: 1 },
+          },
         },
-      },
-      {
-        $sort: { count: -1 }, // Trie par nombre décroissant
-      },
+        { $sort: { count: -1 } },
+      ]),
     ]);
+
+    // const users = await User.find().count();
+    const users = await User.countDocuments();
+
+    const records = await fetchAllDataPoints();
 
     res.status(200).json({
       users,
@@ -342,7 +314,9 @@ exports.getAllTotaux = async (req, res) => {
       OrganisationsBySectors,
       OrganisationsBySubSectors,
       organisations: {
-        regions: regions.filter((region) => !(region._id.split(", ").length > 1)),
+        regions: regions.filter(
+          (region) => !(region._id.split(", ").length > 1)
+        ),
         tiers: tiers,
         headquarters: headquarters,
         all: organisations,
@@ -386,6 +360,28 @@ exports.getAllTotaux = async (req, res) => {
         day: {
           evolution: Math.ceil((todayPosts / posts) * 100),
           length: Math.ceil(todayPosts / 2),
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getLastPostsOrgs = async (req, res) => {
+  try {
+    const [lastOrganisations, lastPostsEng, lastPostsFr] = await Promise.all([
+      Organisation.find().limit(10).sort({ dateAdded: -1 }),
+      Post.find({ airTrans: "eng" }).limit(10).sort({ airDateAdded: -1 }),
+      Post.find({ airTrans: "fr" }).limit(10).sort({ airDateAdded: -1 }),
+    ]);
+
+    res.status(200).json({
+      organisations: { last: lastOrganisations },
+      posts: {
+        lastByLang: {
+          en: lastPostsEng,
+          fr: lastPostsFr,
         },
       },
     });

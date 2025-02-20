@@ -7,7 +7,7 @@ import {
 } from "../../features/api/apiSlice.js";
 import CustomContainer from "../../utils/CustomContainer.jsx";
 import { ParseSlice } from "../../utils/htmlParser.jsx";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import NoData from "../../utils/NoData.jsx";
 import CenteredContainer from "../../utils/CenteredContainer.jsx";
@@ -20,6 +20,7 @@ import tagSolid from "../../assets/icons/tag-solid.svg";
 import filterSolid from "../../assets/icons/filter-solid.svg";
 import xmarkSolid from "../../assets/icons/xmark-solid.svg";
 import { Header } from "../Landing.jsx";
+import { LangTransContext } from "../../langTransContext.js";
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
@@ -91,6 +92,9 @@ function pageEqReducer(state, action) {
 }
 
 function News() {
+  const langTrans = useContext(LangTransContext);
+  const lang = langTrans.lang;
+  const _ = langTrans._;
   const initialPageEq = [
     { field: "possible", value: true },
     { field: "title", value: "" },
@@ -105,7 +109,7 @@ function News() {
   const [engPage, setEngPage] = useState(1);
   const [frPage, setFrPage] = useState(1);
   const [languageChanging, setLanguageChanging] = useState(false);
-  const [language, setLanguage] = useState("fr");
+  const [language, setLanguage] = useState(lang);
   const [infiniteScrollIsFetching] = useState(false);
   const [pageEq, dispatch] = useReducer(pageEqReducer, [
     { field: "possible", value: true },
@@ -136,15 +140,15 @@ function News() {
     eq: pageEqS,
   });
 
-  const {
-    data: allNewsLength,
-    isLoading: allNewsLengthIsLoading,
-    isFetching: allNewsLengthIsFetching,
-    refetch: refechAllNewsLength,
-  } = useGetPostsQuery({
-    fields: [],
-    eq: pageEqS[0].value ? pageEqS : [],
-  });
+  // const {
+  //   data: allNewsLength,
+  //   isLoading: allNewsLengthIsLoading,
+  //   isFetching: allNewsLengthIsFetching,
+  //   refetch: refechAllNewsLength,
+  // } = useGetPostsQuery({
+  //   fields: [],
+  //   eq: pageEqS[0].value ? pageEqS : [],
+  // });
 
   useEffect(() => {
     if (page != pageS || pageEq.length) {
@@ -155,7 +159,7 @@ function News() {
     }
   }, [isLoading, page, pageS]);
 
-  if (isLoading || allNewsLengthIsLoading) {
+  if (isLoading) {
     return (
       <>
         <Header page="/news" />
@@ -164,10 +168,7 @@ function News() {
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
               <img
                 src={Loader}
-                style={{
-                  transformOrigin: "bottom center",
-                  translate: "-100px 0",
-                }}
+                
                 alt="Loader possible"
                 className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
               />
@@ -216,7 +217,7 @@ function News() {
           >
             <div className="absolute min-h-[400px] max-h-[100vh] flex justify-start flex-col items-center gap-5 border-[.5px] rounded-[12px] border-primary p-5 ">
               {/* {JSON.stringify(pageEq)} */}
-              <div className="w-[248px] h-10 flex justify-center text-center rounded-lg shadow-sm drop-shadow-xl overflow-hidden">
+              {/* <div className="w-[248px] h-10 flex justify-center text-center rounded-lg shadow-sm drop-shadow-xl overflow-hidden">
                 <div
                   className={
                     language === "fr"
@@ -255,10 +256,10 @@ function News() {
                 >
                   <span>Anglais</span>
                 </div>
-              </div>
+              </div> */}
               <Input
-                label="Rechercher par titre"
-                placeholder="Entrez le titre de l'article ."
+                label={_.news_search_by_title}
+                placeholder={_.news_search_by_title_enter_a_title}
                 type="text"
                 // value={pageEq[1].value}
                 value={getPageEqValue("title", pageEq)}
@@ -267,8 +268,8 @@ function News() {
                 }}
               />
               <Input
-                label="Rechercher par tag"
-                placeholder="Entrez un tag de l'article ."
+                label={_.news_search_by_tag}
+                placeholder={_.news_search_by_tag_enter_a_tag}
                 type="text"
                 value={getPageEqValue("airTags", pageEq)}
                 onChange={(e) => {
@@ -287,16 +288,16 @@ function News() {
           placeholder="Choisissez un tag ."
         /> */}
               <CustumSelect
-                label="Langue d'écriture de l'article"
-                placeholder="Choisissez une langue."
+                label={_.news_search_language}
+                placeholder={_.news_search_language_choice}
                 // value={pageEq[3].value}
                 value={getPageEqValue("airLanguage", pageEq)}
                 onChange={(e) => {
                   dispatch({ field: "airLanguage", value: e.target.value });
                 }}
               >
-                <option value="">Choisissez une langue</option>
-                <option value="ENG">Anglais</option>
+                <option value="">{_.news_search_language_choice}</option>
+                <option value="ENG">English</option>
                 <option value="FR">Français</option>
               </CustumSelect>
 
@@ -309,7 +310,7 @@ function News() {
                   }, 1000);
                 }}
               >
-                Filtrer
+                {_.news_btn_filter}
               </button>
               <button
                 className="w-full h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
@@ -326,7 +327,7 @@ function News() {
                   }, 1000);
                 }}
               >
-                Réinitialiser les filtres
+                {_.news_btn_reset_filter}
               </button>
               {/* <div>
           <div className="font-semibold">Langue de publication</div>
@@ -374,7 +375,7 @@ function News() {
           Réinitialiser les filtres
         </button> */}
               <div className="flex justify-center items-center w-full">
-                {(isFetching || allNewsLengthIsFetching) && (
+                {isFetching && (
                   <img
                     src={Loader}
                     style={{
@@ -391,7 +392,7 @@ function News() {
           <div className="mx-auto bg-transparent w-11/12 mt-10 text-darkGray lg:grid lg:grid-cols-[1fr_2fr_1fr] lg:gap-x-5 max-w-[1280px]">
             <div className="absolute md:sticky top-10 min-h-[400px] max-h-[100vh] overflow-x-scroll hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5 ">
               {/* {JSON.stringify(pageEq)} */}
-              <div className="w-[248px] h-10 flex justify-center text-center rounded-lg shadow-sm drop-shadow-xl overflow-hidden">
+              {/* <div className="w-[248px] h-10 flex justify-center text-center rounded-lg shadow-sm drop-shadow-xl overflow-hidden">
                 <div
                   className={
                     language === "fr"
@@ -424,10 +425,10 @@ function News() {
                 >
                   <span>Anglais</span>
                 </div>
-              </div>
+              </div> */}
               <Input
-                label="Rechercher par titre"
-                placeholder="Entrez le titre de l'article ."
+                label={_.news_search_by_title}
+                placeholder={_.news_search_by_title_enter_a_title}
                 type="text"
                 value={pageEq[1].value}
                 onChange={(e) => {
@@ -435,8 +436,8 @@ function News() {
                 }}
               />
               <Input
-                label="Rechercher par tag"
-                placeholder="Entrez un tag de l'article ."
+                label={_.news_search_by_tag}
+                placeholder={_.news_search_by_tag_enter_a_tag}
                 type="text"
                 value={pageEq[2].value}
                 onChange={(e) => {
@@ -455,15 +456,15 @@ function News() {
           placeholder="Choisissez un tag ."
         /> */}
               <CustumSelect
-                label="Langue d'écriture de l'article"
-                placeholder="Choisissez une langue."
+                label={_.news_search_language}
+                placeholder={_.news_search_language_choice}
                 // value={pageEq[3].value}
                 value={pageEq[3].value}
                 onChange={(e) => {
                   dispatch({ field: "airLanguage", value: e.target.value });
                 }}
               >
-                <option value="">Choisissez une langue</option>
+                <option value="">{_.news_search_language_choice}</option>
                 <option value="ENG">Anglais</option>
                 <option value="FR">Français</option>
               </CustumSelect>
@@ -472,7 +473,7 @@ function News() {
                 className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
                 onClick={() => setPageEqS([...pageEq])}
               >
-                Filtrer
+                {_.news_btn_filter}
               </button>
               <button
                 className="w-full h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
@@ -486,7 +487,7 @@ function News() {
                   dispatch({ field: "reset", value: "" });
                 }}
               >
-                Réinitialiser les filtres
+                {_.news_btn_reset_filter}
               </button>
               {/* <div>
           <div className="font-semibold">Langue de publication</div>
@@ -534,7 +535,7 @@ function News() {
           Réinitialiser les filtres
         </button> */}
               <div className="flex justify-center items-center w-full">
-                {(isFetching || allNewsLengthIsFetching) && (
+                {isFetching && (
                   <img
                     src={Loader}
                     style={{
@@ -551,10 +552,10 @@ function News() {
             <div className="min-h-[400px] rounded-[12px] flex flex-col gap-y-[30px] md:max-w-[600px] mx-auto">
               <div className="w-full min-h-40 bg-white border-t-[.5px] border-primary relative flex flex-col justify-start items-center pb-[20px]">
                 <span className="text-[16px] border-[.5px] border-primary bg-lightPrimary text-primary h-[30px] w-[130px] font-medium rounded-full flex justify-center items-start absolute -top-[14px] left-5">
-                  <span className="font-semibold">les plus récents</span>
+                  <span className="font-semibold">{_.news_more_recent}</span>
                 </span>
                 {/* One card in recents part */}
-                {language === "fr"
+                {lang === "fr"
                   ? allNews
                       .filter((el) => el.airTrans === "fr")
                       .slice(0, 10)
@@ -592,7 +593,7 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  Publié le {date}, language d' origine :{" "}
+                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"
@@ -674,7 +675,7 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  Publié le {date}, language d' origine :{" "}
+                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"
@@ -729,10 +730,10 @@ function News() {
                 }
               >
                 <span className="text-[16px] border-[.5px] border-primary bg-lightPrimary text-primary h-[30px] w-[150px] font-medium rounded-full flex justify-center items-start absolute -top-[14px] left-5">
-                  <span className="font-semibold">Les moins récents</span>
+                  <span className="font-semibold">{_.news_least_recent}</span>
                 </span>
                 {/* One card in others parts */}
-                {language === "fr"
+                {lang === "fr"
                   ? allNews
                       .filter((el) => el.airTrans === "fr")
                       .slice(10)
@@ -770,7 +771,7 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  Publié le {date}, language d' origine :{" "}
+                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"
@@ -852,7 +853,7 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  Publié le {date}, language d' origine :{" "}
+                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"
@@ -901,12 +902,12 @@ function News() {
 
               <div
                 className={
-                  isFetching || allNewsLengthIsFetching
+                  isFetching
                     ? "w-full md:flex md:justify-between"
                     : "w-full md:flex md:justify-end"
                 }
               >
-                {(isFetching || allNewsLengthIsFetching) && (
+                {isFetching && (
                   <img
                     src={Loader}
                     style={{
@@ -924,7 +925,7 @@ function News() {
                     setPage((s) => s + 1);
                   }}
                 >
-                  Charger plus de résultats
+                  {_.load_more_results}
                 </button>
               </div>
             </div>
@@ -934,16 +935,16 @@ function News() {
               !isFetching ? (
                 <div className="w-full">
                   <div className="font-bold text-2xl mb-4">
-                    Résultats des filtres
+                    {_.news_filter_results}
                   </div>
                   <div className="font-semibold italic text-mediumGray">
-                    Nous avons trouvé{" "}
+                    {_.news_we_found}{" "}
                     <strong>
-                      {allNewsLength.length} résultats (dont{" "}
+                      {allNews.length} {_.news_results_with}{" "}
                       {allNews.filter((el) => el.airTrans === language).length}{" "}
-                      affichés)
+                      {_.news_shown}
                     </strong>{" "}
-                    correspondant à vos filtres.
+                    {_.news_matching_filters}
                   </div>
                 </div>
               ) : null}

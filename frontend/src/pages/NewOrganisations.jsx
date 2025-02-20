@@ -1,11 +1,14 @@
 import { Header } from "./Landing";
 import MediaImg from "../assets/media_img.png";
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useGetOrganisationsQuery } from "../features/api/apiSlice";
 import NoData from "../utils/NoData";
 import Loader from "../assets/icons/loader.svg";
 import Popover from "../components/popover";
 import { Button } from "@chakra-ui/react";
+import { LangTransContext } from "../langTransContext";
+import Input from "../components/Input";
+import CustumSelect from "../components/Select";
 
 const countries = {
   all: [
@@ -429,7 +432,10 @@ function pageEqReducer(state, action) {
   return [...state];
 }
 
-function Organisations() {
+function Organisations({ withoutHeader }) {
+  const langTrans = useContext(LangTransContext);
+  const lang = langTrans.lang;
+  const _ = langTrans._;
   const initialPageEq = [
     { field: "name", value: "" },
     { field: "source", value: "" },
@@ -494,16 +500,6 @@ function Organisations() {
     eq: pageEqS,
   });
 
-  const {
-    data: organisationsLength,
-    isLoading: organisationsLengthIsLoading,
-    isFetching: organisationsLengthIsFetching,
-    refetch: refechOrganisationsLength,
-  } = useGetOrganisationsQuery({
-    fields: [],
-    eq: pageEqS,
-  });
-
   useEffect(() => {
     // console.log(organisations);
     if (page != pageS || pageEq.length) {
@@ -514,7 +510,7 @@ function Organisations() {
     }
   }, [isLoading, page, pageS]);
 
-  if (isLoading || organisationsLengthIsLoading) {
+  if (isLoading) {
     return (
       <>
         <Header page="/news" />
@@ -523,10 +519,6 @@ function Organisations() {
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
               <img
                 src={Loader}
-                style={{
-                  transformOrigin: "bottom center",
-                  translate: "-100px 0",
-                }}
                 alt="Loader possible"
                 className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
               />
@@ -546,6 +538,461 @@ function Organisations() {
           </div>
         </div>
       </>
+    );
+  }
+
+  if (withoutHeader) {
+    return (
+      <div className="flex justify-center items-start">
+        <div className="flex flex-col justify-start w-11/12">
+          <div className="min-h-[80vh] flex flex-col justify-start overflow-y-scroll">
+            <div className="w-full flex justify-start gap-4 overflow-x-scroll">
+              <Input
+                label="Rechercher par nom"
+                placeholder="Entrez le nom de l'organisation ."
+                type="text"
+                value={pageEq[0].value}
+                onChange={(e) => {
+                  dispatch({ field: "name", value: e.target.value });
+                }}
+              />
+              <CustumSelect
+                label="Région d'appartenance"
+                placeholder="Choisissez une région."
+                // value={pageEq[3].value}
+                value={pageEq[2].value}
+                onChange={(e) => {
+                  dispatch({ field: "region", value: e.target.value });
+                }}
+              >
+                <option value="">Choisissez une région</option>
+                <option value="All">All</option>
+                <option value="North Africa">North Africa</option>
+                <option value="West Africa">West Africa</option>
+                <option value="Central Africa">Central Africa</option>
+                <option value="East Africa">East Africa</option>
+                <option value="Southern Africa">Southern Africa</option>
+              </CustumSelect>
+              <CustumSelect
+                label="Siège de l'organisation"
+                placeholder="Choisissez un pays."
+                // value={pageEq[3].value}
+                value={pageEq[3].value}
+                onChange={(e) => {
+                  dispatch({ field: "headquarter", value: e.target.value });
+                }}
+              >
+                <option value="">Choisissez un pays</option>
+                {/* <option value="All">All</option> */}
+                {pageEq[2].value === "All"
+                  ? countries.all.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[2].value === "North Africa"
+                  ? countries.north.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[2].value === "West Africa"
+                  ? countries.west.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[2].value === "Central Africa"
+                  ? countries.central.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[2].value === "East Africa"
+                  ? countries.east.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[2].value === "Southern Africa"
+                  ? countries.southern.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : null}
+              </CustumSelect>
+              <CustumSelect
+                label="Pays couverts"
+                placeholder="Choisissez un pays."
+                // value={pageEq[3].value}
+                value={pageEq[4].value}
+                onChange={(e) => {
+                  dispatch({
+                    field: "operatingCountries",
+                    value: e.target.value,
+                  });
+                }}
+              >
+                <option value="">Choisissez un pays</option>
+                <option value="All">All</option>
+                <option value="South Africa">South Africa</option>
+                <option value="Algeria">Algeria</option>
+                <option value="Angola">Angola</option>
+                <option value="Benin">Benin</option>
+                <option value="Botswana">Botswana</option>
+                <option value="Burkina Faso">Burkina Faso</option>
+                <option value="Burundi">Burundi</option>
+                <option value="Cameroon">Cameroon</option>
+                <option value="Cape Verde">Cape Verde</option>
+                <option value="Comoros">Comoros</option>
+                <option value="Ivory Coast">Ivory Coast</option>
+                <option value="Djibouti">Djibouti</option>
+                <option value="Egypt">Egypt</option>
+                <option value="Ethiopia">Ethiopia</option>
+                <option value="Gabon">Gabon</option>
+                <option value="Gambia">Gambia</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Guinea">Guinea</option>
+                <option value="Guinea-Bissau">Guinea-Bissau</option>
+                <option value="Equatorial Guinea">Equatorial Guinea</option>
+                <option value="Haiti">Haiti</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Lesotho">Lesotho</option>
+                <option value="Liberia">Liberia</option>
+                <option value="Libya">Libya</option>
+                <option value="Madagascar">Madagascar</option>
+                <option value="Malawi">Malawi</option>
+                <option value="Mali">Mali</option>
+                <option value="Mauritius">Mauritius</option>
+                <option value="Mauritania">Mauritania</option>
+                <option value="Mozambique">Mozambique</option>
+                <option value="Namibia">Namibia</option>
+                <option value="Niger">Niger</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Central African Republic">
+                  Central African Republic
+                </option>
+                <option value="Democratic Republic of the Congo">
+                  Democratic Republic of the Congo
+                </option>
+                <option value="Republic of the Congo">
+                  Republic of the Congo
+                </option>
+                <option value="Rwanda">Rwanda</option>
+                <option value="Sao Tome and Principe">
+                  Sao Tome and Principe
+                </option>
+                <option value="Senegal">Senegal</option>
+                <option value="Seychelles">Seychelles</option>
+                <option value="Sierra Leone">Sierra Leone</option>
+                <option value="Somalia">Somalia</option>
+                <option value="Sudan">Sudan</option>
+                <option value="South Sudan">South Sudan</option>
+                <option value="Swaziland">Swaziland</option>
+                <option value="Tanzania">Tanzania</option>
+                <option value="Chad">Chad</option>
+                <option value="Togo">Togo</option>
+                <option value="Tunisia">Tunisia</option>
+                <option value="Uganda">Uganda</option>
+                <option value="Zambia">Zambia</option>
+                <option value="Zimbabwe">Zimbabwe</option>
+              </CustumSelect>
+              <CustumSelect
+                label="Filtrer par secteur"
+                placeholder="Choisissez un secteur."
+                // value={pageEq[3].value}
+                value={pageEq[5].value}
+                onChange={(e) => {
+                  dispatch({ field: "sector", value: e.target.value });
+                }}
+              >
+                <option value="">Choisissez un secteur</option>
+                <option value="All">All</option>
+                <option value="Secteur">Secteur</option>
+                <option value="Health">Health</option>
+                <option value="Agribusiness">Agribusiness</option>
+                <option value="Education">Education</option>
+                <option value="Mobility">Mobility</option>
+                <option value="Logistic">Logistic</option>
+                <option value="telecom">Telecom</option>
+                <option value="Energy">Energy</option>
+                <option value="Financial services">Financial services</option>
+                <option value="FMCG">FMCG</option>
+                <option value="Hospitality">Hospitality</option>
+                <option value="media">media</option>
+                <option value="Retail">Retail</option>
+                <option value="Climat">Climat</option>
+                <option value="Data">Data</option>
+                <option value="VC">VC</option>
+                <option value="Hub">Hub</option>
+              </CustumSelect>
+              <CustumSelect
+                label="Filtrer par sous secteur"
+                placeholder="Choisissez un sous secteur."
+                // value={pageEq[3].value}
+                value={pageEq[6].value}
+                onChange={(e) => {
+                  dispatch({ field: "subSector", value: e.target.value });
+                }}
+              >
+                <option value="">Choisissez un sous secteur</option>
+                {pageEq[5].value === "Health"
+                  ? subSectors.health.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Education"
+                  ? subSectors.education.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Mobility"
+                  ? subSectors.mobility.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Logistic"
+                  ? subSectors.logistic.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Telecom"
+                  ? subSectors.telecom.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Energy"
+                  ? subSectors.energy.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Financial services"
+                  ? subSectors.financialServices.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "FMCG"
+                  ? subSectors.fmcg.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Hospitality"
+                  ? subSectors.hospitality.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "media"
+                  ? subSectors.media.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Retail"
+                  ? subSectors.retail.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Climat"
+                  ? subSectors.climate.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Data"
+                  ? subSectors.data.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "VC"
+                  ? subSectors.vc.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : pageEq[5].value === "Hub"
+                  ? subSectors.hub.map((c) => {
+                      return (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      );
+                    })
+                  : null}
+              </CustumSelect>
+              <CustumSelect
+                label="Filtrer par tier"
+                placeholder="Choisissez un tier."
+                // value={pageEq[3].value}
+                value={pageEq[10].value}
+                onChange={(e) => {
+                  dispatch({ field: "tier", value: e.target.value });
+                }}
+              >
+                <option value="">Choisissez un tier</option>
+                <option value="Global">Global</option>
+                <option value="Panafrican">Panafrican</option>
+                <option value="Startups">Startups</option>
+                <option value="Local SMEs">Local SMEs</option>
+              </CustumSelect>
+              <div className="flex px-3 justify-start gap-2 items-center sticky right-0 bg-white">
+                <button
+                  className="w-full min-w-[150px] h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
+                  onClick={() => {
+                    setPageEqS([...pageEq]);
+                    setTimeout(() => {
+                      setMobileFilterIsVisible(false);
+                    }, 2000);
+                  }}
+                >
+                  Filtrer
+                </button>
+
+                <button
+                  className="w-full min-w-[150px] h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
+                  onClick={() => {
+                    setPageEqS([
+                      { field: "name", value: "" },
+                      { field: "source", value: "" },
+                      { field: "region", value: "" },
+                      { field: "headquarter", value: "" },
+                      { field: "operatingCountries", value: "" },
+                      { field: "sector", value: "" },
+                      { field: "subSector", value: "" },
+                      { field: "active", value: "" },
+                      { field: "fundraising", value: "" },
+                      { field: "amountFundraised", value: "" },
+                      { field: "tier", value: "" },
+                      { field: "website", value: "" },
+                    ]);
+                    dispatch({ field: "reset", value: "" });
+                    setTimeout(() => {
+                      setMobileFilterIsVisible(false);
+                    }, 2000);
+                  }}
+                >
+                  Resset
+                </button>
+              </div>
+            </div>
+            <table className="min-w-full mt-5">
+              <thead className="bg-[#F9FAFB]">
+                <tr className="h-11">
+                  <th className="px-10">
+                    <span className="flex justify-center">
+                      <input
+                        type="checkbox"
+                        name=""
+                        id=""
+                        className="h-5 w-5"
+                      />
+                    </span>
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_company_name}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_sector}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_location}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_contact_person}
+                  </th>
+                  <th className="text-start text-nowrap px-10"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {organisations.map((organisation, index) => {
+                  const createdAt = new Date(organisation?.dateAdded);
+                  // transform date to french format
+                  const date =
+                    createdAt.getDate() +
+                    "/" +
+                    (createdAt.getMonth() + 1) +
+                    "/" +
+                    createdAt.getFullYear();
+                  return <Tr org={organisation} date={date} _={_} />;
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="w-full md:flex md:justify-center">
+            <button
+              className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
+              onClick={() => {
+                setPageS((s) => s + 1);
+                setPage((s) => s + 1);
+              }}
+            >
+              {isFetching && (
+                <img
+                  src={Loader}
+                  style={{
+                    transformOrigin: "bottom center",
+                    translate: "-35px 0",
+                  }}
+                  alt="Loader possible"
+                  className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
+                />
+              )}
+              {_.load_more_results}
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -569,14 +1016,18 @@ function Organisations() {
                     </span>
                   </th>
                   <th className="text-start text-nowrap px-10">
-                    Name of The Company
+                    {_.database_company_name}
                   </th>
-                  <th className="text-start text-nowrap px-10">Sector</th>
-                  <th className="text-start text-nowrap px-10">Location</th>
                   <th className="text-start text-nowrap px-10">
-                    Contact Person
+                    {_.database_sector}
                   </th>
-                  <th className="text-start text-nowrap px-10">Action</th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_location}
+                  </th>
+                  <th className="text-start text-nowrap px-10">
+                    {_.database_contact_person}
+                  </th>
+                  <th className="text-start text-nowrap px-10"></th>
                 </tr>
               </thead>
               <tbody>
@@ -613,7 +1064,7 @@ function Organisations() {
                   className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
                 />
               )}
-              Charger plus de résultats
+              {_.load_more_results}
             </button>
           </div>
         </div>
@@ -624,7 +1075,7 @@ function Organisations() {
 
 export default Organisations;
 
-function Tr({ org, date }) {
+function Tr({ org, date, _ }) {
   const names = [
     "Jean Dupont",
     "Marie Martin",
@@ -679,15 +1130,25 @@ function Tr({ org, date }) {
   ];
 
   function randomName() {
-    const name = names[Math.floor(Math.random() * names.length)];
-    const initials = name.split(" ");
+    const initialLengthRand = Math.floor(Math.random() * 6);
+    const plusLengthRand = Math.floor(Math.random() * 4);
+    const initialLength = initialLengthRand >= 2 ? initialLengthRand : 2;
+    const plusLength = plusLengthRand >= 1 ? plusLengthRand : 1;
+    const initials = [];
+
+    console.log(initialLength, plusLength);
+
+    for (let i = 0; i < initialLength; i++) {
+      const name = names[Math.floor(Math.random() * names.length)];
+      initials.push(`${name.split(" ")[0][0]}.${name.split(" ")[1][0]}`);
+    }
     return {
-      name,
-      initials: `${initials[0][0]}.${initials[1][0]}`,
+      plusLength,
+      initials,
     };
   }
 
-  const { name, initials } = randomName();
+  const { plusLength, initials } = randomName();
   return (
     <tr className="border border-[#EAECF0] h-20">
       <td className="px-10">
@@ -707,14 +1168,6 @@ function Tr({ org, date }) {
           />
           <span className="flex flex-col">
             <span className="font-medium">{org.name}</span>
-            <span>
-              <a href={org.website} target="_blank" rel="noopener noreferrer">
-                {/* {org.website} */}
-                {org.website.length > 20
-                  ? org.website.slice(0, 20) + " . . ."
-                  : org.website}
-              </a>
-            </span>
           </span>
         </span>
       </td>
@@ -725,16 +1178,50 @@ function Tr({ org, date }) {
       </td>
       <td className="px-10">{org.headquarter || "-"}</td>
       <td className="px-10">
-        <span className="flex justify-start gap-x-3 items-center">
-          <span className="w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center">{initials}</span>
-          <span>{name}</span>
+        <span className="flex items-center justify-start gap-2">
+          <span className="flex justify-start items-center">
+            {initials.length > 0 &&
+              initials.map((initial) => {
+                return (
+                  <span className="-m-1.5 w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center bg-white">
+                    {initial}
+                  </span>
+                );
+              })}
+          </span>
+
+          <span className="pb-3 font-medium">+{plusLength}</span>
         </span>
       </td>
       <td className="px-10">
         <Popover btnTitle="Actions">
-          <div className="flex flex-col gap-3">
-            <Button>Contacter le prospect</Button>
-            <Button>Lancer une campagne</Button>
+          <div className="w-full flex flex-col gap-0">
+            <a className="inline-flex w-full" href="/waitlist">
+              <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                {_.database_action_contact}
+              </span>
+            </a>
+            <a className="inline-flex w-full" href="/waitlist">
+              <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                {_.database_action_add_to_leads}
+              </span>
+            </a>
+            <a className="inline-flex w-full" href="/waitlist">
+              <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                {_.database_action_see}
+              </span>
+            </a>
+            {org.website && (
+              <a
+                className="inline-flex w-full"
+                href={org.website}
+                target="_blank"
+              >
+                <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
+                  {_.database_action_visite_website}
+                </span>
+              </a>
+            )}
           </div>
         </Popover>
       </td>

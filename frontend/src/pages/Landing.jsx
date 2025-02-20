@@ -3,10 +3,14 @@ import MediaImg from "../assets/media_img.png";
 import OrganisationImg from "../assets/jumia.jpg";
 import AfricanTechIndustry from "../assets/african_tech_industry.webp";
 import LogoHyperlink from "../assets/logo_hyperlink.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { fetchResource } from "../utils/possible_api_actions";
 import Loader from "../assets/icons/loader.svg";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  LangTransContext,
+  LangTransDispatchContext,
+} from "../langTransContext";
 
 function getDate(dateSended) {
   const date = new Date(dateSended);
@@ -17,10 +21,14 @@ function getDate(dateSended) {
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
 
-  return `${day}/${month}/${year} à ${hours}:${minutes}`;
+  return `${day}/${month}`;
+  // return `${day}/${month}/${year} à ${hours}:${minutes}`;
 }
 
 const Landing = () => {
+  const lang_trans = useContext(LangTransContext);
+  const lang = lang_trans.lang;
+  const _ = lang_trans._;
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,7 +36,7 @@ const Landing = () => {
     let data;
     async function fetchData() {
       // You can await here
-      let data = await fetchResource("dashboard", {});
+      let data = await fetchResource("dashboard/lasts", {});
       setDashboardData(data);
       console.log(data);
       // ...
@@ -51,10 +59,6 @@ const Landing = () => {
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
               <img
                 src={Loader}
-                style={{
-                  transformOrigin: "bottom center",
-                  translate: "-100px 0",
-                }}
                 alt="Loader possible"
                 className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
               />
@@ -75,9 +79,14 @@ const Landing = () => {
           <div className="w-full flex justify-between px-5 gap-5 flex-wrap md:flex-nowrap">
             <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
               <div className="flex justify-between items-center mb-5">
-                <span className="text-lg font-medium">Last news (980)</span>
-                <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
-                  <span className="text-nowrap">View more</span>
+                <span className="text-lg font-medium">
+                  {_.landing_lats_news}
+                </span>
+                <a
+                  href="/news"
+                  className="flex justify-end w-2/12 items-center self-center gap-x-3"
+                >
+                  <span className="text-nowrap">{_.landing_view_more}</span>
                   <svg
                     width="28"
                     height="28"
@@ -102,10 +111,10 @@ const Landing = () => {
                       fill="#242827"
                     />
                   </svg>
-                </div>
+                </a>
               </div>
               <div className="flex justify-start flex-col gap-y-3">
-                {dashBoardData.posts?.lastByLang["en"].map((post) => {
+                {dashBoardData.posts?.lastByLang[lang].map((post) => {
                   return <New post={post} />;
                 })}
               </div>
@@ -113,10 +122,13 @@ const Landing = () => {
             <div className="w-full md:min-h-16 md:w-3/12 p-5 rounded-xl shadow-xl">
               <div className="flex justify-between items-center mb-5">
                 <span className="text-lg font-medium">
-                  Last organisations (105)
+                  {_.landing_lats_orgs}
                 </span>
-                <div className="w-2/12 flex justify-end items-center self-center gap-x-3">
-                  <span className="text-nowrap">View more</span>
+                <a
+                  href="/database"
+                  className="flex justify-end w-4/12 items-center self-center gap-x-3"
+                >
+                  <span className="text-nowrap">{_.landing_view_more}</span>
                   <svg
                     width="28"
                     height="28"
@@ -141,7 +153,7 @@ const Landing = () => {
                       fill="#242827"
                     />
                   </svg>
-                </div>
+                </a>
               </div>
               <div className="flex justify-start flex-col gap-y-3">
                 {dashBoardData.organisations?.last.map((organisation) => {
@@ -152,15 +164,14 @@ const Landing = () => {
           </div>
           <div className="p-5">
             <div className="shadow-xl rounded-xl">
-              <div className="p-5 text-2xl">Our services</div>
+              <div className="p-5 text-2xl">{_.landing_our_services}</div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-10">
                 <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
                   <span className="inline-flex justify-center md:inline-block w-6/12 md:w-3/12">
                     <ExaLogo />
                   </span>
                   <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    Exa Consulting : Work with us or hire a consultant from our
-                    network to expand your business on the African Continent.
+                    {_.landing_service_exa}
                   </span>
                 </div>
                 <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -168,8 +179,7 @@ const Landing = () => {
                     <PyramidLogo />
                   </span>
                   <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    Africaleads : Easy-to-use CRM and lead gen tool. Get more
-                    qualified leads and grow your business with our sales CRM.
+                    {_.landing_service_pyramid}
                   </span>
                 </div>
                 <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -182,9 +192,7 @@ const Landing = () => {
                     />
                   </span>
                   <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    Africa Tech Industry : Network of decision-makers and
-                    leaders placing African markets at the heart of their
-                    innovation and development strategy.
+                    {_.landing_service_african_tech}
                   </span>
                 </div>
                 <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
@@ -197,9 +205,7 @@ const Landing = () => {
                     />
                   </span>
                   <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    Yprlink est un concours qui offre aux startups africaines
-                    l’opportunité unique de bénéficier d’un accompagnement
-                    stratégique
+                    {_.landing_service_yprlink}
                   </span>
                 </div>
               </div>
@@ -218,8 +224,7 @@ const New = ({ post }) => {
     <div className="flex justify-between items-center gap-x-5  bg-[#D9D9D9]/20 rounded-md min-h-26 p-2.5 min-w-full">
       <div className="w-1/12 flex justify-center items-center">
         <img
-          src={
-            post.airLogo}
+          src={post.airLogo}
           alt={`media img's logo`}
           className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
         />
@@ -234,10 +239,14 @@ const New = ({ post }) => {
           </span>
         </div>
         <div className="w-full text-sm md:text-base font-medium md:hidden">
-          {post.title.length > 45 ? post.title.slice(0, 45) + " ..." : post.title}
+          {post.title.length > 45
+            ? post.title.slice(0, 45) + " ..."
+            : post.title}
         </div>
         <div className="hidden md:block w-full text-sm md:text-base font-medium">
-          {post.title.length > 120 ? post.title.slice(0, 120) + " ..." : post.title}
+          {post.title.length > 120
+            ? post.title.slice(0, 120) + " ..."
+            : post.title}
         </div>
         <div className="w-full text-xs flex justify-start gap-x-2 overflow-auto scrollbar-hidden">
           {post.airTags &&
@@ -291,15 +300,23 @@ const Organisation = ({ org }) => {
           <span className="text-xs font-semibold mr-3">{org.sector}</span>
         </div>
         <div className="w-full text-xs font-medium text-[#7C7E7D]">
-          {org.description.length > 45 ? org.description.slice(0, 45) + " ..." : org.description}
+          {org.description.length > 45
+            ? org.description.slice(0, 45) + " ..."
+            : org.description}
         </div>
         <div className="flex justify-start gap-x-2.5 w-full text-[#7C7E7D]">
-          <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
-            Sénegal
-          </span>
-          <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
+          {/* {org.headquarters.length > 0 && } */}
+          {/* <p>{JSON.stringify(org)}</p> */}
+          {org.headquarter ? (
+            <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
+              {org.headquarter}
+            </span>
+          ) : (
+            "-"
+          )}
+          {/* <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
             Morocco
-          </span>
+          </span> */}
         </div>
       </div>
     </div>
@@ -470,6 +487,10 @@ const PyramidLogo = () => {
 };
 
 export const Header = ({ page }) => {
+  const lang_trans = useContext(LangTransContext);
+  const lang = lang_trans.lang;
+  const _ = lang_trans._;
+  const dispatch = useContext(LangTransDispatchContext);
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
   return (
     <div className="sticky top-0 right-0 left-0 bg-white shadow-lg px-5 md:px-28 md:pb-2.5 z-50">
@@ -500,7 +521,7 @@ export const Header = ({ page }) => {
                   page === "/" ? "font-black text-primary bg-primary-200" : ""
                 }`}
               >
-                Home
+                {_.header_link_home}
               </a>
               <a
                 href="/news"
@@ -510,7 +531,7 @@ export const Header = ({ page }) => {
                     : ""
                 }`}
               >
-                News
+                {_.header_link_news}
               </a>
               <a
                 href="/database"
@@ -520,22 +541,23 @@ export const Header = ({ page }) => {
                     : ""
                 }`}
               >
-                Database
+                {_.header_link_database}
               </a>
               <a
-                href="/organisations"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/organisations"
-                    ? "font-black text-primary bg-primary-200"
+                href="/pyramid"
+                target="_blank"
+                className={`text-lg font-medium ${
+                  page === "/pyramid"
+                    ? "font-black text-primary underline underline-offset-8"
                     : ""
                 }`}
               >
-                Organisations
+                Sales Platform
               </a>
               <a
-                href="/yprlink"
+                href="https://yprlink.africa"
                 className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/yprlink"
+                  page === "https://yprlink.africa"
                     ? "font-black text-primary bg-primary-200"
                     : ""
                 }`}
@@ -548,7 +570,9 @@ export const Header = ({ page }) => {
       </AnimatePresence>
       <div className="h-24 w-full flex justify-between items-center">
         <div className="w-6/12 flex justify-start gap-20 items-center">
+          <a href="/">
           <img src={Logo} alt="" className="w-[100px] h-[50px] " />
+          </a>
           <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
             {/* <span className="border-b-2 border-primary">Overview</span> */}
             <a
@@ -559,7 +583,7 @@ export const Header = ({ page }) => {
                   : ""
               }`}
             >
-              Home
+              {_.header_link_home}
             </a>
             <a
               href="/news"
@@ -569,7 +593,7 @@ export const Header = ({ page }) => {
                   : ""
               }`}
             >
-              News
+              {_.header_link_news}
             </a>
             <a
               href="/database"
@@ -579,23 +603,34 @@ export const Header = ({ page }) => {
                   : ""
               }`}
             >
-              Database
+              {_.header_link_database}
             </a>
             <a
-              href="/organisations"
+              href="/pyramid"
+              target="_blank"
               className={`text-lg font-medium ${
-                page === "/organisations"
+                page === "/pyramid"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
               }`}
             >
-              Organisations
+              Sales Platform
             </a>
+            {/* <a
+              href="/waitlist"
+              className={`text-lg font-medium text-nowrap ${
+                page === "/waitlist"
+                  ? "font-black text-primary underline underline-offset-8"
+                  : ""
+              }`}
+            >
+              Rejoindre notre waitlist
+            </a> */}
             <a
-              href="/yprlink"
+              href="https://yprlink.africa"
               target="_blank"
               className={`text-lg font-medium ${
-                page === "/yprlink"
+                page === "https://yprlink.africa"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
               }`}
@@ -606,12 +641,19 @@ export const Header = ({ page }) => {
         </div>
         <div className="flex justify-end  w-6/12 items-center gap-x-3 md:gap-x-5">
           <span className="text-xl font-medium text-[#242827] hidden md:inline-block">
-            # Connect AfricaTech Ecosystem
+            {_.header_connect}
           </span>
           <select
             name=""
             id=""
+            defaultValue={lang}
             className="px-3 py-1 outline-none rounded-full text-[#124B42] font-semibold text-xl bg-[#C0E8E2]"
+            onChange={(e) => {
+              dispatch({
+                type: "change",
+                lang: e.target.value,
+              });
+            }}
           >
             <option value="en">EN</option>
             <option value="fr">FR</option>
@@ -647,10 +689,15 @@ export const Header = ({ page }) => {
               </svg>
             )}
           </div>
-          <button className="hidden md:flex justify-between items-center w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white">
+          <a
+            href="/waitlist"
+            className="hidden md:flex gap-2 justify-between items-center min-w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white"
+          >
             <span>+</span>
-            <span>Free first campaign</span>
-          </button>
+            <span className="text-nowrap">
+              {_.header_btn_free_first_campaign}
+            </span>
+          </a>
         </div>
       </div>
       {/* <div> */}
