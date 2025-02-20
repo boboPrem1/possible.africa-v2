@@ -207,42 +207,6 @@ const fetchAllDataPoints = async (apiKey, baseId, tableName) => {
 // @access Private
 exports.getAllTotaux = async (req, res) => {
   try {
-    // const lastOrganisations = await Organisation.find()
-    //   .limit(10 * 1)
-    //   .skip(0)
-    //   .sort({ dateAdded: -1 });
-    // let organisations = await Organisation.find().count();
-    // const OrganisationsBySectors = await Organisation.aggregate([
-    //   { $group: { _id: "$sector", nb: { $sum: 1 } } },
-    // ]);
-    // const OrganisationsBySubSectors = await Organisation.aggregate([
-    //   { $group: { _id: "$subSector", nb: { $sum: 1 } } },
-    // ]);
-    // let lastYearOrganisations = await Organisation.find({
-    //   dateAdded: {
-    //     $gte: startOfYear,
-    //     $lte: now,
-    //   },
-    // }).count();
-    // let lastMonthOrganisations = await Organisation.find({
-    //   dateAdded: {
-    //     $gte: startOfMonth,
-    //     $lte: now,
-    //   },
-    // }).count();
-    // let lastWeekOrganisations = await Organisation.find({
-    //   dateAdded: {
-    //     $gte: startOfWeek,
-    //     $lte: now,
-    //   },
-    // }).count();
-    // let todayOrganisations = await Organisation.find({
-    //   dateAdded: {
-    //     $gte: startOfDay,
-    //     $lte: now,
-    //   },
-    // }).count();
-
     const [
       lastOrganisations,
       organisations,
@@ -252,6 +216,17 @@ exports.getAllTotaux = async (req, res) => {
       lastMonthOrganisations,
       lastWeekOrganisations,
       todayOrganisations,
+      posts,
+      lastPosts,
+      lastPostsEng,
+      lastPostsFr,
+      lastYearPosts,
+      lastMonthPosts,
+      lastWeekPosts,
+      todayPosts,
+      regions,
+      tiers,
+      headquarters,
     ] = await Promise.all([
       Organisation.find().limit(10).skip(0).sort({ dateAdded: -1 }),
       Organisation.countDocuments(),
@@ -271,65 +246,6 @@ exports.getAllTotaux = async (req, res) => {
       Organisation.countDocuments({
         dateAdded: { $gte: startOfDay, $lte: now },
       }),
-    ]);
-
-    // Pour les articles
-    // const posts = await Post.find().count();
-    // const lastPosts = await Post.find()
-    //   .limit(10 * 1)
-    //   .skip(0)
-    //   .sort({ airDateAdded: -1 });
-    // const lastPostsEng = await Post.find({
-    //   // "airLanguage": 'ENG',
-    //   airTrans: "eng",
-    // })
-    //   .limit(10 * 1)
-    //   .skip(0)
-    //   .sort({ airDateAdded: -1 });
-    // const lastPostsFr = await Post.find({
-    //   // $or:[
-    //   //   {"airLanguage": 'FR'},
-    //   airTrans: "fr",
-    //   // ]
-    // })
-    //   .limit(10 * 1)
-    //   .skip(0)
-    //   .sort({ airDateAdded: -1 });
-    // let lastYearPosts = await Post.find({
-    //   airDateAdded: {
-    //     $gte: startOfYear,
-    //     $lte: now,
-    //   },
-    // }).count();
-    // let lastMonthPosts = await Post.find({
-    //   airDateAdded: {
-    //     $gte: startOfMonth,
-    //     $lte: now,
-    //   },
-    // }).count();
-    // let lastWeekPosts = await Post.find({
-    //   airDateAdded: {
-    //     $gte: startOfWeek,
-    //     $lte: now,
-    //   },
-    // }).count();
-    // let todayPosts = await Post.find({
-    //   airDateAdded: {
-    //     $gte: startOfDay,
-    //     $lte: now,
-    //   },
-    // }).count();
-
-    const [
-      posts,
-      lastPosts,
-      lastPostsEng,
-      lastPostsFr,
-      lastYearPosts,
-      lastMonthPosts,
-      lastWeekPosts,
-      todayPosts,
-    ] = await Promise.all([
       Post.countDocuments(),
       Post.find().limit(10).skip(0).sort({ airDateAdded: -1 }),
       Post.find({ airTrans: "eng" })
@@ -352,60 +268,6 @@ exports.getAllTotaux = async (req, res) => {
       Post.countDocuments({
         airDateAdded: { $gte: startOfDay, $lte: now },
       }),
-    ]);
-
-    // const users = await User.find().count();
-    const users = await User.countDocuments();
-
-    const records = await fetchAllDataPoints();
-    // console.log(records);
-
-    // Get stats
-    // const regions = await Organisation.aggregate([
-    //   {
-    //     $project: {
-    //       region: {
-    //         $split: ["$region", ", "], // Sépare les régions s'il s'agit d'une chaîne délimitée par une virgule et un espace
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $unwind: "$region", // Décompose les listes de régions en documents individuels
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$region", // Regroupe par région unique
-    //       count: { $sum: 1 }, // Compte les occurrences de chaque région
-    //     },
-    //   },
-    //   {
-    //     $sort: { count: -1 }, // Trie par nombre décroissant
-    //   },
-    // ]);
-    // const tiers = await Organisation.aggregate([
-    //   {
-    //     $group: {
-    //       _id: "$tier", // Regroupe par région unique
-    //       count: { $sum: 1 }, // Compte les occurrences de chaque région
-    //     },
-    //   },
-    //   {
-    //     $sort: { count: -1 }, // Trie par nombre décroissant
-    //   },
-    // ]);
-    // const headquarters = await Organisation.aggregate([
-    //   {
-    //     $group: {
-    //       _id: "$headquarter", // Regroupe par région unique
-    //       count: { $sum: 1 }, // Compte les occurrences de chaque région
-    //     },
-    //   },
-    //   {
-    //     $sort: { count: -1 }, // Trie par nombre décroissant
-    //   },
-    // ]);
-
-    const [regions, tiers, headquarters] = await Promise.all([
       Organisation.aggregate([
         {
           $project: {
@@ -440,6 +302,11 @@ exports.getAllTotaux = async (req, res) => {
         { $sort: { count: -1 } },
       ]),
     ]);
+
+    // const users = await User.find().count();
+    const users = await User.countDocuments();
+
+    const records = await fetchAllDataPoints();
 
     res.status(200).json({
       users,
@@ -500,44 +367,6 @@ exports.getAllTotaux = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// exports.getLastPostsOrgs = async (req, res) => {
-//   try {
-//     const lastOrganisations = await Organisation.find()
-//       .limit(10 * 1)
-//       .skip(0)
-//       .sort({ dateAdded: -1 });
-
-//     // Pour les articles
-//     const lastPostsEng = await Post.find({
-//       // "airLanguage": 'ENG',
-//       airTrans: "eng",
-//     })
-//       .limit(10 * 1)
-//       .skip(0)
-//       .sort({ airDateAdded: -1 });
-//     const lastPostsFr = await Post.find({
-//       airTrans: "fr",
-//     })
-//       .limit(10 * 1)
-//       .skip(0)
-//       .sort({ airDateAdded: -1 });
-
-//     res.status(200).json({
-//       organisations: {
-//         last: lastOrganisations,
-//       },
-//       posts: {
-//         lastByLang: {
-//           en: lastPostsEng,
-//           fr: lastPostsFr,
-//         },
-//       },
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 exports.getLastPostsOrgs = async (req, res) => {
   try {
