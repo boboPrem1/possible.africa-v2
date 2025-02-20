@@ -498,16 +498,6 @@ function Organisations({ withoutHeader }) {
     eq: pageEqS,
   });
 
-  const {
-    data: organisationsLength,
-    isLoading: organisationsLengthIsLoading,
-    isFetching: organisationsLengthIsFetching,
-    refetch: refechOrganisationsLength,
-  } = useGetOrganisationsQuery({
-    fields: [],
-    eq: pageEqS,
-  });
-
   useEffect(() => {
     // console.log(organisations);
     if (page != pageS || pageEq.length) {
@@ -518,7 +508,7 @@ function Organisations({ withoutHeader }) {
     }
   }, [isLoading, page, pageS]);
 
-  if (isLoading || organisationsLengthIsLoading) {
+  if (isLoading) {
     return (
       <>
         <Header page="/news" />
@@ -607,7 +597,7 @@ function Organisations({ withoutHeader }) {
                 setPage((s) => s + 1);
               }}
             >
-              {(isFetching || organisationsLengthIsFetching) && (
+              {(isFetching) && (
                 <img
                   src={Loader}
                   style={{

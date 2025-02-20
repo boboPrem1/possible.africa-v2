@@ -59,7 +59,6 @@ const Landing = () => {
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
               <img
                 src={Loader}
-                
                 alt="Loader possible"
                 className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
               />
@@ -80,7 +79,9 @@ const Landing = () => {
           <div className="w-full flex justify-between px-5 gap-5 flex-wrap md:flex-nowrap">
             <div className="w-full md:w-9/12 flex flex-col justify-start p-5 rounded-xl shadow-xl">
               <div className="flex justify-between items-center mb-5">
-                <span className="text-lg font-medium">{_.landing_lats_news}</span>
+                <span className="text-lg font-medium">
+                  {_.landing_lats_news}
+                </span>
                 <a
                   href="/news"
                   className="flex justify-end w-2/12 items-center self-center gap-x-3"
@@ -306,9 +307,13 @@ const Organisation = ({ org }) => {
         <div className="flex justify-start gap-x-2.5 w-full text-[#7C7E7D]">
           {/* {org.headquarters.length > 0 && } */}
           {/* <p>{JSON.stringify(org)}</p> */}
-          {org.headquarter ? <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
-            {org.headquarter}
-          </span> : '-'}
+          {org.headquarter ? (
+            <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
+              {org.headquarter}
+            </span>
+          ) : (
+            "-"
+          )}
           {/* <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
             Morocco
           </span> */}
@@ -538,16 +543,17 @@ export const Header = ({ page }) => {
               >
                 {_.header_link_database}
               </a>
-              {/* <a
-                href="/waitlist"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/waitlist"
-                    ? "font-black text-primary bg-primary-200"
+              <a
+                href="/pyramid"
+                target="_blank"
+                className={`text-lg font-medium ${
+                  page === "/pyramid"
+                    ? "font-black text-primary underline underline-offset-8"
                     : ""
                 }`}
               >
-                Rejoindre notre waitlist
-              </a> */}
+                Sales Platform
+              </a>
               <a
                 href="https://yprlink.africa"
                 className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
@@ -596,6 +602,17 @@ export const Header = ({ page }) => {
               }`}
             >
               {_.header_link_database}
+            </a>
+            <a
+              href="/pyramid"
+              target="_blank"
+              className={`text-lg font-medium ${
+                page === "/pyramid"
+                  ? "font-black text-primary underline underline-offset-8"
+                  : ""
+              }`}
+            >
+              Sales Platform
             </a>
             {/* <a
               href="/waitlist"
@@ -675,7 +692,9 @@ export const Header = ({ page }) => {
             className="hidden md:flex gap-2 justify-between items-center min-w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white"
           >
             <span>+</span>
-            <span className="text-nowrap">{_.header_btn_free_first_campaign}</span>
+            <span className="text-nowrap">
+              {_.header_btn_free_first_campaign}
+            </span>
           </a>
         </div>
       </div>

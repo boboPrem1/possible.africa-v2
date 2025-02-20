@@ -8,6 +8,7 @@ import { useEffect, useReducer } from "react";
 import { initialLang, LangTransContext, LangTransDispatchContext } from "./langTransContext.js";
 import { en_trans } from "./lang/en.js";
 import { fr_trans } from "./lang/fr.js";
+import PyramidLanding from "./pages/PyramidLanding.jsx";
 
 
 const existingLang = sessionStorage.getItem("lang");
@@ -64,6 +65,9 @@ function App() {
                 </Route>
                 <Route path="/news">
                   <Route index path="/news" element={<News />} />
+                </Route>
+                <Route path="/pyramid">
+                  <Route index path="/pyramid" element={<PyramidLanding />} />
                 </Route>
               </Routes>
             </BrowserRouter>
