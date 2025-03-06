@@ -16,6 +16,7 @@ import Input from "../../components/Input.jsx";
 import Select from "../../components/Select.jsx";
 import CustumSelect from "../../components/Select.jsx";
 import Loader from "../../assets/icons/loader.svg";
+import Star from "../../assets/icons/star.svg";
 import tagSolid from "../../assets/icons/tag-solid.svg";
 import filterSolid from "../../assets/icons/filter-solid.svg";
 import xmarkSolid from "../../assets/icons/xmark-solid.svg";
@@ -168,7 +169,6 @@ function News() {
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
               <img
                 src={Loader}
-                
                 alt="Loader possible"
                 className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
               />
@@ -571,8 +571,15 @@ function News() {
                         return (
                           <div
                             key={index}
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden"
+                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
                           >
+                            {post.airMedia === "Possible Africa" && (
+                              <img
+                                src={Star}
+                                alt="Star possible"
+                                className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute top-3 right-3"
+                              />
+                            )}
                             <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
                               <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-transparent">
                                 <img
@@ -593,7 +600,8 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
+                                  {_.news_published_on} {date},{" "}
+                                  {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"
@@ -604,8 +612,16 @@ function News() {
                             </div>
                             <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
                               <a
-                                href={post.airLink}
-                                target="_blank"
+                                href={
+                                  post.airMedia === "Possible Africa"
+                                    ? `/news/${post.slug}`
+                                    : post.airLink
+                                }
+                                target={
+                                  post.airMedia === "Possible Africa"
+                                    ? null
+                                    : "_blank"
+                                }
                                 rel="noopener noreferrer"
                               >
                                 {post.title.length > 110
@@ -675,7 +691,8 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
+                                  {_.news_published_on} {date},{" "}
+                                  {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"
@@ -771,7 +788,8 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
+                                  {_.news_published_on} {date},{" "}
+                                  {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"
@@ -853,7 +871,8 @@ function News() {
                                   </span>
                                 </div>
                                 <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date}, {_.news_original_language} :{" "}
+                                  {_.news_published_on} {date},{" "}
+                                  {_.news_original_language} :{" "}
                                   <span className="text-primary">
                                     {post.airLanguage === "ENG"
                                       ? "Anglais"

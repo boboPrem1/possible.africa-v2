@@ -1,132 +1,153 @@
 /* eslint-disable react/prop-types */
-import {Badge, Box, Container, Flex, Heading, HStack, Image, Text, VStack} from "@chakra-ui/react"
+import { Link, useParams } from "react-router-dom";
 import ArrowLeftSolidCustomIcon from "./icons/ArrowLeftSolidCustomIcon.jsx";
 import Socialshare from "./Socialshare.jsx";
 import { CalendarIcon, MapIcon } from "../assets/icons.jsx";
-import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
-import { Link } from "react-router-dom";
-import {Parse} from "../utils/htmlParser.jsx";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
+import { Parse } from "../utils/htmlParser.jsx";
+import { useGetPostBySlugQuery } from "../features/api/apiSlice.js";
+import { useEffect } from "react";
+import { Header } from "../pages/Landing.jsx";
+import Loader from "../assets/icons/loader.svg";
+import NoData from "../utils/NoData.jsx";
 
+function OneAgendaTemplate({ iconSx, backUrl, events }) {
+  const { slug } = useParams();
 
+  const { isLoading, isError, error, data } = useGetPostBySlugQuery(slug);
 
-function OneAgendaTemplate({iconSx, backUrl, events}) {
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [isLoading]);
 
+  if (isLoading) {
+    return (
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <div className="h-[400px] w-full m-auto flex justify-center items-center">
+              <img
+                src={Loader}
+                alt="Loader possible"
+                className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
+              />
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+  if (isError || error) {
+    return (
+      <>
+        <Header page="/news" />
+        <div className="flex justify-center">
+          <div className="flex flex-col w-11/12">
+            <NoData />
+          </div>
+        </div>
+      </>
+    );
+  }
 
-
-
-
-  const content = events?.description && Parse(events?.description)
-
-
+  const content = data?.content && Parse(data?.content);
 
   return (
-    <Container maxW="container.lg" p={0}>
-        <Flex ml={10}><ArrowLeftSolidCustomIcon sx={iconSx} backUrl={backUrl} mr="1" mt={5}/></Flex>
+    <>
+      <Header />
+      <div className="container mx-auto max-w-screen-xl p-0">
+        <div className="flex ml-10">
+          <ArrowLeftSolidCustomIcon
+            sx={iconSx}
+            backUrl="/news"
+            className="mr-1 mt-5"
+          />
+        </div>
 
-    <Flex py={0} direction={{ base: 'column', md: "row" }}>
-        <VStack w={{ base: '100%', md: "75%" }} h="full" p={10} spacing={10} alignItems="flex-start">
-       <Flex direction="column" gap={3}>
-     
-<Flex alignItems="center" gap={5}>
+        <div className="flex flex-col md:flex-row py-0">
+          {/* Main Content */}
+          <div className="w-full md:w-3/4 p-10 flex flex-col space-y-10 items-start">
+            {/* Header */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-5">
+                <div className="min-w-[90px]">
+                  <img
+                    className="object-cover w-[80px] md:w-[100px] h-[80px] md:h-[100px] rounded-lg border border-gray-100"
+                    src={data?.airLogo}
+                    alt={data?.airLogo}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/placeholder_org.jpeg";
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-lg md:text-4xl">{data?.title}</h1>
+                  <div className="flex">
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-5">
+                      {/* Location */}
+                      <div className="flex items-center gap-1">
+                        <a
+                          href={data?.airLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center font-semibold text-[14px]"
+                        >
+                          <div className="flex items-center gap-1">
+                            <LaunchOutlinedIcon />
+                            <span className="text-[14px] text-primary hover:text-darkPrimary active:text-primary visited:text-darkPrimary">Article Source</span>
+                          </div>
+                        </a>
+                      </div>
+                      {/* Frequence */}
+                      {/* <div className="flex items-center gap-1">
+                      <CalendarIcon />
+                      <span className="text-[14px]">
+                        {events?.frequence}
+                      </span>
+                    </div> */}
+                      {/* Registration Link */}
+                      {/* <div className="flex items-center">
+                        <a
+                          href={events?.registration_link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center font-semibold text-[14px]"
+                        >
+                          <div className="flex items-center gap-1">
+                            <LaunchOutlinedIcon />
+                            <span className="text-[14px]">En savoir plus</span>
+                          </div>
+                        </a>
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <Box minW={90}>
+            {/* Content */}
+            <main className="w-full">{content}</main>
 
-<Image
-    fit ='cover'
-    w={{base: "80px",md:"100px"}}
-    h={{base: "80px",md:"100px"}}
-    src={events?.organisation?.logo}
-    alt={events?.organisation?.logo}
-    borderRadius={8}
-    fallbackSrc='/placeholder_org.jpeg'
-    borderStyle="solid" borderColor="gray.100" borderWidth={1}
-/>
-</Box>
-<Flex direction="column" gap={2}>
+            {/* Social share */}
+            <div className="w-full mt-20 border-t border-gray-100 pt-5">
+              <div className="flex w-full h-full items-center justify-end space-x-2">
+                <Socialshare />
+              </div>
+            </div>
+          </div>
 
-        <Heading fontSize={{base: "lg", md: "4xl"}}>{events?.title}</Heading>
-<Flex >
-          
-<Flex gap={{base:2, md: 5}} direction={{base:"column", md:"row"}}>
-<Flex gap={1} alignItems="center">
-<Link href={events?.location} isExternal alignItems="center" fontWeight={600} fontSize={14}>
-  <Flex gap={1} alignItems="center">
-  <MapIcon/>
-  <Text fontSize={14}>
-  {events?.location}
-    </Text> 
-    </Flex>
-</Link>
-
-</Flex>
-
-<Flex>
-
-  <Flex gap={1} alignItems="center">
-  <CalendarIcon/>
-  <Text fontSize={14}>
-  {events?.frequence && events?.frequence  } 
-    </Text> 
-    </Flex>
-</Flex>
-<Flex>
-
-<Link href={events?.registration_link} isExternal alignItems="center" fontWeight={600} fontSize={14}>
-  <Flex gap={1} alignItems="center">
-  <LaunchOutlinedIcon/>
-  <Text fontSize={14}>
-    En savoir plus
-    </Text> 
-    </Flex>
-</Link>
-</Flex>
-
-
-</Flex>
-        </Flex>
-       
-
-     </Flex>
-    </Flex>
-  </Flex>
-            <Box as="main">
-         
-            {content}
-            </Box>
-
-            {/* <MapComponent location={events?.location} /> */}
-
-            <Flex w="full" marginTop={20} borderStyle="solid" borderColor="gray.100" borderTopWidth={1} paddingTop={5}>
-       
-            <HStack w="full" h="full" spacing={2} justifyContent="flex-end">
-                
-                {/* <HStack alignItems="center" gap={2}>
-              
-                  <Box width="80px" overflow="hidden" borderRadius="full">
-                    <Image src={events?.contributeur?.avatar} w="100%" fit="cover" borderRadius="full" alt="image" fallbackSrc='/placeholder_org.jpeg' />
-                  </Box>
-                <Box w="full">
-                  <Flex direction="column" justify="space-around"  gap={2} alignItems="flex-start">
-                    <Heading size="sm">{events?.contributeur?.firstname} {events?.contributeur?.lastname}</Heading>
-                    <Badge display="inline" maxW={120} textAlign="center" fontSize={11} colorScheme="gray" p={2} borderRadius={50} >Contributeur</Badge>
-
-                  </Flex>
-                </Box>
-                </HStack> */}
-                <Socialshare/>
-              </HStack>
-              
-              </Flex>
-              
-        </VStack>
-        <VStack w={{ base: '100%', md: "25%" }} h="full" p={10} spacing={10} alignItems="flex-start" bg="white">
-
-
-</VStack>
-    </Flex>
-
-</Container>
-  )
+          {/* Sidebar (vide ou pour d'autres contenus) */}
+          <div className="w-full md:w-1/4 p-10 space-y-10 items-start bg-white">
+            {/* Contenu additionnel ici */}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default OneAgendaTemplate;

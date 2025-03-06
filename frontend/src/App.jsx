@@ -9,6 +9,7 @@ import { initialLang, LangTransContext, LangTransDispatchContext } from "./langT
 import { en_trans } from "./lang/en.js";
 import { fr_trans } from "./lang/fr.js";
 import PyramidLanding from "./pages/PyramidLanding.jsx";
+import OneAgendaTemplate from "./components/OneAgendaTemplate.jsx";
 
 
 const existingLang = sessionStorage.getItem("lang");
@@ -65,6 +66,7 @@ function App() {
                 </Route>
                 <Route path="/news">
                   <Route index path="/news" element={<News />} />
+                  <Route path="/news/:slug" element={<OneAgendaTemplate />} />
                 </Route>
                 <Route path="/pyramid">
                   <Route index path="/pyramid" element={<PyramidLanding />} />

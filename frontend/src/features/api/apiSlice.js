@@ -49,6 +49,15 @@ export const apiSlice = createApi({
       },
       providesTags: ["Posts"],
     }),
+
+    getPost: builder.query({
+      query: (postSlug) => `/posts/${postSlug}`,
+    }),
+
+    getPostBySlug: builder.query({
+      query: (postSlug) => `/posts/by_slug/${postSlug}`,
+    }),
+
     getAirtableFrPosts: builder.query({
       query: (queryArgs = baseQueryArgs) => {
         return queryTransformer(queryArgs, "airtable_posts/fr");
@@ -249,6 +258,8 @@ export const apiSlice = createApi({
 
 export const {
   useGetPostsQuery,
+  useGetPostQuery,
+  useGetPostBySlugQuery,
   useGetAirtableAllPostsQuery,
   useGetAirtableEngPostsQuery,
   useGetAirtableFrPostsQuery,
