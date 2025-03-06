@@ -17,6 +17,7 @@ const token = localStorage.getItem(TOKEN_KEY);
 export const axiosInstance: AxiosInstance = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json; charset=utf-8",
     Authorization: `Bearer ${token}`,
   },
 });

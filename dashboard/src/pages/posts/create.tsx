@@ -15,6 +15,7 @@ import { RcFile, UploadChangeParam, UploadFile } from "antd/es/upload";
 import { UploadProps } from "antd/lib/upload";
 import { Option } from "antd/es/mentions";
 import { axiosInstance } from "../../custom-data-provider/data-provider";
+import TinyMCEEditor from "../../custom-components/editor";
 
 const ENV = import.meta.env.VITE_NODE_ENV;
 const API_URL =
@@ -33,8 +34,7 @@ export async function imageUploadHandler(image: any) {
   data.append("image", file);
 
   // send post request
-  const response = await axiosInstance.post(`${API_URL}/upload/images`, data
-  );
+  const response = await axiosInstance.post(`${API_URL}/upload/images`, data);
 
   // return the image url
   const imageUrl = response.data.url;
@@ -71,8 +71,15 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
     //console.log(editorContent);
     if (imageUrl) {
       setUploadLoading(false);
+      console.log(imageUrl);
     }
   }, [imageUrl, editorContent]);
+
+  useEffect(() => {
+    if (editorContent) {
+      console.log(editorContent);
+    }
+  }, [editorContent]);
 
   const { selectProps: authorSelectProps } = useSelect({
     resource: "users",
@@ -118,7 +125,9 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
   });
 
   async function onSubmitCapture(values: any) {
+    let contentToSend = "";
     let imgTags = editorContent?.match(/<img[^>]+src="([^">]+)"/g);
+
     if (imgTags && imgTags.length > 0) {
       let imgs = imgTags.map((imgTag) => {
         const img = {
@@ -135,10 +144,13 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
       let content = editorContent;
       const result = imgs.map(async (img) => {
         img.url = await imageUploadHandler(img.base64);
-        // console.log(img.url);
         content = content.replace(`${img.base64}`, `${img.url}`);
+        
+        contentToSend = content;
         return content;
       });
+      // const results = await Promise.all(result)
+      // console.log(results)
 
       values.content = await Promise.all(result).then((values: string[]) => {
         //return the last element of values array
@@ -157,39 +169,51 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
       values.image = imageUrl;
     }
 
-    if (!values?.user) {
-      values.user = null;
+    values.airMedia = "Possible Africa";
+    values.content = contentToSend;
+    values.status = "published";
+    values.airDateAdded = new Date();
+    // values.slug = values?.title.toLowerCase().split(' ').join('-');
+    values.airLogo = "https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741258403971-possible_avatar.png"
+
+    if (values?.airLanguage === "FR") {
+      values.airTrans = "fr";
+    } else {
+      values.airTrans = "eng";
     }
-    if (!values?.organisations) {
-      values.organisations = null;
-    }
-    if (!values?.editors) {
-      values.editors = null;
-    }
-    if (!values?.countries) {
-      values.countries = null;
-    }
-    if (!values?.categorie?._id) {
-      values.categorie = null;
-    }
-    if (!values?.labels) {
-      values.labels = null;
-    }
-    if (!values?.authors) {
-      values.authors = null;
-    }
-    if (!values?.source) {
-      values.source = null;
-    }
-    if (!values?.publication_language) {
-      values.publication_language = null;
-    }
-    if (!values?.content) {
-      values.content = null;
-    }
-    if (!values?.image) {
-      values.image = null;
-    }
+    
+    // if (!values?.organisations) {
+    //   values.organisations = null;
+    // }
+    // if (!values?.editors) {
+    //   values.editors = null;
+    // }
+    // if (!values?.countries) {
+    //   values.countries = null;
+    // }
+    // if (!values?.categorie?._id) {
+    //   values.categorie = null;
+    // }
+    // if (!values?.labels) {
+    //   values.labels = null;
+    // }
+    // if (!values?.authors) {
+    //   values.authors = null;
+    // }
+    // if (!values?.source) {
+    //   values.source = null;
+    // }
+    // if (!values?.publication_language) {
+    //   values.publication_language = null;
+    // }
+    // if (!values?.content) {
+    //   values.content = null;
+    // }
+    // if (!values?.image) {
+    //   values.image = null;
+    // }
+
+    // console.log(values);
 
     onFinish(values);
   }
@@ -220,6 +244,7 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
     const base64 = await file2Base64(info.file);
     const url = await imageUploadHandler(base64);
     setImageUrl(url);
+    setUploadLoading(false);
   };
 
   return (
@@ -272,35 +297,11 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Média" name={["airMedia"]}>
-          <Input />
-        </Form.Item>
-        {/* <Form.Item
-          label="Pays"
-          name={["countries"]}
-          getValueProps={(value: any[]) => {
-            return {
-              value: value?.map((item) => item),
-            };
-          }}
-          getValueFromEvent={(...args: any) => {
-            const toBeReturned = args[1].map((item: any) => {
-              return item.value;
-            });
-            return toBeReturned;
-          }}
-        >
-          <SelectCountry />
-          <Select
-            mode="multiple"
-            {...countrySelectProps}
-            onSearch={undefined}
-            filterOption={true}
-            optionFilterProp="label"
-          />
-        </Form.Item> */}
 
-        <Form.Item label="Source" name={["airLink"]}>
+        <Form.Item
+          label="Source (Votre post est il associé à une source extérieur ? Collez le lien vers la souce.)"
+          name={["airLink"]}
+        >
           <Input />
         </Form.Item>
 
@@ -311,7 +312,7 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
           </Select>
         </Form.Item>
 
-        {/* <Form.Item
+        <Form.Item
           label="Contenu"
           name={["content"]}
           className="advancedEditor"
@@ -323,16 +324,21 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
             width: "100%",
           }}
         >
-          <ReactQuill
+          {/* <ReactQuill
             style={{ height: "500px", width: "100%" }}
             modules={reactQuillModules}
             value={editorContent}
             onChange={setEditorContent}
             theme="snow"
             placeholder="Placez votre contenu ici..."
+          /> */}
+          <TinyMCEEditor
+            content=""
+            id="create_possible_post"
+            onContentChange={setEditorContent}
           />
-        </Form.Item> */}
-        {/* <Form.Item label="Couverture" name="image">
+        </Form.Item>
+        <Form.Item label="Couverture" name="image">
           <Upload
             name="file"
             listType="picture-card"
@@ -344,7 +350,14 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
             {uploadLoading || !imageUrl ? (
               uploadButton
             ) : (
-              <div style={{ position: "relative" }}>
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
                 <img
                   src={imageUrl}
                   alt="avatar"
@@ -356,7 +369,8 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
                     left: "5%",
                     right: "5%",
                     bottom: "5%",
-                    color: "GrayText",
+                    backgroundColor: "tomato",
+                    color: "white",
                   }}
                 >
                   Modifier
@@ -364,7 +378,7 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
               </div>
             )}
           </Upload>
-        </Form.Item> */}
+        </Form.Item>
         {/* <Form.Item label="Categorie" name={["categorie", "_id"]}>
           <Select
             {...categorieSelectProps}
@@ -373,7 +387,10 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
             optionFilterProp="label"
           />
         </Form.Item> */}
-        <Form.Item label="Etiquette" name={["airTags"]}>
+        <Form.Item
+          label="Etiquette(s) (S'il y'en a plusieurs veuillez les séparer avec virgule + espace (, ).)"
+          name={["airTags"]}
+        >
           <Input />
         </Form.Item>
       </Form>
