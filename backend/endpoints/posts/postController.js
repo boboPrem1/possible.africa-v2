@@ -573,9 +573,9 @@ exports.getPostBySlug = async (req, res) => {
     const post = await Post.find({
       slug: req.params.slug,
     });
-    if (!post)
+    if (!post.length)
       return res.status(404).json({ message: CustomUtils.consts.NOT_EXIST });
-    res.status(200).json(post);
+    res.status(200).json(post[0]);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
