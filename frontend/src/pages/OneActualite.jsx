@@ -99,7 +99,7 @@ function OneActualite({ iconSx, backUrl, events }) {
                   <div className="flex">
                     <div className="flex flex-col md:flex-row gap-2 md:gap-5">
                       {/* Location */}
-                      <div className="flex items-center gap-1">
+                      {data?.airLink && <div className="flex items-center gap-1">
                         <a
                           href={data?.airLink}
                           target="_blank"
@@ -113,7 +113,7 @@ function OneActualite({ iconSx, backUrl, events }) {
                             </span>
                           </div>
                         </a>
-                      </div>
+                      </div>}
                       {/* Frequence */}
                       {/* <div className="flex items-center gap-1">
                       <CalendarIcon />
