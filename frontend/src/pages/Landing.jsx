@@ -6,6 +6,7 @@ import LogoHyperlink from "../assets/logo_hyperlink.png";
 import { useContext, useEffect, useState } from "react";
 import { fetchResource } from "../utils/possible_api_actions";
 import Loader from "../assets/icons/loader.svg";
+import Star from "../assets/icons/star.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   LangTransContext,
@@ -221,7 +222,24 @@ export default Landing;
 
 const New = ({ post }) => {
   return (
-    <div className="flex justify-between items-center gap-x-5  bg-[#D9D9D9]/20 rounded-md min-h-26 p-2.5 min-w-full">
+    <a
+      key={post.id}
+      href={
+        post.airMedia === "Possible Africa"
+          ? `/news/${post.slug}`
+          : post.airLink
+      }
+      target={post.airMedia === "Possible Africa" ? null : "_blank"}
+      rel="noopener noreferrer"
+      className="flex justify-between items-center gap-x-5  bg-[#D9D9D9]/20 rounded-md min-h-26 p-2.5 min-w-full relative"
+    >
+      {post.airMedia === "Possible Africa" && (
+        <img
+          src={Star}
+          alt="Star possible"
+          className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute bottom-3 right-3"
+        />
+      )}
       <div className="w-1/12 flex justify-center items-center">
         <img
           src={post.airLogo}
@@ -275,14 +293,14 @@ const New = ({ post }) => {
             })}
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 const Organisation = ({ org }) => {
-  // console.log(org)
+  console.log(org)
   return (
     <div
-      key="Jumia"
+      key={org.id}
       className="flex justify-between items-center gap-x-2.5 bg-[#D9D9D9]/20 rounded-md min-h-18 p-2.5"
     >
       <div className="w-12 h-12 flex justify-center items-center self-start bg-custom-white rounded">
@@ -546,7 +564,7 @@ export const Header = ({ page }) => {
               <a
                 href="/pyramid"
                 target="_blank"
-                className={`text-lg font-medium ${
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
                   page === "/pyramid"
                     ? "font-black text-primary underline underline-offset-8"
                     : ""
@@ -571,7 +589,7 @@ export const Header = ({ page }) => {
       <div className="h-24 w-full flex justify-between items-center">
         <div className="w-6/12 flex justify-start gap-20 items-center">
           <a href="/">
-          <img src={Logo} alt="" className="w-[100px] h-[50px] " />
+            <img src={Logo} alt="" className="w-[100px] h-[50px] " />
           </a>
           <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
             {/* <span className="border-b-2 border-primary">Overview</span> */}
@@ -597,7 +615,7 @@ export const Header = ({ page }) => {
             </a>
             <a
               href="/database"
-              className={`text-lg font-medium ${
+              className={`text-lg font-medium text-nowrap ${
                 page === "/database"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
@@ -608,7 +626,7 @@ export const Header = ({ page }) => {
             <a
               href="/pyramid"
               target="_blank"
-              className={`text-lg font-medium ${
+              className={`text-lg font-medium text-nowrap ${
                 page === "/pyramid"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""

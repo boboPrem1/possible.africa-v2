@@ -569,89 +569,87 @@ function News() {
                           "/" +
                           createdAt.getFullYear();
                         return (
-                          <div
-                            key={index}
+                          <a
+                            href={
+                              post.airMedia === "Possible Africa"
+                                ? `/news/${post.slug}`
+                                : post.airLink
+                            }
+                            target={
+                              post.airMedia === "Possible Africa"
+                                ? null
+                                : "_blank"
+                            }
+                            rel="noopener noreferrer"
                             className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
                           >
-                            {post.airMedia === "Possible Africa" && (
-                              <img
-                                src={Star}
-                                alt="Star possible"
-                                className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute top-3 right-3"
-                              />
-                            )}
-                            <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                              <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-transparent">
+                            <div key={index} className="w-full h-full bg-white">
+                              {post.airMedia === "Possible Africa" && (
                                 <img
-                                  src={
-                                    socialMedias.includes(post?.airLogo)
-                                      ? logoPlaceholder
-                                      : post?.airLogo
-                                  }
-                                  height={40}
-                                  width={40}
-                                  alt="logo"
+                                  src={Star}
+                                  alt="Star possible"
+                                  className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute top-3 right-3"
                                 />
-                              </div>
-                              <div className="flex flex-col justify-start min-h-[46px]">
-                                <div>
-                                  <span className="font-semibold md:text-lg">
-                                    {post.airMedia}
-                                  </span>
+                              )}
+                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
+                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-transparent">
+                                  <img
+                                    src={
+                                      socialMedias.includes(post?.airLogo)
+                                        ? logoPlaceholder
+                                        : post?.airLogo
+                                    }
+                                    height={40}
+                                    width={40}
+                                    alt="logo"
+                                  />
                                 </div>
-                                <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date},{" "}
-                                  {_.news_original_language} :{" "}
-                                  <span className="text-primary">
-                                    {post.airLanguage === "ENG"
-                                      ? "Anglais"
-                                      : "Français"}
-                                  </span>
+                                <div className="flex flex-col justify-start min-h-[46px]">
+                                  <div>
+                                    <span className="font-semibold md:text-lg">
+                                      {post.airMedia}
+                                    </span>
+                                  </div>
+                                  <div className="text-xs italic md:text-sm">
+                                    {_.news_published_on} {date},{" "}
+                                    {_.news_original_language} :{" "}
+                                    <span className="text-primary">
+                                      {post.airLanguage === "ENG"
+                                        ? "Anglais"
+                                        : "Français"}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                              <a
-                                href={
-                                  post.airMedia === "Possible Africa"
-                                    ? `/news/${post.slug}`
-                                    : post.airLink
-                                }
-                                target={
-                                  post.airMedia === "Possible Africa"
-                                    ? null
-                                    : "_blank"
-                                }
-                                rel="noopener noreferrer"
-                              >
+                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
                                 {post.title.length > 110
                                   ? post.title.slice(0, 110) + " . . ."
                                   : post.title}
-                              </a>
-                            </div>
-                            <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
-                              {post?.airTags?.split(", ")?.map((tag) => {
-                                return (
-                                  <div
-                                    key={tag}
-                                    className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                  >
-                                    <div className="max-h-[35px] h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                      <img
-                                        src={tagSolid}
-                                        height={20}
-                                        width={18}
-                                        alt="Tag"
-                                      />
+                              </div>
+                              <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
+                                      <div className="max-h-[35px] h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
+                                      </div>
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
                                     </div>
-                                    <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                      {tag}
-                                    </span>
-                                  </div>
-                                );
-                              })}
+                                  );
+                                })}
+                              </div>
                             </div>
-                          </div>
+                          </a>
                         );
                       })
                   : allNews
@@ -667,74 +665,87 @@ function News() {
                           "/" +
                           createdAt.getFullYear();
                         return (
-                          <div
-                            key={index}
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden"
+                          <a
+                            href={
+                              post.airMedia === "Possible Africa"
+                                ? `/news/${post.slug}`
+                                : post.airLink
+                            }
+                            target={
+                              post.airMedia === "Possible Africa"
+                                ? null
+                                : "_blank"
+                            }
+                            rel="noopener noreferrer"
+                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
                           >
-                            <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                              <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
+                            <div key={index} className="w-full h-full bg-white">
+                              {post.airMedia === "Possible Africa" && (
                                 <img
-                                  src={
-                                    socialMedias.includes(post?.airLogo)
-                                      ? logoPlaceholder
-                                      : post?.airLogo
-                                  }
-                                  height={40}
-                                  width={40}
-                                  alt="logo"
+                                  src={Star}
+                                  alt="Star possible"
+                                  className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute top-3 right-3"
                                 />
-                              </div>
-                              <div className="flex flex-col justify-start min-h-[46px]">
-                                <div>
-                                  <span className="font-semibold md:text-lg">
-                                    {post.airMedia}{" "}
-                                  </span>
+                              )}
+                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
+                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
+                                  <img
+                                    src={
+                                      socialMedias.includes(post?.airLogo)
+                                        ? logoPlaceholder
+                                        : post?.airLogo
+                                    }
+                                    height={40}
+                                    width={40}
+                                    alt="logo"
+                                  />
                                 </div>
-                                <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date},{" "}
-                                  {_.news_original_language} :{" "}
-                                  <span className="text-primary">
-                                    {post.airLanguage === "ENG"
-                                      ? "Anglais"
-                                      : "Français"}
-                                  </span>
+                                <div className="flex flex-col justify-start min-h-[46px]">
+                                  <div>
+                                    <span className="font-semibold md:text-lg">
+                                      {post.airMedia}{" "}
+                                    </span>
+                                  </div>
+                                  <div className="text-xs italic md:text-sm">
+                                    {_.news_published_on} {date},{" "}
+                                    {_.news_original_language} :{" "}
+                                    <span className="text-primary">
+                                      {post.airLanguage === "ENG"
+                                        ? "Anglais"
+                                        : "Français"}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                              <a
-                                href={post.airLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
+                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
                                 {post.title.length > 110
                                   ? post.title.slice(0, 110) + " . . ."
                                   : post.title}
-                              </a>
-                            </div>
-                            <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
-                              {post?.airTags?.split(", ")?.map((tag) => {
-                                return (
-                                  <div
-                                    key={tag}
-                                    className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                  >
-                                    <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                      <img
-                                        src={tagSolid}
-                                        height={20}
-                                        width={18}
-                                        alt="Tag"
-                                      />
+                              </div>
+                              <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
+                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
+                                      </div>
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
                                     </div>
-                                    <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                      {tag}
-                                    </span>
-                                  </div>
-                                );
-                              })}
+                                  );
+                                })}
+                              </div>
                             </div>
-                          </div>
+                          </a>
                         );
                       })}
               </div>
@@ -764,74 +775,80 @@ function News() {
                           "/" +
                           createdAt.getFullYear();
                         return (
-                          <div
-                            key={index}
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden"
+                          <a
+                            href={
+                              post.airMedia === "Possible Africa"
+                                ? `/news/${post.slug}`
+                                : post.airLink
+                            }
+                            target={
+                              post.airMedia === "Possible Africa"
+                                ? null
+                                : "_blank"
+                            }
+                            rel="noopener noreferrer"
+                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
                           >
-                            <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                              <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
-                                <img
-                                  src={
-                                    socialMedias.includes(post?.airLogo)
-                                      ? logoPlaceholder
-                                      : post?.airLogo
-                                  }
-                                  height={40}
-                                  width={40}
-                                  alt="logo"
-                                />
-                              </div>
-                              <div className="flex flex-col justify-start min-h-[46px]">
-                                <div>
-                                  <span className="font-semibold md:text-lg">
-                                    {post.airMedia}
-                                  </span>
+                            <div key={index} className="w-full h-full bg-white">
+                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
+                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
+                                  <img
+                                    src={
+                                      socialMedias.includes(post?.airLogo)
+                                        ? logoPlaceholder
+                                        : post?.airLogo
+                                    }
+                                    height={40}
+                                    width={40}
+                                    alt="logo"
+                                  />
                                 </div>
-                                <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date},{" "}
-                                  {_.news_original_language} :{" "}
-                                  <span className="text-primary">
-                                    {post.airLanguage === "ENG"
-                                      ? "Anglais"
-                                      : "Français"}
-                                  </span>
+                                <div className="flex flex-col justify-start min-h-[46px]">
+                                  <div>
+                                    <span className="font-semibold md:text-lg">
+                                      {post.airMedia}
+                                    </span>
+                                  </div>
+                                  <div className="text-xs italic md:text-sm">
+                                    {_.news_published_on} {date},{" "}
+                                    {_.news_original_language} :{" "}
+                                    <span className="text-primary">
+                                      {post.airLanguage === "ENG"
+                                        ? "Anglais"
+                                        : "Français"}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                              <a
-                                href={post.airLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
+                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
                                 {post.title.length > 110
                                   ? post.title.slice(0, 110) + " . . ."
                                   : post.title}
-                              </a>
-                            </div>
-                            <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
-                              {post?.airTags?.split(", ")?.map((tag) => {
-                                return (
-                                  <div
-                                    key={tag}
-                                    className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                  >
-                                    <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                      <img
-                                        src={tagSolid}
-                                        height={20}
-                                        width={18}
-                                        alt="Tag"
-                                      />
+                              </div>
+                              <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
+                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
+                                      </div>
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
                                     </div>
-                                    <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                      {tag}
-                                    </span>
-                                  </div>
-                                );
-                              })}
+                                  );
+                                })}
+                              </div>
                             </div>
-                          </div>
+                          </a>
                         );
                       })
                   : allNews
@@ -847,74 +864,80 @@ function News() {
                           "/" +
                           createdAt.getFullYear();
                         return (
-                          <div
-                            key={index}
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden"
+                          <a
+                            href={
+                              post.airMedia === "Possible Africa"
+                                ? `/news/${post.slug}`
+                                : post.airLink
+                            }
+                            target={
+                              post.airMedia === "Possible Africa"
+                                ? null
+                                : "_blank"
+                            }
+                            rel="noopener noreferrer"
+                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
                           >
-                            <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                              <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
-                                <img
-                                  src={
-                                    socialMedias.includes(post?.airLogo)
-                                      ? logoPlaceholder
-                                      : post?.airLogo
-                                  }
-                                  height={40}
-                                  width={40}
-                                  alt="logo"
-                                />
-                              </div>
-                              <div className="flex flex-col justify-start min-h-[46px]">
-                                <div>
-                                  <span className="font-semibold md:text-lg">
-                                    {post.airMedia}
-                                  </span>
+                            <div key={index} className="w-full h-full bg-white">
+                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
+                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
+                                  <img
+                                    src={
+                                      socialMedias.includes(post?.airLogo)
+                                        ? logoPlaceholder
+                                        : post?.airLogo
+                                    }
+                                    height={40}
+                                    width={40}
+                                    alt="logo"
+                                  />
                                 </div>
-                                <div className="text-xs italic md:text-sm">
-                                  {_.news_published_on} {date},{" "}
-                                  {_.news_original_language} :{" "}
-                                  <span className="text-primary">
-                                    {post.airLanguage === "ENG"
-                                      ? "Anglais"
-                                      : "Français"}
-                                  </span>
+                                <div className="flex flex-col justify-start min-h-[46px]">
+                                  <div>
+                                    <span className="font-semibold md:text-lg">
+                                      {post.airMedia}
+                                    </span>
+                                  </div>
+                                  <div className="text-xs italic md:text-sm">
+                                    {_.news_published_on} {date},{" "}
+                                    {_.news_original_language} :{" "}
+                                    <span className="text-primary">
+                                      {post.airLanguage === "ENG"
+                                        ? "Anglais"
+                                        : "Français"}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                              <a
-                                href={post.airLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
+                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
                                 {post.title.length > 110
                                   ? post.title.slice(0, 110) + " . . ."
                                   : post.title}
-                              </a>
-                            </div>
-                            <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
-                              {post?.airTags?.split(", ")?.map((tag) => {
-                                return (
-                                  <div
-                                    key={tag}
-                                    className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                  >
-                                    <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                      <img
-                                        src={tagSolid}
-                                        height={20}
-                                        width={18}
-                                        alt="Tag"
-                                      />
+                              </div>
+                              <div className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-scroll">
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
+                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
+                                      </div>
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
                                     </div>
-                                    <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                      {tag}
-                                    </span>
-                                  </div>
-                                );
-                              })}
+                                  );
+                                })}
+                              </div>
                             </div>
-                          </div>
+                          </a>
                         );
                       })}
               </div>
