@@ -1206,7 +1206,7 @@ function Tr({ org, date, _ }) {
                 {_.database_action_add_to_leads}
               </span>
             </a>
-            <a className="inline-flex w-full" href="/waitlist">
+            <a className="inline-flex w-full" href={`/database/${org.name}`}>
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                 {_.database_action_see}
               </span>

@@ -65,7 +65,7 @@ function App() {
                 </Route>
                 <Route path="/database">
                   <Route index path="/database" element={<Database />} />
-                  <Route path="/database/:slug" element={<OneOrganisation />} />
+                  <Route path="/database/:name" element={<OneOrganisation />} />
                 </Route>
                 <Route path="/news">
                   <Route index path="/news" element={<News />} />

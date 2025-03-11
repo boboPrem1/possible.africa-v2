@@ -1,116 +1,53 @@
-import { Button } from "../components/for_database/jbutton";
+const minute_record_icon = "../assets/icons/minute_record_icon.png";
+const create_todo_icon = "../assets/icons/create_todo_icon.png";
+const send_invite_icon = "../assets/icons/send_invite_icon.png";
 
-import minute_record_icon from "../assets/icons/minute_record_icon.png";
-import create_todo_icon from "../assets/icons/create_todo_icon.png";
-import send_invite_icon from "../assets/icons/send_invite_icon.png";
+const envelope_icon = "../assets/icons/envelope_icon.png";
+const linkedin_icon = "../assets/icons/linkedin_icon.png";
+const whatsapp_icon = "../assets/icons/whatsapp_icon.png";
+const create_note_icon = "../assets/icons/create_note_icon.png";
 
-import envelope_icon from "../assets/icons/envelope_icon.png";
-import linkedin_icon from "../assets/icons/linkedin_icon.png";
-import whatsapp_icon from "../assets/icons/whatsapp_icon.png";
-import create_note_icon from "../assets/icons/create_note_icon.png";
+const globe_icon = "../assets/icons/globe_icon.png";
+const globe_2_icon = "../assets/icons/globe_2_icon.png";
+const chart_down_icon = "../assets/icons/chart_down_icon.png";
+const info_round_icon = "../assets/icons/info_round_icon.png";
 
-import globe_icon from "../assets/icons/globe_icon.png";
-import globe_2_icon from "../assets/icons/globe_2_icon.png";
-import chart_down_icon from "../assets/icons/chart_down_icon.png";
-import info_round_icon from "../assets/icons/info_round_icon.png";
+const view_more_icon = "../assets/icons/view_more_icon.png";
 
-import view_more_icon from "../assets/icons/view_more_icon.png";
+const option_icon = "../assets/icons/option_icon.png";
 
-import option_icon from "../assets/icons/option_icon.png";
-
-import basil_settings_adjust from "../assets/icons/basil_settings-adjust-outline.svg";
-import filter_reset from "../assets/icons/filter-reset-icon.svg";
-import { Header } from "./Landing";
-import { useParams } from "react-router-dom";
-import NoData from "../utils/NoData";
-import { useGetOrganisationByNameQuery } from "../features/api/apiSlice";
-import { useEffect } from "react";
-import Loader from "../assets/icons/loader.svg";
-import Organisations from "./NewOrganisations";
-import ArrowLeftSolidCustomIcon from "../components/icons/ArrowLeftSolidCustomIcon";
-
-export default function OneOrganisation({ iconSx, backUrl, events }) {
-  const { name } = useParams();
-  const { data, isLoading, isError, error } =
-    useGetOrganisationByNameQuery(name);
-
-  useEffect(() => {
-    if (data) {
-      // console.log(data);
-    }
-  }, [isLoading]);
-
-  if (isLoading) {
-    return (
-      <>
-        <Header page="/news" />
-        <div className="flex justify-center">
-          <div className="flex flex-col w-11/12">
-            <div className="h-[400px] w-full m-auto flex justify-center items-center">
-              <img
-                src={Loader}
-                alt="Loader possible"
-                className="w-16 animate-[loading_1s_ease-in-out_infinite_alternate]"
-              />
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  if (isError) {
-    return (
-      <>
-        <Header page="/news" />
-        <div className="flex justify-center">
-          <div className="flex flex-col w-11/12">
-            <NoData />
-          </div>
-        </div>
-      </>
-    );
-  }
+export default async function DealCard({ deal_id }) {
+  const deal = await GetDealById({ deal_id });
 
   return (
     <>
-      <Header />
-      <div className="container mx-auto max-w-screen-xl flex justify-between gap-4 mb-4 mt-8">
-        <div className="flex ml-10 self-start">
-          <ArrowLeftSolidCustomIcon
-            sx={iconSx}
-            backUrl="/database"
-            className="mr-1 mt-5"
-          />
-        </div>
-        <div className="flex gap-4">
-          <button className="flex flex-col justify-center items-center gap-3 text-primary-dark-500 rounded-xl bg-primary-300 p-2.5 text-sm">
-            <img src={minute_record_icon} width={24} height={24} alt="" />
-            <span>Minute record</span>
-          </button>
-          <button className="flex flex-col justify-center items-center gap-3 text-primary-dark-500 rounded-xl bg-primary-300 p-2.5 text-sm">
-            <img src={create_todo_icon} width={24} height={24} alt="" />
-            <span>Create To Do</span>
-          </button>
-          <button className="flex flex-col justify-center items-center gap-3 text-primary-dark-500 rounded-xl bg-primary-300 p-2.5 text-sm">
-            <img src={send_invite_icon} width={24} height={24} alt="" />
-            <span>Send Invite</span>
-          </button>
-        </div>
+      <div className="w-full flex justify-end gap-4 mb-4">
+        <button className="flex flex-col justify-center items-center gap-3 text-primary-dark-500 rounded-xl bg-primary-300 p-2.5 text-sm">
+          <img src={minute_record_icon} width={24} height={24} alt="" />
+          <span>Minute record</span>
+        </button>
+        <button className="flex flex-col justify-center items-center gap-3 text-primary-dark-500 rounded-xl bg-primary-300 p-2.5 text-sm">
+          <img src={create_todo_icon} width={24} height={24} alt="" />
+          <span>Create To Do</span>
+        </button>
+        <button className="flex flex-col justify-center items-center gap-3 text-primary-dark-500 rounded-xl bg-primary-300 p-2.5 text-sm">
+          <img src={send_invite_icon} width={24} height={24} alt="" />
+          <span>Send Invite</span>
+        </button>
       </div>
-      <div className="grid grid-cols-4 container mx-auto max-w-screen-xl gap-4">
+      <div className="grid grid-cols-4 w-full gap-4">
         <div className="bg-primary-300 h-[300px] rounded-[20px] flex flex-col justify-center items-center gap-4">
           <div className="bg-primary-100 rounded-full">
             <img
-              // src={"https://logo.clearbit.com/" + deal.company.website}
-              src={data.logo}
+              src={"https://logo.clearbit.com/" + deal.company.website}
+              // src={"https://logo.clearbit.com/acme.com"}
               width={100}
               height={100}
               alt=""
               className="w-[100px] h-[100px] rounded-full border"
             />
           </div>
-          <div className="text-gray-darkest font-semibold">{data?.name}</div>
+          <div className="text-gray-darkest font-semibold">{deal.title}</div>
           <div className="flex justify-center gap-3">
             <button className="bg-white h-[46px] w-[46px] flex flex-col justify-center items-center gap-3 text-primary-dark-500 rounded-full text-sm">
               <img src={envelope_icon} width={24} height={24} alt="" />
@@ -131,8 +68,8 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
             <span>Individual contacts</span>
             <div className="flex justify-end gap-3">
               <Button>Import contacts</Button>
-              <Button>Add new contacts</Button>
-              {/* <AddContactModal/> */}
+              {/* <Button>Add new contacts</Button> */}
+              <AddContactModal/>
             </div>
           </div>
           <div className="w-full grid grid-cols-3 gap-2">
@@ -231,31 +168,22 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
                 />
                 <div className="flex flex-col justify-start gap-1">
                   <span className="font-medium">Country</span>
-                  <span>{data.headquarter || "-"}</span>
+                  <span>Senegal</span>
                 </div>
               </div>
-
-              {data.website ? (
-                <a
-                  href={data.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="flex justify-start gap-2 text-sm">
-                    <img
-                      src={globe_2_icon}
-                      alt=""
-                      width={20}
-                      height={20}
-                      className="max-w-5 max-h-5"
-                    />
-                    <div className="flex flex-col justify-start gap-1">
-                      <span className="font-medium">Website</span>
-                    </div>
-                  </div>
-                </a>
-              ) : null}
-
+              <div className="flex justify-start gap-2 text-sm">
+                <img
+                  src={globe_2_icon}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="max-w-5 max-h-5"
+                />
+                <div className="flex flex-col justify-start gap-1">
+                  <span className="font-medium">Website</span>
+                  <span>www.jennings.com</span>
+                </div>
+              </div>
               <div className="flex justify-start gap-2 text-sm">
                 <img
                   src={chart_down_icon}
@@ -265,7 +193,8 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
                   className="max-w-5 max-h-5"
                 />
                 <div className="flex flex-col justify-start gap-1">
-                  <span className="font-medium">{data.sector}</span>
+                  <span className="font-medium">Financial services</span>
+                  <span>tim.jennings@example.com</span>
                 </div>
               </div>
               <div className="flex justify-start gap-2 text-sm">
@@ -278,7 +207,11 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
                 />
                 <div className="flex flex-col justify-start gap-1">
                   <span className="font-medium">Description</span>
-                  <span>{data.description}</span>
+                  <span>
+                    Inclusivity Solutions Provides Digital Insurance for the
+                    Connected, but Unprotected. Delivering Simple & Affordable
+                    Insurance via Mobile Phones.
+                  </span>
                 </div>
               </div>
               <div className="flex justify-start gap-5 flex-wrap mt-6">
@@ -286,35 +219,35 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
                   <span className="inline-block w-[10px] h-[10px] rounded bg-[#4568F2]"></span>
                   <div className="flex flex-col justify-start gap-1">
                     <span className="font-medium">Pipeline</span>
-                    <span>-</span>
+                    <span>Initial pipeline</span>
                   </div>
                 </div>
                 <div className="flex justify-start gap-1 text-sm">
                   <span className="inline-block w-[10px] h-[10px] rounded bg-[#DE4841]"></span>
                   <div className="flex flex-col justify-start gap-1">
                     <span className="font-medium">Label</span>
-                    <span>-</span>
+                    <span>Hot</span>
                   </div>
                 </div>
                 <div className="flex justify-start gap-1 text-sm">
                   <span className="inline-block w-[10px] h-[10px] rounded bg-[#EBBC46]"></span>
                   <div className="flex flex-col justify-start gap-1">
                     <span className="font-medium">Stage</span>
-                    <span>-</span>
+                    <span>Unlisted</span>
                   </div>
                 </div>
                 <div className="flex justify-start gap-1 text-sm">
                   <span className="inline-block w-[10px] h-[10px] rounded bg-[#66BD50]"></span>
                   <div className="flex flex-col justify-start gap-1">
                     <span className="font-medium">Type of stakeholder</span>
-                    <span>-</span>
+                    <span>Prospect</span>
                   </div>
                 </div>
                 <div className="flex justify-start gap-1 text-sm">
                   <span className="inline-block w-[10px] h-[10px] rounded bg-[#2BB19C]"></span>
                   <div className="flex flex-col justify-start gap-1">
                     <span className="font-medium">Owner</span>
-                    <span>-</span>
+                    <span>Jeremy Leach</span>
                   </div>
                 </div>
               </div>
@@ -335,10 +268,9 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
               </div>
             </div>
             <div className="flex flex-col justify-start gap-2">
-              {/* <div className="h-[130px] w-full rounded-3xl bg-primary-100 flex justify-start gap-1 text-sm p-5">
+              <div className="h-[130px] w-full rounded-3xl bg-primary-100 flex justify-start gap-1 text-sm p-5">
                 <img
-                  // src={"https://logo.clearbit.com/" + deal.company.website}
-                  src={"https://logo.clearbit.com/acme.com"}
+                  src={"https://logo.clearbit.com/" + deal.company.website}
                   width={40}
                   height={40}
                   alt=""
@@ -351,11 +283,63 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
                   </div>
                   <span>Inclusivity Solutions Triumphs at VivaTech 2024</span>
                 </div>
-              </div> */}
+              </div>
+              <div className="h-[130px] w-full rounded-3xl bg-primary-100 flex justify-start gap-1 text-sm p-5">
+                <img
+                  src={"https://logo.clearbit.com/" + deal.company.website}
+                  width={40}
+                  height={40}
+                  alt=""
+                  className="w-[40px] h-[40px] rounded-full border"
+                />
+                <div className="flex flex-col justify-start gap-1 w-full">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Vivatechnology</span>
+                    <span>27/1/2025</span>
+                  </div>
+                  <span>Vivatech Award</span>
+                </div>
+              </div>
+              <div className="h-[130px] w-full rounded-3xl bg-primary-100 flex justify-start gap-1 text-sm p-5">
+                <img
+                  src={"https://logo.clearbit.com/" + deal.company.website}
+                  width={40}
+                  height={40}
+                  alt=""
+                  className="w-[40px] h-[40px] rounded-full border"
+                />
+                <div className="flex flex-col justify-start gap-1 w-full">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Inclusivity Solutions</span>
+                    <span>27/1/2025</span>
+                  </div>
+                  <span>
+                    {" "}
+                    NewTech Friday: Inclusivity Solutions – Embedded insurance
+                    solutions for an emerging Africa
+                  </span>
+                </div>
+              </div>
+              <div className="h-[130px] w-full rounded-3xl bg-primary-100 flex justify-start gap-1 text-sm p-5">
+                <img
+                  src={"https://logo.clearbit.com/" + deal.company.website}
+                  width={40}
+                  height={40}
+                  alt=""
+                  className="w-[40px] h-[40px] rounded-full border"
+                />
+                <div className="flex flex-col justify-start gap-1 w-full">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Inclusivity Solutions</span>
+                    <span>27/1/2025</span>
+                  </div>
+                  <span> Inclusivity Solutions Triumphs at VivaTech 2024</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="p-6 row-span-2 bg-primary-300 rounded-3xl">
-            <div className="flex justify-between items-center mb-3 h-2/6">
+            <div className="flex justify-between items-center mb-3 min-h-9">
               <span className="text-xl font-medium">Tasks & Activities</span>
               <div className="flex justify-center items-center gap-3">
                 <span>View more</span>
@@ -368,11 +352,39 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
                 />
               </div>
             </div>
-            <div className="flex flex-col justify-center gap-2 h-4/6">
-              <div className="flex flex-col items-center justify-center px-6 py-5 rounded-3xl">
-                <span className="font-bold text-primary-dark-400">
-                  No activity and task Click here to add an activity
+            <div className="flex flex-col justify-start gap-2">
+              <div className="flex flex-col items-center justify-between gap-5 px-6 py-5 bg-primary-100 rounded-3xl">
+                <div className="flex justify-between items-center w-full">
+                  <span className="inline-block px-4 py-[10px] bg-primary-300 rounded-full">
+                    Meeting 15/03
+                  </span>
+                  <img
+                    src={option_icon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="max-w-5 max-h-5"
+                  />
+                </div>
+                <span>
+                  Monthly call to discuss Next Steps in Botwsana et sur l'autre
+                  Deadline 25/03 - Send Reviewed contract
                 </span>
+              </div>
+              <div className="flex flex-col items-start justify-between gap-5 px-6 py-5 bg-primary-100 rounded-3xl">
+                <div className="flex justify-between items-center w-full">
+                  <span className="inline-block px-4 py-[10px] bg-primary-300 rounded-full">
+                    Deadline 15/03
+                  </span>
+                  <img
+                    src={option_icon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="max-w-5 max-h-5"
+                  />
+                </div>
+                <span>Send Reviewed contract</span>
               </div>
             </div>
           </div>
@@ -402,7 +414,7 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
           <div className="flex justify-between w-full h-11 mb-5">
             <span className="flex items-center gap-1">
               <img
-                src={basil_settings_adjust}
+                src="/assets/icons/basil_settings-adjust-outline.svg"
                 width={21}
                 height={21}
                 alt="basil settings adjust outline"
@@ -445,16 +457,16 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
                   placeholder="Search by keywords"
                   className="p-2 bg-primary-50 rounded-xl min-w-[270px] min-h-11  ` outline-none"
                 />
-                {/* <Button small className="ml-2">
+                <Button small className="ml-2">
                   Search
-                </Button> */}
+                </Button>
               </div>
             </div>
             <Button
               small
               icon={
                 <img
-                  src={filter_reset}
+                  src="/assets/icons/filter-reset-icon.svg"
                   width={20}
                   height={20}
                   alt="filter reset icon"
@@ -479,8 +491,101 @@ export default function OneOrganisation({ iconSx, backUrl, events }) {
               <span>Actions</span>
             </div>
             <div className="flex justify-start flex-col gap-1">
-              <div className="flex justify-center font-medium mt-10">
-                <span>No interaction yet</span>
+              <div className="grid grid-cols-10 gap-2 font-medium bg-primary-100 rounded-full h-16 items-center px-6">
+                <span className="col-span-2">Envoyer contrat signé</span>
+                <span>Activity</span>
+                <span>To do</span>
+                <span className="flex flex-col items-start justify-center">
+                  <span className="font-medium">B.Bonnell</span>
+                  <span className="text-sm">27 Jun 2024, 10:22</span>
+                </span>
+                <span>Owner</span>
+                <span className="flex justify-start">
+                  <img
+                    className="rounded-full border-2 border-gray-light-100 -m-1"
+                    width={24}
+                    height={24}
+                    src="https://i.pravatar.cc/24"
+                    alt="contact image"
+                  />
+                  <img
+                    className="rounded-full border-2 border-gray-light-100 -m-1"
+                    width={24}
+                    height={24}
+                    src="https://i.pravatar.cc/24"
+                    alt="contact image"
+                  />
+                  <span className="rounded-full border-2 border-gray-light-100 -m-1 h-6 w-6 bg-gray-light-300 text-xs font-bold flex justify-center items-center">
+                    +2
+                  </span>
+                </span>
+                <span>21 Oct, 2024</span>
+                <span>Minutes</span>
+                <span>Actions</span>
+              </div>
+              <div className="grid grid-cols-10 gap-2 font-medium bg-primary-100 rounded-full h-16 items-center px-6">
+                <span className="col-span-2">Envoyer contrat signé</span>
+                <span>Interaction</span>
+                <span>Meet</span>
+                <span className="flex flex-col items-start justify-center">
+                  <span className="font-medium">B.Bonnell</span>
+                  <span className="text-sm">27 Jun 2024, 10:22</span>
+                </span>
+                <span>Owner</span>
+                <span className="flex justify-start">
+                  <img
+                    className="rounded-full border-2 border-gray-light-100 -m-1"
+                    width={24}
+                    height={24}
+                    src="https://i.pravatar.cc/24"
+                    alt="contact image"
+                  />
+                  <img
+                    className="rounded-full border-2 border-gray-light-100 -m-1"
+                    width={24}
+                    height={24}
+                    src="https://i.pravatar.cc/24"
+                    alt="contact image"
+                  />
+                  <span className="rounded-full border-2 border-gray-light-100 -m-1 h-6 w-6 bg-gray-light-300 text-xs font-bold flex justify-center items-center">
+                    +2
+                  </span>
+                </span>
+                <span>21 Oct, 2024</span>
+                <span>Minutes</span>
+                <span>Actions</span>
+              </div>
+              <div className="grid grid-cols-10 gap-2 font-medium bg-primary-100 rounded-full h-16 items-center px-6">
+                <span className="col-span-2">Envoyer contrat signé</span>
+                <span>Activity</span>
+                <span>To do</span>
+                <span className="flex flex-col items-start justify-center">
+                  <span className="font-medium">B.Bonnell</span>
+                  <span className="text-sm">27 Jun 2024, 10:22</span>
+                </span>
+                <span>Owner</span>
+                <span className="flex justify-start">
+                  <img
+                    className="rounded-full border-2 border-gray-light-100 -m-1"
+                    width={24}
+                    height={24}
+                    src="https://i.pravatar.cc/24"
+                    alt="contact image"
+                  />
+                  <img
+                    className="rounded-full border-2 border-gray-light-100 -m-1"
+                    width={24}
+                    height={24}
+                    src="https://i.pravatar.cc/24"
+                    alt="contact image"
+                  />
+                  <span className="rounded-full border-2 border-gray-light-100 -m-1 h-6 w-6 bg-gray-light-300 text-xs font-bold flex justify-center items-center">
+                    +2
+                  </span>
+                </span>
+                <span>21 Oct, 2024</span>
+                <span>Minutes</span>
+                <span>Actions</span>
               </div>
             </div>
           </div>

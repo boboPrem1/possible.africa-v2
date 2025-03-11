@@ -16,6 +16,7 @@ import {
 } from "antd/es/upload";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Option } from "antd/es/mentions";
+import TinyMCEEditor from "../../custom-components/editor";
 
 export const PostEdit: React.FC<IResourceComponentsProps> = () => {
   const { formProps, saveButtonProps, queryResult, onFinish } = useForm();
@@ -106,7 +107,9 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
   // });
 
   async function onSubmitCapture(values: any) {
+    let contentToSend = "";
     let imgTags = editorContent?.match(/<img[^>]+src="([^">]+)"/g);
+
     if (imgTags && imgTags.length > 0) {
       let imgs = imgTags.map((imgTag) => {
         const img = {
@@ -123,10 +126,14 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
       let content = editorContent;
       const result = imgs.map(async (img) => {
         img.url = await imageUploadHandler(img.base64);
-        // console.log(img.url);
         content = content.replace(`${img.base64}`, `${img.url}`);
+        
+        contentToSend = content;
         return content;
       });
+      // const results = await Promise.all(result)
+      // console.log(results)
+
       values.content = await Promise.all(result).then((values: string[]) => {
         //return the last element of values array
         content = values[values.length - 1];
@@ -140,10 +147,8 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     //   values.image = url;
     // }
 
-    if (values.image) {
+    if (values?.image) {
       values.image = imageUrl;
-    } else {
-      values.image = "";
     }
 
     // if (!values?.user) {
@@ -167,9 +172,7 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     if (!values?.categorie?._id) {
       values.categorie = null;
     }
-    if (!(editorContent && values?.content)) {
-      values.content = null;
-    }
+    values.content = contentToSend;
     if (!values?.publication_language) {
       values.publication_language = null;
     }
@@ -259,6 +262,32 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
             <Option value="FR">Français</Option>
             <Option value="ENG">Anglais</Option>
           </Select>
+        </Form.Item>
+        <Form.Item
+          label="Contenu"
+          name={["content"]}
+          className="advancedEditor"
+          style={{
+            height: "600px",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          {/* <ReactQuill
+            style={{ height: "500px", width: "100%" }}
+            modules={reactQuillModules}
+            value={editorContent}
+            onChange={setEditorContent}
+            theme="snow"
+            placeholder="Placez votre contenu ici..."
+          /> */}
+          <TinyMCEEditor
+            content=""
+            id="create_possible_post"
+            onContentChange={setEditorContent}
+          />
         </Form.Item>
         {/* <Form.Item
           label="Pays"

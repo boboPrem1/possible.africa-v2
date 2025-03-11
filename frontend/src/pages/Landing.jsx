@@ -127,7 +127,7 @@ const Landing = () => {
                 </span>
                 <a
                   href="/database"
-                  className="flex justify-end w-4/12 items-center self-center gap-x-3"
+                  className="flex justify-end items-center self-center gap-x-3"
                 >
                   <span className="text-nowrap">{_.landing_view_more}</span>
                   <svg
@@ -297,12 +297,16 @@ const New = ({ post }) => {
   );
 };
 const Organisation = ({ org }) => {
-  console.log(org)
+
+
+
   return (
-    <div
+    <a
       key={org.id}
-      className="flex justify-between items-center gap-x-2.5 bg-[#D9D9D9]/20 rounded-md min-h-18 p-2.5"
-    >
+      href={
+        `/database/${org.name}`
+      }
+      className="flex justify-between items-center gap-x-2.5 bg-[#D9D9D9]/20 rounded-md min-h-18 p-2.5">
       <div className="w-12 h-12 flex justify-center items-center self-start bg-custom-white rounded">
         <img
           src={org.logo}
@@ -337,7 +341,7 @@ const Organisation = ({ org }) => {
           </span> */}
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 
@@ -535,50 +539,45 @@ export const Header = ({ page }) => {
             >
               <a
                 href="/"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/" ? "font-black text-primary bg-primary-200" : ""
-                }`}
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/" ? "font-black text-primary bg-primary-200" : ""
+                  }`}
               >
                 {_.header_link_home}
               </a>
               <a
                 href="/news"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/news"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/news"
                     ? "font-black text-primary bg-primary-200"
                     : ""
-                }`}
+                  }`}
               >
                 {_.header_link_news}
               </a>
               <a
                 href="/database"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/database"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/database"
                     ? "font-black text-primary bg-primary-200"
                     : ""
-                }`}
+                  }`}
               >
                 {_.header_link_database}
               </a>
               <a
                 href="/pyramid"
                 target="_blank"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/pyramid"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/pyramid"
                     ? "font-black text-primary underline underline-offset-8"
                     : ""
-                }`}
+                  }`}
               >
                 Sales Platform
               </a>
               <a
                 href="https://yprlink.africa"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "https://yprlink.africa"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "https://yprlink.africa"
                     ? "font-black text-primary bg-primary-200"
                     : ""
-                }`}
+                  }`}
               >
                 Yperlink
               </a>
@@ -587,56 +586,52 @@ export const Header = ({ page }) => {
         )}
       </AnimatePresence>
       <div className="h-24 w-full flex justify-between items-center">
-        <div className="w-6/12 flex justify-start gap-20 items-center">
+        <div className="w-6/12 flex justify-start gap-10 items-center">
           <a href="/">
-            <img src={Logo} alt="" className="w-[100px] h-[50px] " />
+            <img src={Logo} alt="" className="min-w-[100px] h-[50px] " />
           </a>
           <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
             {/* <span className="border-b-2 border-primary">Overview</span> */}
             <a
               href="/"
-              className={`text-lg font-medium ${
-                page === "/"
+              className={`font-medium ${page === "/"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-              }`}
+                }`}
             >
               {_.header_link_home}
             </a>
             <a
               href="/news"
-              className={`text-lg font-medium ${
-                page === "/news"
+              className={`font-medium ${page === "/news"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-              }`}
+                }`}
             >
               {_.header_link_news}
             </a>
             <a
               href="/database"
-              className={`text-lg font-medium text-nowrap ${
-                page === "/database"
+              className={`font-medium text-nowrap ${page === "/database"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-              }`}
+                }`}
             >
               {_.header_link_database}
             </a>
             <a
               href="/pyramid"
               target="_blank"
-              className={`text-lg font-medium text-nowrap ${
-                page === "/pyramid"
+              className={`font-medium text-nowrap ${page === "/pyramid"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-              }`}
+                }`}
             >
               Sales Platform
             </a>
             {/* <a
               href="/waitlist"
-              className={`text-lg font-medium text-nowrap ${
+              className={`font-medium text-nowrap ${
                 page === "/waitlist"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
@@ -647,11 +642,10 @@ export const Header = ({ page }) => {
             <a
               href="https://yprlink.africa"
               target="_blank"
-              className={`text-lg font-medium ${
-                page === "https://yprlink.africa"
+              className={`font-medium ${page === "https://yprlink.africa"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-              }`}
+                }`}
             >
               Yprlink
             </a>

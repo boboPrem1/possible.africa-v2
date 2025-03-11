@@ -123,6 +123,10 @@ export const apiSlice = createApi({
       query: (organisationId) => `/organisations/${organisationId}`,
     }),
 
+    getOrganisationByName: builder.query({
+      query: (organisationName) => `/organisations/by_name/${organisationName}`,
+    }),
+
     addOrganisation: builder.mutation({
       query: (post) => ({
         url: "/organisations",
@@ -266,7 +270,7 @@ export const {
   useAddPostMutation,
   useDeletePostMutation,
   useUpdatePostMutation,
-  useGetOrganisationQuery,
+  useGetOrganisationByNameQuery,
   useSearchAllQuery,
   useGetOrganisationsQuery,
   useGetAirtableOrganisationsQuery,
