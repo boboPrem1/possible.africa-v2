@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { Header } from "../pages/Landing.jsx";
 import Loader from "../assets/icons/loader.svg";
 import NoData from "../utils/NoData.jsx";
+import DOMPurify from "dompurify";
 
 function OneActualite({ iconSx, backUrl, events }) {
   const { slug } = useParams();
@@ -21,6 +22,8 @@ function OneActualite({ iconSx, backUrl, events }) {
       console.log(data);
     }
   }, [isLoading]);
+
+  const sanitizedHtml = DOMPurify.sanitize(data?.content);
 
   if (isLoading) {
     return (
@@ -99,21 +102,23 @@ function OneActualite({ iconSx, backUrl, events }) {
                   <div className="flex">
                     <div className="flex flex-col md:flex-row gap-2 md:gap-5">
                       {/* Location */}
-                      {data?.airLink && <div className="flex items-center gap-1">
-                        <a
-                          href={data?.airLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center font-semibold text-[14px]"
-                        >
-                          <div className="flex items-center gap-1">
-                            <LaunchOutlinedIcon />
-                            <span className="text-[14px] text-primary hover:text-darkPrimary active:text-primary visited:text-darkPrimary">
-                              Article Source
-                            </span>
-                          </div>
-                        </a>
-                      </div>}
+                      {data?.airLink && (
+                        <div className="flex items-center gap-1">
+                          <a
+                            href={data?.airLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center font-semibold text-[14px]"
+                          >
+                            <div className="flex items-center gap-1">
+                              <LaunchOutlinedIcon />
+                              <span className="text-[14px] text-primary hover:text-darkPrimary active:text-primary visited:text-darkPrimary">
+                                Article Source
+                              </span>
+                            </div>
+                          </a>
+                        </div>
+                      )}
                       {/* Frequence */}
                       {/* <div className="flex items-center gap-1">
                       <CalendarIcon />
@@ -152,7 +157,11 @@ function OneActualite({ iconSx, backUrl, events }) {
             />
 
             {/* Content */}
-            <main className="w-full">{content}</main>
+            
+            {/* <main className="w-full">{content}</main> */}
+            <main className="w-full">
+              <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} id="tinymce" className="mce-content-body " />
+            </main>
 
             {/* Social share */}
             <div className="w-full mt-20 border-t border-gray-100 pt-5">
