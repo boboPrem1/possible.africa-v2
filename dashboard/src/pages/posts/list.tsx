@@ -95,7 +95,7 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
     tableQueryResult: { refetch },
   } = useTable({
     syncWithLocation: true,
-    onSearch: (params) => {
+    onSearch: (params: any) => {
       const filters: CrudFilters = [];
       const { title, airMedia, createdAt } = params;
 
