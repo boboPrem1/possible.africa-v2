@@ -6,7 +6,8 @@ const {
   updateOrganisation,
   deleteOrganisation,
   getWpImageBuffer,
-  getMetaData
+  getMetaData,
+  getOrganisationByName
 } = require("./organisationController");
 // const { UploadImage } = require("../uploads/uploadsController.js");
 
@@ -17,6 +18,8 @@ router
   .route("/")
   .get(getAllOrganisations)
   .post(createOrganisation);
+
+router.route("/by_name/:name").get(getOrganisationByName);
 
 router
   .route("/:id")
