@@ -86,7 +86,7 @@ function OneActualite({ iconSx, backUrl, events }) {
             {/* Header */}
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-5">
-                <div className="min-w-[90px]">
+                {/* <div className="min-w-[90px]">
                   <img
                     className="object-cover w-[80px] md:w-[100px] h-[80px] md:h-[100px] rounded-lg border border-gray-100"
                     src={data?.airLogo}
@@ -96,9 +96,9 @@ function OneActualite({ iconSx, backUrl, events }) {
                       e.target.src = "/placeholder_org.jpeg";
                     }}
                   />
-                </div>
+                </div> */}
                 <div className="flex flex-col gap-2">
-                  <h1 className="text-lg md:text-4xl">{data?.title}</h1>
+                  <h1 className="text-lg md:text-4xl font-bold text-primary">{data?.title}</h1>
                   <div className="flex">
                     <div className="flex flex-col md:flex-row gap-2 md:gap-5">
                       {/* Location */}
