@@ -172,7 +172,7 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     if (!values?.categorie?._id) {
       values.categorie = null;
     }
-    values.content = contentToSend;
+    values.content = contentToSend || editorContent;
     if (!values?.publication_language) {
       values.publication_language = null;
     }
