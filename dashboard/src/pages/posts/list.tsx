@@ -8,6 +8,7 @@ import {
   useMany,
   useRouterContext,
   useRouterType,
+  CrudFilters
 } from "@refinedev/core";
 import {
   CreateButton,
@@ -30,6 +31,9 @@ import {
   Table,
   Tooltip,
   Spin,
+  Row,
+  Col,
+  Form
 } from "antd";
 import papa from "papaparse";
 import { downloadMedia } from "../organisations/list";
@@ -42,6 +46,8 @@ import {
 } from "../../custom-components/AccessControl";
 import { TOKEN_KEY } from "../../authProvider";
 import axios from "axios";
+import { SearchOutlined } from "@ant-design/icons";
+
 const token = localStorage.getItem(TOKEN_KEY);
 const axiosInstance = axios.create({
   headers: {
@@ -83,11 +89,41 @@ async function processContent(content: string) {
 export const PostList: React.FC<IResourceComponentsProps> = () => {
   const {
     tableProps,
+    searchFormProps,
     setPageSize,
     pageSize,
     tableQueryResult: { refetch },
   } = useTable({
     syncWithLocation: true,
+    onSearch: (params) => {
+      const filters: CrudFilters = [];
+      const { title, airMedia, createdAt } = params;
+
+      filters.push(
+        {
+          field: "title",
+          operator: "eq",
+          value: title,
+        },
+        {
+          field: "airMedia",
+          operator: "eq",
+          value: airMedia,
+        },
+        {
+          field: "createdAt",
+          operator: "gte",
+          value: createdAt ? createdAt[0].toISOString() : undefined,
+        },
+        {
+          field: "createdAt",
+          operator: "lte",
+          value: createdAt ? createdAt[1].toISOString() : undefined,
+        }
+      );
+
+      return filters;
+    },
     filters: {
       initial: [
         {
@@ -711,6 +747,34 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
     <>
       {contextHolder}
       {modalContextHolder}
+      <Row gutter={[16, 16]}>
+      <Col lg={24} xs={24}>
+          <Form layout="horizontal" {...searchFormProps}>
+            <Space>
+              <Form.Item name="name">
+                <Input
+                  placeholder="Recherche avec le nom ..."
+                  prefix={<SearchOutlined />}
+                />
+              </Form.Item>
+              {/* <Form.Item label="Date de création" name="createdAt">
+                <RangePicker placeholder={["Date de début", "Date de fin"]} />
+              </Form.Item> */}
+              <Form.Item>
+                <Button
+                  className="btn-primary"
+                  style={{
+                    backgroundColor: "#6cd9cb",
+                    color: "white",
+                  }}
+                  htmlType="submit"
+                >
+                  Filtrer
+                </Button>
+              </Form.Item>
+            </Space>
+          </Form>
+        </Col>
       <List
         headerProps={{
           extra: (
@@ -1051,6 +1115,7 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
           </Space>
         </AdminOrContributor>
       </List>
+      </Row>
     </>
   );
 };
