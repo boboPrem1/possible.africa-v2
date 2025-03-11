@@ -813,108 +813,110 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
             </Space>
           </Form>
         </Col>
-        <List
-          headerProps={{
-            extra: (
-              <AdminOrContributor>
-                <Space>
-                  {checkedArray.length ? (
+
+        <Col lg={24} xs={24}>
+          <List
+            headerProps={{
+              extra: (
+                <AdminOrContributor>
+                  <Space>
+                    {checkedArray.length ? (
+                      <button
+                        className="btn-primary"
+                        onClick={confirmDelete}
+                        style={{ backgroundColor: "#ff4d4f", color: "white" }}
+                      >
+                        {`${checkedArray.length}`} Effacer Selection
+                      </button>
+                    ) : null}
+                    <Input
+                      type="file"
+                      ref={fileImportInput}
+                      onChange={handleImport}
+                    />
                     <button
                       className="btn-primary"
-                      onClick={confirmDelete}
-                      style={{ backgroundColor: "#ff4d4f", color: "white" }}
-                    >
-                      {`${checkedArray.length}`} Effacer Selection
-                    </button>
-                  ) : null}
-                  <Input
-                    type="file"
-                    ref={fileImportInput}
-                    onChange={handleImport}
-                  />
-                  <button
-                    className="btn-primary"
-                    onClick={() => {
-                      // log datas
-                      if (tableProps?.dataSource) {
-                        const data = tableProps?.dataSource.map((el: any) => {
-                          return {
-                            title: el.title,
-                            content: el.content,
-                            country: el.country,
-                            slug: el.slug,
-                            image: el.image,
-                          };
-                        });
-                        if (data) {
-                          const csv = papa.unparse(data);
-                          const blob = new Blob([csv], { type: "text/csv" });
-                          const url = window.URL.createObjectURL(blob);
-                          const a = document.createElement("a");
-                          a.setAttribute("hidden", "");
-                          a.setAttribute("href", url);
-                          a.setAttribute(
-                            "download",
-                            `articles-${new Date()}-${Math.round(
-                              Math.random() * 99999999
-                            )}.csv`
-                          );
-                          document.body.appendChild(a);
-                          a.click();
-                          document.body.removeChild(a);
+                      onClick={() => {
+                        // log datas
+                        if (tableProps?.dataSource) {
+                          const data = tableProps?.dataSource.map((el: any) => {
+                            return {
+                              title: el.title,
+                              content: el.content,
+                              country: el.country,
+                              slug: el.slug,
+                              image: el.image,
+                            };
+                          });
+                          if (data) {
+                            const csv = papa.unparse(data);
+                            const blob = new Blob([csv], { type: "text/csv" });
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.setAttribute("hidden", "");
+                            a.setAttribute("href", url);
+                            a.setAttribute(
+                              "download",
+                              `articles-${new Date()}-${Math.round(
+                                Math.random() * 99999999
+                              )}.csv`
+                            );
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                          }
                         }
-                      }
-                    }}
-                  >
-                    Exporter les données
-                  </button>
-                  <CreateButton
-                    className="btn-primary"
-                    style={{
-                      backgroundColor: "#6cd9cb",
-                    }}
-                  />
-                </Space>
-              </AdminOrContributor>
-            ),
-          }}
-        >
-          <Table
-            {...tableProps}
-            pagination={false}
-            rowKey="_id"
-            scroll={{ x: 1800, y: "auto" }}
+                      }}
+                    >
+                      Exporter les données
+                    </button>
+                    <CreateButton
+                      className="btn-primary"
+                      style={{
+                        backgroundColor: "#6cd9cb",
+                      }}
+                    />
+                  </Space>
+                </AdminOrContributor>
+              ),
+            }}
           >
-            <Table.Column
-              fixed="left"
-              width={68}
-              dataIndex=""
-              title={
-                visibleCheckAll ? (
-                  <Checkbox
-                    checked={allCheckedOnPage}
-                    defaultChecked={false}
-                    onChange={handleCheckBoxAll}
-                  />
-                ) : (
-                  "#"
-                )
-              }
-              render={(_, record: BaseRecord) => {
-                return (
-                  <Checkbox
-                    key={record.id}
-                    checked={checkedArray.includes(record.id)}
-                    ref={(input) =>
-                      (checkboxRefs.current[record.id] = record.id)
-                    }
-                    className="ant-table-row-checkbox"
-                    onChange={() => handleCheckBox(event, record.id)}
-                  />
-                );
-              }}
-            />
-            {/* <AdminOrContributorOrUser>
+            <Table
+              {...tableProps}
+              pagination={false}
+              rowKey="_id"
+              scroll={{ x: 1800, y: "auto" }}
+            >
+              <Table.Column
+                fixed="left"
+                width={68}
+                dataIndex=""
+                title={
+                  visibleCheckAll ? (
+                    <Checkbox
+                      checked={allCheckedOnPage}
+                      defaultChecked={false}
+                      onChange={handleCheckBoxAll}
+                    />
+                  ) : (
+                    "#"
+                  )
+                }
+                render={(_, record: BaseRecord) => {
+                  return (
+                    <Checkbox
+                      key={record.id}
+                      checked={checkedArray.includes(record.id)}
+                      ref={(input) =>
+                        (checkboxRefs.current[record.id] = record.id)
+                      }
+                      className="ant-table-row-checkbox"
+                      onChange={() => handleCheckBox(event, record.id)}
+                    />
+                  );
+                }}
+              />
+              {/* <AdminOrContributorOrUser>
             <Table.Column
               fixed="left"
               title="Statut"
@@ -946,7 +948,7 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
               )}
             />
           </AdminOrContributorOrUser> */}
-            {/* <Table.Column
+              {/* <Table.Column
             width={120}
             dataIndex={["image"]}
             title="Couverture"
@@ -958,8 +960,8 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
               }
             }}
           /> */}
-            <Table.Column dataIndex="title" title="Titre" ellipsis={true} />
-            {/* <Table.Column
+              <Table.Column dataIndex="title" title="Titre" ellipsis={true} />
+              {/* <Table.Column
             dataIndex={["categorie"]}
             title="Categorie"
             render={(value) => {
@@ -977,49 +979,49 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
               }
             }}
           /> */}
-            {/* <Table.Column
+              {/* <Table.Column
             dataIndex={["user", "complete_name"]}
             title="Contributeur"
           /> */}
-            <Table.Column
-              dataIndex="airTags"
-              title="Etiquettes"
-              // render={(value: any[]) =>
-              //   labelsIsLoading ? (
-              //     <>Loading ...</>
-              //   ) : (
-              //     <>
-              //         <CustomLink
-              //           target="_blank"
-              //           to={`/post_labels/show/${item._id}`}
-              //         >
-              //           <TagField value={value} />
-              //         </CustomLink>
-              //     </>
-              //   )
-              // }
-            />
-            <Table.Column
-              dataIndex="airMedia"
-              title="Média"
-              // render={(value: any[]) =>
-              //   organisationsIsLoading ? (
-              //     <>Loading ...</>
-              //   ) : (
-              //     <>
-              //       {value?.map((item, index) => (
-              //         <CustomLink
-              //           target="_blank"
-              //           to={`/organisations/show/${item._id}`}
-              //         >
-              //           <TagField key={index} value={item?.name} />
-              //         </CustomLink>
-              //       ))}
-              //     </>
-              //   )
-              // }
-            />
-            {/* <Table.Column
+              <Table.Column
+                dataIndex="airTags"
+                title="Etiquettes"
+                // render={(value: any[]) =>
+                //   labelsIsLoading ? (
+                //     <>Loading ...</>
+                //   ) : (
+                //     <>
+                //         <CustomLink
+                //           target="_blank"
+                //           to={`/post_labels/show/${item._id}`}
+                //         >
+                //           <TagField value={value} />
+                //         </CustomLink>
+                //     </>
+                //   )
+                // }
+              />
+              <Table.Column
+                dataIndex="airMedia"
+                title="Média"
+                // render={(value: any[]) =>
+                //   organisationsIsLoading ? (
+                //     <>Loading ...</>
+                //   ) : (
+                //     <>
+                //       {value?.map((item, index) => (
+                //         <CustomLink
+                //           target="_blank"
+                //           to={`/organisations/show/${item._id}`}
+                //         >
+                //           <TagField key={index} value={item?.name} />
+                //         </CustomLink>
+                //       ))}
+                //     </>
+                //   )
+                // }
+              />
+              {/* <Table.Column
             dataIndex="editors"
             title="Editeurs"
             render={(value: any[]) =>
@@ -1039,7 +1041,7 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
               )
             }
           /> */}
-            {/* <Table.Column
+              {/* <Table.Column
             dataIndex="authors"
             title="Auteurs"
             render={(value: any[]) =>
@@ -1057,7 +1059,7 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
             }
           /> */}
 
-            {/* <Table.Column
+              {/* <Table.Column
             dataIndex="countries"
             title="Pays"
             render={(value: any[]) =>
@@ -1075,90 +1077,95 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
               )
             }
           /> */}
-            {/* <Table.Column dataIndex="slug" title="Slug" ellipsis={true} /> */}
-            <Table.Column
-              dataIndex="airLanguage"
-              title="Langue de publication"
-              render={(value) => (value === "FR" ? "Français" : "Anglais")}
-              ellipsis={true}
-            />
-            <Table.Column
-              fixed="right"
-              title="Actions"
-              dataIndex="actions"
-              render={(_, record: BaseRecord) => (
-                <Space>
-                  <AdminOrContributor>
-                    <EditButton
+              {/* <Table.Column dataIndex="slug" title="Slug" ellipsis={true} /> */}
+              <Table.Column
+                dataIndex="airLanguage"
+                title="Langue de publication"
+                render={(value) => (value === "FR" ? "Français" : "Anglais")}
+                ellipsis={true}
+              />
+              <Table.Column
+                fixed="right"
+                title="Actions"
+                dataIndex="actions"
+                render={(_, record: BaseRecord) => (
+                  <Space>
+                    <AdminOrContributor>
+                      <EditButton
+                        hideText
+                        size="small"
+                        recordItemId={record.id}
+                      />
+                    </AdminOrContributor>
+                    <ShowButton
                       hideText
                       size="small"
                       recordItemId={record.id}
                     />
-                  </AdminOrContributor>
-                  <ShowButton hideText size="small" recordItemId={record.id} />
-                  <Admin>
-                    <DeleteButton
-                      hideText
-                      size="small"
-                      recordItemId={record.id}
-                    />
-                  </Admin>
-                  {/*<Tooltip*/}
-                  {/*  title={statusVariables[`${record.status}`].label}*/}
-                  {/*  color={statusVariables[`${record.status}`].color}*/}
-                  {/*  key={record.id}*/}
-                  {/*>*/}
-                  {/*  <button className="btn-primary"*/}
-                  {/*    style={statusVariables[`${record.status}`].styles}*/}
-                  {/*    size="small"*/}
-                  {/*    shape="circle"*/}
-                  {/*    onClick={() => {*/}
-                  {/*      confirmStatusChange(record.id, record.status);*/}
-                  {/*    }}*/}
-                  {/*  ></button>*/}
-                  {/*</Tooltip>*/}
-                </Space>
-              )}
-            />
-          </Table>
-          <Space
-            style={{
-              width: "full",
-              display: "flex",
-              justifyContent: "end",
-              marginTop: "1rem",
-            }}
-          >
-            <button
-              className="btn-primary"
-              onClick={() => {
-                setPageSize((s) => {
-                  return s + 10;
-                });
-                refetch();
-              }}
+                    <Admin>
+                      <DeleteButton
+                        hideText
+                        size="small"
+                        recordItemId={record.id}
+                      />
+                    </Admin>
+                    {/*<Tooltip*/}
+                    {/*  title={statusVariables[`${record.status}`].label}*/}
+                    {/*  color={statusVariables[`${record.status}`].color}*/}
+                    {/*  key={record.id}*/}
+                    {/*>*/}
+                    {/*  <button className="btn-primary"*/}
+                    {/*    style={statusVariables[`${record.status}`].styles}*/}
+                    {/*    size="small"*/}
+                    {/*    shape="circle"*/}
+                    {/*    onClick={() => {*/}
+                    {/*      confirmStatusChange(record.id, record.status);*/}
+                    {/*    }}*/}
+                    {/*  ></button>*/}
+                    {/*</Tooltip>*/}
+                  </Space>
+                )}
+              />
+            </Table>
+            <Space
               style={{
-                textTransform: "capitalize",
+                width: "full",
+                display: "flex",
+                justifyContent: "end",
+                marginTop: "1rem",
               }}
             >
-              {`${pageSize * 2} élements affichés`} Charger plus
-            </button>
-          </Space>
-
-          <AdminOrContributor>
-            <Space>
-              {checkedArray.length ? (
-                <button
-                  className="btn-primary"
-                  onClick={confirmDelete}
-                  style={{ backgroundColor: "#ff4d4f", color: "white" }}
-                >
-                  {`${checkedArray.length}`} Effacer Selection
-                </button>
-              ) : null}
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  setPageSize((s) => {
+                    return s + 10;
+                  });
+                  refetch();
+                }}
+                style={{
+                  textTransform: "capitalize",
+                }}
+              >
+                {`${pageSize * 2} élements affichés`} Charger plus
+              </button>
             </Space>
-          </AdminOrContributor>
-        </List>
+
+            <AdminOrContributor>
+              <Space>
+                {checkedArray.length ? (
+                  <button
+                    className="btn-primary"
+                    onClick={confirmDelete}
+                    style={{ backgroundColor: "#ff4d4f", color: "white" }}
+                  >
+                    {`${checkedArray.length}`} Effacer Selection
+                  </button>
+                ) : null}
+              </Space>
+            </AdminOrContributor>
+          </List>
+        </Col>
       </Row>
     </>
   );
