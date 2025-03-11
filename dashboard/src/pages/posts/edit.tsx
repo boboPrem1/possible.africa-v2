@@ -284,7 +284,7 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
             placeholder="Placez votre contenu ici..."
           /> */}
           <TinyMCEEditor
-            content=""
+            content={editorContent}
             id="create_possible_post"
             onContentChange={setEditorContent}
           />
