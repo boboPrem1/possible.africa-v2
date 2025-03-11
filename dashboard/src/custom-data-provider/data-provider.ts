@@ -263,6 +263,7 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
     }
 
     if (headers) {
+      // @ts-ignore
       axiosInstance.defaults.headers = {
         ...axiosInstance.defaults.headers,
         ...headers,
