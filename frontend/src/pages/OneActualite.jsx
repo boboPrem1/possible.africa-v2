@@ -130,7 +130,7 @@ function OneActualite({ iconSx, backUrl, events }) {
                     })}
                   </div>
 
-                  <h1 className="text-lg md:text-4xl font-bold text-gray-darkest">
+                  <h1 className="text-lg md:text-4xl font-bold text-gray-darkest mb-1.5">
                     {data?.title}
                   </h1>
                   <div className="flex justify-start items-center gap-4 mb-8">
