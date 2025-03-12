@@ -25,9 +25,9 @@ function OneActualite({ iconSx, backUrl, events }) {
 
   // format date
   const formatDate = (date) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString('fr-FR', options);
-  }
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString("fr-FR", options);
+  };
 
   const sanitizedHtml = DOMPurify.sanitize(data?.content);
 
@@ -76,15 +76,17 @@ function OneActualite({ iconSx, backUrl, events }) {
           />
         </div>
 
-        <img
-          className="w-full mb-5"
-          src="https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741354259963-PARTNERS%20BAND.jpg"
-          alt="Possible africa partners"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/placeholder_org.jpeg";
-          }}
-        />
+        <div className="w-full pl-10">
+          <img
+            className="w-full mb-5"
+            src="https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741354259963-PARTNERS%20BAND.jpg"
+            alt="Possible africa partners"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/placeholder_org.jpeg";
+            }}
+          />
+        </div>
 
         <div className="flex flex-col md:flex-row py-0">
           {/* Main Content */}
@@ -119,10 +121,12 @@ function OneActualite({ iconSx, backUrl, events }) {
 
                   </div> */}
                   <div className="flex justify-start items-center gap-2">
-                    {data.airTags.split(', ').map(tag => {
+                    {data.airTags.split(", ").map((tag) => {
                       return (
-                        <span className="inline-block h-8 px-3 rounded-md bg-primary text-white text-sm text-gray-500 flex items-center justify-center capitalize font-medium">{tag}</span>
-                      )
+                        <span className="inline-block h-8 px-3 rounded-md bg-primary text-white text-sm text-gray-500 flex items-center justify-center capitalize font-medium">
+                          {tag}
+                        </span>
+                      );
                     })}
                   </div>
 
@@ -140,7 +144,9 @@ function OneActualite({ iconSx, backUrl, events }) {
                         Marthe Jesuwame
                       </span>
                     </div>
-                    <span className="font-medium text-sm">{formatDate(data.createdAt)}</span>
+                    <span className="font-medium text-sm">
+                      {formatDate(data.createdAt)}
+                    </span>
                   </div>
                   <div className="w-full h-auto border overflow-hidden rounded-lg">
                     <img
