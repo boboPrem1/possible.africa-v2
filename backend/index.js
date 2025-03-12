@@ -325,6 +325,7 @@ app.use(API_URL_BASE + "ai", aiGeneratorRoutes);
 // AI Generator
 app.use(API_URL_BASE + "icps", icpsRoutes);
 app.use(API_URL_BASE + "speech_to_text", speechToTextRoutes);
+app.use(API_URL_BASE + "upload", uploadRoutes);
 
 app.use(protect);
 app.use(API_URL_BASE + "users", userRoutes);
@@ -337,7 +338,6 @@ app.use(API_URL_BASE + "organisations", organisationRoutes);
 app.use(API_URL_BASE + "airtable_organisations", airtableOrganisationRoutes);
 app.use(API_URL_BASE + "posts", postRoutes);
 app.use(API_URL_BASE + "airtable_posts", airtablePostRoutes);
-app.use(API_URL_BASE + "upload", uploadRoutes);
 app.use(API_URL_BASE + "search", searchRoutes);
 app.use(API_URL_BASE + "dashboard", dashboardRoutes);
 
