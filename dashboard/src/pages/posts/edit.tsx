@@ -127,7 +127,7 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
       const result = imgs.map(async (img) => {
         img.url = await imageUploadHandler(img.base64);
         content = content.replace(`${img.base64}`, `${img.url}`);
-        
+
         contentToSend = content;
         return content;
       });
@@ -288,6 +288,47 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
             id="create_possible_post"
             onContentChange={setEditorContent}
           />
+        </Form.Item>
+        <Form.Item label="Couverture" name="image">
+          <Upload
+            name="file"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            {uploadLoading ? (
+              uploadButton
+            ) : (
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <img
+                  src={imageUrl}
+                  alt="avatar"
+                  style={{ width: "100%", borderRadius: "8px" }}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    left: "5%",
+                    right: "5%",
+                    bottom: "5%",
+                    backgroundColor: "tomato",
+                    color: "white",
+                  }}
+                >
+                  Modifier
+                </span>
+              </div>
+            )}
+          </Upload>
         </Form.Item>
         {/* <Form.Item
           label="Pays"

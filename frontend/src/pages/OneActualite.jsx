@@ -23,6 +23,12 @@ function OneActualite({ iconSx, backUrl, events }) {
     }
   }, [isLoading]);
 
+  // format date
+  const formatDate = (date) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString('fr-FR', options);
+  }
+
   const sanitizedHtml = DOMPurify.sanitize(data?.content);
 
   if (isLoading) {
@@ -98,7 +104,55 @@ function OneActualite({ iconSx, backUrl, events }) {
                   />
                 </div> */}
                 <div className="flex flex-col gap-2">
-                  <h1 className="text-lg md:text-4xl font-bold text-primary">{data?.title}</h1>
+                  {/* <div className="flex justify-start items-center gap-3">
+                    <div className="w-[100px] border overflow-hidden rounded-lg">
+                      <img
+                        className="w-full"
+                        src={data?.image}
+                        alt={data?.image}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/placeholder_org.jpeg";
+                        }}
+                      />
+                    </div>
+
+                  </div> */}
+                  <div className="flex justify-start items-center gap-2">
+                    {data.airTags.split(', ').map(tag => {
+                      return (
+                        <span className="inline-block h-8 px-3 rounded-md bg-primary text-white text-sm text-gray-500 flex items-center justify-center capitalize font-medium">{tag}</span>
+                      )
+                    })}
+                  </div>
+
+                  <h1 className="text-lg md:text-4xl font-bold text-gray-darkest">
+                    {data?.title}
+                  </h1>
+                  <div className="flex justify-start items-center gap-4 mb-8">
+                    <div className="flex justify-start items-center gap-2">
+                      <img
+                        className="w-6 h-6 rounded-full"
+                        src="https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741772042908-1739889775930.jpg"
+                        alt="Author avatar"
+                      />
+                      <span className="font-medium text-sm">
+                        Marthe Jesuwame
+                      </span>
+                    </div>
+                    <span className="font-medium text-sm">{formatDate(data.createdAt)}</span>
+                  </div>
+                  <div className="w-full h-auto border overflow-hidden rounded-lg">
+                    <img
+                      className="w-full"
+                      src={data?.image}
+                      alt={data?.image}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/placeholder_org.jpeg";
+                      }}
+                    />
+                  </div>
                   <div className="flex">
                     <div className="flex flex-col md:flex-row gap-2 md:gap-5">
                       {/* Location */}
@@ -146,7 +200,7 @@ function OneActualite({ iconSx, backUrl, events }) {
               </div>
             </div>
 
-            <img
+            {/* <img
               className="w-full"
               src={data?.image}
               alt={data?.image}
@@ -154,13 +208,17 @@ function OneActualite({ iconSx, backUrl, events }) {
                 e.target.onerror = null;
                 e.target.src = "/placeholder_org.jpeg";
               }}
-            />
+            /> */}
 
             {/* Content */}
-            
+
             {/* <main className="w-full">{content}</main> */}
             <main className="w-full">
-              <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} id="tinymce" className="mce-content-body " />
+              <div
+                dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+                id="tinymce"
+                className="mce-content-body "
+              />
             </main>
 
             {/* Social share */}
