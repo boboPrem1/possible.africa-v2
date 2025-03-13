@@ -220,9 +220,6 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     if (queryResult.isFetching) {
       setUploadLoading(true);
     }
-    if (imageUrl) {
-      setUploadLoading(false);
-    }
     if (postsData?.content) {
       setEditorContent(postsData?.content);
     }
@@ -232,7 +229,14 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     }
 
     // console.log(queryResult.isFetching);
-  }, [imageUrl, postsData, queryResult.isFetching, uploadLoading]);
+  }, [postsData, queryResult.isFetching, uploadLoading]);
+
+
+  useEffect(() => {
+    if (imageUrl) {
+      setUploadLoading(false);
+    }
+  }, [imageUrl]);
 
   return (
     <Edit saveButtonProps={saveButtonProps}>

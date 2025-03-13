@@ -16,6 +16,7 @@ import { UploadProps } from "antd/lib/upload";
 import { Option } from "antd/es/mentions";
 import { axiosInstance } from "../../custom-data-provider/data-provider";
 import TinyMCEEditor from "../../custom-components/editor";
+import axios from "axios";
 
 const ENV = import.meta.env.VITE_NODE_ENV;
 const API_URL =
@@ -23,25 +24,85 @@ const API_URL =
     ? import.meta.env.VITE_BACKEND_DEV
     : import.meta.env.VITE_BACKEND_PROD;
 
-export async function imageUploadHandler(image: any) {
-  // build form data
-  const bf = await fetch(image);
-  const blob = await bf.blob();
-  const file = new File([blob], "image." + blob.type.split("/")[1], {
-    type: blob.type,
-  });
-  const data = new FormData();
-  data.append("image", file);
+// export async function imageUploadHandler(image: any) {
+//   try {
+//     // build form data
+//     const bf = await fetch(image);
+//     const blob = await bf.blob();
+//     const file = new File([blob], "image." + blob.type.split("/")[1], {
+//       type: blob.type,
+//     });
+//     const data = new FormData();
+//     data.append("image", file);
 
-  // send post request
-  const response = await axiosInstance.post(`${API_URL}/upload/images`, data);
+//     // send post request
+//     const response = await axiosInstance.post(`${API_URL}/upload/images`, data);
 
-  // return the image url
-  const imageUrl = response.data.url;
-  // const imageUrl = `${API_URL}/uploads/images/${filename}`;
+//     // return the image url
+//     const imageUrl = response.data.url;
+//     return imageUrl;
+//   } catch (error) {
+//     console.error("Erreur lors de l'upload d'image:", error);
+//     message.error("Échec de l'upload d'image. Veuillez réessayer.");
+//     return null;
+//   }
+// }
 
-  return imageUrl;
+// export async function imageUploadHandler(image: any) {
+//   try {
+    
+//     const bf = await fetch(image);
+//     const blob = await bf.blob();
+    
+//     console.log(bf);
+//     const data = new FormData();
+//     data.append("image", blob, "image." + image.split(";")[0].split("/")[1]);
+
+//     console.log(data);
+
+//     const response = await axiosInstance.post(`${API_URL}/upload/images`, data);
+
+//     return response.data.url;
+//   } catch (error) {
+//     console.error("Erreur lors de l'upload d'image:", error);
+//     message.error("Échec de l'upload d'image. Veuillez réessayer.");
+//     return null;
+//   }
+// }
+
+export async function imageUploadHandler(base64Image: string) {
+  try {
+    // Convertir la chaîne base64 en Blob
+    const response = await fetch(base64Image);
+    const blob = await response.blob();
+
+    // Construire un objet File à partir du Blob
+    const fileExtension = blob.type.split("/")[1] || "png";
+    const file = new File([blob], `image.${fileExtension}`, {
+      type: blob.type,
+    });
+    console.log(file);
+    // Construire FormData
+    const data = new FormData();
+    data.append("image", file);
+    
+    for (const pair of data.entries()) {
+      console.log(pair[0] + ':', pair[1]); 
+    }
+
+    // Envoi de la requête POST
+    const res = await axios.post(`${API_URL}/upload/images`, data);
+
+    // Renvoyer l'URL de l'image téléchargée
+    return res.data.url;
+
+  } catch (error) {
+    console.error("Erreur lors de l'upload d'image:", error);
+    message.error("Échec de l'upload d'image. Veuillez réessayer.");
+    return null;
+  }
 }
+
 
 export const reactQuillModules = {
   toolbar: {
@@ -67,31 +128,10 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const apiUrl = useApiUrl();
 
-  useEffect(() => {
-    //console.log(editorContent);
-    if (imageUrl) {
-      setUploadLoading(false);
-      console.log(imageUrl);
-    }
-  }, [imageUrl, editorContent]);
-
-  useEffect(() => {
-    if (editorContent) {
-      console.log(editorContent);
-    }
-  }, [editorContent]);
-
   const { selectProps: authorSelectProps } = useSelect({
     resource: "users",
     optionLabel: "complete_name",
     optionValue: "_id",
-    // filters: [
-    //   {
-    //     field: "role",
-    //     operator: "eq",
-    //     value: "contact",
-    //   },
-    // ],
   });
 
   const { selectProps: categorieSelectProps } = useSelect({
@@ -125,173 +165,120 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
   });
 
   async function onSubmitCapture(values: any) {
-    let contentToSend = "";
-    let imgTags = editorContent?.match(/<img[^>]+src="([^">]+)"/g);
+    try {
+      let contentToSend = editorContent || "";
+      let imgTags = contentToSend.match(/<img[^>]+src="([^">]+)"/g);
 
-    if (imgTags && imgTags.length > 0) {
-      let imgs = imgTags.map((imgTag) => {
-        const img = {
-          base64: "",
-          url: "",
-        };
-        img.base64 = imgTag
-          .match(/src="([^">]+)"/g)[0]
-          .replace('src="', "")
-          .replace('"', "");
+      if (imgTags && imgTags.length > 0) {
+        let imgs = imgTags.map((imgTag) => {
+          const src = imgTag.match(/src="([^">]+)"/)?.[0] || "";
+          return {
+            base64: src.replace('src="', "").replace('"', ""),
+            url: "",
+          };
+        });
 
-        return img;
-      });
-      let content = editorContent;
-      const result = imgs.map(async (img) => {
-        img.url = await imageUploadHandler(img.base64);
-        content = content.replace(`${img.base64}`, `${img.url}`);
-        
-        contentToSend = content;
-        return content;
-      });
-      // const results = await Promise.all(result)
-      // console.log(results)
+        // Traiter toutes les images en parallèle
+        await Promise.all(
+          imgs.map(async (img) => {
+            if (img.base64.startsWith("data:")) {
+              const url = await imageUploadHandler(img.base64);
+              if (url) {
+                contentToSend = contentToSend.replace(img.base64, url);
+              }
+            }
+          })
+        );
+      }
 
-      values.content = await Promise.all(result).then((values: string[]) => {
-        //return the last element of values array
-        content = values[values.length - 1];
-        return content;
-      });
+      // Préparer les données à envoyer
+      const dataToSubmit = {
+        ...values,
+        content: contentToSend,
+        image: imageUrl,
+        airMedia: "Possible Africa",
+        status: "published",
+        airDateAdded: new Date(),
+        airLogo: "https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741258403971-possible_avatar.png",
+        airTrans: values?.airLanguage === "FR" ? "fr" : "eng",
+      };
+
+      onFinish(dataToSubmit);
+    } catch (error) {
+      console.error("Erreur lors de la soumission:", error);
+      message.error("Une erreur est survenue lors de la soumission du formulaire");
     }
-
-    // if (values.image && values.image.length) {
-    //   const base64 = await file2Base64(values.image[0]);
-    //   const url = await imageUploadHandler(base64);
-    //   values.image = url;
-    // }
-    // console.log(values);
-    if (values?.image) {
-      values.image = imageUrl;
-    }
-
-    values.airMedia = "Possible Africa";
-    values.content = contentToSend;
-    values.status = "published";
-    values.airDateAdded = new Date();
-    // values.slug = values?.title.toLowerCase().split(' ').join('-');
-    values.airLogo = "https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741258403971-possible_avatar.png"
-
-    if (values?.airLanguage === "FR") {
-      values.airTrans = "fr";
-    } else {
-      values.airTrans = "eng";
-    }
-    
-    // if (!values?.organisations) {
-    //   values.organisations = null;
-    // }
-    // if (!values?.editors) {
-    //   values.editors = null;
-    // }
-    // if (!values?.countries) {
-    //   values.countries = null;
-    // }
-    // if (!values?.categorie?._id) {
-    //   values.categorie = null;
-    // }
-    // if (!values?.labels) {
-    //   values.labels = null;
-    // }
-    // if (!values?.authors) {
-    //   values.authors = null;
-    // }
-    // if (!values?.source) {
-    //   values.source = null;
-    // }
-    // if (!values?.publication_language) {
-    //   values.publication_language = null;
-    // }
-    // if (!values?.content) {
-    //   values.content = null;
-    // }
-    // if (!values?.image) {
-    //   values.image = null;
-    // }
-
-    // console.log(values);
-
-    onFinish(values);
   }
 
-  const uploadButton = (
-    <div>
-      {uploadLoading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-
-  const beforeUpload = async (file: RcFile) => {
+  const beforeUpload = (file: RcFile) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
+      message.error("Vous pouvez uniquement télécharger des fichiers JPG/PNG!");
+      return Upload.LIST_IGNORE;
     }
+    
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
+      message.error("L'image doit être inférieure à 2MB!");
+      return Upload.LIST_IGNORE;
     }
-    // return isJpgOrPng && isLt2M;
+    
+    return true;
   };
 
   const handleChange: UploadProps["onChange"] = async (
     info: UploadChangeParam<UploadFile>
   ) => {
-    setUploadLoading(true);
-    const base64 = await file2Base64(info.file);
-    const url = await imageUploadHandler(base64);
-    setImageUrl(url);
-    setUploadLoading(false);
+    if (info.file.status === 'uploading') {
+      setUploadLoading(true);
+      return;
+    }
+    
+    if (info.file.status === 'done') {
+      try {
+        // Vérifier que originFileObj existe et est un Blob valide
+        if (!info.file.originFileObj || !(info.file.originFileObj instanceof Blob)) {
+          throw new Error("Fichier invalide ou non disponible");
+        }
+
+        // console.log(info);
+        
+        const base64 = await file2Base64(info.file as RcFile);
+
+        // console.log(base64);
+        const url = await imageUploadHandler(base64);
+        if (url) {
+          setImageUrl(url);
+          message.success("Image téléchargée avec succès");
+        }
+      } catch (error) {
+        console.error("Erreur lors du téléchargement:", error);
+        message.error("Échec du téléchargement de l'image");
+      } finally {
+        setUploadLoading(false);
+      }
+    }
   };
+
+  const uploadButton = (
+    <div>
+      {uploadLoading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Télécharger</div>
+    </div>
+  );
 
   return (
     <Create
       saveButtonProps={saveButtonProps}
-      // intercept onSubmit to add the editor content to the form data
     >
       <Form {...formProps} layout="vertical" onFinish={onSubmitCapture}>
-        {/* <Form.Item label="Auteur" name={["authors"]}>
-          <Select
-            mode="multiple"
-            {...authorSelectProps}
-            onSearch={undefined}
-            filterOption={true}
-            optionFilterProp="label"
-          />
-        </Form.Item> */}
-
-        {/* <Form.Item
-          label="Editeurs"
-          name={["editors"]}
-          getValueProps={(value: any[]) => {
-            return {
-              value: value?.map((item) => item),
-            };
-          }}
-          getValueFromEvent={(...args: any) => {
-            const toBeReturned = args[1].map((item: any) => {
-              return item.value;
-            });
-            return toBeReturned;
-          }}
-        >
-          <Select
-            mode="multiple"
-            {...editorSelectProps}
-            onSearch={undefined}
-            filterOption={true}
-            optionFilterProp="label"
-          />
-        </Form.Item> */}
         <Form.Item
           label="Titre"
           name={["title"]}
           rules={[
             {
               required: true,
+              message: "Le titre est obligatoire",
             },
           ]}
         >
@@ -305,7 +292,16 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item label="Langue" name={["airLanguage"]}>
+        <Form.Item 
+          label="Langue" 
+          name={["airLanguage"]}
+          rules={[
+            {
+              required: true,
+              message: "La langue est obligatoire",
+            },
+          ]}
+        >
           <Select>
             <Option value="FR">Français</Option>
             <Option value="ENG">Anglais</Option>
@@ -324,21 +320,23 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
             width: "100%",
           }}
         >
-          {/* <ReactQuill
-            style={{ height: "500px", width: "100%" }}
-            modules={reactQuillModules}
-            value={editorContent}
-            onChange={setEditorContent}
-            theme="snow"
-            placeholder="Placez votre contenu ici..."
-          /> */}
           <TinyMCEEditor
             content=""
             id="create_possible_post"
             onContentChange={setEditorContent}
           />
         </Form.Item>
-        <Form.Item label="Couverture" name="image">
+        
+        <Form.Item 
+          label="Couverture" 
+          name="image"
+          rules={[
+            {
+              required: true,
+              message: "L'image de couverture est obligatoire",
+            },
+          ]}
+        >
           <Upload
             name="file"
             listType="picture-card"
@@ -346,10 +344,14 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
             showUploadList={false}
             beforeUpload={beforeUpload}
             onChange={handleChange}
+            customRequest={({ file, onSuccess }) => {
+              // Simuler une requête réussie pour gérer l'upload manuellement
+              setTimeout(() => {
+                onSuccess && onSuccess("ok");
+              }, 0);
+            }}
           >
-            {uploadLoading || !imageUrl ? (
-              uploadButton
-            ) : (
+            {imageUrl ? (
               <div
                 style={{
                   position: "relative",
@@ -371,22 +373,20 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
                     bottom: "5%",
                     backgroundColor: "tomato",
                     color: "white",
+                    textAlign: "center",
+                    padding: "2px",
+                    borderRadius: "4px",
                   }}
                 >
                   Modifier
                 </span>
               </div>
+            ) : (
+              uploadButton
             )}
           </Upload>
         </Form.Item>
-        {/* <Form.Item label="Categorie" name={["categorie", "_id"]}>
-          <Select
-            {...categorieSelectProps}
-            onSearch={undefined}
-            filterOption={true}
-            optionFilterProp="label"
-          />
-        </Form.Item> */}
+        
         <Form.Item
           label="Etiquette(s) (S'il y'en a plusieurs veuillez les séparer avec virgule + espace (, ).)"
           name={["airTags"]}
