@@ -1102,13 +1102,13 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
                       size="small"
                       recordItemId={record.id}
                     />
-                    <Admin>
+                    <AdminOrContributor>
                       <DeleteButton
                         hideText
                         size="small"
                         recordItemId={record.id}
                       />
-                    </Admin>
+                    </AdminOrContributor>
                     {/*<Tooltip*/}
                     {/*  title={statusVariables[`${record.status}`].label}*/}
                     {/*  color={statusVariables[`${record.status}`].color}*/}
