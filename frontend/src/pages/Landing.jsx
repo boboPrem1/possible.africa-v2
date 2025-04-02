@@ -4,7 +4,7 @@ import OrganisationImg from "../assets/jumia.jpg";
 import AfricanTechIndustry from "../assets/african_tech_industry.webp";
 import PossibleAfricaLogo from "../assets/dashboard_logo.svg"
 import LogoExa from "../assets/logoEXA.svg"
-import LogoHyperlink from "../assets/logo_hyperlink.png";
+import LogoYprlink from "../assets/logo_hyperlink.png";
 import { useContext, useEffect, useState } from "react";
 import { fetchResource } from "../utils/possible_api_actions";
 import Loader from "../assets/icons/loader.svg";
@@ -193,9 +193,9 @@ const Landing = () => {
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
-                          <a href="#" className="text-primary font-medium hover:text-darkPrimary transition-colors">
+                          <Link to="https://expand-in-africa.com/" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-darkPrimary transition-colors">
                             En savoir plus →
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -207,7 +207,7 @@ const Landing = () => {
                       <div className="flex flex-col h-full">
                         <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
                           <img 
-                            src={PossibleAfricaLogo} 
+                            src={PyramidAfricaLogo} 
                             alt="Pyramid Africa logo" 
                             className="h-16 md:h-20 w-auto object-contain"
                           />
@@ -245,7 +245,7 @@ const Landing = () => {
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
-                          <a href="#" className="text-primary font-medium hover:text-darkPrimary transition-colors">
+                          <a href="https://www.africantechindustry.com/african-tech-industry" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-darkPrimary transition-colors">
                             En savoir plus →
                           </a>
                         </div>
@@ -259,19 +259,19 @@ const Landing = () => {
                       <div className="flex flex-col h-full">
                         <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
                           <img
-                            src={LogoHyperlink}
+                            src={LogoYprlink}
                             alt="Hyperlink"
                             className="h-16 md:h-20 w-auto object-contain"
                           />
                         </div>
                         <div className="p-5 md:p-6 flex-grow bg-white">
-                          <h3 className="font-semibold text-xl text-gray-800 mb-3">Hyperlink</h3>
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">Yprlink</h3>
                           <p className="text-gray-600">
                             {_.landing_service_yprlink}
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
-                          <a href="#" className="text-primary font-medium hover:text-darkPrimary transition-colors">
+                          <a href="https://yprlink.africa/" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-darkPrimary transition-colors">
                             En savoir plus →
                           </a>
                         </div>
