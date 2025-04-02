@@ -465,7 +465,7 @@ export default function Database() {
                 </div>
               </div>
             </GrowingEnterAnimation>
-            <GrowingEnterAnimation className="hidden md:block">
+            {/* <GrowingEnterAnimation className="hidden md:block">
               <div className="w-full bg-custom-white rounded-2xl p-6 h-[350px]">
                 <SectorSelector
                   organisationsBySector={dashBoardData.OrganisationsBySectors}
@@ -480,7 +480,7 @@ export default function Database() {
                   }
                 />
               </div>
-            </GrowingEnterAnimation>
+            </GrowingEnterAnimation> */}
           </div>
         </div>
       </div>

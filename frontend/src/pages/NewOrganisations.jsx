@@ -551,9 +551,9 @@ function Organisations({ withoutHeader }) {
     return (
       <div className="flex justify-center items-start">
         <div className="flex flex-col justify-start w-11/12">
-          <div className="min-h-[80vh] flex flex-col justify-start overflow-y-scroll">
+          <div className="min-h-[70vh] flex flex-col justify-start">
             {/* Bouton pour ouvrir le modal des filtres */}
-            <div className="w-full flex justify-between items-center mb-4">
+            <div className="w-full flex justify-end items-center mb-4">
               <button
                 onClick={() => setShowFilterModal(true)}
                 className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300"
@@ -572,8 +572,8 @@ function Organisations({ withoutHeader }) {
 
             {/* Modal des filtres */}
             {showFilterModal && (
-              <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex justify-center items-center p-4">
-                <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+              <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex justify-center items-center p-4" onClick={() => setShowFilterModal(false)}>
+                <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                   <div className="p-6">
                     <div className="flex justify-between items-center mb-6">
                       <h2 className="text-2xl font-bold text-primary">Filtres</h2>
@@ -1055,67 +1055,62 @@ function Organisations({ withoutHeader }) {
               </div>
             )}
 
-            <table className="min-w-full mt-5">
-              <thead className="bg-[#F9FAFB]">
-                <tr className="h-11">
-                  <th className="px-10">
-                    <span className="flex justify-center">
-                      <input
-                        type="checkbox"
-                        name=""
-                        id=""
-                        className="h-5 w-5"
-                      />
-                    </span>
-                  </th>
-                  <th className="text-start text-nowrap px-10">
-                    {_.database_company_name}
-                  </th>
-                  <th className="text-start text-nowrap px-10">
-                    {_.database_sector}
-                  </th>
-                  <th className="text-start text-nowrap px-10">
-                    {_.database_location}
-                  </th>
-                  <th className="text-start text-nowrap px-10">
-                    {_.database_contact_person}
-                  </th>
-                  <th className="text-start text-nowrap px-10"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {organisations.map((organisation, index) => {
-                  const createdAt = new Date(organisation?.dateAdded);
-                  // transform date to french format
-                  const date =
-                    createdAt.getDate() +
-                    "/" +
-                    (createdAt.getMonth() + 1) +
-                    "/" +
-                    createdAt.getFullYear();
-                  return <Tr org={organisation} date={date} _={_} />;
-                })}
-              </tbody>
-            </table>
+            {/* Conteneur de tableau avec hauteur fixe et scroll */}
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-200 max-h-[60vh] overflow-y-auto">
+              <table className="min-w-full text-sm text-left">
+                <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0">
+                  <tr className="h-11">
+                    <th className="px-10 py-3">
+                      <span className="flex justify-center">
+                        <input
+                          type="checkbox"
+                          name=""
+                          id=""
+                          className="h-5 w-5"
+                        />
+                      </span>
+                    </th>
+                    <th className="text-start text-nowrap px-10 py-3">
+                      {_.database_company_name}
+                    </th>
+                    <th className="text-start text-nowrap px-10 py-3">
+                      {_.database_sector}
+                    </th>
+                    <th className="text-start text-nowrap px-10 py-3">
+                      {_.database_location}
+                    </th>
+                    <th className="text-start text-nowrap px-10 py-3">
+                      {_.database_contact_person}
+                    </th>
+                    <th className="text-start text-nowrap px-10 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {organisations.map((organisation, index) => {
+                    const createdAt = new Date(organisation?.dateAdded);
+                    // transform date to french format
+                    const date =
+                      createdAt.getDate() +
+                      "/" +
+                      (createdAt.getMonth() + 1) +
+                      "/" +
+                      createdAt.getFullYear();
+                    return <Tr org={organisation} date={date} _={_} key={organisation.id || index} />;
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="w-full md:flex md:justify-center">
             <button
-              className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
+              className="w-full h-[45px] flex justify-center items-center bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
                 setPageS((s) => s + 1);
                 setPage((s) => s + 1);
               }}
             >
               {isFetching && (
-                <img
-                  src={Loader}
-                  style={{
-                    transformOrigin: "bottom center",
-                    translate: "-35px 0",
-                  }}
-                  alt="Loader possible"
-                  className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
-                />
+                <span className="inline-block w-6 h-6 border-2 border-white border-b-transparent mr-4 rounded-full animate-spin"></span>
               )}
               {_.load_more_results}
             </button>
@@ -1279,40 +1274,42 @@ function Tr({ org, date, _ }) {
 
   const { plusLength, initials } = randomName();
   return (
-    <tr className="border border-[#EAECF0] h-20">
-      <td className="px-10">
+    <tr className="border-b border-[#EAECF0] hover:bg-gray-50">
+      <td className="px-10 py-4">
         <span className="w-full flex justify-center">
           <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" />
         </span>
       </td>
-      <td className="px-10">
+      <td className="px-10 py-4">
         <span className="flex justify-start gap-x-3 items-center">
           <img
             src={org?.logo}
             alt=""
             height={40}
             width={40}
-            className="w-10 h-10 rounded-md"
-            srcset=""
+            className="w-10 h-10 rounded-md object-cover"
+            onError={(e) => {
+              e.target.src = logoPlaceholder;
+            }}
           />
           <span className="flex flex-col">
             <span className="font-medium">{org.name}</span>
           </span>
         </span>
       </td>
-      <td className="font-medium px-10">
+      <td className="font-medium px-10 py-4">
         {org.sector.length > 20
           ? org.sector.slice(0, 20) + " . . ."
           : org.sector}
       </td>
-      <td className="px-10">{org.headquarter || "-"}</td>
-      <td className="px-10">
+      <td className="px-10 py-4">{org.headquarter || "-"}</td>
+      <td className="px-10 py-4">
         <span className="flex items-center justify-start gap-2">
           <span className="flex justify-start items-center">
             {initials.length > 0 &&
-              initials.map((initial) => {
+              initials.map((initial, i) => {
                 return (
-                  <span className="-m-1.5 w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center bg-white">
+                  <span key={i} className="-m-1.5 w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center bg-white">
                     {initial}
                   </span>
                 );
@@ -1322,7 +1319,7 @@ function Tr({ org, date, _ }) {
           <span className="pb-3 font-medium">+{plusLength}</span>
         </span>
       </td>
-      <td className="px-10">
+      <td className="px-10 py-4">
         <Popover btnTitle="Actions">
           <div className="w-full flex flex-col gap-0">
             <a className="inline-flex w-full" href="/waitlist">
