@@ -12,6 +12,7 @@ import {
   LangTransContext,
   LangTransDispatchContext,
 } from "../langTransContext";
+import { socialMedias } from "./NewOrganisations";
 
 function getDate(dateSended) {
   const date = new Date(dateSended);
@@ -297,23 +298,32 @@ const New = ({ post }) => {
   );
 };
 const Organisation = ({ org }) => {
-
-
+  const logoPlaceholder =
+    "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
   return (
     <a
       key={org.id}
-      href={
-        `/database/${org.name}`
-      }
-      className="flex justify-between items-center gap-x-2.5 bg-[#D9D9D9]/20 rounded-md min-h-18 p-2.5">
+      href={`/database/${org.name}`}
+      className="flex justify-between items-center gap-x-2.5 bg-[#D9D9D9]/20 rounded-md min-h-18 p-2.5"
+    >
       <div className="w-12 h-12 flex justify-center items-center self-start bg-custom-white rounded">
-        <img
+        {/* <img
           src={org.logo}
           height={40}
           width={40}
           alt={`${org.name}'s logo`}
           className="min-w-10 min-h-10 rounded"
+        /> */}
+        <img
+          src={socialMedias.includes(org?.logo) ? logoPlaceholder : org?.logo}
+          alt={`${org.name}'s logo`}
+          height={40}
+          width={40}
+          className="w-10 h-10 rounded-md object-cover"
+          onError={(e) => {
+            e.target.src = logoPlaceholder;
+          }}
         />
       </div>
       <div className="flex flex-col justify-center items-center gap-y-1 w-11/12">
@@ -539,45 +549,50 @@ export const Header = ({ page }) => {
             >
               <a
                 href="/"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/" ? "font-black text-primary bg-primary-200" : ""
-                  }`}
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/" ? "font-black text-primary bg-primary-200" : ""
+                }`}
               >
                 {_.header_link_home}
               </a>
               <a
                 href="/news"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/news"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/news"
                     ? "font-black text-primary bg-primary-200"
                     : ""
-                  }`}
+                }`}
               >
                 {_.header_link_news}
               </a>
               <a
                 href="/database"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/database"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/database"
                     ? "font-black text-primary bg-primary-200"
                     : ""
-                  }`}
+                }`}
               >
                 {_.header_link_database}
               </a>
               <a
                 href="/pyramid"
                 target="_blank"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "/pyramid"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "/pyramid"
                     ? "font-black text-primary underline underline-offset-8"
                     : ""
-                  }`}
+                }`}
               >
                 Sales Platform
               </a>
               <a
                 href="https://yprlink.africa"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${page === "https://yprlink.africa"
+                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
+                  page === "https://yprlink.africa"
                     ? "font-black text-primary bg-primary-200"
                     : ""
-                  }`}
+                }`}
               >
                 Yperlink
               </a>
@@ -594,38 +609,42 @@ export const Header = ({ page }) => {
             {/* <span className="border-b-2 border-primary">Overview</span> */}
             <a
               href="/"
-              className={`font-medium ${page === "/"
+              className={`font-medium ${
+                page === "/"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-                }`}
+              }`}
             >
               {_.header_link_home}
             </a>
             <a
               href="/news"
-              className={`font-medium ${page === "/news"
+              className={`font-medium ${
+                page === "/news"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-                }`}
+              }`}
             >
               {_.header_link_news}
             </a>
             <a
               href="/database"
-              className={`font-medium text-nowrap ${page === "/database"
+              className={`font-medium text-nowrap ${
+                page === "/database"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-                }`}
+              }`}
             >
               {_.header_link_database}
             </a>
             <a
               href="/pyramid"
               target="_blank"
-              className={`font-medium text-nowrap ${page === "/pyramid"
+              className={`font-medium text-nowrap ${
+                page === "/pyramid"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-                }`}
+              }`}
             >
               Sales Platform
             </a>
@@ -642,10 +661,11 @@ export const Header = ({ page }) => {
             <a
               href="https://yprlink.africa"
               target="_blank"
-              className={`font-medium ${page === "https://yprlink.africa"
+              className={`font-medium ${
+                page === "https://yprlink.africa"
                   ? "font-black text-primary underline underline-offset-8"
                   : ""
-                }`}
+              }`}
             >
               Yprlink
             </a>
