@@ -2,7 +2,7 @@ import Logo from "../assets/LogoPossible.png";
 import MediaImg from "../assets/media_img.png";
 import OrganisationImg from "../assets/jumia.jpg";
 import AfricanTechIndustry from "../assets/african_tech_industry.webp";
-import PossibleAfricaLogo from "../assets/dashboard_logo.svg"
+import PyramidAfricaLogo from "../assets/dashboard_logo.svg"
 import LogoExa from "../assets/logoEXA.svg"
 import LogoYprlink from "../assets/logo_hyperlink.png";
 import { useContext, useEffect, useState } from "react";
