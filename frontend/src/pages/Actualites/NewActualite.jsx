@@ -621,27 +621,27 @@ function News() {
                                     }
                                   `}</style>
 
-                                  {post?.airTags?.split(", ")?.map((tag) => {
-                                    return (
-                                      <div
-                                        key={tag}
-                                        className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                      >
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
                                         <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                          <img
-                                            src={tagSolid}
-                                            height={20}
-                                            width={18}
-                                            alt="Tag"
-                                          />
-                                        </div>
-                                        <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                          {tag}
-                                        </span>
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
                                       </div>
-                                    );
-                                  })}
-                                </div>
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
 
                                 {/* Flèche droite */}
                                 {post?.airTags && (
@@ -673,7 +673,7 @@ function News() {
                                     </svg>
                                   </button>
                                 )}
-                              </div>
+                            </div>
                             </div>
                           </Link>
                         );
@@ -800,27 +800,27 @@ function News() {
                                     }
                                   `}</style>
 
-                                  {post?.airTags?.split(", ")?.map((tag) => {
-                                    return (
-                                      <div
-                                        key={tag}
-                                        className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                      >
-                                        <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                          <img
-                                            src={tagSolid}
-                                            height={20}
-                                            width={18}
-                                            alt="Tag"
-                                          />
-                                        </div>
-                                        <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                          {tag}
-                                        </span>
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
+                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
                                       </div>
-                                    );
-                                  })}
-                                </div>
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
 
                                 {/* Flèche droite */}
                                 {post?.airTags && (
@@ -852,7 +852,7 @@ function News() {
                                     </svg>
                                   </button>
                                 )}
-                              </div>
+                            </div>
                             </div>
                           </Link>
                         );
@@ -986,27 +986,27 @@ function News() {
                                     }
                                   `}</style>
 
-                                  {post?.airTags?.split(", ")?.map((tag) => {
-                                    return (
-                                      <div
-                                        key={tag}
-                                        className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                      >
-                                        <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                          <img
-                                            src={tagSolid}
-                                            height={20}
-                                            width={18}
-                                            alt="Tag"
-                                          />
-                                        </div>
-                                        <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                          {tag}
-                                        </span>
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
+                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
                                       </div>
-                                    );
-                                  })}
-                                </div>
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
 
                                 {/* Flèche droite */}
                                 {post?.airTags && (
@@ -1038,7 +1038,7 @@ function News() {
                                     </svg>
                                   </button>
                                 )}
-                              </div>
+                            </div>
                             </div>
                           </Link>
                         );
@@ -1158,26 +1158,26 @@ function News() {
                                     }
                                   `}</style>
 
-                                  {post?.airTags?.split(", ")?.map((tag) => {
-                                    return (
-                                      <div
-                                        key={tag}
-                                        className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                      >
-                                        <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                          <img
-                                            src={tagSolid}
-                                            height={20}
-                                            width={18}
-                                            alt="Tag"
-                                          />
-                                        </div>
-                                        <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                          {tag}
-                                        </span>
+                                {post?.airTags?.split(", ")?.map((tag) => {
+                                  return (
+                                    <div
+                                      key={tag}
+                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
+                                    >
+                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
+                                        <img
+                                          src={tagSolid}
+                                          height={20}
+                                          width={18}
+                                          alt="Tag"
+                                        />
                                       </div>
-                                    );
-                                  })}
+                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
+                                        {tag}
+                                      </span>
+                                    </div>
+                                  );
+                                })}
                                 </div>
 
                                 {/* Flèche droite */}
@@ -1340,20 +1340,20 @@ function News() {
                         {pageEqS[1].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[1].value}
-                          </div>
+                </div>
                         )}
                         {pageEqS[2].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[2].value}
-                          </div>
+            </div>
                         )}
                         {pageEqS[3].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[3].value}
-                          </div>
+          </div>
                         )}
-                      </div>
-                    </div>
+        </div>
+      </div>
                   )}
                 </div>
               ) : (

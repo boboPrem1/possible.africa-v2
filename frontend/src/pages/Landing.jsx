@@ -88,7 +88,11 @@ const Landing = () => {
             {/* Texte */}
             <div className="text-center md:text-left">
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                <span className="text-primary">{_.landing_hero_title?.split(' ')[0] || "Connect"}</span> {_.landing_hero_title?.split(' ').slice(1).join(' ') || "with Africa's Tech Ecosystem"}
+                <span className="text-primary">
+                  {_.landing_hero_title?.split(" ")[0] || "Connect"}
+                </span>{" "}
+                {_.landing_hero_title?.split(" ").slice(1).join(" ") ||
+                  "with Africa's Tech Ecosystem"}
                 <br className="hidden md:block" />
               </h1>
               <p className="mt-4 md:mt-6 text-lg md:text-xl text-gray-600 max-w-2xl">
@@ -1065,12 +1069,16 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
-            <img src={Logo} alt="Possible Africa" className="h-10 mb-4" />
-            <p className="text-gray-600 text-sm mt-2">
+            <img
+              src={Logo}
+              alt="Possible Africa"
+              className="h-10 mb-4 mx-auto md:mx-0"
+            />
+            <p className="text-gray-600 text-sm mt-2 text-center md:text-left">
               Connectez-vous avec l'écosystème technologique africain en pleine
               croissance.
             </p>
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-4 mt-4 justify-center md:justify-start">
               <a
                 href="#"
                 target="_blank"
@@ -1125,8 +1133,10 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900 mb-3">Plateformes</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
+              Plateformes
+            </h3>
+            <ul className="space-y-2 text-center md:text-start">
               <li>
                 <a
                   href="/database"
@@ -1163,8 +1173,10 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900 mb-3">Liens utiles</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
+              Liens utiles
+            </h3>
+            <ul className="space-y-2 text-center md:text-start">
               <li>
                 <a
                   href="#"
@@ -1201,13 +1213,15 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900 mb-3">Contact</h3>
-            <p className="text-gray-600 text-sm mb-2">
+            <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
+              Contact
+            </h3>
+            <p className="text-gray-600 text-sm mb-2 text-center md:text-start">
               Vous avez des questions? Contactez-nous:
             </p>
             <a
               href="mailto:info@possible.africa"
-              className="text-primary hover:underline text-sm"
+              className="text-primary hover:underline text-sm block md:inline text-center md:text-start"
             >
               info@possible.africa
             </a>

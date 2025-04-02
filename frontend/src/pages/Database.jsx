@@ -208,8 +208,8 @@ export default function Database() {
       <Header page="/database" />
       <div className="flex justify-center py-8">
         <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-3 justify-items-center items-center">
-          <div className="grid grid-cols-2 gap-2 mb-8 w-9/12 h-[275px]">
-            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
+          <div className="col-span-3 md:col-span-1 grid grid-cols-2 gap-2 mb-8 w-full md:w-9/12 h-[275px] justify-items-center items-center">
+            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_total_organisations}
               </div>
@@ -218,7 +218,7 @@ export default function Database() {
               </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
+            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_sectors}
               </div>
@@ -227,7 +227,7 @@ export default function Database() {
               </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
+            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_covered_countries}
               </div>
@@ -236,7 +236,7 @@ export default function Database() {
               </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
+            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_sub_sectors}
               </div>
@@ -249,8 +249,8 @@ export default function Database() {
             </div>
           </div>
 
-          <div className="mb-8 pr-20">
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px]">
+          <div className="mb-8 md:pr-20 w-full col-span-3 md:col-span-1">
+            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] hidden md:block">
               <ResponsiveCloropleth
                 style={{
                   height: "550px",
@@ -259,9 +259,18 @@ export default function Database() {
                 data={uniqueHeadquarters}
               />
             </div>
+            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] block md:hidden">
+              <MobileResponsiveCloropleth
+                style={{
+                  height: "350px",
+                  width: "100%",
+                }}
+                data={uniqueHeadquarters}
+              />
+            </div>
           </div>
 
-          <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] p-5">
+          <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] w-full col-span-3 md:col-span-1">
             <div className="p-4">
               <div className="flex justify-between mb-2">
                 <div className="text-lg font-medium">By regions</div>
