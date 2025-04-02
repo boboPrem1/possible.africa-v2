@@ -259,7 +259,7 @@ export default function Database() {
             </div>
           </div>
 
-          <div className="mb-8 md:pr-20 min-w-[675px] w-full col-span-3 md:col-span-1">
+          <div className="mb-8 md:pr-20 md:min-w-[675px] w-full col-span-3 md:col-span-1">
             <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] hidden md:block">
               <ResponsiveCloropleth
                 style={{
