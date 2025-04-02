@@ -23,6 +23,11 @@ import xmarkSolid from "../../assets/icons/xmark-solid.svg";
 import { Header } from "../Landing.jsx";
 import { LangTransContext } from "../../langTransContext.js";
 import { logoPlaceholder, socialMedias } from "../NewOrganisations.jsx";
+import LogoExa from "../../assets/logoEXA.svg";
+import PossibleAfricaLogo from "../../assets/dashboard_logo.svg";
+import AfricanTechIndustry from "../../assets/african_tech_industry.webp";
+import LogoHyperlink from "../../assets/logo_hyperlink.png";
+import { Link } from "react-router-dom";
 
 function getPageEqValue(key, state) {
   if (state.length) {
@@ -259,9 +264,6 @@ function News() {
                     setTimeout(() => {
                       setLanguageChanging(false);
                     }, 3000);
-                    setTimeout(() => {
-                      setMobileFilterIsVisible(false);
-                    }, 2000);
                   }}
                 >
                   <span>Français</span>
@@ -278,9 +280,6 @@ function News() {
                     setTimeout(() => {
                       setLanguageChanging(false);
                     }, 3000);
-                    setTimeout(() => {
-                      setMobileFilterIsVisible(false);
-                    }, 2000);
                   }}
                 >
                   <span>Anglais</span>
@@ -396,51 +395,6 @@ function News() {
               >
                 {_.news_btn_reset_filter}
               </button>
-              {/* <div>
-          <div className="font-semibold">Langue de publication</div>
-          <Input label="Anglais" type="checkbox" />
-          <Input label="Français" type="checkbox" />
-        </div> */}
-              {/* <Input
-          label="Date de publication"
-          placeholder="Choisissez la date ."
-          type="date"
-          onChange={(e) => {
-            setPageEq(
-              pageEq.map((a) => {
-                if (a.field === "airDateAdded") {
-                  return { field: a.field, value: e.target.value };
-                } else {
-                  return a;
-                }
-              })
-            );
-          }}
-        /> */}
-              {/* <button
-          onClick={() => {
-            setPageEqS((s) => {
-              return [...pageEq];
-            });
-          }}
-          className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-        >
-          Filtrer
-        </button> */}
-              {/* <button
-          onClick={() => {
-            setPageEq([
-              { field: "possible", value: true },
-              { field: "title", value: "" },
-              { field: "airTags", value: "" },
-              { field: "airLanguage", value: "" },
-            ]);
-            // refetch();
-          }}
-          className="w-full h-[45px] bg-transparent border-2 border-primary text-primary rounded-full text-lg font-bold hover:text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-        >
-          Réinitialiser les filtres
-        </button> */}
               <div className="flex justify-center items-center w-full">
                 {isFetching && (
                   <img
@@ -457,42 +411,8 @@ function News() {
             </div>
           </div>
           <div className="mx-auto bg-transparent w-11/12 mt-10 text-darkGray lg:grid lg:grid-cols-[1fr_2fr_1fr] lg:gap-x-5 max-w-[1280px]">
-            <div className="absolute md:sticky top-10 min-h-[400px] max-h-[100vh] overflow-x-scroll hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5 ">
-              {/* {JSON.stringify(pageEq)} */}
-              {/* <div className="w-[248px] h-10 flex justify-center text-center rounded-lg shadow-sm drop-shadow-xl overflow-hidden">
-                <div
-                  className={
-                    language === "fr"
-                      ? "w-[124px] h-10 flex justify-center flex-col cursor-pointer bg-[#2BB19C] text-white font-semibold"
-                      : "w-[124px] h-10 flex justify-center flex-col cursor-pointer"
-                  }
-                  onClick={() => {
-                    setLanguageChanging(true);
-                    setLanguage("fr");
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 3000);
-                  }}
-                >
-                  <span>Français</span>
-                </div>
-                <div
-                  className={
-                    language === "eng"
-                      ? "w-[124px] h-10 flex justify-center flex-col cursor-pointer bg-[#2BB19C] text-white font-semibold"
-                      : "w-[124px] h-10 flex justify-center flex-col cursor-pointer"
-                  }
-                  onClick={() => {
-                    setLanguageChanging(true);
-                    setLanguage("eng");
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 3000);
-                  }}
-                >
-                  <span>Anglais</span>
-                </div>
-              </div> */}
+            <div className="absolute md:sticky top-10 min-h-[400px] max-h-[95vh] overflow-x-scroll hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5 ">
+              
               <Input
                 label={_.news_search_by_title}
                 placeholder={_.news_search_by_title_enter_a_title}
@@ -511,55 +431,6 @@ function News() {
                   dispatch({ field: "airTags", value: e.target.value });
                 }}
               />
-              {/* <CustumSelect
-          label="Pays du siège social"
-          multi
-          placeholder="Choisissez un pays ."
-        /> */}
-              {/* <CustumSelect
-          label="Filtrer par Tag"
-          options={[]}
-          multi
-          placeholder="Choisissez un tag ."
-        /> */}
-              <div className="flex gap-2">
-                <button
-                  className={`text-sm font-medium px-4 py-2 rounded-full ${
-                    language === "fr"
-                      ? "bg-primary text-white"
-                      : "bg-gray-100 text-primary"
-                  }`}
-                  onClick={() => {
-                    setLanguage("fr");
-                    refetch();
-                    if (languageChanging) return;
-                    setLanguageChanging(true);
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 1000);
-                  }}
-                >
-                  {_.news_french}
-                </button>
-                <button
-                  className={`text-sm font-medium px-4 py-2 rounded-full ${
-                    language === "en"
-                      ? "bg-primary text-white"
-                      : "bg-gray-100 text-primary"
-                  }`}
-                  onClick={() => {
-                    setLanguage("en");
-                    refetch();
-                    if (languageChanging) return;
-                    setLanguageChanging(true);
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 1000);
-                  }}
-                >
-                  {_.news_english}
-                </button>
-              </div>
               <CustumSelect
                 label={_.news_search_language}
                 placeholder={_.news_search_language_choice}
@@ -594,51 +465,6 @@ function News() {
               >
                 {_.news_btn_reset_filter}
               </button>
-              {/* <div>
-          <div className="font-semibold">Langue de publication</div>
-          <Input label="Anglais" type="checkbox" />
-          <Input label="Français" type="checkbox" />
-        </div> */}
-              {/* <Input
-          label="Date de publication"
-          placeholder="Choisissez la date ."
-          type="date"
-          onChange={(e) => {
-            setPageEq(
-              pageEq.map((a) => {
-                if (a.field === "airDateAdded") {
-                  return { field: a.field, value: e.target.value };
-                } else {
-                  return a;
-                }
-              })
-            );
-          }}
-        /> */}
-              {/* <button
-          onClick={() => {
-            setPageEqS((s) => {
-              return [...pageEq];
-            });
-          }}
-          className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-        >
-          Filtrer
-        </button> */}
-              {/* <button
-          onClick={() => {
-            setPageEq([
-              { field: "possible", value: true },
-              { field: "title", value: "" },
-              { field: "airTags", value: "" },
-              { field: "airLanguage", value: "" },
-            ]);
-            // refetch();
-          }}
-          className="w-full h-[45px] bg-transparent border-2 border-primary text-primary rounded-full text-lg font-bold hover:text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-        >
-          Réinitialiser les filtres
-        </button> */}
               <div className="flex justify-center items-center w-full">
                 {isFetching && (
                   <img
@@ -674,8 +500,8 @@ function News() {
                           "/" +
                           createdAt.getFullYear();
                         return (
-                          <a
-                            href={
+                          <Link
+                            to={
                               post.airMedia === "Possible Africa"
                                 ? `/news/${post.slug}`
                                 : post.airLink
@@ -804,7 +630,7 @@ function News() {
                                 )}
                               </div>
                             </div>
-                          </a>
+                          </Link>
                         );
                       })
                   : allNews
@@ -820,8 +646,8 @@ function News() {
                           "/" +
                           createdAt.getFullYear();
                         return (
-                          <a
-                            href={
+                          <Link
+                            to={
                               post.airMedia === "Possible Africa"
                                 ? `/news/${post.slug}`
                                 : post.airLink
@@ -947,7 +773,7 @@ function News() {
                                 )}
                               </div>
                             </div>
-                          </a>
+                          </Link>
                         );
                       })}
               </div>
@@ -977,8 +803,8 @@ function News() {
                           "/" +
                           createdAt.getFullYear();
                         return (
-                          <a
-                            href={
+                          <Link
+                            to={
                               post.airMedia === "Possible Africa"
                                 ? `/news/${post.slug}`
                                 : post.airLink
@@ -1097,7 +923,7 @@ function News() {
                                 )}
                               </div>
                             </div>
-                          </a>
+                          </Link>
                         );
                       })
                   : allNews
@@ -1257,7 +1083,7 @@ function News() {
                   />
                 )}
                 <button
-                  className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300"
+                  className="w-full mb-8 h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300"
                   onClick={() => {
                     setPageS((s) => s + 1);
                     setPage((s) => s + 1);
@@ -1267,7 +1093,7 @@ function News() {
                 </button>
               </div>
             </div>
-            <div className="sticky top-10 min-h-[400px] max-h-[100vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-gray-100 hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5">
+            <div className="sticky top-10 min-h-[400px] max-h-[95vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-gray-100 hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5">
               {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && !isFetching ? (
                 <div className="w-full">
                   <div className="font-bold text-2xl mb-4 text-primary">
@@ -1341,11 +1167,241 @@ function News() {
                     </div>
                   )}
                 </div>
-              ) : null}
+              ) : (
+                // Section à afficher quand aucun filtre n'est actif (version desktop)
+                <div className="w-full">
+                  <div className="font-bold text-2xl mb-4 text-primary">
+                    {_.news_our_partners || "Nos partenaires"}
+                  </div>
+                  
+                  <div className="space-y-5">
+                    <p className="text-mediumGray font-medium">
+                      {_.news_partners_description || "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+                    </p>
+                    
+                    {/* Animation des partenaires */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {/* Partenaire 1 */}
+                      <div 
+                        className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                        style={{
+                          animation: `floatDesktop 2s ease-in-out infinite alternate`,
+                          animationDelay: `0s`
+                        }}
+                      >
+                        <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                          <img
+                            src={LogoExa}
+                            alt="EXA"
+                            className="h-10 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="text-center text-primary font-medium text-sm mt-2">
+                          EXA
+                        </div>
+                      </div>
+                      
+                      {/* Partenaire 2 */}
+                      <div 
+                        className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                        style={{
+                          animation: `floatDesktop 2.5s ease-in-out infinite alternate`,
+                          animationDelay: `0.2s`
+                        }}
+                      >
+                        <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                          <img
+                            src={PossibleAfricaLogo}
+                            alt="Pyramid Africa"
+                            className="h-10 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="text-center text-primary font-medium text-sm mt-2">
+                          Pyramid Africa
+                        </div>
+                      </div>
+                      
+                      {/* Partenaire 3 */}
+                      <div 
+                        className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                        style={{
+                          animation: `floatDesktop 3s ease-in-out infinite alternate`,
+                          animationDelay: `0.4s`
+                        }}
+                      >
+                        <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                          <img
+                            src={AfricanTechIndustry}
+                            alt="African Tech Industry"
+                            className="h-10 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="text-center text-primary font-medium text-sm mt-2">
+                          African Tech Industry
+                        </div>
+                      </div>
+                      
+                      {/* Partenaire 4 */}
+                      <div 
+                        className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                        style={{
+                          animation: `floatDesktop 2.8s ease-in-out infinite alternate`,
+                          animationDelay: `0.6s`
+                        }}
+                      >
+                        <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                          <img
+                            src={LogoHyperlink}
+                            alt="Hyperlink"
+                            className="h-10 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="text-center text-primary font-medium text-sm mt-2">
+                          Hyperlink
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Animation CSS pour l'effet flottant */}
+                    <style jsx>{`
+                      @keyframes floatDesktop {
+                        0% {
+                          transform: translateY(0px);
+                        }
+                        100% {
+                          transform: translateY(-10px);
+                        }
+                      }
+                    `}</style>
+                    
+                    <button
+                      className="w-full h-[45px] bg-primary rounded-full text-sm font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300 mt-3"
+                    >
+                      {_.news_see_all_partners || "Devenir partenaire"}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+      {/* Ajout de la section des partenaires en mobile en dehors de la structure principale */}
+      {!isFetching && !(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && (
+        <div className="md:hidden w-11/12 mx-auto mt-5">
+          <div className="font-bold text-2xl mb-4 text-primary text-center">
+            {_.news_our_partners || "Nos partenaires"}
+          </div>
+          
+          <div className="space-y-5">
+            <p className="text-mediumGray font-medium text-center">
+              {_.news_partners_description || "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+            </p>
+            
+            {/* Animation des partenaires */}
+            <div className="grid grid-cols-2 gap-3">
+              {/* Partenaire 1 */}
+              <div 
+                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                style={{
+                  animation: `floatMobile 2s ease-in-out infinite alternate`,
+                  animationDelay: `0s`
+                }}
+              >
+                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                  <img
+                    src={LogoExa}
+                    alt="EXA"
+                    className="h-10 w-auto object-contain"
+                  />
+                </div>
+                <div className="text-center text-primary font-medium text-sm mt-2">
+                  EXA
+                </div>
+              </div>
+              
+              {/* Partenaire 2 */}
+              <div 
+                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                style={{
+                  animation: `floatMobile 2.5s ease-in-out infinite alternate`,
+                  animationDelay: `0.2s`
+                }}
+              >
+                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                  <img
+                    src={PossibleAfricaLogo}
+                    alt="Pyramid Africa"
+                    className="h-10 w-auto object-contain"
+                  />
+                </div>
+                <div className="text-center text-primary font-medium text-sm mt-2">
+                  Pyramid Africa
+                </div>
+              </div>
+              
+              {/* Partenaire 3 */}
+              <div 
+                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                style={{
+                  animation: `floatMobile 3s ease-in-out infinite alternate`,
+                  animationDelay: `0.4s`
+                }}
+              >
+                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                  <img
+                    src={AfricanTechIndustry}
+                    alt="African Tech Industry"
+                    className="h-10 w-auto object-contain"
+                  />
+                </div>
+                <div className="text-center text-primary font-medium text-sm mt-2">
+                  African Tech Industry
+                </div>
+              </div>
+              
+              {/* Partenaire 4 */}
+              <div 
+                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                style={{
+                  animation: `floatMobile 2.8s ease-in-out infinite alternate`,
+                  animationDelay: `0.6s`
+                }}
+              >
+                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                  <img
+                    src={LogoHyperlink}
+                    alt="Hyperlink"
+                    className="h-10 w-auto object-contain"
+                  />
+                </div>
+                <div className="text-center text-primary font-medium text-sm mt-2">
+                  Hyperlink
+                </div>
+              </div>
+            </div>
+            
+            {/* Animation CSS pour l'effet flottant */}
+            <style jsx>{`
+              @keyframes floatMobile {
+                0% {
+                  transform: translateY(0px);
+                }
+                100% {
+                  transform: translateY(-10px);
+                }
+              }
+            `}</style>
+            
+            <button
+              className="w-full h-[45px] bg-primary rounded-full text-sm font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300 mt-3"
+              onClick={() => setMobileFilterIsVisible(false)}
+            >
+              {_.news_see_all_partners || "Devenir partenaire"}
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
