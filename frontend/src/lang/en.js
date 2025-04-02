@@ -82,4 +82,10 @@ export const en_trans = {
   footer_contact: "Contact",
   footer_questions: "Have questions? Contact us:",
   footer_all_rights_reserved: "All rights reserved.",
+  // Charts and maps
+  loading_map: "Loading map...",
+  map_legend_title: "Countries by number of organizations",
+  map_organisations: "organizations",
+  map_no_data: "No data available",
+  chart_more_info: "More information",
 };

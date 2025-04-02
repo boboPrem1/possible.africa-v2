@@ -62,6 +62,16 @@ export default function Database() {
     uniqueHeadquarters = uniqueHeadquarters.map((headquarter) => {
       if (headquarter._id) {
         const result = iso3166.whereCountry(headquarter._id);
+        if (headquarter._id === "Republic of the Congo")
+          return {
+            id: "COG",
+            value: headquarter.count,
+          };
+        if (headquarter._id === "Cape Verde")
+          return {
+            id: "CPV",
+            value: headquarter.count,
+          };
         if (headquarter._id === "Ivory Coast")
           return {
             id: "CIV",
@@ -249,7 +259,7 @@ export default function Database() {
             </div>
           </div>
 
-          <div className="mb-8 md:pr-20 w-full col-span-3 md:col-span-1">
+          <div className="mb-8 md:pr-20 min-w-[675px] w-full col-span-3 md:col-span-1">
             <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] hidden md:block">
               <ResponsiveCloropleth
                 style={{
@@ -262,7 +272,7 @@ export default function Database() {
             <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] block md:hidden">
               <MobileResponsiveCloropleth
                 style={{
-                  height: "350px",
+                  height: "400px",
                   width: "100%",
                 }}
                 data={uniqueHeadquarters}

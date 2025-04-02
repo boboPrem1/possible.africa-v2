@@ -76,6 +76,13 @@ export const fr_trans = {
     footer_terms: "Conditions d'utilisation",
     footer_contact: "Contact",
     footer_questions: "Vous avez des questions? Contactez-nous:",
-    footer_all_rights_reserved: "Tous droits réservés."
+    footer_all_rights_reserved: "Tous droits réservés.",
+    
+    // Charts and maps
+    loading_map: "Chargement de la carte...",
+    map_legend_title: "Pays par nombre d'organisations",
+    map_organisations: "organisations",
+    map_no_data: "Aucune donnée",
+    chart_more_info: "Plus d'informations"
   }
   
