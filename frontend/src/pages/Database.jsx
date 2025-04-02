@@ -38,7 +38,7 @@ export default function Database() {
       setIsLoading(false);
     }
   }, [dashBoardData]);
-  
+
   let uniqueRegions;
   let uniqueHeadquarters;
   let totalRegions;
@@ -197,8 +197,8 @@ export default function Database() {
             </div>
           </div>
         </div>
-        
-      <Footer />
+
+        <Footer />
       </>
     );
   }
@@ -207,9 +207,9 @@ export default function Database() {
     <>
       <Header page="/database" />
       <div className="flex justify-center py-8">
-        <div className="flex flex-col w-11/12 max-w-9xl mx-auto grid-cols-3">
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="bg-green-50 rounded-lg p-5">
+        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-3 justify-items-center items-center">
+          <div className="grid grid-cols-2 gap-2 mb-8 w-9/12 h-[275px]">
+            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_total_organisations}
               </div>
@@ -217,8 +217,8 @@ export default function Database() {
                 {dashBoardData?.organisations?.all}
               </div>
             </div>
-            
-            <div className="bg-green-50 rounded-lg p-5">
+
+            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_sectors}
               </div>
@@ -226,8 +226,8 @@ export default function Database() {
                 {Object.keys(SUB_SECTORS).length}
               </div>
             </div>
-            
-            <div className="bg-green-50 rounded-lg p-5">
+
+            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_covered_countries}
               </div>
@@ -235,76 +235,51 @@ export default function Database() {
                 {Object.keys(COUNTRIES).length}
               </div>
             </div>
-            
-            <div className="bg-green-50 rounded-lg p-5">
+
+            <div className="bg-green-50 rounded-lg p-5 w-[200px] h-[125px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_sub_sectors}
               </div>
               <div className="text-3xl font-bold mt-1">
-                {Object.keys(SUB_SECTORS).reduce((acc, sector) => acc + SUB_SECTORS[sector].length, 0)}
+                {Object.keys(SUB_SECTORS).reduce(
+                  (acc, sector) => acc + SUB_SECTORS[sector].length,
+                  0
+                )}
               </div>
             </div>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px]">
+
+          <div className="mb-8 pr-20">
+            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px]">
               <ResponsiveCloropleth
                 style={{
-                  height: "400px",
+                  height: "550px",
                   width: "100%",
                 }}
                 data={uniqueHeadquarters}
               />
-              <div className="px-4 py-2 text-sm text-gray-500">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1 items-center">
-                    <div className="w-3 h-3 bg-orange-600 rounded-sm"></div>
-                    <span>5 - 10</span>
-                  </div>
-                  <div className="flex gap-1 items-center">
-                    <div className="w-3 h-3 bg-orange-400 rounded-sm"></div>
-                    <span>1 - 5</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px]">
-              <div className="p-4">
-                <div className="flex justify-between mb-2">
-                  <div className="text-lg font-medium">By regions</div>
-                  <div className="text-lg font-medium">By tiers</div>
-                </div>
-                <OrganisationsByRegionsByTier
-                  byRegionsData={byRegionsData}
-                  byTiersData={byTiersData}
-                />
-              </div>
             </div>
           </div>
-          
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <div className="p-4 border-b">
-              <div className="grid grid-cols-5 gap-4 text-sm font-medium text-gray-600">
-                <div>NAME OF THE COMPANY</div>
-                <div>SECTOR</div>
-                <div>LOCATION</div>
-                <div>CONTACT</div>
-                <div className="flex justify-end">
-                  <button className="flex items-center gap-1 bg-teal-500 text-white px-4 py-1.5 rounded-md text-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
-                    </svg>
-                    Filtres
-                  </button>
-                </div>
+
+          <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] p-5">
+            <div className="p-4">
+              <div className="flex justify-between mb-2">
+                <div className="text-lg font-medium">By regions</div>
+                <div className="text-lg font-medium">By tiers</div>
               </div>
+              <OrganisationsByRegionsByTier
+                byRegionsData={byRegionsData}
+                byTiersData={byTiersData}
+              />
             </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden col-span-3 w-11/12">
             <Organisations withoutHeader={true} />
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </>
   );
