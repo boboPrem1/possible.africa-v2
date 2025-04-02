@@ -82,27 +82,27 @@ const Landing = () => {
       
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-primary-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-20">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             {/* Texte */}
             <div className="text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                <span className="text-primary">Connect</span> with Africa's <br />
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                <span className="text-primary">Connect</span> with Africa's <br className="hidden md:block" />
                 Tech Ecosystem
               </h1>
-              <p className="mt-6 text-xl text-gray-600 max-w-2xl">
+              <p className="mt-4 md:mt-6 text-lg md:text-xl text-gray-600 max-w-2xl">
                 {_.landing_hero_description || "Découvrez et connectez-vous avec les acteurs clés de l'écosystème technologique africain. Une plateforme pour explorer, analyser et collaborer."}
               </p>
-              <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
+              <div className="mt-6 md:mt-8 flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
                 <Link 
                   to="/database" 
-                  className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-all shadow-md hover:shadow-lg"
+                  className="px-5 md:px-6 py-2.5 md:py-3 bg-primary text-white text-sm md:text-base rounded-full font-medium hover:bg-darkPrimary transition-all shadow-md hover:shadow-lg"
                 >
                   {_.landing_hero_cta_primary || "Explorer la base de données"}
                 </Link>
                 <Link 
                   to="/news" 
-                  className="px-6 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
+                  className="px-5 md:px-6 py-2.5 md:py-3 bg-white text-sm md:text-base text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
                 >
                   {_.landing_hero_cta_secondary || "Actualités Tech"}
                 </Link>
@@ -110,16 +110,16 @@ const Landing = () => {
             </div>
             
             {/* Animation/Illustration */}
-            <div className="relative h-64 w-64 md:h-96 md:w-96">
+            <div className="mx-auto md:mx-0 relative h-48 w-48 sm:h-64 sm:w-64 md:h-96 md:w-96 mt-4 md:mt-0">
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                 <div className="relative w-full max-w-lg">
                   {/* Cercles animés */}
-                  <div className="absolute top-0 -left-4 w-48 h-48 bg-primary opacity-10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-                  <div className="absolute top-0 -right-4 w-48 h-48 bg-yellow-300 opacity-10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-                  <div className="absolute -bottom-8 left-20 w-48 h-48 bg-blue-300 opacity-10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+                  <div className="absolute top-0 -left-4 w-36 h-36 md:w-48 md:h-48 bg-primary opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob"></div>
+                  <div className="absolute top-0 -right-4 w-36 h-36 md:w-48 md:h-48 bg-yellow-300 opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob animation-delay-2000"></div>
+                  <div className="absolute -bottom-8 left-20 w-36 h-36 md:w-48 md:h-48 bg-blue-300 opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob animation-delay-4000"></div>
                   
                   {/* Carrousel de logos de partenaires */}
-                  <div className="relative">
+                  <div className="relative flex justify-center items-center">
                     <HeroPartnerCarousel 
                       partners={[
                         {
@@ -147,22 +147,22 @@ const Landing = () => {
           </div>
           
           {/* Statistiques */}
-          <div className="mt-8 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
-              <div className="text-3xl md:text-4xl font-bold text-primary">+60 000</div>
-              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_companies || "Organisations"}</div>
+          <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">+60 000</div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_companies || "Organisations"}</div>
             </div>
-            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
-              <div className="text-3xl md:text-4xl font-bold text-primary">+100</div>
-              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_countries || "Médias tech suivis"}</div>
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">+100</div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_countries || "Médias tech suivis"}</div>
             </div>
-            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
-              <div className="text-3xl md:text-4xl font-bold text-primary">+54</div>
-              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_news || "Pays"}</div>
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">+54</div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_news || "Pays"}</div>
             </div>
-            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
-              <div className="text-3xl md:text-4xl font-bold text-primary">3 Services</div>
-              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_partners || "Génération de Lead, Deals, Interactions"}</div>
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">3 Services</div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_partners || "Génération de Lead, Deals, Interactions"}</div>
             </div>
           </div>
         </div>
@@ -693,37 +693,23 @@ const HeroPartnerCarousel = ({ partners }) => {
   }, [partners.length]);
   
   return (
-    <div className="relative overflow-hidden rounded-xl shadow-2xl h-20 w-20 md:h-24 md:w-24 rounded-full">
+    <div className="relative overflow-hidden rounded-xl shadow-lg md:shadow-2xl h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-full">
       {/* Container des images avec transition */}
-      <div className="relative bg-white p-8 rounded-xl w-full h-full">
+      <div className="relative bg-white p-3 md:p-5 rounded-xl w-full h-full">
         {partners.map((partner, index) => (
           <div 
             key={index}
-            className={`absolute inset-0 flex items-center justify-center p-8 transition-opacity duration-1000 ease-in-out ${
+            className={`absolute inset-0 flex items-center justify-center p-1 md:p-3 transition-opacity duration-1000 ease-in-out ${
               activeIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
             <img 
               src={partner.logo} 
               alt={`${partner.name} logo`} 
-              className="min-h-16 min-w-16 w-auto max-h-80 object-cover transform transition-transform hover:scale-105 duration-700 ease-in-out"
+              className="min-h-12 min-w-12 w-auto max-h-80 object-cover transform transition-transform hover:scale-105 duration-700 ease-in-out"
             />
           </div>
         ))}
-        
-        {/* Indicateurs du carrousel */}
-        {/* <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-2 z-20">
-          {partners.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                activeIndex === index ? "bg-primary scale-125 w-4" : "bg-gray-300"
-              }`}
-              aria-label={`Voir partenaire ${index + 1}`}
-            />
-          ))}
-        </div> */}
       </div>
     </div>
   );
@@ -737,7 +723,7 @@ export const Header = ({ page }) => {
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
   
   return (
-    <div className="sticky top-0 right-0 left-0 bg-white backdrop-blur-sm bg-opacity-95 shadow-md px-4 md:px-12 lg:px-20 z-50 transition-all duration-300">
+    <div className="sticky top-0 right-0 left-0 bg-white backdrop-blur-sm bg-opacity-95 shadow-md px-3 md:px-12 lg:px-20 z-50 transition-all duration-300">
       <AnimatePresence>
         {mobileMenuIsVisible && (
           <motion.div
@@ -746,14 +732,14 @@ export const Header = ({ page }) => {
             exit={{ opacity: 0, x: -300 }}
             transition={{ duration: 0.3 }}
             onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
-            className="md:hidden fixed inset-0 z-50 bg-black/75"
+            className="md:hidden fixed inset-0 z-50 bg-black/75 top-0 right-0 left-0 bottom-0 w-screen h-screen"
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="bg-white w-[280px] h-full flex flex-col shadow-2xl rounded-r-xl overflow-hidden"
+              className="bg-white w-[280px] h-screen flex flex-col shadow-2xl rounded-r-xl overflow-hidden absolute left-0 top-0 bottom-0"
             >
               <div className="bg-primary-50 p-5 flex items-center">
-                <img src={Logo} alt="Logo" className="h-10" />
+                <img src={Logo} alt="Logo" className="h-8" />
                 <button 
                   onClick={() => setMobileMenuIsVisible(false)}
                   className="ml-auto text-gray-600 hover:text-primary p-2 rounded-full transition-colors"
@@ -789,10 +775,10 @@ export const Header = ({ page }) => {
                   {_.header_link_database}
                 </Link>
                 <Link
-                  to="https://pyramid.possible.africa/dashboard/leads"
+                  to="https://pyramid.possible.africa"
                   target="_blank"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                    page === "https://pyramid.possible.africa/dashboard/leads" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                    page === "https://pyramid.possible.africa" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
                   }`}
                 >
                   Sales Platform
@@ -804,6 +790,17 @@ export const Header = ({ page }) => {
                   }`}
                 >
                   Yperlink
+                </Link>
+                
+                <Link
+                  to="https://pyramid.possible.africa/database/create-campaign"
+                  target="_blank"
+                  className="flex items-center justify-center gap-x-2 bg-primary text-white font-medium py-2.5 px-6 mx-6 mt-4 rounded-full hover:bg-primary-600 shadow-sm hover:shadow transition-all duration-300"
+                >
+                  <span className="font-bold">+</span>
+                  <span className="whitespace-nowrap text-sm">
+                    {_.header_btn_free_first_campaign}
+                  </span>
                 </Link>
               </div>
               <div className="mt-auto p-5 border-t border-gray-100">
@@ -826,11 +823,11 @@ export const Header = ({ page }) => {
         )}
       </AnimatePresence>
 
-      <div className="h-20 md:h-24 w-full flex justify-between items-center">
+      <div className="h-16 md:h-20 lg:h-24 w-full flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-x-6 md:gap-x-10 flex-shrink-0">
+        <div className="flex items-center gap-x-4 md:gap-x-10 flex-shrink-0">
           <a href="/" className="flex items-center">
-            <img src={Logo} alt="Possible Africa" className="h-10 md:h-12 w-auto" />
+            <img src={Logo} alt="Possible Africa" className="h-8 md:h-10 lg:h-12 w-auto" />
           </a>
         </div>
 
