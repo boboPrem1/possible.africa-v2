@@ -259,7 +259,7 @@ export default function Database() {
                 data={uniqueHeadquarters}
               />
             </div>
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] block md:hidden">
+            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] block md:hidden">
               <MobileResponsiveCloropleth
                 style={{
                   height: "350px",

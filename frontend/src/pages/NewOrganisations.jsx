@@ -560,7 +560,7 @@ function Organisations({ withoutHeader }) {
         <div className="flex flex-col justify-start w-11/12">
           <div className="min-h-[70vh] flex flex-col justify-start">
             {/* Bouton pour ouvrir le modal des filtres */}
-            <div className="w-full flex justify-end items-center mb-4">
+            <div className="w-full flex justify-center md:justify-end items-center mb-4">
               <button
                 onClick={() => setShowFilterModal(true)}
                 className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300"
@@ -1063,7 +1063,7 @@ function Organisations({ withoutHeader }) {
             )}
 
             {/* Conteneur de tableau avec hauteur fixe et scroll */}
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-200 max-h-[60vh] overflow-y-auto">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-200 max-h-[85vh] max-h-[60vh] overflow-y-auto">
               <table className="min-w-full text-sm text-left">
                 <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0">
                 <tr className="h-11">
