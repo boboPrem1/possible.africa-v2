@@ -7,7 +7,7 @@ export const fr_trans = {
     landing_lats_news: "Dernières actualités",
     landing_lats_orgs: "Dernières organisations",
     landing_view_more: "Voir plus",
-    landing_our_services: "Nos services",
+    landing_our_partners: "Nos partenaires",
     landing_service_exa: "Exa Consulting : Travaillez avec nous ou engagez un consultant de notre réseau pour développer votre entreprise sur le continent africain.",
     landing_service_pyramid: "Africaleads : Un CRM convivial et un outil de génération de prospects. Obtenez plus de prospects qualifiés et développez votre entreprise grâce à notre CRM commercial.",
     landing_service_african_tech: "Africa Tech Industry : Réseau de décideurs et de leaders plaçant les marchés africains au cœur de leur stratégie d'innovation et de développement.",

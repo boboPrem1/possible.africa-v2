@@ -388,8 +388,9 @@ export const socialMedias = [
   "https://api.possible.africa/storage/logos/youtubecom.jpg",
   "https://api.possible.africa/storage/logos/wwwtiktokcom.jpg",
   "https://api.possible.africa/storage/logos/tiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/iriswhoint.jpg",
 ];
-const logoPlaceholder =
+export const logoPlaceholder =
   "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
 function pageEqReducer(state, action) {

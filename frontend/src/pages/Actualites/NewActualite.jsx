@@ -22,21 +22,7 @@ import filterSolid from "../../assets/icons/filter-solid.svg";
 import xmarkSolid from "../../assets/icons/xmark-solid.svg";
 import { Header } from "../Landing.jsx";
 import { LangTransContext } from "../../langTransContext.js";
-
-const socialMedias = [
-  "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
-  "https://api.possible.africa/storage/logos/linkedincom.jpg",
-  "https://api.possible.africa/storage/logos/wwwtwittercom.jpg",
-  "https://api.possible.africa/storage/logos/twittercom.jpg",
-  "https://api.possible.africa/storage/logos/wwwfacebookcom.jpg",
-  "https://api.possible.africa/storage/logos/facebookcom.jpg",
-  "https://api.possible.africa/storage/logos/wwwinstagramcom.jpg",
-  "https://api.possible.africa/storage/logos/instagramcom.jpg",
-  "https://logo.clearbit.com/",
-  "https://api.possible.africa/storage/logos/wwwredditcom.jpg",
-];
-const logoPlaceholder =
-  "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
+import { logoPlaceholder, socialMedias } from "../NewOrganisations.jsx";
 
 function getPageEqValue(key, state) {
   if (state.length) {
@@ -611,6 +597,9 @@ function News() {
                                         ? logoPlaceholder
                                         : post?.airLogo
                                     }
+                                    onError={(e) => {
+                                      e.target.src = logoPlaceholder;
+                                    }}
                                     height={40}
                                     width={40}
                                     alt="logo"
