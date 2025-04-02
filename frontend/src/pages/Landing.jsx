@@ -439,115 +439,134 @@ export const Header = ({ page }) => {
   const _ = lang_trans._;
   const dispatch = useContext(LangTransDispatchContext);
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
+  
   return (
-    <div className="sticky top-0 right-0 left-0 bg-white shadow-lg px-5 md:px-28 md:pb-2.5 z-50">
+    <div className="sticky top-0 right-0 left-0 bg-white backdrop-blur-sm bg-opacity-95 shadow-md px-4 md:px-12 lg:px-20 z-50 transition-all duration-300">
       <AnimatePresence>
         {mobileMenuIsVisible && (
           <motion.div
-            initial={{
-              scale: 0,
-            }}
-            animate={{
-              scale: 1,
-            }}
-            exit={{
-              scale: 0,
-            }}
+            initial={{ opacity: 0, x: -300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -300 }}
+            transition={{ duration: 0.3 }}
             onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
-            className="origin-top-left md:hidden fixed top-0 bottom-0 left-0 right-0 z-50 bg-black/75"
+            className="md:hidden fixed inset-0 z-50 bg-black/75"
           >
             <div
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              className="bg-white w-[300px] flex flex-col shadow-xl mt-6 ml-2"
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white w-[280px] h-full flex flex-col shadow-2xl rounded-r-xl overflow-hidden"
             >
-              <Link
-                to="/"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/" ? "font-black text-primary bg-primary-200" : ""
-                }`}
-              >
-                {_.header_link_home}
-              </Link>
-              <Link
-                to="/news"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/news"
-                    ? "font-black text-primary bg-primary-200"
-                    : ""
-                }`}
-              >
-                {_.header_link_news}
-              </Link>
-              <Link
-                to="/database"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/database"
-                    ? "font-black text-primary bg-primary-200"
-                    : ""
-                }`}
-              >
-                {_.header_link_database}
-              </Link>
-              <Link
-                to="https://pyramid.possible.africa/dashboard/leads"
-                target="_blank"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "https://pyramid.possible.africa/dashboard/leads"
-                    ? "font-black text-primary underline underline-offset-8"
-                    : ""
-                }`}
-              >
-                Sales Platform
-              </Link>
-              <Link
-                to="https://yprlink.africa"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "https://yprlink.africa"
-                    ? "font-black text-primary bg-primary-200"
-                    : ""
-                }`}
-              >
-                Yperlink
-              </Link>
+              <div className="bg-primary-50 p-5 flex items-center">
+                <img src={Logo} alt="Logo" className="h-10" />
+                <button 
+                  onClick={() => setMobileMenuIsVisible(false)}
+                  className="ml-auto text-gray-600 hover:text-primary p-2 rounded-full transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"/>
+                  </svg>
+                </button>
+              </div>
+              <div className="flex flex-col py-4 overflow-y-auto">
+                <Link
+                  to="/"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "/" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                  }`}
+                >
+                  {_.header_link_home}
+                </Link>
+                <Link
+                  to="/news"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "/news" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                  }`}
+                >
+                  {_.header_link_news}
+                </Link>
+                <Link
+                  to="/database"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "/database" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                  }`}
+                >
+                  {_.header_link_database}
+                </Link>
+                <Link
+                  to="https://pyramid.possible.africa/dashboard/leads"
+                  target="_blank"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "https://pyramid.possible.africa/dashboard/leads" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                  }`}
+                >
+                  Sales Platform
+                </Link>
+                <Link
+                  to="https://yprlink.africa"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "https://yprlink.africa" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                  }`}
+                >
+                  Yperlink
+                </Link>
+              </div>
+              <div className="mt-auto p-5 border-t border-gray-100">
+                <select
+                  defaultValue={lang}
+                  className="w-full px-4 py-2 rounded-lg bg-primary-50 text-primary font-medium outline-none"
+                  onChange={(e) => {
+                    dispatch({
+                      type: "change",
+                      lang: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                </select>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="h-24 w-full flex justify-between items-center">
-        <div className="w-6/12 flex justify-start gap-10 items-center">
-          <a href="/">
-            <img src={Logo} alt="" className="min-w-[100px] h-[50px] " />
+
+      <div className="h-20 md:h-24 w-full flex justify-between items-center">
+        {/* Logo */}
+        <div className="flex items-center gap-x-6 md:gap-x-10 flex-shrink-0">
+          <a href="/" className="flex items-center">
+            <img src={Logo} alt="Possible Africa" className="h-10 md:h-12 w-auto" />
           </a>
-          <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
-            {/* <span className="border-b-2 border-primary">Overview</span> */}
+        </div>
+
+        {/* Navigation - Desktop */}
+        <div className="hidden lg:flex items-center justify-center flex-grow">
+          <nav className="flex space-x-8 xl:space-x-12">
             <Link
               to="/"
-              className={`font-medium ${
-                page === "/"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+                page === "/" 
+                  ? "text-primary font-semibold after:w-full" 
+                  : "text-gray-700 after:w-0"
               }`}
             >
               {_.header_link_home}
             </Link>
             <Link
               to="/news"
-              className={`font-medium ${
-                page === "/news"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+                page === "/news" 
+                  ? "text-primary font-semibold after:w-full" 
+                  : "text-gray-700 after:w-0"
               }`}
             >
               {_.header_link_news}
             </Link>
             <Link
               to="/database"
-              className={`font-medium text-nowrap ${
-                page === "/database"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+                page === "/database" 
+                  ? "text-primary font-semibold after:w-full" 
+                  : "text-gray-700 after:w-0"
               }`}
             >
               {_.header_link_database}
@@ -555,102 +574,81 @@ export const Header = ({ page }) => {
             <Link
               to="https://pyramid.possible.africa/dashboard/leads"
               target="_blank"
-              className={`font-medium text-nowrap ${
-                page === "https://pyramid.possible.africa/dashboard/leads"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+                page === "https://pyramid.possible.africa/dashboard/leads" 
+                  ? "text-primary font-semibold after:w-full" 
+                  : "text-gray-700 after:w-0"
               }`}
             >
               Sales Platform
             </Link>
-            {/* <a
-              href="/waitlist"
-              className={`font-medium text-nowrap ${
-                page === "/waitlist"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
-              }`}
-            >
-              Rejoindre notre waitlist
-            </a> */}
             <Link
               to="https://yprlink.africa"
               target="_blank"
-              className={`font-medium ${
-                page === "https://yprlink.africa"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+                page === "https://yprlink.africa" 
+                  ? "text-primary font-semibold after:w-full" 
+                  : "text-gray-700 after:w-0"
               }`}
             >
               Yprlink
             </Link>
-          </div>
+          </nav>
         </div>
-        <div className="flex justify-end  w-6/12 items-center gap-x-3 md:gap-x-5">
-          <span className="text-xl font-medium text-[#242827] hidden md:inline-block">
-            {_.header_connect}
-          </span>
-          <select
-            name=""
-            id=""
-            defaultValue={lang}
-            className="px-3 py-1 outline-none rounded-full text-[#124B42] font-semibold text-xl bg-[#C0E8E2]"
-            onChange={(e) => {
-              dispatch({
-                type: "change",
-                lang: e.target.value,
-              });
-            }}
-          >
-            <option value="en">EN</option>
-            <option value="fr">FR</option>
-          </select>
-          <div
-            onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
-            className="md:hidden w-11 h-11 rounded border border-white shadow-xl p-[4px] flex justify-center items-center z-[100]"
-          >
-            {mobileMenuIsVisible ? (
-              <svg
-                className="text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"
-                />
-              </svg>
-            )}
+
+        {/* Right side */}
+        <div className="flex items-center gap-x-3 md:gap-x-4 lg:gap-x-6">
+          <p className="hidden md:block text-primary font-semibold text-sm lg:text-base">Connect AfricaTech Ecosystem</p>
+          <div className="hidden md:flex items-center">
+            <select
+              defaultValue={lang}
+              className="px-4 py-1.5 rounded-md bg-primary-50 text-primary font-medium border border-primary/20 hover:border-primary/50 transition-colors outline-none cursor-pointer"
+              onChange={(e) => {
+                dispatch({
+                  type: "change",
+                  lang: e.target.value,
+                });
+              }}
+            >
+              <option value="en">EN</option>
+              <option value="fr">FR</option>
+            </select>
           </div>
+
           <Link
             to="https://pyramid.possible.africa/dashboard/leads"
             target="_blank"
-            className="hidden md:flex gap-2 justify-between items-center min-w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white border border-primary hover:bg-primary-50 hover:text-primary transition-colors"
+            className="hidden md:flex items-center justify-center gap-x-2 bg-primary text-white font-medium py-2.5 px-5 md:px-6 lg:px-8 rounded-full hover:bg-primary-600 shadow-sm hover:shadow transition-all duration-300"
           >
             <span className="font-bold">+</span>
-            <span className="text-nowrap font-bold">
+            <span className="whitespace-nowrap text-sm md:text-base">
               {_.header_btn_free_first_campaign}
             </span>
           </Link>
+
+          <button
+            onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
+            className="lg:hidden flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            aria-label="Menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
       </div>
-      {/* <div> */}
-
-      {/* </div> */}
     </div>
   );
 };

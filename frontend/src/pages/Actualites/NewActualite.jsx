@@ -7,7 +7,7 @@ import {
 } from "../../features/api/apiSlice.js";
 import CustomContainer from "../../utils/CustomContainer.jsx";
 import { ParseSlice } from "../../utils/htmlParser.jsx";
-import { useContext, useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import NoData from "../../utils/NoData.jsx";
 import CenteredContainer from "../../utils/CenteredContainer.jsx";
@@ -95,8 +95,8 @@ function News() {
   const [pageS, setPageS] = useState(page + 1);
   const [engPage, setEngPage] = useState(1);
   const [frPage, setFrPage] = useState(1);
-  const [languageChanging, setLanguageChanging] = useState(false);
   const [language, setLanguage] = useState(lang);
+  const [languageChanging, setLanguageChanging] = useState(false);
   const [infiniteScrollIsFetching] = useState(false);
   const [pageEq, dispatch] = useReducer(pageEqReducer, [
     { field: "possible", value: true },
@@ -147,6 +147,20 @@ function News() {
     }
   }, [isLoading, page, pageS]);
 
+  // Surveiller les changements de langue
+  useEffect(() => {
+    if (lang !== language) {
+      setLanguage(lang);
+      setLanguageChanging(true);
+      setFirstLoad(true);
+      refetch();
+      
+      setTimeout(() => {
+        setLanguageChanging(false);
+      }, 1000);
+    }
+  }, [lang]);
+
   const scrollTags = (direction, postId) => {
     if (tagScrollRefs.current[postId]) {
       const scrollAmount = 150; // Ajuster selon besoin
@@ -157,6 +171,23 @@ function News() {
       }
     }
   };
+
+  const handleFilterEqChange = useCallback(
+    (field, value) => {
+      dispatch({ field, value });
+      setPage(1);
+      setPageS(2);
+
+      // Réinitialiser les pages spécifiques par langue
+      if (field === "airLanguage" || field === "language") {
+        setLanguage(value || lang);
+        setEngPage(1);
+        setFrPage(1);
+        setFirstLoad(true);
+      }
+    },
+    [lang]
+  );
 
   if (isLoading) {
     return (
@@ -285,6 +316,44 @@ function News() {
           multi
           placeholder="Choisissez un tag ."
         /> */}
+              <div className="flex gap-2">
+                <button
+                  className={`text-sm font-medium px-4 py-2 rounded-full ${
+                    language === "fr"
+                      ? "bg-primary text-white"
+                      : "bg-gray-100 text-primary"
+                  }`}
+                  onClick={() => {
+                    setLanguage("fr");
+                    refetch();
+                    if (languageChanging) return;
+                    setLanguageChanging(true);
+                    setTimeout(() => {
+                      setLanguageChanging(false);
+                    }, 1000);
+                  }}
+                >
+                  {_.news_french}
+                </button>
+                <button
+                  className={`text-sm font-medium px-4 py-2 rounded-full ${
+                    language === "en"
+                      ? "bg-primary text-white"
+                      : "bg-gray-100 text-primary"
+                  }`}
+                  onClick={() => {
+                    setLanguage("en");
+                    refetch();
+                    if (languageChanging) return;
+                    setLanguageChanging(true);
+                    setTimeout(() => {
+                      setLanguageChanging(false);
+                    }, 1000);
+                  }}
+                >
+                  {_.news_english}
+                </button>
+              </div>
               <CustumSelect
                 label={_.news_search_language}
                 placeholder={_.news_search_language_choice}
@@ -453,6 +522,44 @@ function News() {
           multi
           placeholder="Choisissez un tag ."
         /> */}
+              <div className="flex gap-2">
+                <button
+                  className={`text-sm font-medium px-4 py-2 rounded-full ${
+                    language === "fr"
+                      ? "bg-primary text-white"
+                      : "bg-gray-100 text-primary"
+                  }`}
+                  onClick={() => {
+                    setLanguage("fr");
+                    refetch();
+                    if (languageChanging) return;
+                    setLanguageChanging(true);
+                    setTimeout(() => {
+                      setLanguageChanging(false);
+                    }, 1000);
+                  }}
+                >
+                  {_.news_french}
+                </button>
+                <button
+                  className={`text-sm font-medium px-4 py-2 rounded-full ${
+                    language === "en"
+                      ? "bg-primary text-white"
+                      : "bg-gray-100 text-primary"
+                  }`}
+                  onClick={() => {
+                    setLanguage("en");
+                    refetch();
+                    if (languageChanging) return;
+                    setLanguageChanging(true);
+                    setTimeout(() => {
+                      setLanguageChanging(false);
+                    }, 1000);
+                  }}
+                >
+                  {_.news_english}
+                </button>
+              </div>
               <CustumSelect
                 label={_.news_search_language}
                 placeholder={_.news_search_language_choice}
@@ -553,7 +660,7 @@ function News() {
                   <span className="font-semibold">{_.news_more_recent}</span>
                 </span>
                 {/* One card in recents part */}
-                {lang === "fr"
+                {language === "fr"
                   ? allNews
                       .filter((el) => el.airTrans === "fr")
                       .slice(0, 10)
@@ -856,7 +963,7 @@ function News() {
                   <span className="font-semibold">{_.news_least_recent}</span>
                 </span>
                 {/* One card in others parts */}
-                {lang === "fr"
+                {language === "fr"
                   ? allNews
                       .filter((el) => el.airTrans === "fr")
                       .slice(10)
@@ -1160,23 +1267,79 @@ function News() {
                 </button>
               </div>
             </div>
-            <div className="sticky top-10 min-h-[400px] max-h-[100vh] overflow-x-scroll hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5">
-              {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) &&
-              (pageEq[1].value || pageEq[2].value || pageEq[3].value) &&
-              !isFetching ? (
+            <div className="sticky top-10 min-h-[400px] max-h-[100vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-gray-100 hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5">
+              {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && !isFetching ? (
                 <div className="w-full">
-                  <div className="font-bold text-2xl mb-4">
+                  <div className="font-bold text-2xl mb-4 text-primary">
                     {_.news_filter_results}
                   </div>
-                  <div className="font-semibold italic text-mediumGray">
-                    {_.news_we_found}{" "}
-                    <strong>
-                      {allNews.length} {_.news_results_with}{" "}
-                      {allNews.filter((el) => el.airTrans === language).length}{" "}
-                      {_.news_shown}
-                    </strong>{" "}
-                    {_.news_matching_filters}
+                  
+                  {/* Statistiques détaillées */}
+                  <div className="space-y-4 mb-5">
+                    <div className="font-medium text-gray-700">
+                      <div className="flex justify-between items-center mb-2">
+                        <span>{_.news_total_results || "Résultats totaux"}:</span> 
+                        <span className="text-lg font-semibold text-primary">{allNews.length}</span>
+                      </div>
+                      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-primary rounded-full" style={{width: '100%'}}></div>
+                      </div>
+                    </div>
+                    
+                    <div className="font-medium text-gray-700">
+                      <div className="flex justify-between items-center mb-2">
+                        <span>{_.news_in_current_language || "Dans la langue actuelle"}:</span>
+                        <span className="text-lg font-semibold text-primary">
+                          {allNews.filter((el) => el.airTrans === (language == 'fr' ? language : 'eng')).length}
+                        </span>
+                      </div>
+                      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-primary rounded-full" 
+                          style={{
+                            width: `${allNews.length ? (allNews.filter((el) => el.airTrans === (language == 'fr' ? language : 'eng')).length / allNews.length) * 100 : 0}%`
+                          }}
+                        ></div>
+                      </div>
+                    </div>
                   </div>
+                  
+                  <div className="font-medium text-mediumGray border-t border-gray-200 pt-4">
+                    {_.news_we_found}{" "}
+                    <strong className="text-primary">
+                      {allNews.length}
+                    </strong>{" "}
+                    {_.news_results_with}{" "}
+                    <strong className="text-primary">
+                      {allNews.filter((el) => el.airTrans === (language == 'fr' ? language : 'eng')).length}
+                    </strong>{" "}
+                    {_.news_shown}{" "}
+                    {language === "fr" ? "en français" : "en anglais"}
+                  </div>
+                  
+                  {/* Liste des filtres actifs */}
+                  {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && (
+                    <div className="mt-5">
+                      <h3 className="font-semibold mb-2 text-gray-800">{_.news_active_filters || "Filtres actifs"}:</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {pageEqS[1].value && (
+                          <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
+                            {pageEqS[1].value}
+                          </div>
+                        )}
+                        {pageEqS[2].value && (
+                          <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
+                            {pageEqS[2].value}
+                          </div>
+                        )}
+                        {pageEqS[3].value && (
+                          <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
+                            {pageEqS[3].value}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : null}
             </div>
