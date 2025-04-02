@@ -448,7 +448,7 @@ const New = ({ post }) => {
             {post.airMedia}
           </span>
           <span className="text-sm md:text-base">
-            {getDate(post.airDateAdded)}
+            {/* {getDate(post.airDateAdded)} */}
           </span>
         </div>
         <div className="w-full text-sm md:text-base font-medium md:hidden">
