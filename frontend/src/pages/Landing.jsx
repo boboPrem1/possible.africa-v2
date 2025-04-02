@@ -243,7 +243,10 @@ const New = ({ post }) => {
       )}
       <div className="w-1/12 flex justify-center items-center">
         <img
-          src={post.airLogo}
+          src={socialMedias.includes(post.airLogo) ? logoPlaceholder : post.airLogo}
+          onError={(e) => {
+            e.target.src = logoPlaceholder;
+          }}
           alt={`media img's logo`}
           className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
         />
