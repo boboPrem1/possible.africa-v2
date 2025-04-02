@@ -62,6 +62,20 @@ export const fr_trans = {
     waitlist_pyramid_comming_soon_description: "Une plateforme innovante pour la prospection B2B et l'intelligence économique en Afrique.",
     waitlist_email_input_placeholder: "Entrez votre email professionnel",
     waitlist_btn_i_want_ton_know_more: "Je veux en savoir plus",
-    waitlist_infos_register_now: "Inscrivez-vous dès maintenant pour être informé du lancement !"
+    waitlist_infos_register_now: "Inscrivez-vous dès maintenant pour être informé du lancement !",
+    footer_connect_text: "Connectez-vous avec l'écosystème technologique africain en pleine croissance.",
+    footer_platforms: "Plateformes",
+    footer_database: "Base de données",
+    footer_tech_news: "Actualités Tech",
+    footer_sales_platform: "Plateforme de vente",
+    footer_yprlink: "Yprlink",
+    footer_useful_links: "Liens utiles",
+    footer_about: "À propos",
+    footer_become_partner: "Devenir partenaire",
+    footer_privacy: "Confidentialité",
+    footer_terms: "Conditions d'utilisation",
+    footer_contact: "Contact",
+    footer_questions: "Vous avez des questions? Contactez-nous:",
+    footer_all_rights_reserved: "Tous droits réservés."
   }
   

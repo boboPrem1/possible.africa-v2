@@ -1075,8 +1075,7 @@ export const Footer = () => {
               className="h-10 mb-4 mx-auto md:mx-0"
             />
             <p className="text-gray-600 text-sm mt-2 text-center md:text-left">
-              Connectez-vous avec l'écosystème technologique africain en pleine
-              croissance.
+              {_.footer_connect_text || "Connectez-vous avec l'écosystème technologique africain en pleine croissance."}
             </p>
             <div className="flex gap-4 mt-4 justify-center md:justify-start">
               <a
@@ -1134,7 +1133,7 @@ export const Footer = () => {
 
           <div>
             <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
-              Plateformes
+              {_.footer_platforms || "Plateformes"}
             </h3>
             <ul className="space-y-2 text-center md:text-start">
               <li>
@@ -1142,7 +1141,7 @@ export const Footer = () => {
                   href="/database"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  Database
+                  {_.footer_database || "Database"}
                 </a>
               </li>
               <li>
@@ -1150,7 +1149,7 @@ export const Footer = () => {
                   href="/news"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  Actualités Tech
+                  {_.footer_tech_news || "Actualités Tech"}
                 </a>
               </li>
               <li>
@@ -1158,7 +1157,7 @@ export const Footer = () => {
                   href="https://pyramid.possible.africa"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  Sales Platform
+                  {_.footer_sales_platform || "Sales Platform"}
                 </a>
               </li>
               <li>
@@ -1166,7 +1165,7 @@ export const Footer = () => {
                   href="https://yprlink.africa"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  Yprlink
+                  {_.footer_yprlink || "Yprlink"}
                 </a>
               </li>
             </ul>
@@ -1174,7 +1173,7 @@ export const Footer = () => {
 
           <div>
             <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
-              Liens utiles
+              {_.footer_useful_links || "Liens utiles"}
             </h3>
             <ul className="space-y-2 text-center md:text-start">
               <li>
@@ -1182,7 +1181,7 @@ export const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  À propos
+                  {_.footer_about || "À propos"}
                 </a>
               </li>
               <li>
@@ -1190,7 +1189,7 @@ export const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  Devenir partenaire
+                  {_.footer_become_partner || "Devenir partenaire"}
                 </a>
               </li>
               <li>
@@ -1198,7 +1197,7 @@ export const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  Confidentialité
+                  {_.footer_privacy || "Confidentialité"}
                 </a>
               </li>
               <li>
@@ -1206,7 +1205,7 @@ export const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
-                  Conditions d'utilisation
+                  {_.footer_terms || "Conditions d'utilisation"}
                 </a>
               </li>
             </ul>
@@ -1214,10 +1213,10 @@ export const Footer = () => {
 
           <div>
             <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
-              Contact
+              {_.footer_contact || "Contact"}
             </h3>
             <p className="text-gray-600 text-sm mb-2 text-center md:text-start">
-              Vous avez des questions? Contactez-nous:
+              {_.footer_questions || "Vous avez des questions? Contactez-nous:"}
             </p>
             <a
               href="mailto:info@possible.africa"
@@ -1244,8 +1243,7 @@ export const Footer = () => {
         </div>
         <div className="border-t border-gray-200 mt-8 pt-8 text-center">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} Possible Africa. Tous droits
-            réservés.
+            &copy; {new Date().getFullYear()} Possible Africa. {_.footer_all_rights_reserved || "Tous droits réservés."}
           </p>
         </div>
       </div>
