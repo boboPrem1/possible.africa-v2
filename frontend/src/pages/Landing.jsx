@@ -79,6 +79,122 @@ const Landing = () => {
   return (
     <>
       <Header page="/" />
+      
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Texte */}
+            <div className="text-center md:text-left">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                <span className="text-primary">Connect</span> with Africa's <br />
+                Tech Ecosystem
+              </h1>
+              <p className="mt-6 text-xl text-gray-600 max-w-2xl">
+                {_.landing_hero_description || "Découvrez et connectez-vous avec les acteurs clés de l'écosystème technologique africain. Une plateforme pour explorer, analyser et collaborer."}
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
+                <Link 
+                  to="/database" 
+                  className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-all shadow-md hover:shadow-lg"
+                >
+                  {_.landing_hero_cta_primary || "Explorer la base de données"}
+                </Link>
+                <Link 
+                  to="/news" 
+                  className="px-6 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
+                >
+                  {_.landing_hero_cta_secondary || "Actualités Tech"}
+                </Link>
+              </div>
+            </div>
+            
+            {/* Animation/Illustration */}
+            <div className="relative h-64 w-64 md:h-96 md:w-96">
+              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                <div className="relative w-full max-w-lg">
+                  {/* Cercles animés */}
+                  <div className="absolute top-0 -left-4 w-48 h-48 bg-primary opacity-10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+                  <div className="absolute top-0 -right-4 w-48 h-48 bg-yellow-300 opacity-10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+                  <div className="absolute -bottom-8 left-20 w-48 h-48 bg-blue-300 opacity-10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+                  
+                  {/* Carrousel de logos de partenaires */}
+                  <div className="relative">
+                    <HeroPartnerCarousel 
+                      partners={[
+                        {
+                          logo: "https://api.possible.africa/storage/logos/techafricanewscom.jpg",
+                          name: "Tech Africa Newws"
+                        },
+                        {
+                          logo: "https://api.possible.africa/storage/logos/guardianng.jpg",
+                          name: "Guardian Nigeria"
+                        },
+                        {
+                          logo: "https://api.possible.africa/storage/logos/techcabalcom.jpg",
+                          name: "Tech Cabal"
+                        },
+                        {
+                          logo: "https://api.possible.africa/storage/logos/wwwitwebcoza.jpg",
+                          name: "IT Web Coza"
+                        }
+                      ]}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Statistiques */}
+          <div className="mt-8 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
+              <div className="text-3xl md:text-4xl font-bold text-primary">+60 000</div>
+              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_companies || "Organisations"}</div>
+            </div>
+            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
+              <div className="text-3xl md:text-4xl font-bold text-primary">+100</div>
+              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_countries || "Médias tech suivis"}</div>
+            </div>
+            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
+              <div className="text-3xl md:text-4xl font-bold text-primary">+54</div>
+              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_news || "Pays"}</div>
+            </div>
+            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-sm">
+              <div className="text-3xl md:text-4xl font-bold text-primary">3 Services</div>
+              <div className="text-sm md:text-base text-gray-600 font-medium text-center">{_.landing_stat_partners || "Génération de Lead, Deals, Interactions"}</div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Style pour les animations */}
+        <style jsx>{`
+          @keyframes blob {
+            0% {
+              transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+              transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+              transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+              transform: translate(0px, 0px) scale(1);
+            }
+          }
+          .animate-blob {
+            animation: blob 7s infinite;
+          }
+          .animation-delay-2000 {
+            animation-delay: 2s;
+          }
+          .animation-delay-4000 {
+            animation-delay: 4s;
+          }
+        `}</style>
+      </div>
+      
       <div className="flex justify-center mt-10">
         <div className="flex flex-col w-11/12">
           <div className="w-full flex justify-between px-5 gap-5 flex-wrap md:flex-nowrap">
@@ -433,6 +549,186 @@ const Organisation = ({ org }) => {
   );
 };
 
+// Composant pour le carrousel des partenaires
+const PartnerCarousel = ({ partners }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  
+  // Changer automatiquement de partenaire toutes les 3 secondes
+  useEffect(() => {
+    if (!isPaused) {
+      const interval = setInterval(() => {
+        setActiveIndex((current) => (current + 1) % partners.length);
+      }, 3000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [partners.length, isPaused]);
+  
+  return (
+    <div className="relative overflow-hidden">
+      {/* Conteneur principal du carrousel */}
+      <div className="relative mx-auto max-w-3xl h-[450px] md:h-[500px]">
+        {/* Animation des points */}
+        <div className="absolute inset-0 z-0 flex items-center justify-center">
+          <div className="relative w-full max-w-lg">
+            <div className="absolute -top-20 -left-4 w-72 h-72 bg-primary opacity-5 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+            <div className="absolute -bottom-20 -right-4 w-72 h-72 bg-blue-300 opacity-5 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+          </div>
+        </div>
+        
+        {/* Carrousel des partenaires */}
+        <div 
+          className="relative z-10"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Affichage du partenaire actif */}
+          <div className="transition-all duration-500 ease-in-out">
+            <div className="bg-white rounded-xl shadow-md h-full overflow-hidden border border-gray-100 transform transition-all duration-500 hover:shadow-xl">
+              <div className="flex flex-col h-full">
+                <div className="p-6 md:p-10 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[180px] md:h-[200px]">
+                  <img 
+                    src={partners[activeIndex].logo} 
+                    alt={`${partners[activeIndex].name} logo`} 
+                    className="h-24 md:h-28 w-auto object-contain transition-all duration-500"
+                  />
+                </div>
+                <div className="p-6 md:p-8 flex-grow bg-white">
+                  <h3 className="font-semibold text-2xl text-gray-800 mb-4">{partners[activeIndex].name}</h3>
+                  <p className="text-gray-600 text-lg">
+                    {partners[activeIndex].description}
+                  </p>
+                </div>
+                <div className="bg-primary-50 p-4 text-center">
+                  <a 
+                    href={partners[activeIndex].link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                  >
+                    En savoir plus →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Indicateurs du carrousel */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {partners.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  activeIndex === index ? "bg-primary scale-125" : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                aria-label={`Voir partenaire ${index + 1}`}
+              />
+            ))}
+          </div>
+          
+          {/* Boutons précédent/suivant */}
+          <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between z-20 px-2">
+            <button
+              onClick={() => setActiveIndex((current) => (current - 1 + partners.length) % partners.length)}
+              className="bg-white bg-opacity-80 hover:bg-opacity-100 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all hover:scale-110"
+              aria-label="Partenaire précédent"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setActiveIndex((current) => (current + 1) % partners.length)}
+              className="bg-white bg-opacity-80 hover:bg-opacity-100 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all hover:scale-110"
+              aria-label="Partenaire suivant"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Style pour les animations */}
+      <style jsx>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// Composant pour le carrousel des partenaires dans la section hero
+const HeroPartnerCarousel = ({ partners }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  // Changer automatiquement de partenaire toutes les 2.5 secondes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % partners.length);
+    }, 2500);
+    
+    return () => clearInterval(interval);
+  }, [partners.length]);
+  
+  return (
+    <div className="relative overflow-hidden rounded-xl shadow-2xl h-20 w-20 md:h-24 md:w-24 rounded-full">
+      {/* Container des images avec transition */}
+      <div className="relative bg-white p-8 rounded-xl w-full h-full">
+        {partners.map((partner, index) => (
+          <div 
+            key={index}
+            className={`absolute inset-0 flex items-center justify-center p-8 transition-opacity duration-1000 ease-in-out ${
+              activeIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <img 
+              src={partner.logo} 
+              alt={`${partner.name} logo`} 
+              className="min-h-16 min-w-16 w-auto max-h-80 object-cover transform transition-transform hover:scale-105 duration-700 ease-in-out"
+            />
+          </div>
+        ))}
+        
+        {/* Indicateurs du carrousel */}
+        {/* <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-2 z-20">
+          {partners.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeIndex === index ? "bg-primary scale-125 w-4" : "bg-gray-300"
+              }`}
+              aria-label={`Voir partenaire ${index + 1}`}
+            />
+          ))}
+        </div> */}
+      </div>
+    </div>
+  );
+};
+
 export const Header = ({ page }) => {
   const lang_trans = useContext(LangTransContext);
   const lang = lang_trans.lang;
@@ -572,10 +868,10 @@ export const Header = ({ page }) => {
               {_.header_link_database}
             </Link>
             <Link
-              to="https://pyramid.possible.africa/dashboard/leads"
+              to="https://pyramid.possible.africa"
               target="_blank"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-                page === "https://pyramid.possible.africa/dashboard/leads" 
+                page === "https://pyramid.possible.africa" 
                   ? "text-primary font-semibold after:w-full" 
                   : "text-gray-700 after:w-0"
               }`}
@@ -584,7 +880,6 @@ export const Header = ({ page }) => {
             </Link>
             <Link
               to="https://yprlink.africa"
-              target="_blank"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
                 page === "https://yprlink.africa" 
                   ? "text-primary font-semibold after:w-full" 
@@ -616,7 +911,7 @@ export const Header = ({ page }) => {
           </div>
 
           <Link
-            to="https://pyramid.possible.africa/dashboard/leads"
+            to="https://pyramid.possible.africa/database/create-campaign"
             target="_blank"
             className="hidden md:flex items-center justify-center gap-x-2 bg-primary text-white font-medium py-2.5 px-5 md:px-6 lg:px-8 rounded-full hover:bg-primary-600 shadow-sm hover:shadow transition-all duration-300"
           >

@@ -21,7 +21,7 @@ import option_icon from "../assets/icons/option_icon.png";
 import basil_settings_adjust from "../assets/icons/basil_settings-adjust-outline.svg";
 import filter_reset from "../assets/icons/filter-reset-icon.svg";
 import { Header } from "./Landing";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import NoData from "../utils/NoData";
 import { useGetOrganisationByNameQuery } from "../features/api/apiSlice";
 import { useEffect } from "react";
@@ -33,6 +33,10 @@ export default function OneOrganisation({ iconSx, backUrl }) {
   const { name } = useParams();
   const { data, isLoading, isError } =
     useGetOrganisationByNameQuery(name);
+
+    let contactRandomLength = Math.round(Math.random() * 10);
+
+    contactRandomLength = contactRandomLength > 3 ? 3 : contactRandomLength;
 
   useEffect(() => {
     if (data) {
@@ -154,7 +158,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Site web</p>
-                    <p className="font-medium break-all">{data.website.replace(/^https?:\/\//, '').replace(/^www\./, '')}</p>
+                    <p className="font-medium break-all">Visiter le site web</p>
                   </div>
                 </a>
               )}
@@ -203,8 +207,10 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Contacts</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {/* Carte contact exemple - remplacer par des données réelles si disponibles */}
-              <div className="bg-primary-50 rounded-xl p-4 transition-transform hover:scale-[1.02]">
-                <div className="flex items-center gap-3 mb-3">
+
+              {Array.from({ length: contactRandomLength }).map((_, index) => (
+                <div key={index} className="bg-primary-50 rounded-xl p-4 transition-transform hover:scale-[1.02] filter blur-sm">
+                  <div className="flex items-center gap-3 mb-3">
                   <img
                     src="https://i.pravatar.cc/100"
                     alt=""
@@ -225,17 +231,18 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                   <p className="flex items-center gap-2">
                     <span className="text-gray-500">Tél:</span>
                     <span>+123 456 7890</span>
-                  </p>
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ))}
 
               {/* Bouton ajouter un contact */}
-              <button className="bg-white border-2 border-dashed border-primary-100 rounded-xl p-4 flex flex-col items-center justify-center text-primary hover:bg-primary-50 transition-colors">
+              <Link to="https://pyramid.possible.africa/dashboard/leads" target="_blank" rel="noopener noreferrer" className="bg-white border-2 border-dashed border-primary-100 rounded-xl p-4 flex flex-col items-center justify-center text-primary hover:bg-primary-50 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
                 <span>Ajouter un contact</span>
-              </button>
+              </Link>
             </div>
 
             {/* Actualités récentes */}
@@ -250,7 +257,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
         <div className="mt-8 bg-white rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-800">Interactions</h2>
-            <div className="flex gap-3">
+            {/* <div className="flex gap-3">
               <a href="https://pyramid.possible.africa/dashboard/leads" target="_blank" rel="noopener noreferrer">
                 <Button className="border border-primary text-white hover:bg-primary-50 hover:text-primary transition-colors">
                   Nouvelle interaction
@@ -261,7 +268,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                   Filtrer
                 </Button>
               </a>
-            </div>
+            </div> */}
           </div>
           
           {/* Liste des interactions - vide pour le moment */}
@@ -270,11 +277,11 @@ export default function OneOrganisation({ iconSx, backUrl }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
             <p className="text-gray-500 mb-2">Aucune interaction pour le moment</p>
-            <a href="https://pyramid.possible.africa/dashboard/leads" target="_blank" rel="noopener noreferrer">
+            <Link to="https://pyramid.possible.africa/dashboard/leads" target="_blank" rel="noopener noreferrer">
               <Button className="mt-4 bg-primary text-white hover:bg-darkPrimary transition-colors">
-                Ajouter une première interaction
+                Contacter l'organisation
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

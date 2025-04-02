@@ -4,8 +4,8 @@ export const en_trans = {
   header_link_database: "Database",
   header_connect: "Connect AfricaTech Ecosystem",
   header_btn_free_first_campaign: "Free first campaign",
-  landing_lats_news: "Last news",
-  landing_lats_orgs: "Last organisations",
+  landing_lats_news: "Top news",
+  landing_lats_orgs: "Top organisations",
   landing_view_more: "View more",
   landing_our_partners: "Our partners",
   landing_service_exa:

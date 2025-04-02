@@ -1068,14 +1068,14 @@ function Organisations({ withoutHeader }) {
                 <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0">
                   <tr className="h-11">
                     <th className="px-10 py-3">
-                      <span className="flex justify-center">
+                      {/* <span className="flex justify-center">
                         <input
                           type="checkbox"
                           name=""
                           id=""
                           className="h-5 w-5"
                         />
-                      </span>
+                      </span> */}
                     </th>
                     <th className="text-start text-nowrap px-10 py-3">
                       {_.database_company_name}
@@ -1284,7 +1284,7 @@ function Tr({ org, date, _ }) {
     <tr className="border-b border-[#EAECF0] hover:bg-gray-50">
       <td className="px-10 py-4">
         <span className="w-full flex justify-center">
-          <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" />
+          {/* <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" /> */}
         </span>
       </td>
       <td className="px-10 py-4">
@@ -1329,12 +1329,12 @@ function Tr({ org, date, _ }) {
       <td className="px-10 py-4">
         <Popover btnTitle="Actions">
           <div className="w-full flex flex-col gap-0">
-            <a className="inline-flex w-full" href="/waitlist">
+            <a className="inline-flex w-full" href="https://pyramid.possible.africa/dashboard/leads">
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                 {_.database_action_contact}
               </span>
             </a>
-            <a className="inline-flex w-full" href="/waitlist">
+            <a className="inline-flex w-full" href="https://pyramid.possible.africa/dashboard/leads">
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                 {_.database_action_add_to_leads}
               </span>
