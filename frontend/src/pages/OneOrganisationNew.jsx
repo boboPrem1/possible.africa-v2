@@ -20,7 +20,7 @@ import option_icon from "../assets/icons/option_icon.png";
 
 import basil_settings_adjust from "../assets/icons/basil_settings-adjust-outline.svg";
 import filter_reset from "../assets/icons/filter-reset-icon.svg";
-import { Header } from "./Landing";
+import { Footer, Header } from "./Landing";
 import { Link, useParams } from "react-router-dom";
 import NoData from "../utils/NoData";
 import { useGetOrganisationByNameQuery } from "../features/api/apiSlice";
@@ -59,6 +59,8 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             </div>
           </div>
         </div>
+        
+      <Footer />
       </>
     );
   }
@@ -72,6 +74,8 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             <NoData />
           </div>
         </div>
+        
+      <Footer />
       </>
     );
   }
@@ -285,6 +289,8 @@ export default function OneOrganisation({ iconSx, backUrl }) {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </>
   );
 }

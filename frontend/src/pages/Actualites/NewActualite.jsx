@@ -7,7 +7,14 @@ import {
 } from "../../features/api/apiSlice.js";
 import CustomContainer from "../../utils/CustomContainer.jsx";
 import { ParseSlice } from "../../utils/htmlParser.jsx";
-import { useContext, useEffect, useReducer, useRef, useState, useCallback } from "react";
+import {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import NoData from "../../utils/NoData.jsx";
 import CenteredContainer from "../../utils/CenteredContainer.jsx";
@@ -20,7 +27,7 @@ import Star from "../../assets/icons/star.svg";
 import tagSolid from "../../assets/icons/tag-solid.svg";
 import filterSolid from "../../assets/icons/filter-solid.svg";
 import xmarkSolid from "../../assets/icons/xmark-solid.svg";
-import { Header } from "../Landing.jsx";
+import { Footer, Header } from "../Landing.jsx";
 import { LangTransContext } from "../../langTransContext.js";
 import { logoPlaceholder, socialMedias } from "../NewOrganisations.jsx";
 import LogoExa from "../../assets/logoEXA.svg";
@@ -159,7 +166,7 @@ function News() {
       setLanguageChanging(true);
       setFirstLoad(true);
       refetch();
-      
+
       setTimeout(() => {
         setLanguageChanging(false);
       }, 1000);
@@ -169,7 +176,7 @@ function News() {
   const scrollTags = (direction, postId) => {
     if (tagScrollRefs.current[postId]) {
       const scrollAmount = 150; // Ajuster selon besoin
-      if (direction === 'left') {
+      if (direction === "left") {
         tagScrollRefs.current[postId].scrollLeft -= scrollAmount;
       } else {
         tagScrollRefs.current[postId].scrollLeft += scrollAmount;
@@ -209,6 +216,8 @@ function News() {
             </div>
           </div>
         </div>
+
+        <Footer />
       </>
     );
   }
@@ -221,6 +230,7 @@ function News() {
             <NoData />
           </div>
         </div>
+        <Footer />
       </>
     );
   }
@@ -412,7 +422,6 @@ function News() {
           </div>
           <div className="mx-auto bg-transparent w-11/12 mt-10 text-darkGray lg:grid lg:grid-cols-[1fr_2fr_1fr] lg:gap-x-5 max-w-[1280px]">
             <div className="absolute md:sticky top-10 min-h-[400px] max-h-[95vh] overflow-x-scroll hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5 ">
-              
               <Input
                 label={_.news_search_by_title}
                 placeholder={_.news_search_by_title_enter_a_title}
@@ -563,33 +572,55 @@ function News() {
                               <div className="relative h-[40px] w-full">
                                 {/* Flèche gauche */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('left', post.id || 'fr-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "left",
+                                        post.id || "fr-" + index
+                                      );
+                                    }}
                                     className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la gauche"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 19l-7-7 7-7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
-                                
+
                                 {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div 
-                                  ref={el => tagScrollRefs.current[post.id || 'fr-' + index] = el}
+                                <div
+                                  ref={(el) =>
+                                    (tagScrollRefs.current[
+                                      post.id || "fr-" + index
+                                    ] = el)
+                                  }
                                   className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                                  style={{
+                                    scrollBehavior: "smooth",
+                                    scrollbarWidth: "none",
+                                    msOverflowStyle: "none",
+                                  }}
                                 >
                                   <style jsx>{`
                                     div::-webkit-scrollbar {
                                       display: none;
                                     }
                                   `}</style>
-                                  
+
                                   {post?.airTags?.split(", ")?.map((tag) => {
                                     return (
                                       <div
@@ -611,20 +642,34 @@ function News() {
                                     );
                                   })}
                                 </div>
-                                
+
                                 {/* Flèche droite */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('right', post.id || 'fr-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "right",
+                                        post.id || "fr-" + index
+                                      );
+                                    }}
                                     className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la droite"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 5l7 7-7 7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
@@ -706,33 +751,55 @@ function News() {
                               <div className="relative h-[40px] w-full">
                                 {/* Flèche gauche */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('left', post.id || 'eng-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "left",
+                                        post.id || "eng-" + index
+                                      );
+                                    }}
                                     className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la gauche"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 19l-7-7 7-7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
-                                
+
                                 {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div 
-                                  ref={el => tagScrollRefs.current[post.id || 'eng-' + index] = el}
+                                <div
+                                  ref={(el) =>
+                                    (tagScrollRefs.current[
+                                      post.id || "eng-" + index
+                                    ] = el)
+                                  }
                                   className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                                  style={{
+                                    scrollBehavior: "smooth",
+                                    scrollbarWidth: "none",
+                                    msOverflowStyle: "none",
+                                  }}
                                 >
                                   <style jsx>{`
                                     div::-webkit-scrollbar {
                                       display: none;
                                     }
                                   `}</style>
-                                  
+
                                   {post?.airTags?.split(", ")?.map((tag) => {
                                     return (
                                       <div
@@ -754,20 +821,34 @@ function News() {
                                     );
                                   })}
                                 </div>
-                                
+
                                 {/* Flèche droite */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('right', post.id || 'eng-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "right",
+                                        post.id || "eng-" + index
+                                      );
+                                    }}
                                     className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la droite"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 5l7 7-7 7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
@@ -856,33 +937,55 @@ function News() {
                               <div className="relative h-[40px] w-full">
                                 {/* Flèche gauche */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('left', post.id || 'other-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "left",
+                                        post.id || "other-" + index
+                                      );
+                                    }}
                                     className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la gauche"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 19l-7-7 7-7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
-                                
+
                                 {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div 
-                                  ref={el => tagScrollRefs.current[post.id || 'other-' + index] = el}
+                                <div
+                                  ref={(el) =>
+                                    (tagScrollRefs.current[
+                                      post.id || "other-" + index
+                                    ] = el)
+                                  }
                                   className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                                  style={{
+                                    scrollBehavior: "smooth",
+                                    scrollbarWidth: "none",
+                                    msOverflowStyle: "none",
+                                  }}
                                 >
                                   <style jsx>{`
                                     div::-webkit-scrollbar {
                                       display: none;
                                     }
                                   `}</style>
-                                  
+
                                   {post?.airTags?.split(", ")?.map((tag) => {
                                     return (
                                       <div
@@ -904,20 +1007,34 @@ function News() {
                                     );
                                   })}
                                 </div>
-                                
+
                                 {/* Flèche droite */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('right', post.id || 'other-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "right",
+                                        post.id || "other-" + index
+                                      );
+                                    }}
                                     className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la droite"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 5l7 7-7 7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
@@ -992,33 +1109,55 @@ function News() {
                               <div className="relative h-[40px] w-full">
                                 {/* Flèche gauche */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('left', post.id || 'other-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "left",
+                                        post.id || "other-" + index
+                                      );
+                                    }}
                                     className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la gauche"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 19l-7-7 7-7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
-                                
+
                                 {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div 
-                                  ref={el => tagScrollRefs.current[post.id || 'other-' + index] = el}
+                                <div
+                                  ref={(el) =>
+                                    (tagScrollRefs.current[
+                                      post.id || "other-" + index
+                                    ] = el)
+                                  }
                                   className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                                  style={{
+                                    scrollBehavior: "smooth",
+                                    scrollbarWidth: "none",
+                                    msOverflowStyle: "none",
+                                  }}
                                 >
                                   <style jsx>{`
                                     div::-webkit-scrollbar {
                                       display: none;
                                     }
                                   `}</style>
-                                  
+
                                   {post?.airTags?.split(", ")?.map((tag) => {
                                     return (
                                       <div
@@ -1040,20 +1179,34 @@ function News() {
                                     );
                                   })}
                                 </div>
-                                
+
                                 {/* Flèche droite */}
                                 {post?.airTags && (
-                                  <button 
+                                  <button
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      scrollTags('right', post.id || 'other-' + index);
-                                    }} 
+                                      scrollTags(
+                                        "right",
+                                        post.id || "other-" + index
+                                      );
+                                    }}
                                     className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
                                     aria-label="Défiler vers la droite"
                                   >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 5l7 7-7 7"
+                                      />
                                     </svg>
                                   </button>
                                 )}
@@ -1094,59 +1247,95 @@ function News() {
               </div>
             </div>
             <div className="sticky top-10 min-h-[400px] max-h-[95vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-gray-100 hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5">
-              {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && !isFetching ? (
+              {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) &&
+              !isFetching ? (
                 <div className="w-full">
                   <div className="font-bold text-2xl mb-4 text-primary">
                     {_.news_filter_results}
                   </div>
-                  
+
                   {/* Statistiques détaillées */}
                   <div className="space-y-4 mb-5">
                     <div className="font-medium text-gray-700">
                       <div className="flex justify-between items-center mb-2">
-                        <span>{_.news_total_results || "Résultats totaux"}:</span> 
-                        <span className="text-lg font-semibold text-primary">{allNews.length}</span>
-                      </div>
-                      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary rounded-full" style={{width: '100%'}}></div>
-                      </div>
-                    </div>
-                    
-                    <div className="font-medium text-gray-700">
-                      <div className="flex justify-between items-center mb-2">
-                        <span>{_.news_in_current_language || "Dans la langue actuelle"}:</span>
+                        <span>
+                          {_.news_total_results || "Résultats totaux"}:
+                        </span>
                         <span className="text-lg font-semibold text-primary">
-                          {allNews.filter((el) => el.airTrans === (language == 'fr' ? language : 'eng')).length}
+                          {allNews.length}
                         </span>
                       </div>
                       <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-primary rounded-full" 
+                        <div
+                          className="h-full bg-primary rounded-full"
+                          style={{ width: "100%" }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div className="font-medium text-gray-700">
+                      <div className="flex justify-between items-center mb-2">
+                        <span>
+                          {_.news_in_current_language ||
+                            "Dans la langue actuelle"}
+                          :
+                        </span>
+                        <span className="text-lg font-semibold text-primary">
+                          {
+                            allNews.filter(
+                              (el) =>
+                                el.airTrans ===
+                                (language == "fr" ? language : "eng")
+                            ).length
+                          }
+                        </span>
+                      </div>
+                      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-primary rounded-full"
                           style={{
-                            width: `${allNews.length ? (allNews.filter((el) => el.airTrans === (language == 'fr' ? language : 'eng')).length / allNews.length) * 100 : 0}%`
+                            width: `${
+                              allNews.length
+                                ? (allNews.filter(
+                                    (el) =>
+                                      el.airTrans ===
+                                      (language == "fr" ? language : "eng")
+                                  ).length /
+                                    allNews.length) *
+                                  100
+                                : 0
+                            }%`,
                           }}
                         ></div>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="font-medium text-mediumGray border-t border-gray-200 pt-4">
                     {_.news_we_found}{" "}
-                    <strong className="text-primary">
-                      {allNews.length}
-                    </strong>{" "}
+                    <strong className="text-primary">{allNews.length}</strong>{" "}
                     {_.news_results_with}{" "}
                     <strong className="text-primary">
-                      {allNews.filter((el) => el.airTrans === (language == 'fr' ? language : 'eng')).length}
+                      {
+                        allNews.filter(
+                          (el) =>
+                            el.airTrans ===
+                            (language == "fr" ? language : "eng")
+                        ).length
+                      }
                     </strong>{" "}
                     {_.news_shown}{" "}
                     {language === "fr" ? "en français" : "en anglais"}
                   </div>
-                  
+
                   {/* Liste des filtres actifs */}
-                  {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && (
+                  {(pageEqS[1].value ||
+                    pageEqS[2].value ||
+                    pageEqS[3].value) && (
                     <div className="mt-5">
-                      <h3 className="font-semibold mb-2 text-gray-800">{_.news_active_filters || "Filtres actifs"}:</h3>
+                      <h3 className="font-semibold mb-2 text-gray-800">
+                        {_.news_active_filters || "Filtres actifs"}:
+                      </h3>
                       <div className="flex flex-wrap gap-2">
                         {pageEqS[1].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
@@ -1173,20 +1362,21 @@ function News() {
                   <div className="font-bold text-2xl mb-4 text-primary">
                     {_.news_our_partners || "Nos partenaires"}
                   </div>
-                  
+
                   <div className="space-y-5">
                     <p className="text-mediumGray font-medium">
-                      {_.news_partners_description || "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+                      {_.news_partners_description ||
+                        "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
                     </p>
-                    
+
                     {/* Animation des partenaires */}
                     <div className="grid grid-cols-2 gap-3">
                       {/* Partenaire 1 */}
-                      <div 
+                      <div
                         className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
                         style={{
                           animation: `floatDesktop 2s ease-in-out infinite alternate`,
-                          animationDelay: `0s`
+                          animationDelay: `0s`,
                         }}
                       >
                         <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
@@ -1200,13 +1390,13 @@ function News() {
                           EXA
                         </div>
                       </div>
-                      
+
                       {/* Partenaire 2 */}
-                      <div 
+                      <div
                         className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
                         style={{
                           animation: `floatDesktop 2.5s ease-in-out infinite alternate`,
-                          animationDelay: `0.2s`
+                          animationDelay: `0.2s`,
                         }}
                       >
                         <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
@@ -1220,13 +1410,13 @@ function News() {
                           Pyramid Africa
                         </div>
                       </div>
-                      
+
                       {/* Partenaire 3 */}
-                      <div 
+                      <div
                         className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
                         style={{
                           animation: `floatDesktop 3s ease-in-out infinite alternate`,
-                          animationDelay: `0.4s`
+                          animationDelay: `0.4s`,
                         }}
                       >
                         <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
@@ -1240,13 +1430,13 @@ function News() {
                           African Tech Industry
                         </div>
                       </div>
-                      
+
                       {/* Partenaire 4 */}
-                      <div 
+                      <div
                         className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
                         style={{
                           animation: `floatDesktop 2.8s ease-in-out infinite alternate`,
-                          animationDelay: `0.6s`
+                          animationDelay: `0.6s`,
                         }}
                       >
                         <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
@@ -1261,7 +1451,7 @@ function News() {
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Animation CSS pour l'effet flottant */}
                     <style jsx>{`
                       @keyframes floatDesktop {
@@ -1273,10 +1463,8 @@ function News() {
                         }
                       }
                     `}</style>
-                    
-                    <button
-                      className="w-full h-[45px] bg-primary rounded-full text-sm font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300 mt-3"
-                    >
+
+                    <button className="w-full h-[45px] bg-primary rounded-full text-sm font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300 mt-3">
                       {_.news_see_all_partners || "Devenir partenaire"}
                     </button>
                   </div>
@@ -1287,121 +1475,125 @@ function News() {
         </div>
       </div>
       {/* Ajout de la section des partenaires en mobile en dehors de la structure principale */}
-      {!isFetching && !(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && (
-        <div className="md:hidden w-11/12 mx-auto mt-5">
-          <div className="font-bold text-2xl mb-4 text-primary text-center">
-            {_.news_our_partners || "Nos partenaires"}
-          </div>
-          
-          <div className="space-y-5">
-            <p className="text-mediumGray font-medium text-center">
-              {_.news_partners_description || "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
-            </p>
-            
-            {/* Animation des partenaires */}
-            <div className="grid grid-cols-2 gap-3">
-              {/* Partenaire 1 */}
-              <div 
-                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
-                style={{
-                  animation: `floatMobile 2s ease-in-out infinite alternate`,
-                  animationDelay: `0s`
-                }}
-              >
-                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
-                  <img
-                    src={LogoExa}
-                    alt="EXA"
-                    className="h-10 w-auto object-contain"
-                  />
-                </div>
-                <div className="text-center text-primary font-medium text-sm mt-2">
-                  EXA
-                </div>
-              </div>
-              
-              {/* Partenaire 2 */}
-              <div 
-                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
-                style={{
-                  animation: `floatMobile 2.5s ease-in-out infinite alternate`,
-                  animationDelay: `0.2s`
-                }}
-              >
-                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
-                  <img
-                    src={PossibleAfricaLogo}
-                    alt="Pyramid Africa"
-                    className="h-10 w-auto object-contain"
-                  />
-                </div>
-                <div className="text-center text-primary font-medium text-sm mt-2">
-                  Pyramid Africa
-                </div>
-              </div>
-              
-              {/* Partenaire 3 */}
-              <div 
-                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
-                style={{
-                  animation: `floatMobile 3s ease-in-out infinite alternate`,
-                  animationDelay: `0.4s`
-                }}
-              >
-                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
-                  <img
-                    src={AfricanTechIndustry}
-                    alt="African Tech Industry"
-                    className="h-10 w-auto object-contain"
-                  />
-                </div>
-                <div className="text-center text-primary font-medium text-sm mt-2">
-                  African Tech Industry
-                </div>
-              </div>
-              
-              {/* Partenaire 4 */}
-              <div 
-                className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
-                style={{
-                  animation: `floatMobile 2.8s ease-in-out infinite alternate`,
-                  animationDelay: `0.6s`
-                }}
-              >
-                <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
-                  <img
-                    src={LogoHyperlink}
-                    alt="Hyperlink"
-                    className="h-10 w-auto object-contain"
-                  />
-                </div>
-                <div className="text-center text-primary font-medium text-sm mt-2">
-                  Hyperlink
-                </div>
-              </div>
+      {!isFetching &&
+        !(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && (
+          <div className="md:hidden w-11/12 mx-auto mt-5">
+            <div className="font-bold text-2xl mb-4 text-primary text-center">
+              {_.news_our_partners || "Nos partenaires"}
             </div>
-            
-            {/* Animation CSS pour l'effet flottant */}
-            <style jsx>{`
-              @keyframes floatMobile {
-                0% {
-                  transform: translateY(0px);
+
+            <div className="space-y-5">
+              <p className="text-mediumGray font-medium text-center">
+                {_.news_partners_description ||
+                  "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+              </p>
+
+              {/* Animation des partenaires */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* Partenaire 1 */}
+                <div
+                  className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                  style={{
+                    animation: `floatMobile 2s ease-in-out infinite alternate`,
+                    animationDelay: `0s`,
+                  }}
+                >
+                  <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                    <img
+                      src={LogoExa}
+                      alt="EXA"
+                      className="h-10 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="text-center text-primary font-medium text-sm mt-2">
+                    EXA
+                  </div>
+                </div>
+
+                {/* Partenaire 2 */}
+                <div
+                  className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                  style={{
+                    animation: `floatMobile 2.5s ease-in-out infinite alternate`,
+                    animationDelay: `0.2s`,
+                  }}
+                >
+                  <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                    <img
+                      src={PossibleAfricaLogo}
+                      alt="Pyramid Africa"
+                      className="h-10 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="text-center text-primary font-medium text-sm mt-2">
+                    Pyramid Africa
+                  </div>
+                </div>
+
+                {/* Partenaire 3 */}
+                <div
+                  className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                  style={{
+                    animation: `floatMobile 3s ease-in-out infinite alternate`,
+                    animationDelay: `0.4s`,
+                  }}
+                >
+                  <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                    <img
+                      src={AfricanTechIndustry}
+                      alt="African Tech Industry"
+                      className="h-10 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="text-center text-primary font-medium text-sm mt-2">
+                    African Tech Industry
+                  </div>
+                </div>
+
+                {/* Partenaire 4 */}
+                <div
+                  className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
+                  style={{
+                    animation: `floatMobile 2.8s ease-in-out infinite alternate`,
+                    animationDelay: `0.6s`,
+                  }}
+                >
+                  <div className="h-16 w-full flex items-center justify-center bg-gradient-to-r from-primary-50 to-white rounded-lg">
+                    <img
+                      src={LogoHyperlink}
+                      alt="Hyperlink"
+                      className="h-10 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="text-center text-primary font-medium text-sm mt-2">
+                    Hyperlink
+                  </div>
+                </div>
+              </div>
+
+              {/* Animation CSS pour l'effet flottant */}
+              <style jsx>{`
+                @keyframes floatMobile {
+                  0% {
+                    transform: translateY(0px);
+                  }
+                  100% {
+                    transform: translateY(-10px);
+                  }
                 }
-                100% {
-                  transform: translateY(-10px);
-                }
-              }
-            `}</style>
-            
-            <button
-              className="w-full h-[45px] bg-primary rounded-full text-sm font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300 mt-3"
-              onClick={() => setMobileFilterIsVisible(false)}
-            >
-              {_.news_see_all_partners || "Devenir partenaire"}
-            </button>
+              `}</style>
+
+              <button
+                className="w-full h-[45px] bg-primary rounded-full text-sm font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300 mt-3"
+                onClick={() => setMobileFilterIsVisible(false)}
+              >
+                {_.news_see_all_partners || "Devenir partenaire"}
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+      <Footer />
     </>
   );
 }

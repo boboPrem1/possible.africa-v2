@@ -1,15 +1,16 @@
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../assets/LogoPossible.png";
 import MediaImg from "../assets/media_img.png";
 import OrganisationImg from "../assets/jumia.jpg";
 import AfricanTechIndustry from "../assets/african_tech_industry.webp";
-import PyramidAfricaLogo from "../assets/dashboard_logo.svg"
-import LogoExa from "../assets/logoEXA.svg"
+import PyramidAfricaLogo from "../assets/dashboard_logo.svg";
+import LogoExa from "../assets/logoEXA.svg";
 import LogoYprlink from "../assets/logo_hyperlink.png";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { fetchResource } from "../utils/possible_api_actions";
 import Loader from "../assets/icons/loader.svg";
 import Star from "../assets/icons/star.svg";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   LangTransContext,
   LangTransDispatchContext,
@@ -79,36 +80,37 @@ const Landing = () => {
   return (
     <>
       <Header page="/" />
-      
+
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-primary-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             {/* Texte */}
             <div className="text-center md:text-left">
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                <span className="text-primary">Connect</span> with Africa's <br className="hidden md:block" />
-                Tech Ecosystem
+                <span className="text-primary">{_.landing_hero_title?.split(' ')[0] || "Connect"}</span> {_.landing_hero_title?.split(' ').slice(1).join(' ') || "with Africa's Tech Ecosystem"}
+                <br className="hidden md:block" />
               </h1>
               <p className="mt-4 md:mt-6 text-lg md:text-xl text-gray-600 max-w-2xl">
-                {_.landing_hero_description || "Découvrez et connectez-vous avec les acteurs clés de l'écosystème technologique africain. Une plateforme pour explorer, analyser et collaborer."}
+                {_.landing_hero_description ||
+                  "Découvrez et connectez-vous avec les acteurs clés de l'écosystème technologique africain. Une plateforme pour explorer, analyser et collaborer."}
               </p>
               <div className="mt-6 md:mt-8 flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
-                <Link 
-                  to="/database" 
+                <Link
+                  to="/database"
                   className="px-5 md:px-6 py-2.5 md:py-3 bg-primary text-white text-sm md:text-base rounded-full font-medium hover:bg-darkPrimary transition-all shadow-md hover:shadow-lg"
                 >
                   {_.landing_hero_cta_primary || "Explorer la base de données"}
                 </Link>
-                <Link 
-                  to="/news" 
+                <Link
+                  to="/news"
                   className="px-5 md:px-6 py-2.5 md:py-3 bg-white text-sm md:text-base text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
                 >
                   {_.landing_hero_cta_secondary || "Actualités Tech"}
                 </Link>
               </div>
             </div>
-            
+
             {/* Animation/Illustration */}
             <div className="mx-auto md:mx-0 relative h-48 w-48 sm:h-64 sm:w-64 md:h-96 md:w-96 mt-4 md:mt-0">
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
@@ -117,27 +119,27 @@ const Landing = () => {
                   <div className="absolute top-0 -left-4 w-36 h-36 md:w-48 md:h-48 bg-primary opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob"></div>
                   <div className="absolute top-0 -right-4 w-36 h-36 md:w-48 md:h-48 bg-yellow-300 opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob animation-delay-2000"></div>
                   <div className="absolute -bottom-8 left-20 w-36 h-36 md:w-48 md:h-48 bg-blue-300 opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob animation-delay-4000"></div>
-                  
+
                   {/* Carrousel de logos de partenaires */}
                   <div className="relative flex justify-center items-center">
-                    <HeroPartnerCarousel 
+                    <HeroPartnerCarousel
                       partners={[
                         {
                           logo: "https://api.possible.africa/storage/logos/techafricanewscom.jpg",
-                          name: "Tech Africa Newws"
+                          name: "Tech Africa Newws",
                         },
                         {
                           logo: "https://api.possible.africa/storage/logos/guardianng.jpg",
-                          name: "Guardian Nigeria"
+                          name: "Guardian Nigeria",
                         },
                         {
                           logo: "https://api.possible.africa/storage/logos/techcabalcom.jpg",
-                          name: "Tech Cabal"
+                          name: "Tech Cabal",
                         },
                         {
                           logo: "https://api.possible.africa/storage/logos/wwwitwebcoza.jpg",
-                          name: "IT Web Coza"
-                        }
+                          name: "IT Web Coza",
+                        },
                       ]}
                     />
                   </div>
@@ -145,28 +147,45 @@ const Landing = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Statistiques */}
           <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
             <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">+60 000</div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_companies || "Organisations"}</div>
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                +60 000
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_companies || "Organisations"}
+              </div>
             </div>
             <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">+100</div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_countries || "Médias tech suivis"}</div>
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                +100
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_countries || "Médias tech suivis"}
+              </div>
             </div>
             <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">+54</div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_news || "Pays"}</div>
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                +54
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_news || "Pays"}
+              </div>
             </div>
             <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">3 Services</div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">{_.landing_stat_partners || "Génération de Lead, Deals, Interactions"}</div>
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                3 Services
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_partners ||
+                  "Génération de Lead, Deals, Interactions"}
+              </div>
             </div>
           </div>
         </div>
-        
+
         {/* Style pour les animations */}
         <style jsx>{`
           @keyframes blob {
@@ -194,7 +213,7 @@ const Landing = () => {
           }
         `}</style>
       </div>
-      
+
       <div className="flex justify-center mt-10">
         <div className="flex flex-col w-11/12">
           <div className="w-full flex justify-between px-5 gap-5 flex-wrap md:flex-nowrap">
@@ -286,63 +305,81 @@ const Landing = () => {
           <div className="p-5">
             <div className="rounded-xl overflow-hidden">
               <div className="p-6 md:p-10 text-center">
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">{_.landing_our_partners}</h2>
-                <p className="text-gray-600 max-w-2xl mx-auto mb-8">Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain.</p>
-                
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  {_.landing_our_partners}
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+                  Ensemble, nous travaillons avec des organisations leaders pour
+                  transformer le paysage technologique africain.
+                </p>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                  
                   {/* Partenaire 1 */}
                   <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
                     <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
                       <div className="flex flex-col h-full">
                         <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
-                          <img 
-                            src={LogoExa} 
-                            alt="EXA logo" 
+                          <img
+                            src={LogoExa}
+                            alt="EXA logo"
                             className="h-16 md:h-20 w-auto object-contain"
                           />
                         </div>
                         <div className="p-5 md:p-6 flex-grow bg-white">
-                          <h3 className="font-semibold text-xl text-gray-800 mb-3">EXA</h3>
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            EXA
+                          </h3>
                           <p className="text-gray-600">
                             {_.landing_service_exa}
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
-                          <Link to="https://expand-in-africa.com/" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-darkPrimary transition-colors">
+                          <Link
+                            to="https://expand-in-africa.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
                             En savoir plus →
                           </Link>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Partenaire 2 */}
                   <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
                     <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
                       <div className="flex flex-col h-full">
                         <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
-                          <img 
-                            src={PyramidAfricaLogo} 
-                            alt="Pyramid Africa logo" 
+                          <img
+                            src={PyramidAfricaLogo}
+                            alt="Pyramid Africa logo"
                             className="h-16 md:h-20 w-auto object-contain"
                           />
                         </div>
                         <div className="p-5 md:p-6 flex-grow bg-white">
-                          <h3 className="font-semibold text-xl text-gray-800 mb-3">Pyramid Africa</h3>
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            Pyramid Africa
+                          </h3>
                           <p className="text-gray-600">
                             {_.landing_service_pyramid}
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
-                          <a href="https://pyramid.possible.africa" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-darkPrimary transition-colors">
+                          <a
+                            href="https://pyramid.possible.africa"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
                             En savoir plus →
                           </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Partenaire 3 */}
                   <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
                     <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
@@ -355,20 +392,27 @@ const Landing = () => {
                           />
                         </div>
                         <div className="p-5 md:p-6 flex-grow bg-white">
-                          <h3 className="font-semibold text-xl text-gray-800 mb-3">African Tech Industry</h3>
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            African Tech Industry
+                          </h3>
                           <p className="text-gray-600">
                             {_.landing_service_african_tech}
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
-                          <a href="https://www.africantechindustry.com/african-tech-industry" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-darkPrimary transition-colors">
+                          <a
+                            href="https://www.africantechindustry.com/african-tech-industry"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
                             En savoir plus →
                           </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Partenaire 4 */}
                   <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
                     <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
@@ -381,13 +425,20 @@ const Landing = () => {
                           />
                         </div>
                         <div className="p-5 md:p-6 flex-grow bg-white">
-                          <h3 className="font-semibold text-xl text-gray-800 mb-3">Yprlink</h3>
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            Yprlink
+                          </h3>
                           <p className="text-gray-600">
                             {_.landing_service_yprlink}
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
-                          <a href="https://yprlink.africa/" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-darkPrimary transition-colors">
+                          <a
+                            href="https://yprlink.africa/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
                             En savoir plus →
                           </a>
                         </div>
@@ -395,7 +446,7 @@ const Landing = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="mt-10 text-center">
                   <button className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-colors shadow-sm hover:shadow">
                     Devenir partenaire
@@ -406,6 +457,9 @@ const Landing = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 };
@@ -434,7 +488,9 @@ const New = ({ post }) => {
       )}
       <div className="w-1/12 flex justify-center items-center">
         <img
-          src={socialMedias.includes(post.airLogo) ? logoPlaceholder : post.airLogo}
+          src={
+            socialMedias.includes(post.airLogo) ? logoPlaceholder : post.airLogo
+          }
           onError={(e) => {
             e.target.src = logoPlaceholder;
           }}
@@ -553,18 +609,18 @@ const Organisation = ({ org }) => {
 const PartnerCarousel = ({ partners }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  
+
   // Changer automatiquement de partenaire toutes les 3 secondes
   useEffect(() => {
     if (!isPaused) {
       const interval = setInterval(() => {
         setActiveIndex((current) => (current + 1) % partners.length);
       }, 3000);
-      
+
       return () => clearInterval(interval);
     }
   }, [partners.length, isPaused]);
-  
+
   return (
     <div className="relative overflow-hidden">
       {/* Conteneur principal du carrousel */}
@@ -576,9 +632,9 @@ const PartnerCarousel = ({ partners }) => {
             <div className="absolute -bottom-20 -right-4 w-72 h-72 bg-blue-300 opacity-5 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
           </div>
         </div>
-        
+
         {/* Carrousel des partenaires */}
-        <div 
+        <div
           className="relative z-10"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
@@ -588,23 +644,25 @@ const PartnerCarousel = ({ partners }) => {
             <div className="bg-white rounded-xl shadow-md h-full overflow-hidden border border-gray-100 transform transition-all duration-500 hover:shadow-xl">
               <div className="flex flex-col h-full">
                 <div className="p-6 md:p-10 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[180px] md:h-[200px]">
-                  <img 
-                    src={partners[activeIndex].logo} 
-                    alt={`${partners[activeIndex].name} logo`} 
+                  <img
+                    src={partners[activeIndex].logo}
+                    alt={`${partners[activeIndex].name} logo`}
                     className="h-24 md:h-28 w-auto object-contain transition-all duration-500"
                   />
                 </div>
                 <div className="p-6 md:p-8 flex-grow bg-white">
-                  <h3 className="font-semibold text-2xl text-gray-800 mb-4">{partners[activeIndex].name}</h3>
+                  <h3 className="font-semibold text-2xl text-gray-800 mb-4">
+                    {partners[activeIndex].name}
+                  </h3>
                   <p className="text-gray-600 text-lg">
                     {partners[activeIndex].description}
                   </p>
                 </div>
                 <div className="bg-primary-50 p-4 text-center">
-                  <a 
-                    href={partners[activeIndex].link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                  <a
+                    href={partners[activeIndex].link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-primary font-medium hover:text-darkPrimary transition-colors"
                   >
                     En savoir plus →
@@ -613,7 +671,7 @@ const PartnerCarousel = ({ partners }) => {
               </div>
             </div>
           </div>
-          
+
           {/* Indicateurs du carrousel */}
           <div className="flex justify-center mt-6 space-x-2">
             {partners.map((_, index) => (
@@ -621,37 +679,65 @@ const PartnerCarousel = ({ partners }) => {
                 key={index}
                 onClick={() => setActiveIndex(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  activeIndex === index ? "bg-primary scale-125" : "bg-gray-300 hover:bg-gray-400"
+                  activeIndex === index
+                    ? "bg-primary scale-125"
+                    : "bg-gray-300 hover:bg-gray-400"
                 }`}
                 aria-label={`Voir partenaire ${index + 1}`}
               />
             ))}
           </div>
-          
+
           {/* Boutons précédent/suivant */}
           <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between z-20 px-2">
             <button
-              onClick={() => setActiveIndex((current) => (current - 1 + partners.length) % partners.length)}
+              onClick={() =>
+                setActiveIndex(
+                  (current) => (current - 1 + partners.length) % partners.length
+                )
+              }
               className="bg-white bg-opacity-80 hover:bg-opacity-100 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all hover:scale-110"
               aria-label="Partenaire précédent"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>
             <button
-              onClick={() => setActiveIndex((current) => (current + 1) % partners.length)}
+              onClick={() =>
+                setActiveIndex((current) => (current + 1) % partners.length)
+              }
               className="bg-white bg-opacity-80 hover:bg-opacity-100 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all hover:scale-110"
               aria-label="Partenaire suivant"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
           </div>
         </div>
       </div>
-      
+
       {/* Style pour les animations */}
       <style jsx>{`
         @keyframes blob {
@@ -682,30 +768,30 @@ const PartnerCarousel = ({ partners }) => {
 // Composant pour le carrousel des partenaires dans la section hero
 const HeroPartnerCarousel = ({ partners }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  
+
   // Changer automatiquement de partenaire toutes les 2.5 secondes
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % partners.length);
     }, 2500);
-    
+
     return () => clearInterval(interval);
   }, [partners.length]);
-  
+
   return (
     <div className="relative overflow-hidden rounded-xl shadow-lg md:shadow-2xl h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-full">
       {/* Container des images avec transition */}
       <div className="relative bg-white p-3 md:p-5 rounded-xl w-full h-full">
         {partners.map((partner, index) => (
-          <div 
+          <div
             key={index}
             className={`absolute inset-0 flex items-center justify-center p-1 md:p-3 transition-opacity duration-1000 ease-in-out ${
               activeIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
-            <img 
-              src={partner.logo} 
-              alt={`${partner.name} logo`} 
+            <img
+              src={partner.logo}
+              alt={`${partner.name} logo`}
               className="min-h-12 min-w-12 w-auto max-h-80 object-cover transform transition-transform hover:scale-105 duration-700 ease-in-out"
             />
           </div>
@@ -721,7 +807,7 @@ export const Header = ({ page }) => {
   const _ = lang_trans._;
   const dispatch = useContext(LangTransDispatchContext);
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
-  
+
   return (
     <div className="sticky top-0 right-0 left-0 bg-white backdrop-blur-sm bg-opacity-95 shadow-md px-3 md:px-12 lg:px-20 z-50 transition-all duration-300">
       <AnimatePresence>
@@ -740,12 +826,20 @@ export const Header = ({ page }) => {
             >
               <div className="bg-primary-50 p-5 flex items-center">
                 <img src={Logo} alt="Logo" className="h-8" />
-                <button 
+                <button
                   onClick={() => setMobileMenuIsVisible(false)}
                   className="ml-auto text-gray-600 hover:text-primary p-2 rounded-full transition-colors"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"
+                    />
                   </svg>
                 </button>
               </div>
@@ -753,7 +847,9 @@ export const Header = ({ page }) => {
                 <Link
                   to="/"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                    page === "/" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                    page === "/"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
                   }`}
                 >
                   {_.header_link_home}
@@ -761,7 +857,9 @@ export const Header = ({ page }) => {
                 <Link
                   to="/news"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                    page === "/news" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                    page === "/news"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
                   }`}
                 >
                   {_.header_link_news}
@@ -769,7 +867,9 @@ export const Header = ({ page }) => {
                 <Link
                   to="/database"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                    page === "/database" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                    page === "/database"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
                   }`}
                 >
                   {_.header_link_database}
@@ -778,7 +878,9 @@ export const Header = ({ page }) => {
                   to="https://pyramid.possible.africa"
                   target="_blank"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                    page === "https://pyramid.possible.africa" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                    page === "https://pyramid.possible.africa"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
                   }`}
                 >
                   Sales Platform
@@ -786,12 +888,14 @@ export const Header = ({ page }) => {
                 <Link
                   to="https://yprlink.africa"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                    page === "https://yprlink.africa" ? "font-bold text-primary border-l-4 border-primary" : "border-l-4 border-transparent"
+                    page === "https://yprlink.africa"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
                   }`}
                 >
                   Yperlink
                 </Link>
-                
+
                 <Link
                   to="https://pyramid.possible.africa/database/create-campaign"
                   target="_blank"
@@ -827,7 +931,11 @@ export const Header = ({ page }) => {
         {/* Logo */}
         <div className="flex items-center gap-x-4 md:gap-x-10 flex-shrink-0">
           <a href="/" className="flex items-center">
-            <img src={Logo} alt="Possible Africa" className="h-8 md:h-10 lg:h-12 w-auto" />
+            <img
+              src={Logo}
+              alt="Possible Africa"
+              className="h-8 md:h-10 lg:h-12 w-auto"
+            />
           </a>
         </div>
 
@@ -837,8 +945,8 @@ export const Header = ({ page }) => {
             <Link
               to="/"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-                page === "/" 
-                  ? "text-primary font-semibold after:w-full" 
+                page === "/"
+                  ? "text-primary font-semibold after:w-full"
                   : "text-gray-700 after:w-0"
               }`}
             >
@@ -847,8 +955,8 @@ export const Header = ({ page }) => {
             <Link
               to="/news"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-                page === "/news" 
-                  ? "text-primary font-semibold after:w-full" 
+                page === "/news"
+                  ? "text-primary font-semibold after:w-full"
                   : "text-gray-700 after:w-0"
               }`}
             >
@@ -857,8 +965,8 @@ export const Header = ({ page }) => {
             <Link
               to="/database"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-                page === "/database" 
-                  ? "text-primary font-semibold after:w-full" 
+                page === "/database"
+                  ? "text-primary font-semibold after:w-full"
                   : "text-gray-700 after:w-0"
               }`}
             >
@@ -868,8 +976,8 @@ export const Header = ({ page }) => {
               to="https://pyramid.possible.africa"
               target="_blank"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-                page === "https://pyramid.possible.africa" 
-                  ? "text-primary font-semibold after:w-full" 
+                page === "https://pyramid.possible.africa"
+                  ? "text-primary font-semibold after:w-full"
                   : "text-gray-700 after:w-0"
               }`}
             >
@@ -878,8 +986,8 @@ export const Header = ({ page }) => {
             <Link
               to="https://yprlink.africa"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-                page === "https://yprlink.africa" 
-                  ? "text-primary font-semibold after:w-full" 
+                page === "https://yprlink.africa"
+                  ? "text-primary font-semibold after:w-full"
                   : "text-gray-700 after:w-0"
               }`}
             >
@@ -890,7 +998,9 @@ export const Header = ({ page }) => {
 
         {/* Right side */}
         <div className="flex items-center gap-x-3 md:gap-x-4 lg:gap-x-6">
-          <p className="hidden md:block text-primary font-semibold text-sm lg:text-base">Connect AfricaTech Ecosystem</p>
+          <p className="hidden md:block text-primary font-semibold text-sm lg:text-base">
+            Connect AfricaTech Ecosystem
+          </p>
           <div className="hidden md:flex items-center">
             <select
               defaultValue={lang}
@@ -942,5 +1052,189 @@ export const Header = ({ page }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const Footer = () => {
+  const lang_trans = useContext(LangTransContext);
+  const lang = lang_trans.lang;
+  const _ = lang_trans._;
+  const dispatch = useContext(LangTransDispatchContext);
+  return (
+    <footer className="bg-gray-50 border-t border-gray-200 mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="col-span-1 md:col-span-1">
+            <img src={Logo} alt="Possible Africa" className="h-10 mb-4" />
+            <p className="text-gray-600 text-sm mt-2">
+              Connectez-vous avec l'écosystème technologique africain en pleine
+              croissance.
+            </p>
+            <div className="flex gap-4 mt-4">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-primary group"
+              >
+                <motion.div
+                  whileHover={{
+                    scale: 1.2,
+                    rotate: 12,
+                    transition: { type: "spring", stiffness: 400, damping: 10 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                  </svg>
+                </motion.div>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/possibleafrica"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-primary group"
+              >
+                <motion.div
+                  whileHover={{
+                    scale: 1.2,
+                    rotate: 12,
+                    transition: { type: "spring", stiffness: 400, damping: 10 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
+                  </svg>
+                </motion.div>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-3">Plateformes</h3>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="/database"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  Database
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/news"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  Actualités Tech
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://pyramid.possible.africa"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  Sales Platform
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://yprlink.africa"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  Yprlink
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-3">Liens utiles</h3>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  À propos
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  Devenir partenaire
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  Confidentialité
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  Conditions d'utilisation
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-3">Contact</h3>
+            <p className="text-gray-600 text-sm mb-2">
+              Vous avez des questions? Contactez-nous:
+            </p>
+            <a
+              href="mailto:info@possible.africa"
+              className="text-primary hover:underline text-sm"
+            >
+              info@possible.africa
+            </a>
+            <div className="mt-4">
+              <select
+                defaultValue={lang}
+                className="w-full px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 text-sm"
+                onChange={(e) => {
+                  dispatch({
+                    type: "change",
+                    lang: e.target.value,
+                  });
+                }}
+              >
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-gray-200 mt-8 pt-8 text-center">
+          <p className="text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} Possible Africa. Tous droits
+            réservés.
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 };
