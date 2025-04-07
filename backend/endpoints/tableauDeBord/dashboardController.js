@@ -396,6 +396,8 @@ exports.getLastPostsOrgs = async (req, res) => {
       });
     });
 
+    console.log(topTenNewsRecords);
+
     Object.keys(groupedByDate)
       .sort((a, b) => new Date(b) - new Date(a))
       .forEach((date) => {
