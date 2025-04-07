@@ -388,7 +388,7 @@ exports.getLastPostsOrgs = async (req, res) => {
       }
       groupedByDate[date].push({
         date: record.get("Date"),
-        generic_title: record.get("Generic title"),
+        generic_title: record.get("Generic Title"),
         keywords: record.get("Keywords"),
         mentions: record.get("Mentions"),
         article: record.get("Article Example"),
@@ -396,7 +396,7 @@ exports.getLastPostsOrgs = async (req, res) => {
       });
     });
 
-    console.log(topTenNewsRecords);
+    // console.log(topTenNewsRecords);
 
     Object.keys(groupedByDate)
       .sort((a, b) => new Date(b) - new Date(a))
