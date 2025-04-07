@@ -90,6 +90,164 @@ function pageEqReducer(state, action) {
   return [...state];
 }
 
+// Nouveau composant NewsCard avec un design amélioré
+const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
+  const createdAt = new Date(post?.airDateAdded);
+  const date = createdAt.getDate() + "/" + (createdAt.getMonth() + 1) + "/" + createdAt.getFullYear();
+
+  const scrollTags = (direction, postId) => {
+    if (tagScrollRefs.current[postId]) {
+      const scrollAmount = 150;
+      if (direction === "left") {
+        tagScrollRefs.current[postId].scrollLeft -= scrollAmount;
+      } else {
+        tagScrollRefs.current[postId].scrollLeft += scrollAmount;
+      }
+    }
+  };
+
+  return (
+    <Link
+      to={post.airMedia === "Possible Africa" ? `/news/${post.slug}` : post.airLink}
+      target={post.airMedia === "Possible Africa" ? null : "_blank"}
+      rel="noopener noreferrer"
+      className="group w-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden relative mt-6 block min-h-[220px]"
+    >
+      <div className="w-full h-full bg-gradient-to-br from-white to-gray-50">
+        {/* En-tête avec logo et informations */}
+        <div className="p-5 flex items-start gap-4 border-b border-gray-100">
+          <div className="relative">
+            <div className="h-12 w-12 rounded-xl overflow-hidden bg-white shadow-sm ring-1 ring-gray-100">
+              <img
+                src={socialMedias.includes(post?.airLogo) ? logoPlaceholder : post?.airLogo}
+                onError={(e) => {
+                  e.target.src = logoPlaceholder;
+                }}
+                className="h-full w-full object-cover"
+                alt="logo"
+              />
+            </div>
+            {post.airMedia === "Possible Africa" && (
+              <img
+                src={Star}
+                alt="Star possible"
+                className="absolute -top-2 -right-2 w-6 h-6 animate-[wiggle_1s_ease-in-out_infinite]"
+              />
+            )}
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-lg text-gray-900 truncate">
+              {post.airMedia}
+            </h3>
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span>{_.news_published_on} {date}</span>
+              <span>•</span>
+              <span className="text-primary font-medium">
+                {post.airLanguage === "ENG" ? "Anglais" : "Français"}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Contenu principal */}
+        <div className="p-5">
+          <h2 className="text-xl font-bold text-primary group-hover:text-darkPrimary transition-colors duration-200 line-clamp-2 mb-4">
+            {post.title}
+          </h2>
+
+          {/* Tags avec défilement */}
+          {post?.airTags && (
+            <div className="relative">
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    scrollTags("left", post.id || `${language}-${index}`);
+                  }}
+                  className="bg-white/80 backdrop-blur-sm shadow-md rounded-full w-8 h-8 flex items-center justify-center hover:bg-white focus:outline-none text-primary transition-all duration-200"
+                  aria-label="Défiler vers la gauche"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <div
+                ref={(el) => (tagScrollRefs.current[post.id || `${language}-${index}`] = el)}
+                className="flex gap-2 overflow-x-auto px-10 py-3 scrollbar-hide"
+                style={{
+                  scrollBehavior: "smooth",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                }}
+              >
+                <style jsx>{`
+                  div::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
+
+                {post?.airTags?.split(", ")?.map((tag) => (
+                  <div
+                    key={tag}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-full border border-gray-200 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <img src={tagSolid} className="w-4 h-4" alt="Tag" />
+                    <span className="text-sm font-medium whitespace-nowrap">
+                      {tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    scrollTags("right", post.id || `${language}-${index}`);
+                  }}
+                  className="bg-white/80 backdrop-blur-sm shadow-md rounded-full w-8 h-8 flex items-center justify-center hover:bg-white focus:outline-none text-primary transition-all duration-200"
+                  aria-label="Défiler vers la droite"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+};
+
 function News() {
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
@@ -455,364 +613,29 @@ function News() {
                   ? allNews
                       .filter((el) => el.airTrans === "fr")
                       .slice(0, 10)
-                      .map((post, index) => {
-                        const createdAt = new Date(post?.airDateAdded);
-                        // transform date to french format
-                        const date =
-                          createdAt.getDate() +
-                          "/" +
-                          (createdAt.getMonth() + 1) +
-                          "/" +
-                          createdAt.getFullYear();
-                        return (
-                          <Link
-                            to={
-                              post.airMedia === "Possible Africa"
-                                ? `/news/${post.slug}`
-                                : post.airLink
-                            }
-                            target={
-                              post.airMedia === "Possible Africa"
-                                ? null
-                                : "_blank"
-                            }
-                            rel="noopener noreferrer"
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
-                          >
-                            <div key={index} className="w-full h-full bg-white">
-                              {post.airMedia === "Possible Africa" && (
-                                <img
-                                  src={Star}
-                                  alt="Star possible"
-                                  className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute top-3 right-3"
-                                />
-                              )}
-                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-transparent">
-                                  <img
-                                    src={
-                                      socialMedias.includes(post?.airLogo)
-                                        ? logoPlaceholder
-                                        : post?.airLogo
-                                    }
-                                    onError={(e) => {
-                                      e.target.src = logoPlaceholder;
-                                    }}
-                                    height={40}
-                                    width={40}
-                                    alt="logo"
-                                  />
-                                </div>
-                                <div className="flex flex-col justify-start min-h-[46px]">
-                                  <div>
-                                    <span className="font-semibold md:text-lg">
-                                      {post.airMedia}
-                                    </span>
-                                  </div>
-                                  <div className="text-xs italic md:text-sm">
-                                    {_.news_published_on} {date},{" "}
-                                    {_.news_original_language} :{" "}
-                                    <span className="text-primary">
-                                      {post.airLanguage === "ENG"
-                                        ? "Anglais"
-                                        : "Français"}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                                {post.title.length > 110
-                                  ? post.title.slice(0, 110) + " . . ."
-                                  : post.title}
-                              </div>
-                              <div className="relative h-[40px] w-full">
-                                {/* Flèche gauche */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "left",
-                                        post.id || "fr-" + index
-                                      );
-                                    }}
-                                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la gauche"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M15 19l-7-7 7-7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-
-                                {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div
-                                  ref={(el) =>
-                                    (tagScrollRefs.current[
-                                      post.id || "fr-" + index
-                                    ] = el)
-                                  }
-                                  className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{
-                                    scrollBehavior: "smooth",
-                                    scrollbarWidth: "none",
-                                    msOverflowStyle: "none",
-                                  }}
-                                >
-                                  <style jsx>{`
-                                    div::-webkit-scrollbar {
-                                      display: none;
-                                    }
-                                  `}</style>
-
-                                {post?.airTags?.split(", ")?.map((tag) => {
-                                  return (
-                                    <div
-                                      key={tag}
-                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                    >
-                                        <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                        <img
-                                          src={tagSolid}
-                                          height={20}
-                                          width={18}
-                                          alt="Tag"
-                                        />
-                                      </div>
-                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                        {tag}
-                                      </span>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-
-                                {/* Flèche droite */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "right",
-                                        post.id || "fr-" + index
-                                      );
-                                    }}
-                                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la droite"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-                            </div>
-                            </div>
-                          </Link>
-                        );
-                      })
+                      .map((post, index) => (
+                        <NewsCard
+                          key={post.id || `fr-${index}`}
+                          post={post}
+                          index={index}
+                          language="fr"
+                          _={_}
+                          tagScrollRefs={tagScrollRefs}
+                        />
+                      ))
                   : allNews
                       .filter((el) => el.airTrans === "eng")
                       .slice(0, 10)
-                      .map((post, index) => {
-                        const createdAt = new Date(post?.airDateAdded);
-                        // transform date to french format
-                        const date =
-                          createdAt.getDate() +
-                          "/" +
-                          (createdAt.getMonth() + 1) +
-                          "/" +
-                          createdAt.getFullYear();
-                        return (
-                          <Link
-                            to={
-                              post.airMedia === "Possible Africa"
-                                ? `/news/${post.slug}`
-                                : post.airLink
-                            }
-                            target={
-                              post.airMedia === "Possible Africa"
-                                ? null
-                                : "_blank"
-                            }
-                            rel="noopener noreferrer"
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
-                          >
-                            <div key={index} className="w-full h-full bg-white">
-                              {post.airMedia === "Possible Africa" && (
-                                <img
-                                  src={Star}
-                                  alt="Star possible"
-                                  className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute top-3 right-3"
-                                />
-                              )}
-                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
-                                  <img
-                                    src={
-                                      socialMedias.includes(post?.airLogo)
-                                        ? logoPlaceholder
-                                        : post?.airLogo
-                                    }
-                                    height={40}
-                                    width={40}
-                                    alt="logo"
-                                  />
-                                </div>
-                                <div className="flex flex-col justify-start min-h-[46px]">
-                                  <div>
-                                    <span className="font-semibold md:text-lg">
-                                      {post.airMedia}{" "}
-                                    </span>
-                                  </div>
-                                  <div className="text-xs italic md:text-sm">
-                                    {_.news_published_on} {date},{" "}
-                                    {_.news_original_language} :{" "}
-                                    <span className="text-primary">
-                                      {post.airLanguage === "ENG"
-                                        ? "Anglais"
-                                        : "Français"}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                                {post.title.length > 110
-                                  ? post.title.slice(0, 110) + " . . ."
-                                  : post.title}
-                              </div>
-                              <div className="relative h-[40px] w-full">
-                                {/* Flèche gauche */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "left",
-                                        post.id || "eng-" + index
-                                      );
-                                    }}
-                                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la gauche"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M15 19l-7-7 7-7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-
-                                {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div
-                                  ref={(el) =>
-                                    (tagScrollRefs.current[
-                                      post.id || "eng-" + index
-                                    ] = el)
-                                  }
-                                  className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{
-                                    scrollBehavior: "smooth",
-                                    scrollbarWidth: "none",
-                                    msOverflowStyle: "none",
-                                  }}
-                                >
-                                  <style jsx>{`
-                                    div::-webkit-scrollbar {
-                                      display: none;
-                                    }
-                                  `}</style>
-
-                                {post?.airTags?.split(", ")?.map((tag) => {
-                                  return (
-                                    <div
-                                      key={tag}
-                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                    >
-                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                        <img
-                                          src={tagSolid}
-                                          height={20}
-                                          width={18}
-                                          alt="Tag"
-                                        />
-                                      </div>
-                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                        {tag}
-                                      </span>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-
-                                {/* Flèche droite */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "right",
-                                        post.id || "eng-" + index
-                                      );
-                                    }}
-                                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la droite"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-                            </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
+                      .map((post, index) => (
+                        <NewsCard
+                          key={post.id || `eng-${index}`}
+                          post={post}
+                          index={index}
+                          language="eng"
+                          _={_}
+                          tagScrollRefs={tagScrollRefs}
+                        />
+                      ))}
               </div>
               <div
                 className={
@@ -830,347 +653,29 @@ function News() {
                   ? allNews
                       .filter((el) => el.airTrans === "fr")
                       .slice(10)
-                      .map((post, index) => {
-                        const createdAt = new Date(post?.airDateAdded);
-                        // transform date to french format
-                        const date =
-                          createdAt.getDate() +
-                          "/" +
-                          (createdAt.getMonth() + 1) +
-                          "/" +
-                          createdAt.getFullYear();
-                        return (
-                          <Link
-                            to={
-                              post.airMedia === "Possible Africa"
-                                ? `/news/${post.slug}`
-                                : post.airLink
-                            }
-                            target={
-                              post.airMedia === "Possible Africa"
-                                ? null
-                                : "_blank"
-                            }
-                            rel="noopener noreferrer"
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
-                          >
-                            <div key={index} className="w-full h-full bg-white">
-                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
-                                  <img
-                                    src={
-                                      socialMedias.includes(post?.airLogo)
-                                        ? logoPlaceholder
-                                        : post?.airLogo
-                                    }
-                                    height={40}
-                                    width={40}
-                                    alt="logo"
-                                  />
-                                </div>
-                                <div className="flex flex-col justify-start min-h-[46px]">
-                                  <div>
-                                    <span className="font-semibold md:text-lg">
-                                      {post.airMedia}
-                                    </span>
-                                  </div>
-                                  <div className="text-xs italic md:text-sm">
-                                    {_.news_published_on} {date},{" "}
-                                    {_.news_original_language} :{" "}
-                                    <span className="text-primary">
-                                      {post.airLanguage === "ENG"
-                                        ? "Anglais"
-                                        : "Français"}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                                {post.title.length > 110
-                                  ? post.title.slice(0, 110) + " . . ."
-                                  : post.title}
-                              </div>
-                              <div className="relative h-[40px] w-full">
-                                {/* Flèche gauche */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "left",
-                                        post.id || "other-" + index
-                                      );
-                                    }}
-                                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la gauche"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M15 19l-7-7 7-7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-
-                                {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div
-                                  ref={(el) =>
-                                    (tagScrollRefs.current[
-                                      post.id || "other-" + index
-                                    ] = el)
-                                  }
-                                  className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{
-                                    scrollBehavior: "smooth",
-                                    scrollbarWidth: "none",
-                                    msOverflowStyle: "none",
-                                  }}
-                                >
-                                  <style jsx>{`
-                                    div::-webkit-scrollbar {
-                                      display: none;
-                                    }
-                                  `}</style>
-
-                                {post?.airTags?.split(", ")?.map((tag) => {
-                                  return (
-                                    <div
-                                      key={tag}
-                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                    >
-                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                        <img
-                                          src={tagSolid}
-                                          height={20}
-                                          width={18}
-                                          alt="Tag"
-                                        />
-                                      </div>
-                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                        {tag}
-                                      </span>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-
-                                {/* Flèche droite */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "right",
-                                        post.id || "other-" + index
-                                      );
-                                    }}
-                                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la droite"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-                            </div>
-                            </div>
-                          </Link>
-                        );
-                      })
+                      .map((post, index) => (
+                        <NewsCard
+                          key={post.id || `fr-older-${index}`}
+                          post={post}
+                          index={index}
+                          language="fr"
+                          _={_}
+                          tagScrollRefs={tagScrollRefs}
+                        />
+                      ))
                   : allNews
                       .filter((el) => el.airTrans === "eng")
                       .slice(10)
-                      .map((post, index) => {
-                        const createdAt = new Date(post?.airDateAdded);
-                        // transform date to french format
-                        const date =
-                          createdAt.getDate() +
-                          "/" +
-                          (createdAt.getMonth() + 1) +
-                          "/" +
-                          createdAt.getFullYear();
-                        return (
-                          <a
-                            href={
-                              post.airMedia === "Possible Africa"
-                                ? `/news/${post.slug}`
-                                : post.airLink
-                            }
-                            target={
-                              post.airMedia === "Possible Africa"
-                                ? null
-                                : "_blank"
-                            }
-                            rel="noopener noreferrer"
-                            className="w-full h-[200px] bg-white shadow-lg mt-[20px] rounded-[12px] p-[12px] overflow-hidden relative"
-                          >
-                            <div key={index} className="w-full h-full bg-white">
-                              <div className="h-[46px] w-full flex justify-start items-center gap-x-[8px]">
-                                <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-slate-200">
-                                  <img
-                                    src={
-                                      socialMedias.includes(post?.airLogo)
-                                        ? logoPlaceholder
-                                        : post?.airLogo
-                                    }
-                                    height={40}
-                                    width={40}
-                                    alt="logo"
-                                  />
-                                </div>
-                                <div className="flex flex-col justify-start min-h-[46px]">
-                                  <div>
-                                    <span className="font-semibold md:text-lg">
-                                      {post.airMedia}
-                                    </span>
-                                  </div>
-                                  <div className="text-xs italic md:text-sm">
-                                    {_.news_published_on} {date},{" "}
-                                    {_.news_original_language} :{" "}
-                                    <span className="text-primary">
-                                      {post.airLanguage === "ENG"
-                                        ? "Anglais"
-                                        : "Français"}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="h-[90px] w-full text-primary hover:text-darkPrimary active:text-darkPrimary visited:text-darkPrimary font-bold flex items-center md:text-xl">
-                                {post.title.length > 110
-                                  ? post.title.slice(0, 110) + " . . ."
-                                  : post.title}
-                              </div>
-                              <div className="relative h-[40px] w-full">
-                                {/* Flèche gauche */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "left",
-                                        post.id || "other-" + index
-                                      );
-                                    }}
-                                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la gauche"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M15 19l-7-7 7-7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-
-                                {/* Conteneur des tags avec masquage de la barre de défilement */}
-                                <div
-                                  ref={(el) =>
-                                    (tagScrollRefs.current[
-                                      post.id || "other-" + index
-                                    ] = el)
-                                  }
-                                  className="h-[40px] w-full flex justify-start items-center gap-x-[12px] overflow-x-auto px-7"
-                                  style={{
-                                    scrollBehavior: "smooth",
-                                    scrollbarWidth: "none",
-                                    msOverflowStyle: "none",
-                                  }}
-                                >
-                                  <style jsx>{`
-                                    div::-webkit-scrollbar {
-                                      display: none;
-                                    }
-                                  `}</style>
-
-                                {post?.airTags?.split(", ")?.map((tag) => {
-                                  return (
-                                    <div
-                                      key={tag}
-                                      className="inline-flex justify-start items-center gap-x-2 rounded-full border-2 pe-3 text-mediumGray"
-                                    >
-                                      <div className="h-[35px] w-[35px] rounded-full border-2 scale-105 bg-transparent flex justify-center">
-                                        <img
-                                          src={tagSolid}
-                                          height={20}
-                                          width={18}
-                                          alt="Tag"
-                                        />
-                                      </div>
-                                      <span className="capitalize md:text-lg md:font-semibold text-nowrap">
-                                        {tag}
-                                      </span>
-                                    </div>
-                                  );
-                                })}
-                                </div>
-
-                                {/* Flèche droite */}
-                                {post?.airTags && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      scrollTags(
-                                        "right",
-                                        post.id || "other-" + index
-                                      );
-                                    }}
-                                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-50 focus:outline-none text-primary"
-                                    aria-label="Défiler vers la droite"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                      />
-                                    </svg>
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-                          </a>
-                        );
-                      })}
+                      .map((post, index) => (
+                        <NewsCard
+                          key={post.id || `eng-older-${index}`}
+                          post={post}
+                          index={index}
+                          language="eng"
+                          _={_}
+                          tagScrollRefs={tagScrollRefs}
+                        />
+                      ))}
               </div>
 
               <div
@@ -1296,20 +801,20 @@ function News() {
                         {pageEqS[1].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[1].value}
-                </div>
+                          </div>
                         )}
                         {pageEqS[2].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[2].value}
-            </div>
+                          </div>
                         )}
                         {pageEqS[3].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[3].value}
-          </div>
+                          </div>
                         )}
-        </div>
-      </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               ) : (
