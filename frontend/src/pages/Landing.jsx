@@ -41,6 +41,10 @@ const Landing = () => {
   const [targetName, setTargetName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [leads, setLeads] = useState(null);
+  const [showLeadsModal, setShowLeadsModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
 
   useEffect(() => {
     let data;
@@ -60,15 +64,64 @@ const Landing = () => {
     }
   }, [dashBoardData]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!companyName.trim() || !targetName.trim()) return;
     
     setIsSubmitting(true);
+    setLeads(null);
+
+    // Construction du prompt pour l'API
+    const prompt = `En tant qu'expert en prospection B2B en Afrique, génère-moi 5 leads qualifiés pour l'entreprise "${companyName}" en te basant sur leur entreprise cible "${targetName}".
     
-    // Simuler un envoi de formulaire
-    setTimeout(() => {
-      setIsSubmitting(false);
+Format de réponse souhaité (JSON) :
+{
+  "leads": [
+    {
+      "company_name": "Nom de l'entreprise",
+      "sector": "Secteur d'activité",
+      "country": "Pays",
+      "reason": "Raison de la recommandation",
+      "similarity_score": "Score de similarité avec la cible (0-100)"
+    }
+  ]
+}
+
+Critères importants :
+- Entreprises réelles et actives en Afrique
+- Secteur d'activité similaire à l'entreprise cible
+- Taille et maturité comparables
+- Potentiel de collaboration élevé
+- Présence digitale vérifiable
+
+Retourne uniquement le JSON, sans texte additionnel.`;
+
+    try {
+      const response = await fetch('https://api.possible.africa/ai/generate-any', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('AI Response:', data.completion);
+
+      try {
+        // Tenter de parser la réponse JSON
+        const parsedLeads = JSON.parse(data.completion);
+        console.log('Parsed Leads:', parsedLeads);
+        setLeads(parsedLeads.leads);
+        setShowLeadsModal(true);
+      } catch (parseError) {
+        console.error('Error parsing AI response:', parseError);
+      }
+
       setShowSuccess(true);
       setCompanyName("");
       setTargetName("");
@@ -77,6 +130,25 @@ const Landing = () => {
       setTimeout(() => {
         setShowSuccess(false);
       }, 5000);
+    } catch (error) {
+      console.error('Error fetching AI response:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    
+    setIsSubmittingEmail(true);
+    
+    // Simuler l'envoi d'email (à remplacer par votre véritable API)
+    setTimeout(() => {
+      setIsSubmittingEmail(false);
+      setShowLeadsModal(false);
+      setEmail("");
+      // Afficher un message de succès ou rediriger l'utilisateur
     }, 1500);
   };
 
@@ -591,6 +663,102 @@ const Landing = () => {
 
       {/* Footer */}
       <Footer />
+
+      {/* Modal des résultats */}
+      {showLeadsModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 bg-gradient-to-br from-primary/10 to-transparent">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">Vos 5 premiers prospects qualifiés</h2>
+                <button 
+                  onClick={() => setShowLeadsModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="text-sm text-gray-600 mb-6">
+                Basé sur votre entreprise <span className="font-semibold text-primary">{companyName}</span> et 
+                votre cible <span className="font-semibold text-primary">{targetName}</span>
+              </div>
+
+              <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2 mb-6">
+                {leads?.map((lead, index) => (
+                  <div key={index} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-800">{lead.company_name}</h3>
+                        <div className="flex items-center gap-2 mt-1 text-sm text-gray-600">
+                          <span className="px-2 py-1 bg-primary/10 rounded-full">{lead.sector}</span>
+                          <span className="px-2 py-1 bg-blue-50 rounded-full">{lead.country}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="text-right">
+                          <div className="text-xs text-gray-500">Score de similarité</div>
+                          <div className="font-semibold text-primary">{lead.similarity_score}%</div>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-3 text-sm text-gray-600">{lead.reason}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t border-gray-100 pt-6">
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    Recevez 45 prospects supplémentaires gratuits
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Entrez votre email pour recevoir immédiatement vos prospects additionnels
+                  </p>
+                </div>
+
+                <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-grow relative">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Votre email professionnel"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmittingEmail || !email.trim()}
+                    className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
+                      ${isSubmittingEmail || !email.trim()
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5'
+                      }`}
+                  >
+                    {isSubmittingEmail ? (
+                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    ) : (
+                      <>
+                        <span>Recevoir mes 45 prospects</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

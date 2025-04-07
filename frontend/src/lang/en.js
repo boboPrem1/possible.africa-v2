@@ -96,4 +96,14 @@ export const en_trans = {
   map_organisations: "organizations",
   map_no_data: "No data available",
   chart_more_info: "More information",
+  // Results modal
+  modal_title: "Your First 5 Qualified Leads",
+  modal_based_on: "Based on your company",
+  modal_and_target: "and your target",
+  modal_similarity_score: "Similarity Score",
+  modal_get_more: "Get 45 Additional Free Leads",
+  modal_email_subtitle: "Enter your email to receive your additional leads immediately",
+  modal_email_placeholder: "Your professional email",
+  modal_submit_button: "Get my 45 leads",
+  modal_close: "Close",
 };

@@ -260,41 +260,7 @@ function News() {
             }`}
           >
             <div className="absolute min-h-[400px] max-h-[100vh] flex justify-start flex-col items-center gap-5 border-[.5px] rounded-[12px] border-primary p-5 ">
-              {/* {JSON.stringify(pageEq)} */}
-              {/* <div className="w-[248px] h-10 flex justify-center text-center rounded-lg shadow-sm drop-shadow-xl overflow-hidden">
-                <div
-                  className={
-                    language === "fr"
-                      ? "w-[124px] h-10 flex justify-center flex-col cursor-pointer bg-[#2BB19C] text-white font-semibold"
-                      : "w-[124px] h-10 flex justify-center flex-col cursor-pointer"
-                  }
-                  onClick={() => {
-                    setLanguageChanging(true);
-                    setLanguage("fr");
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 3000);
-                  }}
-                >
-                  <span>Français</span>
-                </div>
-                <div
-                  className={
-                    language === "eng"
-                      ? "w-[124px] h-10 flex justify-center flex-col cursor-pointer bg-[#2BB19C] text-white font-semibold"
-                      : "w-[124px] h-10 flex justify-center flex-col cursor-pointer"
-                  }
-                  onClick={() => {
-                    setLanguageChanging(true);
-                    setLanguage("eng");
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 3000);
-                  }}
-                >
-                  <span>Anglais</span>
-                </div>
-              </div> */}
+
               <Input
                 label={_.news_search_by_title}
                 placeholder={_.news_search_by_title_enter_a_title}
@@ -314,17 +280,7 @@ function News() {
                   dispatch({ field: "airTags", value: e.target.value });
                 }}
               />
-              {/* <CustumSelect
-          label="Pays du siège social"
-          multi
-          placeholder="Choisissez un pays ."
-        /> */}
-              {/* <CustumSelect
-          label="Filtrer par Tag"
-          options={[]}
-          multi
-          placeholder="Choisissez un tag ."
-        /> */}
+
               <div className="flex gap-2">
                 <button
                   className={`text-sm font-medium px-4 py-2 rounded-full ${

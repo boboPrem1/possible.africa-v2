@@ -91,6 +91,17 @@ export const fr_trans = {
     map_legend_title: "Pays par nombre d'organisations",
     map_organisations: "organisations",
     map_no_data: "Aucune donnée",
-    chart_more_info: "Plus d'informations"
+    chart_more_info: "Plus d'informations",
+    
+    // Modal des résultats
+    modal_title: "Vos 5 premiers prospects qualifiés",
+    modal_based_on: "Basé sur votre entreprise",
+    modal_and_target: "et votre cible",
+    modal_similarity_score: "Score de similarité",
+    modal_get_more: "Recevez 45 prospects supplémentaires gratuits",
+    modal_email_subtitle: "Entrez votre email pour recevoir immédiatement vos prospects additionnels",
+    modal_email_placeholder: "Votre email professionnel",
+    modal_submit_button: "Recevoir mes 45 prospects",
+    modal_close: "Fermer"
   }
   
