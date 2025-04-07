@@ -373,7 +373,7 @@ exports.getLastPostsOrgs = async (req, res) => {
   try {
     var base = new Airtable({
       apiKey: AIRTABLE_API_KEY,
-    }).base(DATAPOINTS_BASE_ID);
+    }).base(ALL_ARTICLE_BASE_ID);
 
     let topTenNewsArray = [];
     let groupedByDate = {};
