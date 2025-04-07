@@ -371,6 +371,7 @@ exports.getAllTotaux = async (req, res) => {
 
 exports.getLastPostsOrgs = async (req, res) => {
   try {
+    const ALL_ARTICLE_BASE_ID = process.env.ALL_ARTICLE_BASE_ID;
     var base = new Airtable({
       apiKey: AIRTABLE_API_KEY,
     }).base(ALL_ARTICLE_BASE_ID);
