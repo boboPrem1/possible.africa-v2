@@ -38,6 +38,7 @@ const Landing = () => {
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [companyName, setCompanyName] = useState("");
+  const [targetName, setTargetName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -61,7 +62,7 @@ const Landing = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!companyName.trim()) return;
+    if (!companyName.trim() || !targetName.trim()) return;
     
     setIsSubmitting(true);
     
@@ -70,6 +71,7 @@ const Landing = () => {
       setIsSubmitting(false);
       setShowSuccess(true);
       setCompanyName("");
+      setTargetName("");
       
       // Réinitialiser le message de succès après 5 secondes
       setTimeout(() => {
@@ -136,94 +138,94 @@ const Landing = () => {
                 </Link>
               </div>
               
-              {/* Input animé pour recevoir des prospects gratuits */}
-              <div className="mt-8 md:mt-10 w-full mx-auto md:mx-0">
-                <form onSubmit={handleSubmit}>
+              
+            </div>
+
+            {/* Animation/Illustration */}
+            {/* Input animé pour recevoir des prospects gratuits */}
+            <div className="mt-8 md:mt-10 w-full max-w-md mx-auto md:mx-0">
+                <form onSubmit={handleSubmit} className="relative">
                   <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-blue-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                    <div className="relative bg-white rounded-lg p-4 flex flex-col md:flex-row items-center gap-3">
-                      <input
-                        type="text"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder={_.landing_hero_input_placeholder || "Entrez le nom de votre entreprise"}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                      />
-                      <button 
-                        type="submit"
-                        disabled={isSubmitting || !companyName.trim()}
-                        className={`w-full md:w-auto px-5 py-2 bg-primary text-white rounded-md font-medium transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 ${isSubmitting || !companyName.trim() ? 'opacity-70 cursor-not-allowed' : 'hover:bg-darkPrimary'}`}
-                      >
-                        {isSubmitting ? (
-                          <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                        ) : (
-                          <>
-                            <span className="text-nowrap">{_.landing_hero_input_button || "Recevoir 5 prospects gratuits"}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-400 to-teal-300 rounded-2xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                    <div className="relative bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-xl">
+                      <div className="flex flex-col gap-3">
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
-                          </>
-                        )}
-                      </button>
+                          </div>
+                          <input
+                            type="text"
+                            value={companyName}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                            placeholder={_.landing_hero_input_placeholder || "Entrez le nom de votre entreprise"}
+                            className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
+                          />
+                        </div>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                          </div>
+                          <input
+                            type="text"
+                            value={targetName}
+                            onChange={(e) => setTargetName(e.target.value)}
+                            placeholder={_.landing_hero_input_target_placeholder || "Entrez le nom d'une entreprise cible"}
+                            className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
+                          />
+                        </div>
+                        <button 
+                          type="submit"
+                          disabled={isSubmitting || !companyName.trim() || !targetName.trim()}
+                          className={`w-full px-6 py-3.5 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
+                            ${isSubmitting || !companyName.trim() || !targetName.trim()
+                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                              : 'bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5'}`}
+                        >
+                          {isSubmitting ? (
+                            <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                          ) : (
+                            <>
+                              <span>{_.landing_hero_input_button || "Recevoir 5 prospects gratuits"}</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                              </svg>
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500 mt-2 text-center md:text-left">
-                    {_.landing_hero_input_subtext || "Recevez 5 prospects qualifiés adaptés à votre entreprise"}
+                  <p className="text-sm text-gray-500 mt-3 text-center md:text-left">
+                    {_.landing_hero_input_subtext || "Recevez 5 prospects qualifiés similaires à votre cible"}
                   </p>
                   
                   {/* Message de succès */}
                   {showSuccess && (
-                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-md text-green-700 text-sm animate-fade-in">
-                      <div className="flex items-center">
-                        <svg className="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        <span>Votre demande a été envoyée avec succès ! Nous vous contacterons bientôt.</span>
+                    <div className="absolute top-full left-0 right-0 mt-4">
+                      <div className="bg-green-50/80 backdrop-blur-sm border border-green-100 rounded-xl p-4 shadow-lg animate-fade-in">
+                        <div className="flex items-center gap-3">
+                          <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-medium text-green-800">Demande envoyée avec succès !</h3>
+                            <p className="mt-1 text-sm text-green-600">Nous vous contacterons très prochainement avec vos prospects.</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}
                 </form>
               </div>
-            </div>
-
-            {/* Animation/Illustration */}
-            <div className="mx-auto md:mx-0 relative h-48 w-48 sm:h-64 sm:w-64 md:h-96 md:w-96 mt-4 md:mt-0">
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                <div className="relative w-full max-w-lg">
-                  {/* Cercles animés */}
-                  <div className="absolute top-0 -left-4 w-36 h-36 md:w-48 md:h-48 bg-primary opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob"></div>
-                  <div className="absolute top-0 -right-4 w-36 h-36 md:w-48 md:h-48 bg-yellow-300 opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob animation-delay-2000"></div>
-                  <div className="absolute -bottom-8 left-20 w-36 h-36 md:w-48 md:h-48 bg-blue-300 opacity-10 rounded-full mix-blend-multiply filter blur-md animate-blob animation-delay-4000"></div>
-
-                  {/* Carrousel de logos de partenaires */}
-                  <div className="relative flex justify-center items-center">
-                    <HeroPartnerCarousel
-                      partners={[
-                        {
-                          logo: "https://api.possible.africa/storage/logos/techafricanewscom.jpg",
-                          name: "Tech Africa Newws",
-                        },
-                        {
-                          logo: "https://api.possible.africa/storage/logos/guardianng.jpg",
-                          name: "Guardian Nigeria",
-                        },
-                        {
-                          logo: "https://api.possible.africa/storage/logos/techcabalcom.jpg",
-                          name: "Tech Cabal",
-                        },
-                        {
-                          logo: "https://api.possible.africa/storage/logos/wwwitwebcoza.jpg",
-                          name: "IT Web Coza",
-                        },
-                      ]}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Statistiques */}
