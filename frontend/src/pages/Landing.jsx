@@ -15,7 +15,7 @@ import {
   LangTransContext,
   LangTransDispatchContext,
 } from "../langTransContext";
-import { socialMedias } from "./NewOrganisations";
+import { logoPlaceholder, socialMedias } from "./NewOrganisations";
 import { Link } from "react-router-dom";
 
 function getDate(dateSended) {
@@ -37,6 +37,9 @@ const Landing = () => {
   const _ = lang_trans._;
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     let data;
@@ -55,6 +58,25 @@ const Landing = () => {
       setIsLoading(false);
     }
   }, [dashBoardData]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!companyName.trim()) return;
+    
+    setIsSubmitting(true);
+    
+    // Simuler un envoi de formulaire
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setShowSuccess(true);
+      setCompanyName("");
+      
+      // Réinitialiser le message de succès après 5 secondes
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 5000);
+    }, 1500);
+  };
 
   if (!dashBoardData) {
     return (
@@ -112,6 +134,58 @@ const Landing = () => {
                 >
                   {_.landing_hero_cta_secondary || "Actualités Tech"}
                 </Link>
+              </div>
+              
+              {/* Input animé pour recevoir des prospects gratuits */}
+              <div className="mt-8 md:mt-10 w-full mx-auto md:mx-0">
+                <form onSubmit={handleSubmit}>
+                  <div className="relative group">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-blue-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                    <div className="relative bg-white rounded-lg p-4 flex flex-col md:flex-row items-center gap-3">
+                      <input
+                        type="text"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder={_.landing_hero_input_placeholder || "Entrez le nom de votre entreprise"}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                      />
+                      <button 
+                        type="submit"
+                        disabled={isSubmitting || !companyName.trim()}
+                        className={`w-full md:w-auto px-5 py-2 bg-primary text-white rounded-md font-medium transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 ${isSubmitting || !companyName.trim() ? 'opacity-70 cursor-not-allowed' : 'hover:bg-darkPrimary'}`}
+                      >
+                        {isSubmitting ? (
+                          <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                        ) : (
+                          <>
+                            <span className="text-nowrap">{_.landing_hero_input_button || "Recevoir 5 prospects gratuits"}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2 text-center md:text-left">
+                    {_.landing_hero_input_subtext || "Recevez 5 prospects qualifiés adaptés à votre entreprise"}
+                  </p>
+                  
+                  {/* Message de succès */}
+                  {showSuccess && (
+                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-md text-green-700 text-sm animate-fade-in">
+                      <div className="flex items-center">
+                        <svg className="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span>Votre demande a été envoyée avec succès ! Nous vous contacterons bientôt.</span>
+                      </div>
+                    </div>
+                  )}
+                </form>
               </div>
             </div>
 
@@ -215,6 +289,54 @@ const Landing = () => {
           .animation-delay-4000 {
             animation-delay: 4s;
           }
+          @keyframes tilt {
+            0%, 100% {
+              transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+              transform: perspective(1000px) rotateX(1deg) rotateY(1deg);
+            }
+            75% {
+              transform: perspective(1000px) rotateX(-1deg) rotateY(-1deg);
+            }
+          }
+          .animate-tilt {
+            animation: tilt 10s infinite cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          @keyframes fade-in {
+            0% {
+              opacity: 0;
+              transform: translateY(-10px) scale(0.95);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+          .animate-fade-in {
+            animation: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          }
+          @keyframes pulse-ring {
+            0% {
+              transform: scale(0.8);
+              opacity: 0;
+            }
+            50% {
+              opacity: 0.5;
+            }
+            100% {
+              transform: scale(1.3);
+              opacity: 0;
+            }
+          }
+          .animate-pulse-ring:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: inherit;
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          }
         `}</style>
       </div>
 
@@ -258,7 +380,10 @@ const Landing = () => {
                 </a>
               </div>
               <div className="flex justify-start flex-col gap-y-3">
-                {dashBoardData.posts?.lastByLang[lang].map((post) => {
+                {/* {dashBoardData.posts?.lastByLang[lang].map((post) => {
+                  return <New post={post} />;
+                })} */}
+                {dashBoardData.topTenNews?.[0]?.articles?.map((post) => {
                   return <New post={post} />;
                 })}
               </div>
@@ -473,57 +598,66 @@ export default Landing;
 const New = ({ post }) => {
   return (
     <a
-      key={post.id}
-      href={
-        post.airMedia === "Possible Africa"
-          ? `/news/${post.slug}`
-          : post.airLink
-      }
-      target={post.airMedia === "Possible Africa" ? null : "_blank"}
-      rel="noopener noreferrer"
+      // key={post.id}
+      href="#"
+      // target={post.airMedia === "Possible Africa" ? null : "_blank"}
+      // rel="noopener noreferrer"
       className="flex justify-between items-center gap-x-5  bg-[#D9D9D9]/20 rounded-md min-h-26 p-2.5 min-w-full relative"
     >
-      {post.airMedia === "Possible Africa" && (
+      {/* {post.airMedia === "Possible Africa" && (
         <img
           src={Star}
           alt="Star possible"
           className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute bottom-3 right-3"
         />
-      )}
+      )} */}
       <div className="w-1/12 flex justify-center items-center">
-        <img
-          src={
-            socialMedias.includes(post.airLogo) ? logoPlaceholder : post.airLogo
-          }
-          onError={(e) => {
-            e.target.src = logoPlaceholder;
-          }}
-          alt={`media img's logo`}
-          className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
-        />
+        {post?.logo?.[0]?.url ? (
+          <img
+            src={
+              socialMedias.includes(post?.logo?.[0]?.url)
+                ? logoPlaceholder
+                : post?.logo?.[0]?.url
+            }
+            onError={(e) => {
+              e.target.src = logoPlaceholder;
+            }}
+            alt={`media img's logo`}
+            className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
+          />
+        ) : (
+          <img
+            src={logoPlaceholder}
+            onError={(e) => {
+              e.target.src = logoPlaceholder;
+            }}
+            alt={`media img's logo`}
+            className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
+          />
+        )}
       </div>
       <div className="flex flex-col justify-start items-center gap-y-1 w-11/12 overflow-hidden">
         <div className="flex justify-between w-full">
-          <span className="font-semibold text-sm md:text-base">
+          {/* <span className="font-semibold text-sm md:text-base">
             {post.airMedia}
-          </span>
+          </span> */}
           <span className="text-sm md:text-base">
             {/* {getDate(post.airDateAdded)} */}
           </span>
         </div>
         <div className="w-full text-sm md:text-base font-medium md:hidden">
-          {post.title.length > 45
-            ? post.title.slice(0, 45) + " ..."
-            : post.title}
+          {post?.generic_title.length > 45
+            ? post?.generic_title.slice(0, 45) + " ..."
+            : post?.generic_title}
         </div>
         <div className="hidden md:block w-full text-sm md:text-base font-medium">
-          {post.title.length > 120
-            ? post.title.slice(0, 120) + " ..."
-            : post.title}
+          {post?.generic_title.length > 120
+            ? post?.generic_title.slice(0, 120) + " ..."
+            : post?.generic_title}
         </div>
         <div className="w-full text-xs flex justify-start gap-x-2 overflow-auto scrollbar-hidden">
-          {post.airTags &&
-            post.airTags.split(", ").map((tag) => {
+          {post?.keywords &&
+            post?.keywords?.split(", ").map((tag) => {
               return (
                 <div className="py-0.5 px-1.5 border rounded flex justify-between items-center gap-x-1">
                   <svg
@@ -1075,7 +1209,8 @@ export const Footer = () => {
               className="h-10 mb-4 mx-auto md:mx-0"
             />
             <p className="text-gray-600 text-sm mt-2 text-center md:text-left">
-              {_.footer_connect_text || "Connectez-vous avec l'écosystème technologique africain en pleine croissance."}
+              {_.footer_connect_text ||
+                "Connectez-vous avec l'écosystème technologique africain en pleine croissance."}
             </p>
             <div className="flex gap-4 mt-4 justify-center md:justify-start">
               <a
@@ -1243,7 +1378,8 @@ export const Footer = () => {
         </div>
         <div className="border-t border-gray-200 mt-8 pt-8 text-center">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} Possible Africa. {_.footer_all_rights_reserved || "Tous droits réservés."}
+            &copy; {new Date().getFullYear()} Possible Africa.{" "}
+            {_.footer_all_rights_reserved || "Tous droits réservés."}
           </p>
         </div>
       </div>
