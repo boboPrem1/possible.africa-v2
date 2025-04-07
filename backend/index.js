@@ -346,7 +346,7 @@ app.use(API_URL_BASE + "page_builder/sites", staticBlockSitesRoutes);
 app.use(API_URL_BASE + "page_builder/pages", staticBlockPagesRoutes);
 
 // AI Generator
-app.use(API_URL_BASE + "ai", aiGeneratorRoutes);
+// app.use(API_URL_BASE + "ai", aiGeneratorRoutes);
 
 // Routes
 app.get(API_URL_BASE, (req, res) => {
