@@ -396,14 +396,14 @@ exports.getLastPostsOrgs = async (req, res) => {
       });
     });
 
-    Object.keys(groupedByDate).forEach((date) => {
-      topTenNewsArray.push({
-        date: date,
-        articles: groupedByDate[date],
+    Object.keys(groupedByDate)
+      .sort((a, b) => new Date(b) - new Date(a))
+      .forEach((date) => {
+        topTenNewsArray.push({
+          date: date,
+          articles: groupedByDate[date],
+        });
       });
-    });
-
-
 
     const [lastOrganisations, lastPostsEng, lastPostsFr] = await Promise.all([
       Organisation.find().limit(10).sort({ dateAdded: -1 }),
