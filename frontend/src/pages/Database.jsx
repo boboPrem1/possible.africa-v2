@@ -115,43 +115,50 @@ export default function Database() {
       {
         id: uniqueRegions[0]._id || "_",
         label: uniqueRegions[0]._id || "_",
-        value: Math.round((uniqueRegions[0].count * 100) / totalRegions),
+        // value: Math.round((uniqueRegions[0].count * 100) / totalRegions),
+        value: uniqueRegions[0].count,
         color: "hsl(110, 61%, 43%)",
       },
       {
         id: uniqueRegions[1]._id || "_",
         label: uniqueRegions[1]._id || "_",
-        value: Math.round((uniqueRegions[1].count * 100) / totalRegions),
+        // value: Math.round((uniqueRegions[1].count * 100) / totalRegions),
+        value: uniqueRegions[1].count,
         color: "hsl(171, 61%, 43%)",
       },
       {
         id: uniqueRegions[2]._id || "_",
         label: uniqueRegions[2]._id || "_",
-        value: Math.round((uniqueRegions[2].count * 100) / totalRegions),
+        // value: Math.round((uniqueRegions[2].count * 100) / totalRegions),
+        value: uniqueRegions[2].count,
         color: "hsl(215, 100%, 79%)",
       },
       {
         id: uniqueRegions[3]._id || "_",
         label: uniqueRegions[3]._id || "_",
-        value: Math.round((uniqueRegions[3].count * 100) / totalRegions),
+        // value: Math.round((uniqueRegions[3].count * 100) / totalRegions),
+        value: uniqueRegions[3].count,
         color: "hsl(165, 5%, 15%)",
       },
       {
         id: uniqueRegions[4]._id || "_",
         label: uniqueRegions[4]._id || "_",
-        value: Math.round((uniqueRegions[4].count * 100) / totalRegions),
+        // value: Math.round((uniqueRegions[4].count * 100) / totalRegions),
+        value: uniqueRegions[4].count,
         color: "hsl(216, 64%, 81%)",
       },
       {
         id: uniqueRegions[5]._id || "_",
         label: uniqueRegions[5]._id || "_",
-        value: Math.round((uniqueRegions[5].count * 100) / totalRegions),
+        // value: Math.round((uniqueRegions[5].count * 100) / totalRegions),
+        value: uniqueRegions[5].count,
         color: "hsl(306, 64%, 81%)",
       },
       {
         id: uniqueRegions[6]._id || "_",
         label: uniqueRegions[6]._id || "_",
-        value: Math.round((uniqueRegions[6].count * 100) / totalRegions),
+        // value: Math.round((uniqueRegions[6].count * 100) / totalRegions),
+        value: uniqueRegions[6].count,
         color: "hsl(106, 64%, 81%)",
       },
     ];
@@ -162,31 +169,36 @@ export default function Database() {
       {
         id: uniqueTiers[0]._id || "_",
         label: uniqueTiers[0]._id || "_",
-        value: Math.round((uniqueTiers[0].count * 100) / totalTiers),
+        // value: Math.round((uniqueTiers[0].count * 100) / totalTiers),
+        value: uniqueTiers[0].count,
         color: "hsl(110, 61%, 43%)",
       },
       {
         id: uniqueTiers[1]._id || "_",
         label: uniqueTiers[1]._id || "_",
-        value: Math.round((uniqueTiers[1].count * 100) / totalTiers),
+        // value: Math.round((uniqueTiers[1].count * 100) / totalTiers),
+        value: uniqueTiers[1].count,
         color: "hsl(171, 61%, 43%)",
       },
       {
         id: uniqueTiers[2]._id || "_",
         label: uniqueTiers[2]._id || "_",
-        value: Math.round((uniqueTiers[2].count * 100) / totalTiers),
+        // value: Math.round((uniqueTiers[2].count * 100) / totalTiers),
+        value: uniqueTiers[2].count,
         color: "hsl(215, 100%, 79%)",
       },
       {
         id: uniqueTiers[3]._id || "_",
         label: uniqueTiers[3]._id || "_",
-        value: Math.round((uniqueTiers[3].count * 100) / totalTiers),
+        // value: Math.round((uniqueTiers[3].count * 100) / totalTiers),
+        value: uniqueTiers[3].count,
         color: "hsl(165, 5%, 15%)",
       },
       {
         id: uniqueTiers[4]._id || "_",
         label: uniqueTiers[4]._id || "_",
-        value: Math.round((uniqueTiers[4].count * 100) / totalTiers),
+        // value: Math.round((uniqueTiers[4].count * 100) / totalTiers),
+        value: uniqueTiers[4].count,
         color: "hsl(216, 64%, 81%)",
       },
     ];
@@ -282,9 +294,9 @@ export default function Database() {
 
           <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] w-full col-span-3 md:col-span-1">
             <div className="p-4">
-              <div className="flex justify-between mb-2">
-                <div className="text-lg font-medium">By regions</div>
-                <div className="text-lg font-medium">By tiers</div>
+              <div className="flex justify-between h-3">
+                {/* <div className="text-lg font-medium">By regions</div>
+                <div className="text-lg font-medium">By tiers</div> */}
               </div>
               <OrganisationsByRegionsByTier
                 byRegionsData={byRegionsData}

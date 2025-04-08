@@ -6,7 +6,7 @@ export const fr_trans = {
     header_btn_free_first_campaign: "Première campagne gratuite",
     landing_hero_title: "Connectez-vous avec l'écosystème Tech africain",
     landing_hero_description: "Découvrez et connectez-vous avec les acteurs clés de l'écosystème technologique africain. Une plateforme pour explorer, analyser et collaborer.",
-    landing_hero_cta_primary: "Explorer la base de données",
+    landing_hero_cta_primary: "Essayez gratuitement",
     landing_hero_cta_secondary: "Actualités Tech",
     landing_hero_input_placeholder: "Entrez le nom de votre entreprise",
     landing_hero_input_target_placeholder: "Entrez le nom d'une entreprise cible",

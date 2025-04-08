@@ -202,12 +202,12 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 >
                   {_.landing_hero_cta_primary || "Explorer la base de données"}
                 </Link>
-                <Link
+                {/* <Link
                   to="/news"
                   className="px-5 md:px-6 py-2.5 md:py-3 bg-white text-sm md:text-base text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
                 >
                   {_.landing_hero_cta_secondary || "Actualités Tech"}
-                </Link>
+                </Link> */}
               </div>
               
               
@@ -301,7 +301,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
           </div>
 
           {/* Statistiques */}
-          <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
+          <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-3 gap-3 md:gap-4 text-center">
             <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
               <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
                 +60 000
@@ -326,7 +326,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 {_.landing_stat_news || "Pays"}
               </div>
             </div>
-            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+            {/* <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
               <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
                 3 Services
               </div>
@@ -334,7 +334,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 {_.landing_stat_partners ||
                   "Génération de Lead, Deals, Interactions"}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

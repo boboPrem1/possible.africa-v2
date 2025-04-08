@@ -6,7 +6,7 @@ export const en_trans = {
   header_btn_free_first_campaign: "Free first campaign",
   landing_hero_title: "Connect with Africa's Tech Ecosystem",
   landing_hero_description: "Discover and connect with key players in the African tech ecosystem. A platform to explore, analyze and collaborate.",
-  landing_hero_cta_primary: "Explore Database",
+  landing_hero_cta_primary: "Try For Free",
   landing_hero_cta_secondary: "Tech News",
   landing_hero_input_placeholder: "Enter your company name",
   landing_hero_input_target_placeholder: "Enter a target company name",

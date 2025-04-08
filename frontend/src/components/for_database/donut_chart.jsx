@@ -8,11 +8,15 @@ const representations = ["dots", "lines", "gradient"];
 export const DonutChart = ({ data, style, className, title, subtitle }) => {
   const lang_trans = useContext(LangTransContext);
   const _ = lang_trans._;
-  
+
   return (
     <div style={{ ...style }} className={className}>
-      {title && <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>}
-      {subtitle && <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>}
+      {title && (
+        <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>
+      )}
+      {subtitle && (
+        <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>
+      )}
       <ResponsivePie
         data={data}
         margin={{ top: 30, right: 100, bottom: 30, left: 10 }}
@@ -64,15 +68,18 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
         tooltip={({ datum }) => (
           <div
             style={{
-              background: 'white',
-              padding: '9px 12px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              background: "white",
+              padding: "9px 12px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
             <strong>{datum.label}</strong>
-            <div>{datum.value} ({datum.formattedValue})</div>
+            <div>
+              {datum.value} {/* ({datum.formattedValue}) */}
+              Organizations
+            </div>
           </div>
         )}
       />
@@ -80,7 +87,13 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
   );
 };
 
-export const ResponsiveCloropleth = ({ data, style, className, title, subtitle }) => {
+export const ResponsiveCloropleth = ({
+  data,
+  style,
+  className,
+  title,
+  subtitle,
+}) => {
   const [features, setFeatures] = useState([]);
   const lang_trans = useContext(LangTransContext);
   const _ = lang_trans._;
@@ -96,8 +109,12 @@ export const ResponsiveCloropleth = ({ data, style, className, title, subtitle }
   }
   return (
     <div style={{ ...style }} className={className}>
-      {title && <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>}
-      {subtitle && <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>}
+      {title && (
+        <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>
+      )}
+      {subtitle && (
+        <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>
+      )}
       <ResponsiveChoropleth
         data={data}
         features={features}
@@ -188,17 +205,18 @@ export const ResponsiveCloropleth = ({ data, style, className, title, subtitle }
         tooltip={({ feature }) => (
           <div
             style={{
-              background: 'white',
-              padding: '9px 12px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              background: "white",
+              padding: "9px 12px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
             <strong>{feature.properties.name}</strong>
             <div>
-              {feature.value ? `${feature.value} ${_.map_organisations || "organisations"}` : 
-                _.map_no_data || "Aucune donnée"}
+              {feature.value
+                ? `${feature.value} ${_.map_organisations || "organisations"}`
+                : _.map_no_data || "Aucune donnée"}
             </div>
           </div>
         )}
@@ -207,7 +225,13 @@ export const ResponsiveCloropleth = ({ data, style, className, title, subtitle }
   );
 };
 
-export const MobileResponsiveCloropleth = ({ data, style, className, title, subtitle }) => {
+export const MobileResponsiveCloropleth = ({
+  data,
+  style,
+  className,
+  title,
+  subtitle,
+}) => {
   const [features, setFeatures] = useState([]);
   const lang_trans = useContext(LangTransContext);
   const _ = lang_trans._;
@@ -223,8 +247,12 @@ export const MobileResponsiveCloropleth = ({ data, style, className, title, subt
   }
   return (
     <div style={{ ...style }} className={className}>
-      {title && <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>}
-      {subtitle && <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>}
+      {title && (
+        <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>
+      )}
+      {subtitle && (
+        <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>
+      )}
       <ResponsiveChoropleth
         data={data}
         features={features}
@@ -291,17 +319,18 @@ export const MobileResponsiveCloropleth = ({ data, style, className, title, subt
         tooltip={({ feature }) => (
           <div
             style={{
-              background: 'white',
-              padding: '9px 12px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              background: "white",
+              padding: "9px 12px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
             <strong>{feature.properties.name}</strong>
             <div>
-              {feature.value ? `${feature.value} ${_.map_organisations || "organisations"}` : 
-                _.map_no_data || "Aucune donnée"}
+              {feature.value
+                ? `${feature.value} ${_.map_organisations || "organisations"}`
+                : _.map_no_data || "Aucune donnée"}
             </div>
           </div>
         )}
