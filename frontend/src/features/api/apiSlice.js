@@ -49,6 +49,15 @@ export const apiSlice = createApi({
       },
       providesTags: ["Posts"],
     }),
+
+    getPost: builder.query({
+      query: (postSlug) => `/posts/${postSlug}`,
+    }),
+
+    getPostBySlug: builder.query({
+      query: (postSlug) => `/posts/by_slug/${postSlug}`,
+    }),
+
     getAirtableFrPosts: builder.query({
       query: (queryArgs = baseQueryArgs) => {
         return queryTransformer(queryArgs, "airtable_posts/fr");
@@ -112,6 +121,10 @@ export const apiSlice = createApi({
 
     getOrganisation: builder.query({
       query: (organisationId) => `/organisations/${organisationId}`,
+    }),
+
+    getOrganisationByName: builder.query({
+      query: (organisationName) => `/organisations/by_name/${organisationName}`,
     }),
 
     addOrganisation: builder.mutation({
@@ -249,13 +262,15 @@ export const apiSlice = createApi({
 
 export const {
   useGetPostsQuery,
+  useGetPostQuery,
+  useGetPostBySlugQuery,
   useGetAirtableAllPostsQuery,
   useGetAirtableEngPostsQuery,
   useGetAirtableFrPostsQuery,
   useAddPostMutation,
   useDeletePostMutation,
   useUpdatePostMutation,
-  useGetOrganisationQuery,
+  useGetOrganisationByNameQuery,
   useSearchAllQuery,
   useGetOrganisationsQuery,
   useGetAirtableOrganisationsQuery,

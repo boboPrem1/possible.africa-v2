@@ -1,17 +1,18 @@
-
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveChoropleth } from "@nivo/geo";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { LangTransContext } from "../../langTransContext";
 
 const representations = ["dots", "lines", "gradient"];
 
-export const DonutChart = ({
-  data,
-  style,
-  className,
-}) => {
+export const DonutChart = ({ data, style, className, title, subtitle }) => {
+  const lang_trans = useContext(LangTransContext);
+  const _ = lang_trans._;
+  
   return (
     <div style={{ ...style }} className={className}>
+      {title && <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>}
+      {subtitle && <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>}
       <ResponsivePie
         data={data}
         margin={{ top: 30, right: 100, bottom: 30, left: 10 }}
@@ -60,17 +61,29 @@ export const DonutChart = ({
             ],
           },
         ]}
+        tooltip={({ datum }) => (
+          <div
+            style={{
+              background: 'white',
+              padding: '9px 12px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}
+          >
+            <strong>{datum.label}</strong>
+            <div>{datum.value} ({datum.formattedValue})</div>
+          </div>
+        )}
       />
     </div>
   );
 };
 
-export const ResponsiveCloropleth = ({
-  data,
-  style,
-  className,
-}) => {
+export const ResponsiveCloropleth = ({ data, style, className, title, subtitle }) => {
   const [features, setFeatures] = useState([]);
+  const lang_trans = useContext(LangTransContext);
+  const _ = lang_trans._;
 
   useEffect(() => {
     fetch("/assets/data/africa_old.json")
@@ -79,10 +92,12 @@ export const ResponsiveCloropleth = ({
   }, []);
 
   if (features.length === 0) {
-    return <div>Loading map...</div>;
+    return <div>{_.loading_map || "Loading map..."}</div>;
   }
   return (
     <div style={{ ...style }} className={className}>
+      {title && <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>}
+      {subtitle && <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>}
       <ResponsiveChoropleth
         data={data}
         features={features}
@@ -93,7 +108,7 @@ export const ResponsiveCloropleth = ({
         label="properties.name"
         key="properties.name"
         valueFormat=".2s"
-        projectionScale={250}
+        projectionScale={350}
         projectionTranslation={[0.3, 0.55]}
         projectionRotation={[0, 0, 0]}
         enableGraticule={true}
@@ -139,47 +154,63 @@ export const ResponsiveCloropleth = ({
             match: {
               id: d.id,
             },
-            id: representations[Math.floor(Math.random() * representations.length)],
+            id: representations[
+              Math.floor(Math.random() * representations.length)
+            ],
           })),
         ]}
-        legends={[
-          {
-            anchor: "bottom-left",
-            direction: "column",
-            justify: true,
-            translateX: 100,
-            translateY: -100,
-            itemsSpacing: 0,
-            itemWidth: 94,
-            itemHeight: 18,
-            itemDirection: "left-to-right",
-            itemTextColor: "#444",
-            itemOpacity: 0.85,
-            symbolSize: 18,
-            effects: [
-              {
-                on: "hover",
-                style: {
-                  itemTextColor: "#000",
-                  itemOpacity: 1,
-                },
-              },
-              
-            ],
-          },
-        ]}
+        // legends={[
+        //   {
+        //     anchor: "bottom-left",
+        //     direction: "column",
+        //     justify: true,
+        //     translateX: 100,
+        //     translateY: -100,
+        //     itemsSpacing: 5,
+        //     itemWidth: 120,
+        //     itemHeight: 20,
+        //     itemDirection: "left-to-right",
+        //     itemTextColor: "#444",
+        //     itemOpacity: 0.85,
+        //     symbolSize: 18,
+        //     title: _.map_legend_title || "Pays par nombre d'organisations",
+        //     effects: [
+        //       {
+        //         on: "hover",
+        //         style: {
+        //           itemTextColor: "#000",
+        //           itemOpacity: 1,
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ]}
+        tooltip={({ feature }) => (
+          <div
+            style={{
+              background: 'white',
+              padding: '9px 12px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}
+          >
+            <strong>{feature.properties.name}</strong>
+            <div>
+              {feature.value ? `${feature.value} ${_.map_organisations || "organisations"}` : 
+                _.map_no_data || "Aucune donnée"}
+            </div>
+          </div>
+        )}
       />
     </div>
   );
 };
 
-
-export const MobileResponsiveCloropleth = ({
-  data,
-  style,
-  className,
-}) => {
+export const MobileResponsiveCloropleth = ({ data, style, className, title, subtitle }) => {
   const [features, setFeatures] = useState([]);
+  const lang_trans = useContext(LangTransContext);
+  const _ = lang_trans._;
 
   useEffect(() => {
     fetch("/assets/data/africa_old.json")
@@ -188,10 +219,12 @@ export const MobileResponsiveCloropleth = ({
   }, []);
 
   if (features.length === 0) {
-    return <div>Loading map...</div>;
+    return <div>{_.loading_map || "Loading map..."}</div>;
   }
   return (
     <div style={{ ...style }} className={className}>
+      {title && <h3 className="text-center font-semibold text-lg mb-2">{title}</h3>}
+      {subtitle && <p className="text-center text-sm text-gray-600 mb-4">{subtitle}</p>}
       <ResponsiveChoropleth
         data={data}
         features={features}
@@ -244,39 +277,34 @@ export const MobileResponsiveCloropleth = ({
           },
         ]}
         fill={[
-          ...data.map((d) => ({
-            match: {
-              id: d.id,
-            },
-            id: representations[Math.floor(Math.random() * representations.length)],
-          })),
-        ]}
-        legends={[
-          {
-            anchor: "bottom-left",
-            direction: "column",
-            justify: true,
-            translateX: 25,
-            translateY: -75,
-            itemsSpacing: 0,
-            itemWidth: 94,
-            itemHeight: 18,
-            itemDirection: "left-to-right",
-            itemTextColor: "#444",
-            itemOpacity: 0.85,
-            symbolSize: 18,
-            effects: [
-              {
-                on: "hover",
-                style: {
-                  itemTextColor: "#000",
-                  itemOpacity: 1,
-                },
+          ...data.map((d) => {
+            return {
+              match: {
+                id: d.id,
               },
-              
-            ],
-          },
+              id: representations[
+                Math.floor(Math.random() * representations.length)
+              ],
+            };
+          }),
         ]}
+        tooltip={({ feature }) => (
+          <div
+            style={{
+              background: 'white',
+              padding: '9px 12px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}
+          >
+            <strong>{feature.properties.name}</strong>
+            <div>
+              {feature.value ? `${feature.value} ${_.map_organisations || "organisations"}` : 
+                _.map_no_data || "Aucune donnée"}
+            </div>
+          </div>
+        )}
       />
     </div>
   );

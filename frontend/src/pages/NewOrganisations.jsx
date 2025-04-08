@@ -371,7 +371,7 @@ const subSectors = {
   ],
 };
 
-const socialMedias = [
+export const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
   "https://api.possible.africa/storage/logos/linkedincom.jpg",
   "https://api.possible.africa/storage/logos/wwwtwittercom.jpg",
@@ -382,8 +382,15 @@ const socialMedias = [
   "https://api.possible.africa/storage/logos/instagramcom.jpg",
   "https://logo.clearbit.com/",
   "https://api.possible.africa/storage/logos/wwwredditcom.jpg",
+  "https://api.possible.africa/storage/logos/workspacegooglecom.jpg",
+  "https://api.possible.africa/storage/logos/myaccountgooglecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwyoutubecom.jpg",
+  "https://api.possible.africa/storage/logos/youtubecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/tiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/iriswhoint.jpg",
 ];
-const logoPlaceholder =
+export const logoPlaceholder =
   "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
 function pageEqReducer(state, action) {
@@ -455,6 +462,7 @@ function Organisations({ withoutHeader }) {
   const [mobileFilterIsVisible, setMobileFilterIsVisible] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
   const [pageS, setPageS] = useState(page + 1);
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   const [pageEq, dispatch] = useReducer(pageEqReducer, [
     { field: "name", value: "" },
@@ -510,6 +518,11 @@ function Organisations({ withoutHeader }) {
     }
   }, [isLoading, page, pageS]);
 
+  // Vérifier si des filtres sont actifs
+  const hasActiveFilters = () => {
+    return pageEqS.some(eq => eq.value !== "");
+  };
+
   if (isLoading) {
     return (
       <>
@@ -545,8 +558,43 @@ function Organisations({ withoutHeader }) {
     return (
       <div className="flex justify-center items-start">
         <div className="flex flex-col justify-start w-11/12">
-          <div className="min-h-[80vh] flex flex-col justify-start overflow-y-scroll">
-            <div className="w-full flex justify-start gap-4 overflow-x-scroll">
+          <div className="min-h-[70vh] flex flex-col justify-start">
+            {/* Bouton pour ouvrir le modal des filtres */}
+            <div className="w-full flex justify-center md:justify-end items-center mb-4">
+              <button
+                onClick={() => setShowFilterModal(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
+                </svg>
+                Filtres
+                {hasActiveFilters() && (
+                  <span className="inline-flex items-center justify-center w-5 h-5 ml-1 text-xs font-semibold text-white bg-darkPrimary rounded-full">
+                    {pageEqS.filter(eq => eq.value !== "").length}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Modal des filtres */}
+            {showFilterModal && (
+              <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex justify-center items-center p-4" onClick={() => setShowFilterModal(false)}>
+                <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                  <div className="p-6">
+                    <div className="flex justify-between items-center mb-6">
+                      <h2 className="text-2xl font-bold text-primary">Filtres</h2>
+                      <button 
+                        onClick={() => setShowFilterModal(false)}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
               <Input
                 label="Rechercher par nom"
                 placeholder="Entrez le nom de l'organisation ."
@@ -559,7 +607,6 @@ function Organisations({ withoutHeader }) {
               <CustumSelect
                 label="Région d'appartenance"
                 placeholder="Choisissez une région."
-                // value={pageEq[3].value}
                 value={pageEq[2].value}
                 onChange={(e) => {
                   dispatch({ field: "region", value: e.target.value });
@@ -576,14 +623,12 @@ function Organisations({ withoutHeader }) {
               <CustumSelect
                 label="Siège de l'organisation"
                 placeholder="Choisissez un pays."
-                // value={pageEq[3].value}
                 value={pageEq[3].value}
                 onChange={(e) => {
                   dispatch({ field: "headquarter", value: e.target.value });
                 }}
               >
                 <option value="">Choisissez un pays</option>
-                {/* <option value="All">All</option> */}
                 {pageEq[2].value === "All"
                   ? countries.all.map((c) => {
                       return (
@@ -637,7 +682,6 @@ function Organisations({ withoutHeader }) {
               <CustumSelect
                 label="Pays couverts"
                 placeholder="Choisissez un pays."
-                // value={pageEq[3].value}
                 value={pageEq[4].value}
                 onChange={(e) => {
                   dispatch({
@@ -713,7 +757,6 @@ function Organisations({ withoutHeader }) {
               <CustumSelect
                 label="Filtrer par secteur"
                 placeholder="Choisissez un secteur."
-                // value={pageEq[3].value}
                 value={pageEq[5].value}
                 onChange={(e) => {
                   dispatch({ field: "sector", value: e.target.value });
@@ -742,7 +785,6 @@ function Organisations({ withoutHeader }) {
               <CustumSelect
                 label="Filtrer par sous secteur"
                 placeholder="Choisissez un sous secteur."
-                // value={pageEq[3].value}
                 value={pageEq[6].value}
                 onChange={(e) => {
                   dispatch({ field: "subSector", value: e.target.value });
@@ -874,7 +916,6 @@ function Organisations({ withoutHeader }) {
               <CustumSelect
                 label="Filtrer par tier"
                 placeholder="Choisissez un tier."
-                // value={pageEq[3].value}
                 value={pageEq[10].value}
                 onChange={(e) => {
                   dispatch({ field: "tier", value: e.target.value });
@@ -886,21 +927,21 @@ function Organisations({ withoutHeader }) {
                 <option value="Startups">Startups</option>
                 <option value="Local SMEs">Local SMEs</option>
               </CustumSelect>
-              <div className="flex px-3 justify-start gap-2 items-center sticky right-0 bg-white">
+                    </div>
+                    
+                    <div className="flex justify-center gap-4 mt-6">
                 <button
-                  className="w-full min-w-[150px] h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
+                        className="w-full max-w-[200px] h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
                   onClick={() => {
                     setPageEqS([...pageEq]);
-                    setTimeout(() => {
-                      setMobileFilterIsVisible(false);
-                    }, 2000);
+                          setShowFilterModal(false);
                   }}
                 >
-                  Filtrer
+                        Appliquer les filtres
                 </button>
 
                 <button
-                  className="w-full min-w-[150px] h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
+                        className="w-full max-w-[200px] h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
                   onClick={() => {
                     setPageEqS([
                       { field: "name", value: "" },
@@ -917,41 +958,138 @@ function Organisations({ withoutHeader }) {
                       { field: "website", value: "" },
                     ]);
                     dispatch({ field: "reset", value: "" });
-                    setTimeout(() => {
-                      setMobileFilterIsVisible(false);
-                    }, 2000);
+                          setShowFilterModal(false);
                   }}
                 >
-                  Resset
+                        Réinitialiser
                 </button>
               </div>
             </div>
-            <table className="min-w-full mt-5">
-              <thead className="bg-[#F9FAFB]">
+                </div>
+              </div>
+            )}
+
+            {/* Affichage des filtres actifs */}
+            {hasActiveFilters() && (
+              <div className="flex flex-wrap gap-2 mb-4 mt-2">
+                {pageEqS.filter(eq => eq.value !== "").map((filter, index) => {
+                  // Obtenir le libellé du filtre
+                  let filterLabel = "";
+                  switch(filter.field) {
+                    case "name":
+                      filterLabel = `Nom: ${filter.value}`;
+                      break;
+                    case "region":
+                      filterLabel = `Région: ${filter.value}`;
+                      break;
+                    case "headquarter":
+                      filterLabel = `Siège: ${filter.value}`;
+                      break;
+                    case "operatingCountries":
+                      filterLabel = `Pays couvert: ${filter.value}`;
+                      break;
+                    case "sector":
+                      filterLabel = `Secteur: ${filter.value}`;
+                      break;
+                    case "subSector":
+                      filterLabel = `Sous-secteur: ${filter.value}`;
+                      break;
+                    case "tier":
+                      filterLabel = `Tier: ${filter.value}`;
+                      break;
+                    default:
+                      if (filter.value) filterLabel = `${filter.field}: ${filter.value}`;
+                      break;
+                  }
+                  
+                  // Ne pas afficher si pas de valeur ou de libellé
+                  if (!filterLabel) return null;
+                  
+                  return (
+                    <div 
+                      key={index} 
+                      className="flex items-center gap-1 bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full text-sm"
+                    >
+                      {filterLabel}
+                      <button 
+                        onClick={() => {
+                          // Créer une copie des filtres
+                          const newPageEqS = [...pageEqS];
+                          // Réinitialiser le filtre
+                          newPageEqS[pageEqS.findIndex(eq => eq.field === filter.field)] = { 
+                            field: filter.field, 
+                            value: "" 
+                          };
+                          // Mettre à jour les filtres
+                          setPageEqS(newPageEqS);
+                          // Mettre à jour le state du reducer
+                          dispatch({ field: filter.field, value: "" });
+                        }}
+                        className="ml-1 text-primary hover:text-darkPrimary"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                    </div>
+                  );
+                })}
+                
+                {pageEqS.some(eq => eq.value !== "") && (
+                  <button 
+                    onClick={() => {
+                      setPageEqS([
+                        { field: "name", value: "" },
+                        { field: "source", value: "" },
+                        { field: "region", value: "" },
+                        { field: "headquarter", value: "" },
+                        { field: "operatingCountries", value: "" },
+                        { field: "sector", value: "" },
+                        { field: "subSector", value: "" },
+                        { field: "active", value: "" },
+                        { field: "fundraising", value: "" },
+                        { field: "amountFundraised", value: "" },
+                        { field: "tier", value: "" },
+                        { field: "website", value: "" },
+                      ]);
+                      dispatch({ field: "reset", value: "" });
+                    }}
+                    className="text-primary hover:text-darkPrimary text-sm font-medium flex items-center"
+                  >
+                    Effacer tous les filtres
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Conteneur de tableau avec hauteur fixe et scroll */}
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-200 max-h-[85vh] max-h-[60vh] overflow-y-auto">
+              <table className="min-w-full text-sm text-left">
+                <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0">
                 <tr className="h-11">
-                  <th className="px-10">
-                    <span className="flex justify-center">
+                    <th className="px-10 py-3">
+                      {/* <span className="flex justify-center">
                       <input
                         type="checkbox"
                         name=""
                         id=""
                         className="h-5 w-5"
                       />
-                    </span>
+                      </span> */}
                   </th>
-                  <th className="text-start text-nowrap px-10">
+                    <th className="text-start text-nowrap px-10 py-3">
                     {_.database_company_name}
                   </th>
-                  <th className="text-start text-nowrap px-10">
+                    <th className="text-start text-nowrap px-10 py-3">
                     {_.database_sector}
                   </th>
-                  <th className="text-start text-nowrap px-10">
+                    <th className="text-start text-nowrap px-10 py-3">
                     {_.database_location}
                   </th>
-                  <th className="text-start text-nowrap px-10">
+                    <th className="text-start text-nowrap px-10 py-3">
                     {_.database_contact_person}
                   </th>
-                  <th className="text-start text-nowrap px-10"></th>
+                    <th className="text-start text-nowrap px-10 py-3"></th>
                 </tr>
               </thead>
               <tbody>
@@ -964,29 +1102,22 @@ function Organisations({ withoutHeader }) {
                     (createdAt.getMonth() + 1) +
                     "/" +
                     createdAt.getFullYear();
-                  return <Tr org={organisation} date={date} _={_} />;
+                    return <Tr org={organisation} date={date} _={_} key={organisation.id || index} />;
                 })}
               </tbody>
             </table>
+            </div>
           </div>
           <div className="w-full md:flex md:justify-center">
             <button
-              className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
+              className="w-full h-[45px] flex justify-center items-center bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
                 setPageS((s) => s + 1);
                 setPage((s) => s + 1);
               }}
             >
               {isFetching && (
-                <img
-                  src={Loader}
-                  style={{
-                    transformOrigin: "bottom center",
-                    translate: "-35px 0",
-                  }}
-                  alt="Loader possible"
-                  className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
-                />
+                <span className="inline-block w-6 h-6 border-2 border-white border-b-transparent mr-4 rounded-full animate-spin"></span>
               )}
               {_.load_more_results}
             </button>
@@ -1053,7 +1184,7 @@ function Organisations({ withoutHeader }) {
                 setPage((s) => s + 1);
               }}
             >
-              {(isFetching || organisationsLengthIsFetching) && (
+              {isFetching && (
                 <img
                   src={Loader}
                   style={{
@@ -1150,40 +1281,42 @@ function Tr({ org, date, _ }) {
 
   const { plusLength, initials } = randomName();
   return (
-    <tr className="border border-[#EAECF0] h-20">
-      <td className="px-10">
+    <tr className="border-b border-[#EAECF0] hover:bg-gray-50">
+      <td className="px-10 py-4">
         <span className="w-full flex justify-center">
-          <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" />
+          {/* <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" /> */}
         </span>
       </td>
-      <td className="px-10">
+      <td className="px-10 py-4">
         <span className="flex justify-start gap-x-3 items-center">
           <img
-            src={org?.logo}
-            alt=""
+            src={socialMedias.includes(org?.logo) ? logoPlaceholder : org?.logo}
+            alt={`${org.name}'s logo`}
             height={40}
             width={40}
-            className="w-10 h-10 rounded-md"
-            srcset=""
+            className="w-10 h-10 rounded-md object-cover"
+            onError={(e) => {
+              e.target.src = logoPlaceholder;
+            }}
           />
           <span className="flex flex-col">
             <span className="font-medium">{org.name}</span>
           </span>
         </span>
       </td>
-      <td className="font-medium px-10">
+      <td className="font-medium px-10 py-4">
         {org.sector.length > 20
           ? org.sector.slice(0, 20) + " . . ."
           : org.sector}
       </td>
-      <td className="px-10">{org.headquarter || "-"}</td>
-      <td className="px-10">
+      <td className="px-10 py-4">{org.headquarter || "-"}</td>
+      <td className="px-10 py-4">
         <span className="flex items-center justify-start gap-2">
           <span className="flex justify-start items-center">
             {initials.length > 0 &&
-              initials.map((initial) => {
+              initials.map((initial, i) => {
                 return (
-                  <span className="-m-1.5 w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center bg-white">
+                  <span key={i} className="-m-1.5 w-8 h-8 border-2 rounded-full font-semibold text-center text-xs flex flex-col justify-center bg-white">
                     {initial}
                   </span>
                 );
@@ -1193,20 +1326,20 @@ function Tr({ org, date, _ }) {
           <span className="pb-3 font-medium">+{plusLength}</span>
         </span>
       </td>
-      <td className="px-10">
+      <td className="px-10 py-4">
         <Popover btnTitle="Actions">
           <div className="w-full flex flex-col gap-0">
-            <a className="inline-flex w-full" href="/waitlist">
+            <a className="inline-flex w-full" href="https://pyramid.possible.africa/dashboard/leads">
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                 {_.database_action_contact}
               </span>
             </a>
-            <a className="inline-flex w-full" href="/waitlist">
+            <a className="inline-flex w-full" href="https://pyramid.possible.africa/dashboard/leads">
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                 {_.database_action_add_to_leads}
               </span>
             </a>
-            <a className="inline-flex w-full" href="/waitlist">
+            <a className="inline-flex w-full" href={`/database/${org.name}`}>
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                 {_.database_action_see}
               </span>

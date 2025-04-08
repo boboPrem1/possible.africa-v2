@@ -16,6 +16,7 @@ import {
 } from "antd/es/upload";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Option } from "antd/es/mentions";
+import TinyMCEEditor from "../../custom-components/editor";
 
 export const PostEdit: React.FC<IResourceComponentsProps> = () => {
   const { formProps, saveButtonProps, queryResult, onFinish } = useForm();
@@ -106,7 +107,9 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
   // });
 
   async function onSubmitCapture(values: any) {
+    let contentToSend = "";
     let imgTags = editorContent?.match(/<img[^>]+src="([^">]+)"/g);
+
     if (imgTags && imgTags.length > 0) {
       let imgs = imgTags.map((imgTag) => {
         const img = {
@@ -123,10 +126,14 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
       let content = editorContent;
       const result = imgs.map(async (img) => {
         img.url = await imageUploadHandler(img.base64);
-        // console.log(img.url);
         content = content.replace(`${img.base64}`, `${img.url}`);
+
+        contentToSend = content;
         return content;
       });
+      // const results = await Promise.all(result)
+      // console.log(results)
+
       values.content = await Promise.all(result).then((values: string[]) => {
         //return the last element of values array
         content = values[values.length - 1];
@@ -140,10 +147,8 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     //   values.image = url;
     // }
 
-    if (values.image) {
+    if (values?.image) {
       values.image = imageUrl;
-    } else {
-      values.image = "";
     }
 
     // if (!values?.user) {
@@ -167,9 +172,7 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     if (!values?.categorie?._id) {
       values.categorie = null;
     }
-    if (!(editorContent && values?.content)) {
-      values.content = null;
-    }
+    values.content = contentToSend || editorContent;
     if (!values?.publication_language) {
       values.publication_language = null;
     }
@@ -217,9 +220,6 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     if (queryResult.isFetching) {
       setUploadLoading(true);
     }
-    if (imageUrl) {
-      setUploadLoading(false);
-    }
     if (postsData?.content) {
       setEditorContent(postsData?.content);
     }
@@ -229,7 +229,14 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
     }
 
     // console.log(queryResult.isFetching);
-  }, [imageUrl, postsData, queryResult.isFetching, uploadLoading]);
+  }, [postsData, queryResult.isFetching, uploadLoading]);
+
+
+  useEffect(() => {
+    if (imageUrl) {
+      setUploadLoading(false);
+    }
+  }, [imageUrl]);
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
@@ -259,6 +266,73 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
             <Option value="FR">Français</Option>
             <Option value="ENG">Anglais</Option>
           </Select>
+        </Form.Item>
+        <Form.Item
+          label="Contenu"
+          name={["content"]}
+          className="advancedEditor"
+          style={{
+            height: "600px",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          {/* <ReactQuill
+            style={{ height: "500px", width: "100%" }}
+            modules={reactQuillModules}
+            value={editorContent}
+            onChange={setEditorContent}
+            theme="snow"
+            placeholder="Placez votre contenu ici..."
+          /> */}
+          <TinyMCEEditor
+            content={editorContent}
+            id="create_possible_post"
+            onContentChange={setEditorContent}
+          />
+        </Form.Item>
+        <Form.Item label="Couverture" name="image">
+          <Upload
+            name="file"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            {uploadLoading ? (
+              uploadButton
+            ) : (
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <img
+                  src={imageUrl}
+                  alt="avatar"
+                  style={{ width: "100%", borderRadius: "8px" }}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    left: "5%",
+                    right: "5%",
+                    bottom: "5%",
+                    backgroundColor: "tomato",
+                    color: "white",
+                  }}
+                >
+                  Modifier
+                </span>
+              </div>
+            )}
+          </Upload>
         </Form.Item>
         {/* <Form.Item
           label="Pays"

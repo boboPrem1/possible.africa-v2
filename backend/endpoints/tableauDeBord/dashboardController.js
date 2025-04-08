@@ -18,6 +18,7 @@ const DATAPOINTS_BASE_ID = process.env.DATAPOINTS_BASE_ID;
 const DATAPOINTS_TABLE_ID = process.env.DATAPOINTS_TABLE_ID;
 const SUB_SECTORS_TABLE_ID = process.env.SUB_SECTORS_TABLE_ID;
 const INDEX_TIERS_TABLE_ID = process.env.INDEX_TIERS_TABLE_ID;
+const TOP_TEN_NEWS_TABLE_ID = process.env.TOP_TEN_NEWS_TABLE_ID;
 const ENV = process.env.ENV;
 const PORT = process.env.PORT;
 var Airtable = require("airtable");
@@ -370,6 +371,42 @@ exports.getAllTotaux = async (req, res) => {
 
 exports.getLastPostsOrgs = async (req, res) => {
   try {
+    const ALL_ARTICLE_BASE_ID = process.env.ALL_ARTICLE_BASE_ID;
+    var base = new Airtable({
+      apiKey: AIRTABLE_API_KEY,
+    }).base(ALL_ARTICLE_BASE_ID);
+
+    let topTenNewsArray = [];
+    let groupedByDate = {};
+
+    const topTenNewsRecords = await base(TOP_TEN_NEWS_TABLE_ID).select().all();
+
+    topTenNewsRecords.forEach((record) => {
+      const date = record.get("Date");
+      if (!groupedByDate[date]) {
+        groupedByDate[date] = [];
+      }
+      groupedByDate[date].push({
+        date: record.get("Date"),
+        generic_title: record.get("Generic Title"),
+        keywords: record.get("Keywords"),
+        mentions: record.get("Mentions"),
+        article: record.get("Article Example"),
+        logo: record.get("Logo (Lookup) (from Link to Original Article)"),
+      });
+    });
+
+    // console.log(topTenNewsRecords);
+
+    Object.keys(groupedByDate)
+      .sort((a, b) => new Date(b) - new Date(a))
+      .forEach((date) => {
+        topTenNewsArray.push({
+          date: date,
+          articles: groupedByDate[date],
+        });
+      });
+
     const [lastOrganisations, lastPostsEng, lastPostsFr] = await Promise.all([
       Organisation.find().limit(10).sort({ dateAdded: -1 }),
       Post.find({ airTrans: "eng" }).limit(10).sort({ airDateAdded: -1 }),
@@ -384,6 +421,7 @@ exports.getLastPostsOrgs = async (req, res) => {
           fr: lastPostsFr,
         },
       },
+      topTenNews: topTenNewsArray,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

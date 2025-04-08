@@ -5,7 +5,7 @@ import {
   HttpError,
 } from "@refinedev/core";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { stringify } from "query-string";
+import queryString from "query-string";
 
 export const TOKEN_KEY = "refine-auth";
 // Error handling ...
@@ -17,6 +17,7 @@ const token = localStorage.getItem(TOKEN_KEY);
 export const axiosInstance: AxiosInstance = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json; charset=utf-8",
     Authorization: `Bearer ${token}`,
   },
 });
@@ -172,7 +173,7 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
     // console.log("ici");
 
     const { data, headers } = await axiosInstance.get(
-      `${url}?${stringify(query)}&${stringify(queryFilters)}`
+      `${url}?${queryString.stringify(query)}&${queryString.stringify(queryFilters)}`
     );
 
     // console.log(data, "ici");
@@ -249,19 +250,20 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
         _sort: sorters[0].field,
         _order: sorters[0].order,
       };
-      requestUrl = `${requestUrl}&${stringify(sortQuery)}`;
+      requestUrl = `${requestUrl}&${queryString.stringify(sortQuery)}`;
     }
 
     if (filters) {
       const filterQuery = generateFilters(filters);
-      requestUrl = `${requestUrl}&${stringify(filterQuery)}`;
+      requestUrl = `${requestUrl}&${queryString.stringify(filterQuery)}`;
     }
 
     if (query) {
-      requestUrl = `${requestUrl}&${stringify(query)}`;
+      requestUrl = `${requestUrl}&${queryString.stringify(query)}`;
     }
 
     if (headers) {
+      // @ts-ignore
       axiosInstance.defaults.headers = {
         ...axiosInstance.defaults.headers,
         ...headers,
@@ -293,7 +295,7 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
   // For bulk actions on the dashboard ...
   getMany: async ({ resource, ids }) => {
     const { data } = await axiosInstance.get(
-      `${apiUrl}/${resource}?${stringify({ id: ids })}`
+      `${apiUrl}/${resource}?${queryString.stringify({ id: ids })}`
     );
 
     return {

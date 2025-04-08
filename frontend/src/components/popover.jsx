@@ -36,7 +36,7 @@ const Popover = ({ children, btnTitle }) => {
       {isOpen && (
         <div
           ref={popoverRef}
-          className="absolute z-50 mt-2 w-56 bg-white border border-gray-200 rounded shadow-lg"
+          className="absolute z-[100] right-20 -top-5 mt-2 w-56 bg-white border border-gray-200 rounded-md overflow-hidden shadow-2xl"
         >
           <div className="p-0">{children}</div>
         </div>

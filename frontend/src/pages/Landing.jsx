@@ -1,16 +1,22 @@
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../assets/LogoPossible.png";
 import MediaImg from "../assets/media_img.png";
 import OrganisationImg from "../assets/jumia.jpg";
 import AfricanTechIndustry from "../assets/african_tech_industry.webp";
-import LogoHyperlink from "../assets/logo_hyperlink.png";
-import { useContext, useEffect, useState } from "react";
+import PyramidAfricaLogo from "../assets/dashboard_logo.svg";
+import LogoExa from "../assets/logoEXA.svg";
+import LogoYprlink from "../assets/logo_hyperlink.png";
+import { useContext } from "react";
 import { fetchResource } from "../utils/possible_api_actions";
 import Loader from "../assets/icons/loader.svg";
-import { AnimatePresence, motion } from "framer-motion";
+import Star from "../assets/icons/star.svg";
 import {
   LangTransContext,
   LangTransDispatchContext,
 } from "../langTransContext";
+import { logoPlaceholder, socialMedias } from "./NewOrganisations";
+import { Link } from "react-router-dom";
 
 function getDate(dateSended) {
   const date = new Date(dateSended);
@@ -31,6 +37,14 @@ const Landing = () => {
   const _ = lang_trans._;
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [targetName, setTargetName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [leads, setLeads] = useState(null);
+  const [showLeadsModal, setShowLeadsModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
 
   useEffect(() => {
     let data;
@@ -49,6 +63,94 @@ const Landing = () => {
       setIsLoading(false);
     }
   }, [dashBoardData]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!companyName.trim() || !targetName.trim()) return;
+    
+    setIsSubmitting(true);
+    setLeads(null);
+
+    // Construction du prompt pour l'API
+    const prompt = `En tant qu'expert en prospection B2B en Afrique, génère-moi 5 leads qualifiés pour l'entreprise "${companyName}" en te basant sur leur entreprise cible "${targetName}".
+    
+Format de réponse souhaité (JSON) :
+{
+  "leads": [
+    {
+      "company_name": "Nom de l'entreprise",
+      "sector": "Secteur d'activité",
+      "country": "Pays",
+      "reason": "Raison de la recommandation",
+      "similarity_score": "Score de similarité avec la cible (0-100)"
+    }
+  ]
+}
+
+Critères importants :
+- Entreprises réelles et actives en Afrique
+- Secteur d'activité similaire à l'entreprise cible
+- Taille et maturité comparables
+- Potentiel de collaboration élevé
+- Présence digitale vérifiable
+
+Retourne uniquement le JSON, sans texte additionnel.`;
+
+    try {
+      const response = await fetch('https://api.possible.africa/ai/generate-any', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('AI Response:', data.completion);
+
+      try {
+        // Tenter de parser la réponse JSON
+        const parsedLeads = JSON.parse(data.completion);
+        console.log('Parsed Leads:', parsedLeads);
+        setLeads(parsedLeads.leads);
+        setShowLeadsModal(true);
+      } catch (parseError) {
+        console.error('Error parsing AI response:', parseError);
+      }
+
+      setShowSuccess(true);
+      setCompanyName("");
+      setTargetName("");
+      
+      // Réinitialiser le message de succès après 5 secondes
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 5000);
+    } catch (error) {
+      console.error('Error fetching AI response:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    
+    setIsSubmittingEmail(true);
+    
+    // Simuler l'envoi d'email (à remplacer par votre véritable API)
+    setTimeout(() => {
+      setIsSubmittingEmail(false);
+      setShowLeadsModal(false);
+      setEmail("");
+      // Afficher un message de succès ou rediriger l'utilisateur
+    }, 1500);
+  };
 
   if (!dashBoardData) {
     return (
@@ -74,6 +176,244 @@ const Landing = () => {
   return (
     <>
       <Header page="/" />
+
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Texte */}
+            <div className="text-center md:text-left">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                <span className="text-primary">
+                  {_.landing_hero_title?.split(" ")[0] || "Connect"}
+                </span>{" "}
+                {_.landing_hero_title?.split(" ").slice(1).join(" ") ||
+                  "with Africa's Tech Ecosystem"}
+                <br className="hidden md:block" />
+              </h1>
+              <p className="mt-4 md:mt-6 text-lg md:text-xl text-gray-600 max-w-2xl">
+                {_.landing_hero_description ||
+                  "Découvrez et connectez-vous avec les acteurs clés de l'écosystème technologique africain. Une plateforme pour explorer, analyser et collaborer."}
+              </p>
+              <div className="mt-6 md:mt-8 flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
+                <Link
+                  to="/database"
+                  className="px-5 md:px-6 py-2.5 md:py-3 bg-primary text-white text-sm md:text-base rounded-full font-medium hover:bg-darkPrimary transition-all shadow-md hover:shadow-lg"
+                >
+                  {_.landing_hero_cta_primary || "Explorer la base de données"}
+                </Link>
+                <Link
+                  to="/news"
+                  className="px-5 md:px-6 py-2.5 md:py-3 bg-white text-sm md:text-base text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
+                >
+                  {_.landing_hero_cta_secondary || "Actualités Tech"}
+                </Link>
+              </div>
+              
+              
+            </div>
+
+            {/* Animation/Illustration */}
+            {/* Input animé pour recevoir des prospects gratuits */}
+            <div className="mt-8 md:mt-10 w-full max-w-md mx-auto md:mx-0">
+                <form onSubmit={handleSubmit} className="relative">
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-400 to-teal-300 rounded-2xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                    <div className="relative bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-xl">
+                      <div className="flex flex-col gap-3">
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                          </div>
+                          <input
+                            type="text"
+                            value={companyName}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                            placeholder={_.landing_hero_input_placeholder || "Entrez le nom de votre entreprise"}
+                            className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
+                          />
+                        </div>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                          </div>
+                          <input
+                            type="text"
+                            value={targetName}
+                            onChange={(e) => setTargetName(e.target.value)}
+                            placeholder={_.landing_hero_input_target_placeholder || "Entrez le nom d'une entreprise cible"}
+                            className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
+                          />
+                        </div>
+                        <button 
+                          type="submit"
+                          disabled={isSubmitting || !companyName.trim() || !targetName.trim()}
+                          className={`w-full px-6 py-3.5 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
+                            ${isSubmitting || !companyName.trim() || !targetName.trim()
+                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                              : 'bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5'}`}
+                        >
+                          {isSubmitting ? (
+                            <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                          ) : (
+                            <>
+                              <span>{_.landing_hero_input_button || "Recevoir 5 prospects gratuits"}</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                              </svg>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-3 text-center md:text-left">
+                    {_.landing_hero_input_subtext || "Recevez 5 prospects qualifiés similaires à votre cible"}
+                  </p>
+                  
+                  {/* Message de succès */}
+                  {showSuccess && (
+                    <div className="absolute top-full left-0 right-0 mt-4">
+                      <div className="bg-green-50/80 backdrop-blur-sm border border-green-100 rounded-xl p-4 shadow-lg animate-fade-in">
+                        <div className="flex items-center gap-3">
+                          <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-medium text-green-800">Demande envoyée avec succès !</h3>
+                            <p className="mt-1 text-sm text-green-600">Nous vous contacterons très prochainement avec vos prospects.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </form>
+              </div>
+          </div>
+
+          {/* Statistiques */}
+          <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                +60 000
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_companies || "Organisations"}
+              </div>
+            </div>
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                +100
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_countries || "Médias tech suivis"}
+              </div>
+            </div>
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                +54
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_news || "Pays"}
+              </div>
+            </div>
+            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                3 Services
+              </div>
+              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                {_.landing_stat_partners ||
+                  "Génération de Lead, Deals, Interactions"}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Style pour les animations */}
+        <style jsx>{`
+          @keyframes blob {
+            0% {
+              transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+              transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+              transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+              transform: translate(0px, 0px) scale(1);
+            }
+          }
+          .animate-blob {
+            animation: blob 7s infinite;
+          }
+          .animation-delay-2000 {
+            animation-delay: 2s;
+          }
+          .animation-delay-4000 {
+            animation-delay: 4s;
+          }
+          @keyframes tilt {
+            0%, 100% {
+              transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+              transform: perspective(1000px) rotateX(1deg) rotateY(1deg);
+            }
+            75% {
+              transform: perspective(1000px) rotateX(-1deg) rotateY(-1deg);
+            }
+          }
+          .animate-tilt {
+            animation: tilt 10s infinite cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          @keyframes fade-in {
+            0% {
+              opacity: 0;
+              transform: translateY(-10px) scale(0.95);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+          .animate-fade-in {
+            animation: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          }
+          @keyframes pulse-ring {
+            0% {
+              transform: scale(0.8);
+              opacity: 0;
+            }
+            50% {
+              opacity: 0.5;
+            }
+            100% {
+              transform: scale(1.3);
+              opacity: 0;
+            }
+          }
+          .animate-pulse-ring:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: inherit;
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          }
+        `}</style>
+      </div>
+
       <div className="flex justify-center mt-10">
         <div className="flex flex-col w-11/12">
           <div className="w-full flex justify-between px-5 gap-5 flex-wrap md:flex-nowrap">
@@ -114,7 +454,10 @@ const Landing = () => {
                 </a>
               </div>
               <div className="flex justify-start flex-col gap-y-3">
-                {dashBoardData.posts?.lastByLang[lang].map((post) => {
+                {/* {dashBoardData.posts?.lastByLang[lang].map((post) => {
+                  return <New post={post} />;
+                })} */}
+                {dashBoardData.topTenNews?.[0]?.articles?.map((post) => {
                   return <New post={post} />;
                 })}
               </div>
@@ -126,7 +469,7 @@ const Landing = () => {
                 </span>
                 <a
                   href="/database"
-                  className="flex justify-end w-4/12 items-center self-center gap-x-3"
+                  className="flex justify-end items-center self-center gap-x-3"
                 >
                   <span className="text-nowrap">{_.landing_view_more}</span>
                   <svg
@@ -163,56 +506,259 @@ const Landing = () => {
             </div>
           </div>
           <div className="p-5">
-            <div className="shadow-xl rounded-xl">
-              <div className="p-5 text-2xl">{_.landing_our_services}</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-10">
-                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                  <span className="inline-flex justify-center md:inline-block w-6/12 md:w-3/12">
-                    <ExaLogo />
-                  </span>
-                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    {_.landing_service_exa}
-                  </span>
+            <div className="rounded-xl overflow-hidden">
+              <div className="p-6 md:p-10 text-center">
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  {_.landing_our_partners}
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+                  Ensemble, nous travaillons avec des organisations leaders pour
+                  transformer le paysage technologique africain.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                  {/* Partenaire 1 */}
+                  <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
+                    <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
+                      <div className="flex flex-col h-full">
+                        <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
+                          <img
+                            src={LogoExa}
+                            alt="EXA logo"
+                            className="h-16 md:h-20 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="p-5 md:p-6 flex-grow bg-white">
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            EXA
+                          </h3>
+                          <p className="text-gray-600">
+                            {_.landing_service_exa}
+                          </p>
+                        </div>
+                        <div className="bg-primary-50 p-3 text-center">
+                          <Link
+                            to="https://expand-in-africa.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
+                            En savoir plus →
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Partenaire 2 */}
+                  <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
+                    <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
+                      <div className="flex flex-col h-full">
+                        <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
+                          <img
+                            src={PyramidAfricaLogo}
+                            alt="Pyramid Africa logo"
+                            className="h-16 md:h-20 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="p-5 md:p-6 flex-grow bg-white">
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            Pyramid Africa
+                          </h3>
+                          <p className="text-gray-600">
+                            {_.landing_service_pyramid}
+                          </p>
+                        </div>
+                        <div className="bg-primary-50 p-3 text-center">
+                          <a
+                            href="https://pyramid.possible.africa"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
+                            En savoir plus →
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Partenaire 3 */}
+                  <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
+                    <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
+                      <div className="flex flex-col h-full">
+                        <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
+                          <img
+                            src={AfricanTechIndustry}
+                            alt="African Tech Industry"
+                            className="h-16 md:h-20 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="p-5 md:p-6 flex-grow bg-white">
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            African Tech Industry
+                          </h3>
+                          <p className="text-gray-600">
+                            {_.landing_service_african_tech}
+                          </p>
+                        </div>
+                        <div className="bg-primary-50 p-3 text-center">
+                          <a
+                            href="https://www.africantechindustry.com/african-tech-industry"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
+                            En savoir plus →
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Partenaire 4 */}
+                  <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
+                    <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
+                      <div className="flex flex-col h-full">
+                        <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
+                          <img
+                            src={LogoYprlink}
+                            alt="Hyperlink"
+                            className="h-16 md:h-20 w-auto object-contain"
+                          />
+                        </div>
+                        <div className="p-5 md:p-6 flex-grow bg-white">
+                          <h3 className="font-semibold text-xl text-gray-800 mb-3">
+                            Yprlink
+                          </h3>
+                          <p className="text-gray-600">
+                            {_.landing_service_yprlink}
+                          </p>
+                        </div>
+                        <div className="bg-primary-50 p-3 text-center">
+                          <a
+                            href="https://yprlink.africa/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                          >
+                            En savoir plus →
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                  <span className="inline-flex justify-center md:inline-block w-full md:w-3/12">
-                    <PyramidLogo />
-                  </span>
-                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    {_.landing_service_pyramid}
-                  </span>
-                </div>
-                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                  <span className="inline-flex justify-center md:inline-block w-full md:w-3/12">
-                    <img
-                      src={AfricanTechIndustry}
-                      width={172}
-                      alt={`media img's logo`}
-                      className="min-w-10 min-h-10"
-                    />
-                  </span>
-                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    {_.landing_service_african_tech}
-                  </span>
-                </div>
-                <div className="m-auto flex flex-col md:flex-row justify-between items-center gap-10 bg-[#D9D9D9]/20 rounded-md min-h-[132px] p-5 w-11/12">
-                  <span className="inline-flex justify-center md:inline-block w-full md:w-3/12">
-                    <img
-                      src={LogoHyperlink}
-                      width={172}
-                      alt={`media img's logo`}
-                      className="min-w-10 min-h-10"
-                    />
-                  </span>
-                  <span className="inline-block w-9/12 text-base md:text-xl text-[#666968] text-center md:text-start">
-                    {_.landing_service_yprlink}
-                  </span>
+
+                <div className="mt-10 text-center">
+                  <button className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-colors shadow-sm hover:shadow">
+                    Devenir partenaire
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Modal des résultats */}
+      {showLeadsModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 bg-gradient-to-br from-primary/10 to-transparent">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">Vos 5 premiers prospects qualifiés</h2>
+                <button 
+                  onClick={() => setShowLeadsModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="text-sm text-gray-600 mb-6">
+                Basé sur votre entreprise <span className="font-semibold text-primary">{companyName}</span> et 
+                votre cible <span className="font-semibold text-primary">{targetName}</span>
+              </div>
+
+              <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2 mb-6">
+                {leads?.map((lead, index) => (
+                  <div key={index} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-800">{lead.company_name}</h3>
+                        <div className="flex items-center gap-2 mt-1 text-sm text-gray-600">
+                          <span className="px-2 py-1 bg-primary/10 rounded-full">{lead.sector}</span>
+                          <span className="px-2 py-1 bg-blue-50 rounded-full">{lead.country}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="text-right">
+                          <div className="text-xs text-gray-500">Score de similarité</div>
+                          <div className="font-semibold text-primary">{lead.similarity_score}%</div>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-3 text-sm text-gray-600">{lead.reason}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t border-gray-100 pt-6">
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    Recevez 45 prospects supplémentaires gratuits
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Entrez votre email pour recevoir immédiatement vos prospects additionnels
+                  </p>
+                </div>
+
+                <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-grow relative">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Votre email professionnel"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmittingEmail || !email.trim()}
+                    className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
+                      ${isSubmittingEmail || !email.trim()
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5'
+                      }`}
+                  >
+                    {isSubmittingEmail ? (
+                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    ) : (
+                      <>
+                        <span>Recevoir mes 45 prospects</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
@@ -221,36 +767,67 @@ export default Landing;
 
 const New = ({ post }) => {
   return (
-    <div className="flex justify-between items-center gap-x-5  bg-[#D9D9D9]/20 rounded-md min-h-26 p-2.5 min-w-full">
-      <div className="w-1/12 flex justify-center items-center">
+    <a
+      // key={post.id}
+      href="#"
+      // target={post.airMedia === "Possible Africa" ? null : "_blank"}
+      // rel="noopener noreferrer"
+      className="flex justify-between items-center gap-x-5  bg-[#D9D9D9]/20 rounded-md min-h-26 p-2.5 min-w-full relative"
+    >
+      {/* {post.airMedia === "Possible Africa" && (
         <img
-          src={post.airLogo}
-          alt={`media img's logo`}
-          className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
+          src={Star}
+          alt="Star possible"
+          className="mx-auto w-7 animate-[wiggle_1s_ease-in-out_infinite] absolute bottom-3 right-3"
         />
+      )} */}
+      <div className="w-1/12 flex justify-center items-center">
+        {post?.logo?.[0]?.url ? (
+          <img
+            src={
+              socialMedias.includes(post?.logo?.[0]?.url)
+                ? logoPlaceholder
+                : post?.logo?.[0]?.url
+            }
+            onError={(e) => {
+              e.target.src = logoPlaceholder;
+            }}
+            alt={`media img's logo`}
+            className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
+          />
+        ) : (
+          <img
+            src={logoPlaceholder}
+            onError={(e) => {
+              e.target.src = logoPlaceholder;
+            }}
+            alt={`media img's logo`}
+            className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
+          />
+        )}
       </div>
       <div className="flex flex-col justify-start items-center gap-y-1 w-11/12 overflow-hidden">
         <div className="flex justify-between w-full">
-          <span className="font-semibold text-sm md:text-base">
+          {/* <span className="font-semibold text-sm md:text-base">
             {post.airMedia}
-          </span>
+          </span> */}
           <span className="text-sm md:text-base">
-            {getDate(post.airDateAdded)}
+            {/* {getDate(post.airDateAdded)} */}
           </span>
         </div>
         <div className="w-full text-sm md:text-base font-medium md:hidden">
-          {post.title.length > 45
-            ? post.title.slice(0, 45) + " ..."
-            : post.title}
+          {post?.generic_title.length > 45
+            ? post?.generic_title.slice(0, 45) + " ..."
+            : post?.generic_title}
         </div>
         <div className="hidden md:block w-full text-sm md:text-base font-medium">
-          {post.title.length > 120
-            ? post.title.slice(0, 120) + " ..."
-            : post.title}
+          {post?.generic_title.length > 120
+            ? post?.generic_title.slice(0, 120) + " ..."
+            : post?.generic_title}
         </div>
         <div className="w-full text-xs flex justify-start gap-x-2 overflow-auto scrollbar-hidden">
-          {post.airTags &&
-            post.airTags.split(", ").map((tag) => {
+          {post?.keywords &&
+            post?.keywords?.split(", ").map((tag) => {
               return (
                 <div className="py-0.5 px-1.5 border rounded flex justify-between items-center gap-x-1">
                   <svg
@@ -275,23 +852,36 @@ const New = ({ post }) => {
             })}
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 const Organisation = ({ org }) => {
-  // console.log(org)
+  const logoPlaceholder =
+    "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
+
   return (
-    <div
-      key="Jumia"
+    <Link
+      key={org.id}
+      to={`/database/${org.name}`}
       className="flex justify-between items-center gap-x-2.5 bg-[#D9D9D9]/20 rounded-md min-h-18 p-2.5"
     >
       <div className="w-12 h-12 flex justify-center items-center self-start bg-custom-white rounded">
-        <img
+        {/* <img
           src={org.logo}
           height={40}
           width={40}
           alt={`${org.name}'s logo`}
           className="min-w-10 min-h-10 rounded"
+        /> */}
+        <img
+          src={socialMedias.includes(org?.logo) ? logoPlaceholder : org?.logo}
+          alt={`${org.name}'s logo`}
+          height={40}
+          width={40}
+          className="w-10 h-10 rounded-md object-cover"
+          onError={(e) => {
+            e.target.src = logoPlaceholder;
+          }}
         />
       </div>
       <div className="flex flex-col justify-center items-center gap-y-1 w-11/12">
@@ -319,170 +909,203 @@ const Organisation = ({ org }) => {
           </span> */}
         </div>
       </div>
+    </Link>
+  );
+};
+
+// Composant pour le carrousel des partenaires
+const PartnerCarousel = ({ partners }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Changer automatiquement de partenaire toutes les 3 secondes
+  useEffect(() => {
+    if (!isPaused) {
+      const interval = setInterval(() => {
+        setActiveIndex((current) => (current + 1) % partners.length);
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [partners.length, isPaused]);
+
+  return (
+    <div className="relative overflow-hidden">
+      {/* Conteneur principal du carrousel */}
+      <div className="relative mx-auto max-w-3xl h-[450px] md:h-[500px]">
+        {/* Animation des points */}
+        <div className="absolute inset-0 z-0 flex items-center justify-center">
+          <div className="relative w-full max-w-lg">
+            <div className="absolute -top-20 -left-4 w-72 h-72 bg-primary opacity-5 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+            <div className="absolute -bottom-20 -right-4 w-72 h-72 bg-blue-300 opacity-5 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+          </div>
+        </div>
+
+        {/* Carrousel des partenaires */}
+        <div
+          className="relative z-10"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Affichage du partenaire actif */}
+          <div className="transition-all duration-500 ease-in-out">
+            <div className="bg-white rounded-xl shadow-md h-full overflow-hidden border border-gray-100 transform transition-all duration-500 hover:shadow-xl">
+              <div className="flex flex-col h-full">
+                <div className="p-6 md:p-10 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[180px] md:h-[200px]">
+                  <img
+                    src={partners[activeIndex].logo}
+                    alt={`${partners[activeIndex].name} logo`}
+                    className="h-24 md:h-28 w-auto object-contain transition-all duration-500"
+                  />
+                </div>
+                <div className="p-6 md:p-8 flex-grow bg-white">
+                  <h3 className="font-semibold text-2xl text-gray-800 mb-4">
+                    {partners[activeIndex].name}
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    {partners[activeIndex].description}
+                  </p>
+                </div>
+                <div className="bg-primary-50 p-4 text-center">
+                  <a
+                    href={partners[activeIndex].link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary font-medium hover:text-darkPrimary transition-colors"
+                  >
+                    En savoir plus →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Indicateurs du carrousel */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {partners.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  activeIndex === index
+                    ? "bg-primary scale-125"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                aria-label={`Voir partenaire ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Boutons précédent/suivant */}
+          <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between z-20 px-2">
+            <button
+              onClick={() =>
+                setActiveIndex(
+                  (current) => (current - 1 + partners.length) % partners.length
+                )
+              }
+              className="bg-white bg-opacity-80 hover:bg-opacity-100 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all hover:scale-110"
+              aria-label="Partenaire précédent"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={() =>
+                setActiveIndex((current) => (current + 1) % partners.length)
+              }
+              className="bg-white bg-opacity-80 hover:bg-opacity-100 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all hover:scale-110"
+              aria-label="Partenaire suivant"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Style pour les animations */}
+      <style jsx>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 };
 
-const ExaLogo = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 522.35 223.69"
-      fill="#319795"
-    >
-      <defs></defs>
-      <g id="Calque_2" dataName="Calque 2">
-        <g id="Layer_1" dataName="Layer 1">
-          <path
-            class="cls-1"
-            d="M266.54,171.7v4.06h4.12v.9h-4.12v4.12h4.58v.9h-5.67V170.8h5.67v.9Z"
-          />
-          <path
-            class="cls-1"
-            d="M285.58,176.25l3.29,5.43h-1.21l-2.77-4.54-2.62,4.54h-1.22l3.28-5.47-3.28-5.39h1.22l2.75,4.52,2.65-4.52h1.22Z"
-          />
-          <path
-            class="cls-1"
-            d="M305.17,176.19a3.89,3.89,0,0,1-2.75.86h-2.19v4.63h-1.09V170.82h3.28a3.92,3.92,0,0,1,2.75.85,3.24,3.24,0,0,1,0,4.52Zm-.2-2.25a2.14,2.14,0,0,0-.6-1.65,2.86,2.86,0,0,0-1.95-.56h-2.19v4.38h2.19C304.12,176.11,305,175.39,305,173.94Z"
-          />
-          <path
-            class="cls-1"
-            d="M322.59,179.1h-4.94l-.95,2.58h-1.15l4-10.73h1.22l3.95,10.73h-1.15Zm-.32-.9-2.15-5.88L318,178.2Z"
-          />
-          <path
-            class="cls-1"
-            d="M343,181.68h-1.08l-6-9.14v9.14h-1.09V170.82h1.09l6,9.12v-9.12H343Z"
-          />
-          <path
-            class="cls-1"
-            d="M360.19,171.47a4.53,4.53,0,0,1,2,1.88,6.57,6.57,0,0,1,0,5.82,4.54,4.54,0,0,1-2,1.86,6.89,6.89,0,0,1-3.1.65h-3.21V170.82h3.21A6.76,6.76,0,0,1,360.19,171.47Zm.36,8.12a4.5,4.5,0,0,0,1.19-3.32,4.57,4.57,0,0,0-1.19-3.35,4.65,4.65,0,0,0-3.46-1.2H355v9.06h2.13A4.68,4.68,0,0,0,360.55,179.59Z"
-          />
-          <path class="cls-1" d="M387,170.82v10.86h-1.09V170.82Z" />
-          <path
-            class="cls-1"
-            d="M406,181.68h-1.09l-6-9.14v9.14h-1.09V170.82h1.09l6,9.12v-9.12H406Z"
-          />
-          <path
-            class="cls-1"
-            d="M435.84,179.1h-4.95l-.94,2.58H428.8l4-10.73H434l3.94,10.73h-1.15Zm-.33-.9-2.15-5.88-2.14,5.88Z"
-          />
-          <path
-            class="cls-1"
-            d="M453.94,170.82v.9h-4.79v4.05h4v.9h-4v5h-1.08V170.82Z"
-          />
-          <path
-            class="cls-1"
-            d="M469.9,181.68l-2.69-4.54h-2v4.54h-1.09V170.82h3.26a3.94,3.94,0,0,1,2.76.87,3,3,0,0,1,.94,2.28,3,3,0,0,1-.68,2,3.16,3.16,0,0,1-2,1.08l2.8,4.62Zm-4.69-5.43h2.19a2.64,2.64,0,0,0,1.92-.62,2.5,2.5,0,0,0,0-3.32,2.83,2.83,0,0,0-2-.58h-2.17Z"
-          />
-          <path class="cls-1" d="M482.72,170.82v10.86h-1.09V170.82Z" />
-          <path
-            class="cls-1"
-            d="M493.79,173.37a5,5,0,0,1,1.91-2,5.29,5.29,0,0,1,2.7-.71,5.57,5.57,0,0,1,3.12.86A4.92,4.92,0,0,1,503.4,174h-1.27a3.73,3.73,0,0,0-1.42-1.73,4.51,4.51,0,0,0-4.46-.06,3.83,3.83,0,0,0-1.5,1.61,5.24,5.24,0,0,0-.55,2.43,5.17,5.17,0,0,0,.55,2.42,3.81,3.81,0,0,0,1.5,1.6,4.11,4.11,0,0,0,2.15.56,4.19,4.19,0,0,0,2.31-.61,3.7,3.7,0,0,0,1.42-1.7h1.27a4.85,4.85,0,0,1-1.89,2.41,5.55,5.55,0,0,1-3.11.85,5.19,5.19,0,0,1-2.7-.71,5,5,0,0,1-1.91-2,5.74,5.74,0,0,1-.7-2.86A5.81,5.81,0,0,1,493.79,173.37Z"
-          />
-          <path
-            class="cls-1"
-            d="M520.25,179.1h-4.94l-.95,2.58h-1.15l4-10.73h1.23l4,10.73H521.2Zm-.33-.9-2.14-5.88-2.14,5.88Z"
-          />
-          <path
-            class="cls-1"
-            d="M276.5,51.07V92.26h41.82v9.15H276.5v41.82h46.55v9.15h-57.6V41.92h57.6v9.15Z"
-          />
-          <path
-            class="cls-1"
-            d="M384.59,97.31,418,152.38H405.73L377.65,106.3,351,152.38H338.67L372,96.83l-33.3-54.75H351L378.91,88l27-45.92H418.2Z"
-          />
-          <path
-            class="cls-1"
-            d="M501,126.18H450.86l-9.62,26.2H429.56L469.8,43.5h12.47l40.08,108.88H510.67ZM497.73,117,476,57.38,454.18,117Z"
-          />
-          <path
-            class="cls-1"
-            d="M43.78,3.69a7.86,7.86,0,0,0,2.83,2.62c1.52.61,8.48-1,9.79-1.31s6-3.33,7.88-2.93,1.62-.8,3.43-.7,6.46-.52,8.89,0c2.72-.5,6.46-2.31,6.66,1.12-.5,1-.64,1.95.71,2.66C83.26,6.52,81,8.87,81.38,9.71s.16,1.32,2.12,1.35c.6,1.21.13,1.82.47,2.09s9.32,1.48,10.4,3c-.78.57-1.28,1.65.23,2a44.71,44.71,0,0,1,6,1.78c.74.4,3.47,2.59,4.82-.3-.78-1.25-1.38-1.38-.41-2.49s2.26-4.44,4.92-3.54,4,4,9.42,4.38,4.78,1.14,6.06,1.55a13.81,13.81,0,0,0,4.77,0c.54-.13,2.9-2.25,5.49-.2s4.58-.57,6,0,3.17,11.17.17,9.45c-1.95-3.23-3.93-6.09-2.69-.57,2.76,4.21,8.82,15.45,10.53,18s2.93,2.33,3.18,5.56a10.14,10.14,0,0,0,4.3,7.62c2.32,1.51,3.68,6.66,4.34,8.18s7.57,6.16,9.49,9,.86,3.23,1.81,4.4,2.13,2.87,3.44,2.92,11-1.46,16.66-5.1c1-.35,3.48-1.71,2.92,4.3s-7.26,20.44-16,27.41c-2.82,1.41-7,4.54-8.07,6.49s-1.22,3.1-2.56,3.44a6.71,6.71,0,0,0-4.38,5.58c-.54,3.5-3,4.51-3,5s-.13,4,.21,4.51,1.14.47,1.14,1.61-.27,8.22-.27,8.49,1.62.6,2.22,2.42,1.28,6.06.67,8.28,1.15,2.56-.13,4.64-.61,3.57-1.62,4-6.66,3.3-7.6,4.44-2.29,2.36-2.53,2.7-.5.26-.57,1.07-2,.74-2.15.74-.67,1.69-.88,1.82-2.28-.13-2.89,1.28,3,6.8.2,12.79c-.54,1.68-6.73,3.9-6.86,4.71s-.21,7.6-5.79,12.18c-.94,1.35-1.45,3.22-2.31,4.23s-6.86,7.26-7.82,7.72-6.62,3-9.64,1.77a2.26,2.26,0,0,0-2.86,1.11c-.85,1.71-1.69-.66-1.69-.66a9.75,9.75,0,0,1-1.28,1.92c-.36.2-1.92-.94-2.38-.88s-2.92,4.11-6.85-.16c0,0,.67-5.32.63-5.86s-.6-1.45-.87-1.48-2.32-8-4.81-9.53-1.7-2.94-1.7-3.14-1.72-2.48-2-3.38-.3-5.86-.46-6.62-1.11-2-1.11-2.47.46-1.16.36-1.77-1-1.16-1.37-1.56a10.72,10.72,0,0,1-1.36-3.39c0-.65-1.51-3.23-1.66-4.19s-2-1-2-1.71-.56-2.93-.66-3.69-2.52-1.61-1.46-3.68c.4-2.53,1.71-8.23,2.37-11,1.06-1.86,3.38-4.14,3.58-5.7a2.6,2.6,0,0,0-.6-2.37A19.1,19.1,0,0,1,85.63,148c-.2-.51.41-6.21-.91-8.94s-2-3.48-1.81-4.44-4.09-7.07-6.51-9.44-4.45-7-4.35-8.53,3.13-8.38,3.39-9-.61-5.35-.81-6.16-1.11.58-1.24.78-1.49-1.61-1.89-1.79-5.45,1-6.21,1.06-2.32-.65-2.88-3.78a6.66,6.66,0,0,0-7.12-3.08c-1.66,1.06-5.6,3.23-9.33,3.58-1.27.2-2.48.66-2.63.66s-1.36,1.66-1.77,1.92a5.27,5.27,0,0,1-3.23-.66,11,11,0,0,0-7.62-.46c-3,1.06-5.1,2.28-6.26,2.12s-8.88-6.1-9.59-7.32a5.39,5.39,0,0,0-2.42-.4c-.91,0-3.84-2.72-3.89-4.34s.6-3.38.4-3.84S5.57,83.5,5.07,83s.45-1.82-.36-2.43a15.59,15.59,0,0,0-3.58-2C-.08,78.15.07,76.69.07,76.69s-.36-1.27.55-1.82.05-2.68.05-2.68-1.56-2.07.61-4.49c1.56-2.47,2.78-5.6,3.53-6.51a2.56,2.56,0,0,0,0-2.07A7.23,7.23,0,0,1,5.32,53c.07-1.14-.76-.78-1.14-.78a1.67,1.67,0,0,1-.55-2.6c.7-1.44,5.69-8.38,6.16-8.58s1.55-.41,2-2.76,5-5.86,6.19-6.67c.53-.52.27-1.34,2.22-2.29s3.36-2.18,4.14-2.49,1.18-1.58,1.34-1.44a2.13,2.13,0,0,0,1.28-.14c.21-.13.34-2.12.64-2.19s1-.26,1.21-.3A3.46,3.46,0,0,0,30,21.09a8.52,8.52,0,0,1,.43-3,17.72,17.72,0,0,1,8.72-7.54,12,12,0,0,0,3.6-4.25C43.13,5.57,42.67,4,43.78,3.69Z"
-          />
-          <path
-            class="cls-1"
-            d="M192,152c.5,1,1.85,11.41,1.75,11.82s-.68,2.22-2.76-.61c.13.74-.14,2.59,0,2.86s1.34,1.72.77,2.56-8.31,20.09-12,23.52c-.94,1.21-1,1.69-3,1.18-.31.2-.44,1.35-1.22,1.58a11.17,11.17,0,0,1-4,0c-.47-.23-1.21-1.65-1.48-2s.1-1.65,0-2.25-2.39-1.22-.1-3.13a36,36,0,0,1,.3-4.82c.1-.54,1.65-1.44,2.12-2.62s.34-2,1.31-2.53a14.18,14.18,0,0,1-.06-1.88c0-.17-1.25-1.92-.47-3.37-.34-.8-1.42-2,.13-3.53s3-4.38,6.87-4.41c1.07-1,1.91-1.55,2-1.68s1.42.07,1.72.07,2.26-3.94,2.9-4.31c.13-.88-.07-2,1.81-2s1.18-1.82,1.11-2.19S191.12,151.6,192,152Z"
-          />
-          <path
-            class="cls-1"
-            d="M142.77,222.83l-1.52-7.45A105,105,0,0,0,120.09,7.61a105.87,105.87,0,0,0-23.65,2.67L94.73,2.87A112.65,112.65,0,0,1,232.65,112.56C232.65,165.8,194.85,212.18,142.77,222.83Z"
-          />
-          <path
-            class="cls-1"
-            d="M87.93,220.46C40.59,206.37,7.53,162,7.53,112.56a113.24,113.24,0,0,1,.6-11.66l7.57.78a106.54,106.54,0,0,0-.56,10.88c0,46.1,30.83,87.47,75,100.61Z"
-          />
-        </g>
-      </g>
-    </svg>
-  );
-};
+// Composant pour le carrousel des partenaires dans la section hero
+const HeroPartnerCarousel = ({ partners }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-const PyramidLogo = () => {
+  // Changer automatiquement de partenaire toutes les 2.5 secondes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % partners.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [partners.length]);
+
   return (
-    <svg
-      width="166"
-      height="52"
-      viewBox="0 0 166 52"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M25.8608 3.87451C21.4193 3.87451 17.0776 5.17219 13.3846 7.60346C9.69168 10.0347 6.81338 13.4904 5.1137 17.5334C3.41403 21.5765 2.96931 26.0253 3.8358 30.3174C4.70229 34.6094 6.84106 38.552 9.98165 41.6464C13.1222 44.7408 17.1236 46.8481 21.4797 47.7018C25.8359 48.5556 30.3511 48.1174 34.4545 46.4427C38.5579 44.7681 42.0651 41.9321 44.5327 38.2934C47.0002 34.6548 48.3172 30.3769 48.3172 26.0008C48.3177 23.095 47.7371 20.2176 46.6087 17.5329C45.4804 14.8482 43.8262 12.4089 41.7409 10.3542C39.6555 8.29948 37.1798 6.66969 34.455 5.5579C31.7303 4.4461 28.8099 3.87408 25.8608 3.87451ZM25.9355 9.92619L30.3361 17.9013L25.9355 16.6566L21.4784 17.9177L25.9355 9.92619ZM20.6368 20.1175L25.9355 18.6193L31.1695 20.1012L34.9742 26.9952L25.9355 24.442L16.7856 27.0279L20.6368 20.1175ZM25.8608 32.9471L11.8703 36.529L15.9356 29.231L25.9288 26.408L35.7975 29.1983L39.8479 36.5356L25.8608 32.9471Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M62.157 7.07861C59.77 7.07861 57.3812 7.09988 54.9941 7.09988V22.0671H57.8593V17.6641H62.157C69.6005 17.6641 69.5772 7.07861 62.157 7.07861ZM62.157 15.0766H57.8593V9.77243H62.157C65.8024 9.77243 65.824 15.0766 62.157 15.0766Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M76.4859 13.2808L72.6248 7.10156H69.2168V7.22914L75.055 15.8896V22.0688H77.9185V15.8896L83.9742 7.22914V7.10156H80.5231L76.4859 13.2808Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M95.5416 16.7662C98.4284 16.1872 99.3829 14.1133 99.3829 12.0606C99.3829 9.47312 97.4955 7.12277 93.9148 7.09988C91.5045 7.09988 89.1008 7.07861 86.6855 7.07861V22.0671H89.5507V17.0655H92.308L96.7352 22.0671H100.141V21.8758L95.5416 16.7662ZM89.5507 14.5189V9.73154H93.9148C95.7159 9.73154 96.5177 10.9272 96.5177 12.126C96.5177 13.3249 95.7359 14.5189 93.9148 14.5189H89.5507Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M112.05 7.09985H108.93L102.115 22.0671H105.219L106.519 19.2457H114.464L115.742 22.0671H118.87L112.05 7.09985ZM107.67 16.6157L110.492 10.2451L113.314 16.6157H107.67Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M129.557 13.5588L124.804 7.1228H121.506V22.0901H124.371V11.2069L129.21 17.728H129.774L134.721 11.2281V22.0901H137.586V7.1228H134.309L129.557 13.5588Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M144.801 7.10156H141.957V22.0688H144.801V7.10156Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M154.994 7.09985H149.018V22.0671H154.994C160.306 22.0671 162.654 18.2399 162.59 14.4567C162.523 10.757 160.201 7.09985 154.994 7.09985ZM154.994 19.3537H151.869V9.77241H154.994C158.29 9.77241 159.68 12.1048 159.744 14.4338C159.811 16.8676 158.443 19.3537 154.994 19.3537Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M63.9361 29.72H61.808L55.002 44.6856H57.0653L58.5328 41.4013H67.2129L68.7069 44.6938H70.7487L63.9361 29.72ZM59.2715 39.6823L62.872 31.5993L66.4742 39.6823H59.2715Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M74.0039 44.707H75.8913V38.4427H84.1814V36.7106H75.8913V31.4931H84.5499V29.7185H74.0039V44.707Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M96.1395 39.1475C97.6147 39.0385 98.7136 38.5434 99.4363 37.6624C100.174 36.7131 100.549 35.5382 100.496 34.3438C100.442 33.1493 99.9638 32.0115 99.1441 31.1298C98.2389 30.1899 96.9767 29.72 95.3577 29.72H88.457V44.6856H90.3445V39.298H94.0346L98.7706 44.6856H101.156L96.1395 39.1475ZM90.3445 37.6297V31.385H95.3577C96.3852 31.385 97.1837 31.7121 97.7663 32.3484C98.3283 32.9465 98.6319 33.7366 98.6129 34.5515C98.6276 34.9579 98.5592 35.3632 98.4117 35.743C98.2643 36.1229 98.0409 36.4697 97.7547 36.7628C97.1837 37.3418 96.3537 37.6308 95.2647 37.6297H90.3445Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M106.661 29.7185H104.773V44.6858H106.661V29.7185Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M118.574 43.1465C116.635 43.1465 115.152 42.58 114.125 41.4471C113.098 40.3142 112.573 38.9207 112.548 37.2666C112.534 35.5983 113.051 34.1808 114.1 33.014C115.15 31.8473 116.644 31.2629 118.582 31.2607C120.276 31.2607 121.693 31.8168 122.835 32.929L124.138 31.7317C123.414 31.0078 122.548 30.4356 121.593 30.0497C120.638 29.6638 119.614 29.4721 118.582 29.4861C116.876 29.4861 115.407 29.8677 114.177 30.631C113.019 31.3163 112.085 32.3142 111.486 33.5063C110.914 34.6872 110.63 35.9831 110.656 37.2911C110.669 39.4283 111.36 41.2351 112.728 42.7114C114.095 44.1878 116.045 44.9255 118.576 44.9244C120.818 44.9244 122.699 44.1829 124.22 42.7L122.892 41.4177C122.33 41.981 121.657 42.425 120.914 42.7223C120.172 43.0196 119.375 43.164 118.574 43.1465Z"
-        fill="#2BB19C"
-      />
-      <path
-        d="M135.022 29.72H132.894L126.08 44.6856H128.152L129.619 41.4013H138.299L139.793 44.6938H141.833L135.022 29.72ZM130.355 39.6823L133.962 31.5993L137.564 39.6823H130.355Z"
-        fill="#2BB19C"
-      />
-    </svg>
+    <div className="relative overflow-hidden rounded-xl shadow-lg md:shadow-2xl h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-full">
+      {/* Container des images avec transition */}
+      <div className="relative bg-white p-3 md:p-5 rounded-xl w-full h-full">
+        {partners.map((partner, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 flex items-center justify-center p-1 md:p-3 transition-opacity duration-1000 ease-in-out ${
+              activeIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <img
+              src={partner.logo}
+              alt={`${partner.name} logo`}
+              className="min-h-12 min-w-12 w-auto max-h-80 object-cover transform transition-transform hover:scale-105 duration-700 ease-in-out"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -492,217 +1115,444 @@ export const Header = ({ page }) => {
   const _ = lang_trans._;
   const dispatch = useContext(LangTransDispatchContext);
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
+
   return (
-    <div className="sticky top-0 right-0 left-0 bg-white shadow-lg px-5 md:px-28 md:pb-2.5 z-50">
+    <div className="sticky top-0 right-0 left-0 bg-white backdrop-blur-sm bg-opacity-95 shadow-md px-3 md:px-12 lg:px-20 z-50 transition-all duration-300">
       <AnimatePresence>
         {mobileMenuIsVisible && (
           <motion.div
-            initial={{
-              scale: 0,
-            }}
-            animate={{
-              scale: 1,
-            }}
-            exit={{
-              scale: 0,
-            }}
+            initial={{ opacity: 0, x: -300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -300 }}
+            transition={{ duration: 0.3 }}
             onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
-            className="origin-top-left md:hidden fixed top-0 bottom-0 left-0 right-0 z-50 bg-black/75"
+            className="md:hidden fixed inset-0 z-50 bg-black/75 top-0 right-0 left-0 bottom-0 w-screen h-screen"
           >
             <div
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              className="bg-white w-[300px] flex flex-col shadow-xl mt-6 ml-2"
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white w-[280px] h-screen flex flex-col shadow-2xl rounded-r-xl overflow-hidden absolute left-0 top-0 bottom-0"
             >
-              <a
-                href="/"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/" ? "font-black text-primary bg-primary-200" : ""
-                }`}
-              >
-                {_.header_link_home}
-              </a>
-              <a
-                href="/news"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/news"
-                    ? "font-black text-primary bg-primary-200"
-                    : ""
-                }`}
-              >
-                {_.header_link_news}
-              </a>
-              <a
-                href="/database"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "/database"
-                    ? "font-black text-primary bg-primary-200"
-                    : ""
-                }`}
-              >
-                {_.header_link_database}
-              </a>
-              <a
-                href="/pyramid"
-                target="_blank"
-                className={`text-lg font-medium ${
-                  page === "/pyramid"
-                    ? "font-black text-primary underline underline-offset-8"
-                    : ""
-                }`}
-              >
-                Sales Platform
-              </a>
-              <a
-                href="https://yprlink.africa"
-                className={`inline-flex pl-5 py-2.5 hover:bg-primary-100 ${
-                  page === "https://yprlink.africa"
-                    ? "font-black text-primary bg-primary-200"
-                    : ""
-                }`}
-              >
-                Yperlink
-              </a>
+              <div className="bg-primary-50 p-5 flex items-center">
+                <img src={Logo} alt="Logo" className="h-8" />
+                <button
+                  onClick={() => setMobileMenuIsVisible(false)}
+                  className="ml-auto text-gray-600 hover:text-primary p-2 rounded-full transition-colors"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex flex-col py-4 overflow-y-auto">
+                <Link
+                  to="/"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "/"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
+                  }`}
+                >
+                  {_.header_link_home}
+                </Link>
+                <Link
+                  to="/news"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "/news"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
+                  }`}
+                >
+                  {_.header_link_news}
+                </Link>
+                <Link
+                  to="/database"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "/database"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
+                  }`}
+                >
+                  {_.header_link_database}
+                </Link>
+                <Link
+                  to="https://pyramid.possible.africa"
+                  target="_blank"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "https://pyramid.possible.africa"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
+                  }`}
+                >
+                  Sales Platform
+                </Link>
+                <Link
+                  to="https://yprlink.africa"
+                  className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
+                    page === "https://yprlink.africa"
+                      ? "font-bold text-primary border-l-4 border-primary"
+                      : "border-l-4 border-transparent"
+                  }`}
+                >
+                  Yperlink
+                </Link>
+
+                <Link
+                  to="https://pyramid.possible.africa/database/create-campaign"
+                  target="_blank"
+                  className="flex items-center justify-center gap-x-2 bg-primary text-white font-medium py-2.5 px-6 mx-6 mt-4 rounded-full hover:bg-primary-600 shadow-sm hover:shadow transition-all duration-300"
+                >
+                  <span className="font-bold">+</span>
+                  <span className="whitespace-nowrap text-sm">
+                    {_.header_btn_free_first_campaign}
+                  </span>
+                </Link>
+              </div>
+              <div className="mt-auto p-5 border-t border-gray-100">
+                <select
+                  defaultValue={lang}
+                  className="w-full px-4 py-2 rounded-lg bg-primary-50 text-primary font-medium outline-none"
+                  onChange={(e) => {
+                    dispatch({
+                      type: "change",
+                      lang: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                </select>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="h-24 w-full flex justify-between items-center">
-        <div className="w-6/12 flex justify-start gap-20 items-center">
-          <a href="/">
-          <img src={Logo} alt="" className="w-[100px] h-[50px] " />
+
+      <div className="h-16 md:h-20 lg:h-24 w-full flex justify-between items-center">
+        {/* Logo */}
+        <div className="flex items-center gap-x-4 md:gap-x-10 flex-shrink-0">
+          <a href="/" className="flex items-center">
+            <img
+              src={Logo}
+              alt="Possible Africa"
+              className="h-8 md:h-10 lg:h-12 w-auto"
+            />
           </a>
-          <div className="hidden md:flex justify-start items-center gap-x-10 px-5">
-            {/* <span className="border-b-2 border-primary">Overview</span> */}
-            <a
-              href="/"
-              className={`text-lg font-medium ${
+        </div>
+
+        {/* Navigation - Desktop */}
+        <div className="hidden lg:flex items-center justify-center flex-grow">
+          <nav className="flex space-x-8 xl:space-x-12">
+            <Link
+              to="/"
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
                 page === "/"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+                  ? "text-primary font-semibold after:w-full"
+                  : "text-gray-700 after:w-0"
               }`}
             >
               {_.header_link_home}
-            </a>
-            <a
-              href="/news"
-              className={`text-lg font-medium ${
+            </Link>
+            <Link
+              to="/news"
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
                 page === "/news"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+                  ? "text-primary font-semibold after:w-full"
+                  : "text-gray-700 after:w-0"
               }`}
             >
               {_.header_link_news}
-            </a>
-            <a
-              href="/database"
-              className={`text-lg font-medium ${
+            </Link>
+            <Link
+              to="/database"
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
                 page === "/database"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+                  ? "text-primary font-semibold after:w-full"
+                  : "text-gray-700 after:w-0"
               }`}
             >
               {_.header_link_database}
-            </a>
-            <a
-              href="/pyramid"
+            </Link>
+            <Link
+              to="https://pyramid.possible.africa"
               target="_blank"
-              className={`text-lg font-medium ${
-                page === "/pyramid"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+                page === "https://pyramid.possible.africa"
+                  ? "text-primary font-semibold after:w-full"
+                  : "text-gray-700 after:w-0"
               }`}
             >
               Sales Platform
-            </a>
-            {/* <a
-              href="/waitlist"
-              className={`text-lg font-medium text-nowrap ${
-                page === "/waitlist"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
-              }`}
-            >
-              Rejoindre notre waitlist
-            </a> */}
-            <a
-              href="https://yprlink.africa"
-              target="_blank"
-              className={`text-lg font-medium ${
+            </Link>
+            <Link
+              to="https://yprlink.africa"
+              className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
                 page === "https://yprlink.africa"
-                  ? "font-black text-primary underline underline-offset-8"
-                  : ""
+                  ? "text-primary font-semibold after:w-full"
+                  : "text-gray-700 after:w-0"
               }`}
             >
               Yprlink
-            </a>
-          </div>
+            </Link>
+          </nav>
         </div>
-        <div className="flex justify-end  w-6/12 items-center gap-x-3 md:gap-x-5">
-          <span className="text-xl font-medium text-[#242827] hidden md:inline-block">
-            {_.header_connect}
-          </span>
-          <select
-            name=""
-            id=""
-            defaultValue={lang}
-            className="px-3 py-1 outline-none rounded-full text-[#124B42] font-semibold text-xl bg-[#C0E8E2]"
-            onChange={(e) => {
-              dispatch({
-                type: "change",
-                lang: e.target.value,
-              });
-            }}
-          >
-            <option value="en">EN</option>
-            <option value="fr">FR</option>
-          </select>
-          <div
-            onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
-            className="md:hidden w-11 h-11 rounded border border-white shadow-xl p-[4px] flex justify-center items-center z-[100]"
-          >
-            {mobileMenuIsVisible ? (
-              <svg
-                className="text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"
-                />
-              </svg>
-            )}
+
+        {/* Right side */}
+        <div className="flex items-center gap-x-3 md:gap-x-4 lg:gap-x-6">
+          <p className="hidden md:block text-primary font-semibold text-sm lg:text-base">
+            Connect AfricaTech Ecosystem
+          </p>
+          <div className="hidden md:flex items-center">
+            <select
+              defaultValue={lang}
+              className="px-4 py-1.5 rounded-md bg-primary-50 text-primary font-medium border border-primary/20 hover:border-primary/50 transition-colors outline-none cursor-pointer"
+              onChange={(e) => {
+                dispatch({
+                  type: "change",
+                  lang: e.target.value,
+                });
+              }}
+            >
+              <option value="en">EN</option>
+              <option value="fr">FR</option>
+            </select>
           </div>
-          <a
-            href="/waitlist"
-            className="hidden md:flex gap-2 justify-between items-center min-w-[216px] h-[48px] bg-[#2BB19C] text-lg font-medium rounded-full px-[20px] py-[12px] text-white"
+
+          <Link
+            to="https://pyramid.possible.africa/database/create-campaign"
+            target="_blank"
+            className="hidden md:flex items-center justify-center gap-x-2 bg-primary text-white font-medium py-2.5 px-5 md:px-6 lg:px-8 rounded-full hover:bg-primary-600 shadow-sm hover:shadow transition-all duration-300"
           >
-            <span>+</span>
-            <span className="text-nowrap">
+            <span className="font-bold">+</span>
+            <span className="whitespace-nowrap text-sm md:text-base">
               {_.header_btn_free_first_campaign}
             </span>
-          </a>
+          </Link>
+
+          <button
+            onClick={() => setMobileMenuIsVisible(!mobileMenuIsVisible)}
+            className="lg:hidden flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            aria-label="Menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
       </div>
-      {/* <div> */}
-
-      {/* </div> */}
     </div>
+  );
+};
+
+export const Footer = () => {
+  const lang_trans = useContext(LangTransContext);
+  const lang = lang_trans.lang;
+  const _ = lang_trans._;
+  const dispatch = useContext(LangTransDispatchContext);
+  return (
+    <footer className="bg-gray-50 border-t border-gray-200 mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="col-span-1 md:col-span-1">
+            <img
+              src={Logo}
+              alt="Possible Africa"
+              className="h-10 mb-4 mx-auto md:mx-0"
+            />
+            <p className="text-gray-600 text-sm mt-2 text-center md:text-left">
+              {_.footer_connect_text ||
+                "Connectez-vous avec l'écosystème technologique africain en pleine croissance."}
+            </p>
+            <div className="flex gap-4 mt-4 justify-center md:justify-start">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-primary group"
+              >
+                <motion.div
+                  whileHover={{
+                    scale: 1.2,
+                    rotate: 12,
+                    transition: { type: "spring", stiffness: 400, damping: 10 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                  </svg>
+                </motion.div>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/possibleafrica"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-primary group"
+              >
+                <motion.div
+                  whileHover={{
+                    scale: 1.2,
+                    rotate: 12,
+                    transition: { type: "spring", stiffness: 400, damping: 10 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
+                  </svg>
+                </motion.div>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
+              {_.footer_platforms || "Plateformes"}
+            </h3>
+            <ul className="space-y-2 text-center md:text-start">
+              <li>
+                <a
+                  href="/database"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_database || "Database"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/news"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_tech_news || "Actualités Tech"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://pyramid.possible.africa"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_sales_platform || "Sales Platform"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://yprlink.africa"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_yprlink || "Yprlink"}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
+              {_.footer_useful_links || "Liens utiles"}
+            </h3>
+            <ul className="space-y-2 text-center md:text-start">
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_about || "À propos"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_become_partner || "Devenir partenaire"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_privacy || "Confidentialité"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-primary text-sm"
+                >
+                  {_.footer_terms || "Conditions d'utilisation"}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
+              {_.footer_contact || "Contact"}
+            </h3>
+            <p className="text-gray-600 text-sm mb-2 text-center md:text-start">
+              {_.footer_questions || "Vous avez des questions? Contactez-nous:"}
+            </p>
+            <a
+              href="mailto:info@possible.africa"
+              className="text-primary hover:underline text-sm block md:inline text-center md:text-start"
+            >
+              info@possible.africa
+            </a>
+            <div className="mt-4">
+              <select
+                defaultValue={lang}
+                className="w-full px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 text-sm"
+                onChange={(e) => {
+                  dispatch({
+                    type: "change",
+                    lang: e.target.value,
+                  });
+                }}
+              >
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-gray-200 mt-8 pt-8 text-center">
+          <p className="text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} Possible Africa.{" "}
+            {_.footer_all_rights_reserved || "Tous droits réservés."}
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 };

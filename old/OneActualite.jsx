@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link, useParams } from "react-router-dom";
-import ArrowLeftSolidCustomIcon from "./icons/ArrowLeftSolidCustomIcon.jsx";
-import Socialshare from "./Socialshare.jsx";
+import ArrowLeftSolidCustomIcon from "../components/icons/ArrowLeftSolidCustomIcon.jsx";
+import Socialshare from "../components/Socialshare.jsx";
 import { CalendarIcon, MapIcon } from "../assets/icons.jsx";
 import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import { Parse } from "../utils/htmlParser.jsx";
@@ -11,7 +11,7 @@ import { Header } from "../pages/Landing.jsx";
 import Loader from "../assets/icons/loader.svg";
 import NoData from "../utils/NoData.jsx";
 
-function OneAgendaTemplate({ iconSx, backUrl, events }) {
+function OneActualite({ iconSx, backUrl, events }) {
   const { slug } = useParams();
 
   const { isLoading, isError, error, data } = useGetPostBySlugQuery(slug);
@@ -67,6 +67,16 @@ function OneAgendaTemplate({ iconSx, backUrl, events }) {
           />
         </div>
 
+        <img
+          className="w-full mb-5"
+          src="https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741317616649-PARTNERS%20BAND.jpg"
+          alt="Possible africa partners"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/placeholder_org.jpeg";
+          }}
+        />
+
         <div className="flex flex-col md:flex-row py-0">
           {/* Main Content */}
           <div className="w-full md:w-3/4 p-10 flex flex-col space-y-10 items-start">
@@ -98,7 +108,9 @@ function OneAgendaTemplate({ iconSx, backUrl, events }) {
                         >
                           <div className="flex items-center gap-1">
                             <LaunchOutlinedIcon />
-                            <span className="text-[14px] text-primary hover:text-darkPrimary active:text-primary visited:text-darkPrimary">Article Source</span>
+                            <span className="text-[14px] text-primary hover:text-darkPrimary active:text-primary visited:text-darkPrimary">
+                              Article Source
+                            </span>
                           </div>
                         </a>
                       </div>
@@ -129,6 +141,16 @@ function OneAgendaTemplate({ iconSx, backUrl, events }) {
               </div>
             </div>
 
+            <img
+              className="w-full"
+              src={data?.image}
+              alt={data?.image}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "/placeholder_org.jpeg";
+              }}
+            />
+
             {/* Content */}
             <main className="w-full">{content}</main>
 
@@ -150,4 +172,4 @@ function OneAgendaTemplate({ iconSx, backUrl, events }) {
   );
 }
 
-export default OneAgendaTemplate;
+export default OneActualite;

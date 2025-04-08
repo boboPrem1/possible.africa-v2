@@ -545,6 +545,23 @@ exports.getOrganisationById = async (req, res) => {
   }
 };
 
+// @Get organisation by name
+// @route GET /api/v1/organisations/name/:name
+// @access Public
+exports.getOrganisationByName = async (req, res) => {
+  try {
+    // get organisation by name
+    const organisation = await Organisation.find({
+      name: req.params.name,
+    });
+    if (!organisation.length)
+      return res.status(404).json({ message: CustomUtils.consts.NOT_EXIST });
+    res.status(200).json(organisation[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // @Create organisation
 // @route POST /api/v1/organisations
 // @access Public

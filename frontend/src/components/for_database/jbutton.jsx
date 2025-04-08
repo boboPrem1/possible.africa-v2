@@ -23,23 +23,24 @@ export function Button({
   small,
   type,
 }) {
-  const { pending } = useFormStatus();
+  // const { pending } = useFormStatus();
+  const pending = false;
   
   disabled = pending ? pending : disabled
   const min_width = icon_only ? "min-w-10" : "min-w-[132px]";
   const min_height = small ? "min-h-10" : "min-h-11";
   let label_padding = icon_position === "right" ? "pr-3" : "pl-3";
 
-  const { replace } = useRouter();
+  // const { replace } = useRouter();
 
   if (!icon) {
     label_padding = "";
   }
 
   function navigateToLink() {
-    if (destination) {
-      replace(destination);
-    }
+    // if (destination) {
+    //   replace(destination);
+    // }
   }
   if (link) {
     return (

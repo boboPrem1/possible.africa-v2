@@ -567,6 +567,20 @@ exports.getPostById = async (req, res) => {
   }
 };
 
+exports.getPostBySlug = async (req, res) => {
+  try {
+    // get post by id
+    const post = await Post.find({
+      slug: req.params.slug,
+    });
+    if (!post.length)
+      return res.status(404).json({ message: CustomUtils.consts.NOT_EXIST });
+    res.status(200).json(post[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // @Create post
 // @route POST /api/v1/posts
 // @access Public

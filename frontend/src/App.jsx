@@ -14,6 +14,10 @@ import { en_trans } from "./lang/en.js";
 import { fr_trans } from "./lang/fr.js";
 import PyramidLanding from "./pages/PyramidLanding.jsx";
 import ApplicantList from "./pages/ApplicantList.jsx";
+import OneAgendaTemplate from "./components/OneAgendaTemplate.jsx";
+import OneActualite from "./pages/OneActualite.jsx";
+import OneOrganisation from "./pages/OneOrganisationNew.jsx";
+
 
 const existingLang = sessionStorage.getItem("lang");
 
@@ -66,9 +70,11 @@ function App() {
                 </Route>
                 <Route path="/database">
                   <Route index path="/database" element={<Database />} />
+                  <Route path="/database/:name" element={<OneOrganisation />} />
                 </Route>
                 <Route path="/news">
                   <Route index path="/news" element={<News />} />
+                  <Route path="/news/:slug" element={<OneActualite />} />
                 </Route>
                 <Route path="/pyramid">
                   <Route index path="/pyramid" element={<PyramidLanding />} />

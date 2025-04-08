@@ -569,9 +569,9 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
             dataIndex="actions"
             render={(_, record: BaseRecord) => (
               <Space>
-                <AdminOrContributor>
+                <Admin>
                   <EditButton hideText size="small" recordItemId={record.id} />
-                </AdminOrContributor>
+                </Admin>
                 <ShowButton hideText size="small" recordItemId={record.id} />
                 <Admin>
                   <DeleteButton
