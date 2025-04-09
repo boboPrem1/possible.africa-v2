@@ -827,7 +827,7 @@ function News() {
                   <div className="space-y-5">
                     <p className="text-mediumGray font-medium">
                       {_.news_partners_description ||
-                        "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+                        "Votre expertise mérite d’être visible. Associez-vous à Possible.Africa et rayonnez sur le continent."}
                     </p>
 
                     {/* Animation des partenaires */}
@@ -946,7 +946,7 @@ function News() {
             <div className="space-y-5">
               <p className="text-mediumGray font-medium text-center">
                 {_.news_partners_description ||
-                  "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+                  "Votre expertise mérite d’être visible. Associez-vous à Possible.Africa et rayonnez sur le continent."}
               </p>
 
               {/* Animation des partenaires */}

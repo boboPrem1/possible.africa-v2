@@ -28,15 +28,15 @@ import { useEffect } from "react";
 import Loader from "../assets/icons/loader.svg";
 import Organisations from "./NewOrganisations";
 import ArrowLeftSolidCustomIcon from "../components/icons/ArrowLeftSolidCustomIcon";
+import SimilarOrganizations from "../components/SimilarOrganizations";
 
 export default function OneOrganisation({ iconSx, backUrl }) {
   const { name } = useParams();
-  const { data, isLoading, isError } =
-    useGetOrganisationByNameQuery(name);
+  const { data, isLoading, isError } = useGetOrganisationByNameQuery(name);
 
-    let contactRandomLength = Math.round(Math.random() * 10);
+  let contactRandomLength = Math.round(Math.random() * 10);
 
-    contactRandomLength = contactRandomLength > 3 ? 3 : contactRandomLength;
+  contactRandomLength = contactRandomLength > 3 ? 3 : contactRandomLength;
 
   useEffect(() => {
     if (data) {
@@ -59,8 +59,8 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             </div>
           </div>
         </div>
-        
-      <Footer />
+
+        <Footer />
       </>
     );
   }
@@ -74,8 +74,8 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             <NoData />
           </div>
         </div>
-        
-      <Footer />
+
+        <Footer />
       </>
     );
   }
@@ -106,12 +106,15 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                 alt={data?.name}
                 className="w-[100px] h-[100px] rounded-full object-contain"
                 onError={(e) => {
-                  e.target.src = "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
+                  e.target.src =
+                    "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
                 }}
               />
             </div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">{data?.name}</h2>
-            
+            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+              {data?.name}
+            </h2>
+
             {/* Boutons sociaux */}
             {/* <div className="flex justify-center gap-3 mb-4">
               <button className="bg-primary-50 h-[46px] w-[46px] flex justify-center items-center rounded-full text-primary hover:bg-primary-100 transition-colors">
@@ -139,26 +142,36 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                   <p className="font-medium">{data.headquarter || "-"}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3">
                 <div className="bg-primary-50 p-2 rounded-full">
-                  <img src={chart_down_icon} alt="Sector" width={16} height={16} />
+                  <img
+                    src={chart_down_icon}
+                    alt="Sector"
+                    width={16}
+                    height={16}
+                  />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Secteur</p>
                   <p className="font-medium">{data.sector || "-"}</p>
                 </div>
               </div>
-              
+
               {data.website && (
-                <a 
-                  href={data.website} 
-                  target="_blank" 
+                <a
+                  href={data.website}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 hover:text-primary transition-colors"
                 >
                   <div className="bg-primary-50 p-2 rounded-full">
-                    <img src={globe_2_icon} alt="Website" width={16} height={16} />
+                    <img
+                      src={globe_2_icon}
+                      alt="Website"
+                      width={16}
+                      height={16}
+                    />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Site web</p>
@@ -171,8 +184,10 @@ export default function OneOrganisation({ iconSx, backUrl }) {
 
           {/* Informations principales */}
           <div className="lg:col-span-3 bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6">À propos de {data?.name}</h2>
-            
+            <h2 className="text-xl font-semibold text-gray-800 mb-6">
+              À propos de {data?.name}
+            </h2>
+
             {data.description ? (
               <div className="text-gray-700 mb-6 leading-relaxed">
                 {data.description}
@@ -241,9 +256,25 @@ export default function OneOrganisation({ iconSx, backUrl }) {
               ))} */}
 
               {/* Bouton ajouter un contact */}
-              <Link to="https://pyramid.possible.africa/dashboard/deals" target="_blank" rel="noopener noreferrer" className="bg-white border-2 border-dashed border-primary-100 rounded-xl p-4 flex flex-col items-center justify-center text-primary hover:bg-primary-50 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <Link
+                to="https://pyramid.possible.africa/dashboard/deals"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white border-2 border-dashed border-primary-100 rounded-xl p-4 flex flex-col items-center justify-center text-primary hover:bg-primary-50 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 mb-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
                 </svg>
                 <span>Ajouter comme Prospect/Deal</span>
               </Link>
@@ -288,8 +319,16 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             </Link>
           </div>
         </div> */}
+        {/* Section Organisations similaires */}
+        {data && data.sector && (
+          <SimilarOrganizations
+            sector={data.sector}
+            currentOrgId={data.id}
+            currentOrgName={data.name}
+          />
+        )}
       </div>
-      
+
       <Footer />
     </>
   );
