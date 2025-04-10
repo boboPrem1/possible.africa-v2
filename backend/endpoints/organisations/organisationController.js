@@ -587,17 +587,23 @@ exports.getOrganisationByName = async (req, res) => {
       name: req.params.name,
     });
 
-    // Populate postsRelated
-    if (organisation.postsRelated) {
-      const posts = await Post.find({
-        postId: { $in: organisation.postsRelated },
-      });
-      organisation.postsRelated = posts;
+    let foundOrganisation;
+
+    if (organisation.length > 0) {
+      foundOrganisation = organisation[0];
     }
-    
-    if (!organisation.length)
+
+    // Populate postsRelated
+    if (foundOrganisation.postsRelated.length > 0) {
+      const posts = await Post.find({
+        postId: { $in: foundOrganisation.postsRelated },
+      });
+      foundOrganisation.postsRelated = posts;
+    }
+
+    if (!foundOrganisation)
       return res.status(404).json({ message: CustomUtils.consts.NOT_EXIST });
-    res.status(200).json(organisation[0]);
+    res.status(200).json(foundOrganisation);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
