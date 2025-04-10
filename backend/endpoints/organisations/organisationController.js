@@ -22,8 +22,12 @@ const Post = require("../posts/postModel.js");
 
 function extraireDomaine(url) {
   const regex = /^(https?:\/\/)?([\w\d-]+\.)+[\w\d-]+/;
-  const match = url.match(regex);
-  return match ? match[0] : null;
+  if(url) {
+    const match = url.match(regex);
+    return match ? match[0] : null;
+  } else {
+    return null;
+  }
 }
 
 function fileExists(filePath) {
