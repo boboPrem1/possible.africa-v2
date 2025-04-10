@@ -65,7 +65,8 @@ const postSchema = mongoose.Schema(
     },
     airTrans: {
       type: String
-    }
+    },
+    postId: { type: String },
   },
   {
     timestamps: true,

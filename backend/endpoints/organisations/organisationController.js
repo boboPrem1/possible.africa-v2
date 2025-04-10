@@ -18,6 +18,7 @@ const ICPS_TABLE_ID = process.env.ICPS_TABLE_ID;
 const ENV = process.env.ENV;
 const PORT = process.env.PORT;
 var Airtable = require("airtable");
+const Post = require("../posts/postModel.js");
 
 function extraireDomaine(url) {
   const regex = /^(https?:\/\/)?([\w\d-]+\.)+[\w\d-]+/;
@@ -105,6 +106,7 @@ const fetchAllRecords = async (apiKey, baseId, tableName) => {
         tier: record.get("Tier"),
         dateAdded: record.get("Date Added"),
         logoUrl: record.get("Logo URL"),
+        postsRelated: record.get("Articles Related"),
       });
     });
 
@@ -127,6 +129,7 @@ const fetchAllRecords = async (apiKey, baseId, tableName) => {
         tier: el.tier ? el.tier : null,
         dateAdded: el.dateAdded ? el.dateAdded : null,
         logoUrl: el.logoUrl ? el.logoUrl : null,
+        postsRelated: el.postsRelated ? el.postsRelated : null,
       };
     });
 
@@ -226,6 +229,7 @@ exports.getOrganisationsFromAirtable = async (req, res) => {
               source: organisation.source ? organisation.source : "",
               tier: organisation.tier ? organisation.tier : "",
               dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
+              postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
             });
           } else {
             const urla =
@@ -252,6 +256,7 @@ exports.getOrganisationsFromAirtable = async (req, res) => {
               source: organisation.source ? organisation.source : "",
               tier: organisation.tier ? organisation.tier : "",
               dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
+              postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
             });
           }
         } catch (e) {
@@ -356,6 +361,7 @@ exports.cronOrganisationsFromAirtable = async () => {
                 source: organisation.source ? organisation.source : "",
                 tier: organisation.tier ? organisation.tier : "",
                 dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
+                postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
               });
             } else {
               const urla =
@@ -386,6 +392,7 @@ exports.cronOrganisationsFromAirtable = async () => {
                 source: organisation.source ? organisation.source : "",
                 tier: organisation.tier ? organisation.tier : "",
                 dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
+                postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
               });
             }
           } else {
@@ -410,6 +417,7 @@ exports.cronOrganisationsFromAirtable = async () => {
               source: organisation.source ? organisation.source : "",
               tier: organisation.tier ? organisation.tier : "",
               dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
+              postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
             });
           }
           // console.log(domain_racine);
@@ -535,6 +543,13 @@ exports.getOrganisationById = async (req, res) => {
   // get organisation by id
   try {
     const organisation = await Organisation.findById(req.params.id);
+
+    // Populate postsRelated
+    if (organisation.postsRelated) {
+      const posts = await Post.find({ postId: { $in: organisation.postsRelated } });
+      organisation.postsRelated = posts;
+    }
+
     if (!organisation)
       return res.status(404).json({
         message: CustomUtils.consts.NOT_EXIST,

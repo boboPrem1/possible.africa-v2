@@ -79,7 +79,6 @@ const fetchAllRecords = async (apiKey, baseId, tableName) => {
     // Traitez chaque record individuellement
     records.forEach((record) => {
       allRecords.push({
-        _id: record.get("Article ID"),
         title: record.get("Article Title"),
         tags: record.get("Tags from Feedly"),
         media: record.get("Name of Media"),
@@ -87,6 +86,7 @@ const fetchAllRecords = async (apiKey, baseId, tableName) => {
         link: record.get("Link to Article"),
         publication_date: record.get("Date Added"),
         logo: record.get("Logo copy"),
+        postId: record.get("Article ID"),
       });
     });
 
@@ -161,6 +161,7 @@ exports.getFrenchPostFromAirtable = async (req, res) => {
             airLogo: article.logo,
             airDateAdded: article.publication_date,
             airTrans: "fr",
+            postId: article.postId,
           });
         } catch (e) {
           console.log(e);
@@ -210,6 +211,7 @@ exports.getAllPostFromAirtable = async (req, res) => {
                 airLogo: urla,
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "fr",
+                postId: article.postId,
               });
             } else {
               await Post.create({
@@ -222,6 +224,7 @@ exports.getAllPostFromAirtable = async (req, res) => {
                   "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "fr",
+                postId: article.postId,
               });
             }
           } else {
@@ -235,6 +238,7 @@ exports.getAllPostFromAirtable = async (req, res) => {
                 "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
               airDateAdded: new Date(article.publication_date),
               airTrans: "fr",
+              postId: article.postId,
             });
           }
         } catch (e) {
@@ -277,6 +281,7 @@ exports.getAllPostFromAirtable = async (req, res) => {
                 airLogo: urla,
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "eng",
+                postId: article.postId,
               });
             } else {
               await Post.create({
@@ -289,6 +294,7 @@ exports.getAllPostFromAirtable = async (req, res) => {
                   "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "eng",
+                postId: article.postId,
               });
             }
           } else {
@@ -302,6 +308,7 @@ exports.getAllPostFromAirtable = async (req, res) => {
                 "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
               airDateAdded: new Date(article.publication_date),
               airTrans: "eng",
+              postId: article.postId,
             });
           }
         } catch (e) {
@@ -356,6 +363,7 @@ exports.cronAllPostFromAirtable = async (req, res) => {
                 airLogo: urla,
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "fr",
+                postId: article.postId,
               });
             } else {
               await Post.create({
@@ -368,6 +376,7 @@ exports.cronAllPostFromAirtable = async (req, res) => {
                   "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "fr",
+                postId: article.postId,
               });
             }
           } else {
@@ -381,6 +390,7 @@ exports.cronAllPostFromAirtable = async (req, res) => {
                 "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
               airDateAdded: new Date(article.publication_date),
               airTrans: "fr",
+              postId: article.postId,
             });
           }
         } catch (e) {
@@ -423,6 +433,7 @@ exports.cronAllPostFromAirtable = async (req, res) => {
                 airLogo: urla,
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "eng",
+                postId: article.postId,
               });
             } else {
               await Post.create({
@@ -435,6 +446,7 @@ exports.cronAllPostFromAirtable = async (req, res) => {
                   "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
                 airDateAdded: new Date(article.publication_date),
                 airTrans: "eng",
+                postId: article.postId,
               });
             }
           } else {
@@ -448,6 +460,7 @@ exports.cronAllPostFromAirtable = async (req, res) => {
                 "https://api.possible.africa/storage/logos/placeholder_org.jpeg",
               airDateAdded: new Date(article.publication_date),
               airTrans: "eng",
+              postId: article.postId,
             });
           }
         } catch (e) {
@@ -491,6 +504,7 @@ exports.getEnglishPostFromAirtable = async (req, res) => {
             airLogo: article.logo,
             airDateAdded: article.publication_date,
             airTrans: "eng",
+            postId: article.postId,
           });
         } catch (e) {
           console.log(e);

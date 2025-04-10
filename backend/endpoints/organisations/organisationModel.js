@@ -20,6 +20,7 @@ const organisationSchema = mongoose.Schema(
     amountFundraised: { type: String },
     tier: { type: String },
     website: { type: String },
+    postsRelated: { type: Array },
   },
   {
     timestamps: true,
