@@ -1,7 +1,7 @@
-import { Button } from '@chakra-ui/react';
-import React, { useState, useRef, useEffect } from 'react';
+import { Button } from "@chakra-ui/react";
+import React, { useState, useRef, useEffect } from "react";
 
-const Popover = ({children, btnTitle}) => {
+const Popover = ({ children, btnTitle }) => {
   // État pour savoir si le popover est ouvert ou non
   const [isOpen, setIsOpen] = useState(false);
   // Référence pour le conteneur du popover
@@ -16,9 +16,9 @@ const Popover = ({children, btnTitle}) => {
 
   // Ajout d'un écouteur d'événements lors du montage du composant
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -31,16 +31,14 @@ const Popover = ({children, btnTitle}) => {
       >
         {btnTitle}
       </Button>
-      
+
       {/* Affichage conditionnel du popover */}
       {isOpen && (
         <div
           ref={popoverRef}
           className="absolute z-[100] right-20 -top-5 mt-2 w-56 bg-white border border-gray-200 rounded-md overflow-hidden shadow-2xl"
         >
-          <div className="p-0">
-            {children}
-          </div>
+          <div className="p-0">{children}</div>
         </div>
       )}
     </div>

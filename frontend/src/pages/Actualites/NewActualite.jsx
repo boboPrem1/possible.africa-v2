@@ -705,8 +705,8 @@ function News() {
                 >
                   {_.load_more_results}
                 </button>
-              </div>
-            </div>
+                                </div>
+                                  </div>
             <div className="sticky top-10 min-h-[400px] max-h-[95vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-gray-100 hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5">
               {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) &&
               !isFetching ? (
@@ -724,15 +724,15 @@ function News() {
                         </span>
                         <span className="text-lg font-semibold text-primary">
                           {allNews.length}
-                        </span>
-                      </div>
+                                    </span>
+                                  </div>
                       <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-primary rounded-full"
                           style={{ width: "100%" }}
                         ></div>
-                      </div>
-                    </div>
+                                </div>
+                              </div>
 
                     <div className="font-medium text-gray-700">
                       <div className="flex justify-between items-center mb-2">
@@ -750,7 +750,7 @@ function News() {
                             ).length
                           }
                         </span>
-                      </div>
+                              </div>
                       <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-primary rounded-full"
@@ -768,9 +768,9 @@ function News() {
                             }%`,
                           }}
                         ></div>
-                      </div>
-                    </div>
-                  </div>
+                                      </div>
+                                    </div>
+                              </div>
 
                   <div className="font-medium text-mediumGray border-t border-gray-200 pt-4">
                     {_.news_we_found}{" "}
@@ -806,28 +806,28 @@ function News() {
                         {pageEqS[2].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[2].value}
-                          </div>
+                                </div>
                         )}
                         {pageEqS[3].value && (
                           <div className="bg-primary-50 text-primary rounded-full px-3 py-1 text-sm font-medium">
                             {pageEqS[3].value}
-                          </div>
+                                  </div>
                         )}
-                      </div>
-                    </div>
+                                  </div>
+                                </div>
                   )}
-                </div>
+                              </div>
               ) : (
                 // Section à afficher quand aucun filtre n'est actif (version desktop)
                 <div className="w-full">
                   <div className="font-bold text-2xl mb-4 text-primary">
                     {_.news_our_partners || "Nos partenaires"}
-                  </div>
+                              </div>
 
                   <div className="space-y-5">
                     <p className="text-mediumGray font-medium">
                       {_.news_partners_description ||
-                        "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+                        "Votre expertise mérite d’être visible. Associez-vous à Possible.Africa et rayonnez sur le continent."}
                     </p>
 
                     {/* Animation des partenaires */}
@@ -845,15 +845,15 @@ function News() {
                             src={LogoExa}
                             alt="EXA"
                             className="h-10 w-auto object-contain"
-                          />
-                        </div>
+                                        />
+                                      </div>
                         <div className="text-center text-primary font-medium text-sm mt-2">
                           EXA
-                        </div>
-                      </div>
+                                    </div>
+                              </div>
 
                       {/* Partenaire 2 */}
-                      <div
+                      {/* <div
                         className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
                         style={{
                           animation: `floatDesktop 2.5s ease-in-out infinite alternate`,
@@ -866,11 +866,11 @@ function News() {
                             alt="Pyramid Africa"
                             className="h-10 w-auto object-contain"
                           />
-                        </div>
+                            </div>
                         <div className="text-center text-primary font-medium text-sm mt-2">
                           Pyramid Africa
-                        </div>
-                      </div>
+              </div>
+                      </div> */}
 
                       {/* Partenaire 3 */}
                       <div
@@ -885,12 +885,12 @@ function News() {
                             src={AfricanTechIndustry}
                             alt="African Tech Industry"
                             className="h-10 w-auto object-contain"
-                          />
-                        </div>
+                                  />
+                                </div>
                         <div className="text-center text-primary font-medium text-sm mt-2">
                           African Tech Industry
-                        </div>
-                      </div>
+                                  </div>
+                                  </div>
 
                       {/* Partenaire 4 */}
                       <div
@@ -905,13 +905,13 @@ function News() {
                             src={LogoHyperlink}
                             alt="Hyperlink"
                             className="h-10 w-auto object-contain"
-                          />
-                        </div>
+                                        />
+                                      </div>
                         <div className="text-center text-primary font-medium text-sm mt-2">
                           Hyperlink
-                        </div>
-                      </div>
-                    </div>
+                                    </div>
+                              </div>
+                            </div>
 
                     {/* Animation CSS pour l'effet flottant */}
                     <style jsx>{`
@@ -928,13 +928,13 @@ function News() {
                     <button className="w-full h-[45px] bg-primary rounded-full text-sm font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300 mt-3">
                       {_.news_see_all_partners || "Devenir partenaire"}
                     </button>
-                  </div>
-                </div>
+                                </div>
+                                  </div>
               )}
-            </div>
-          </div>
-        </div>
-      </div>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
       {/* Ajout de la section des partenaires en mobile en dehors de la structure principale */}
       {!isFetching &&
         !(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) && (
@@ -946,7 +946,7 @@ function News() {
             <div className="space-y-5">
               <p className="text-mediumGray font-medium text-center">
                 {_.news_partners_description ||
-                  "Ensemble, nous travaillons avec des organisations leaders pour transformer le paysage technologique africain."}
+                  "Votre expertise mérite d’être visible. Associez-vous à Possible.Africa et rayonnez sur le continent."}
               </p>
 
               {/* Animation des partenaires */}
@@ -964,12 +964,12 @@ function News() {
                       src={LogoExa}
                       alt="EXA"
                       className="h-10 w-auto object-contain"
-                    />
-                  </div>
+                                        />
+                                      </div>
                   <div className="text-center text-primary font-medium text-sm mt-2">
                     EXA
-                  </div>
-                </div>
+                                    </div>
+              </div>
 
                 {/* Partenaire 2 */}
                 <div
@@ -994,7 +994,7 @@ function News() {
                 {/* Partenaire 3 */}
                 <div
                   className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
-                  style={{
+                    style={{
                     animation: `floatMobile 3s ease-in-out infinite alternate`,
                     animationDelay: `0.4s`,
                   }}
@@ -1005,11 +1005,11 @@ function News() {
                       alt="African Tech Industry"
                       className="h-10 w-auto object-contain"
                     />
-                  </div>
+              </div>
                   <div className="text-center text-primary font-medium text-sm mt-2">
                     African Tech Industry
+            </div>
                   </div>
-                </div>
 
                 {/* Partenaire 4 */}
                 <div
@@ -1028,9 +1028,9 @@ function News() {
                   </div>
                   <div className="text-center text-primary font-medium text-sm mt-2">
                     Hyperlink
-                  </div>
                 </div>
-              </div>
+            </div>
+          </div>
 
               {/* Animation CSS pour l'effet flottant */}
               <style jsx>{`
@@ -1050,8 +1050,8 @@ function News() {
               >
                 {_.news_see_all_partners || "Devenir partenaire"}
               </button>
-            </div>
-          </div>
+        </div>
+      </div>
         )}
 
       <Footer />

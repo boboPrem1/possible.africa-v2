@@ -5,10 +5,15 @@ import News from "./pages/Actualites/NewActualite.jsx";
 import Landing from "./pages/Landing.jsx";
 import Waitlist from "./pages/Waitlist.jsx";
 import { useEffect, useReducer } from "react";
-import { initialLang, LangTransContext, LangTransDispatchContext } from "./langTransContext.js";
+import {
+  initialLang,
+  LangTransContext,
+  LangTransDispatchContext,
+} from "./langTransContext.js";
 import { en_trans } from "./lang/en.js";
 import { fr_trans } from "./lang/fr.js";
 import PyramidLanding from "./pages/PyramidLanding.jsx";
+import ApplicantList from "./pages/ApplicantList.jsx";
 import OneAgendaTemplate from "./components/OneAgendaTemplate.jsx";
 import OneActualite from "./pages/OneActualite.jsx";
 import OneOrganisation from "./pages/OneOrganisationNew.jsx";
@@ -20,10 +25,10 @@ function langTransReducer(lang, action) {
   switch (action.type) {
     case "change": {
       let trans;
-      if(action.lang === 'fr'){
-        trans = {...fr_trans};
+      if (action.lang === "fr") {
+        trans = { ...fr_trans };
       } else {
-        trans = {...en_trans};
+        trans = { ...en_trans };
       }
       // change lang key in session
       sessionStorage.setItem("lang", action.lang);
@@ -40,7 +45,7 @@ function langTransReducer(lang, action) {
 
 function App() {
   const [lang_trans, dispatch] = useReducer(langTransReducer, initialLang);
-  
+
   useEffect(() => {
     if (existingLang) {
       dispatch({ type: "change", lang: existingLang });
@@ -73,6 +78,13 @@ function App() {
                 </Route>
                 <Route path="/pyramid">
                   <Route index path="/pyramid" element={<PyramidLanding />} />
+                </Route>
+                <Route path="/applicantList">
+                  <Route
+                    index
+                    path="/applicantList"
+                    element={<ApplicantList />}
+                  />
                 </Route>
               </Routes>
             </BrowserRouter>

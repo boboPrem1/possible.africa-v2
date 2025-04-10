@@ -16,7 +16,7 @@
 //               className="w-[50%] h-auto"
 //             />
 //             <span className="text-gray-600">
-//               Yperlink.com - Startup Challenge Africa
+//               Yperlink.com - Challenge Tech Africa
 //             </span>
 //           </div>
 //           <div className="flex items-center space-x-4 mt-4 md:mt-0">

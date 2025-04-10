@@ -5,13 +5,15 @@ export const en_trans = {
   header_connect: "Connect AfricaTech Ecosystem",
   header_btn_free_first_campaign: "Free first campaign",
   landing_hero_title: "Connect with Africa's Tech Ecosystem",
-  landing_hero_description: "Discover and connect with key players in the African tech ecosystem. A platform to explore, analyze and collaborate.",
-  landing_hero_cta_primary: "Explore Database",
+  landing_hero_description:
+    "Discover and connect with key players in the African tech ecosystem. A platform to explore, analyze and collaborate.",
+  landing_hero_cta_primary: "Try For Free",
   landing_hero_cta_secondary: "Tech News",
   landing_hero_input_placeholder: "Enter your company name",
   landing_hero_input_target_placeholder: "Enter a target company name",
   landing_hero_input_button: "Get 5 free leads",
-  landing_hero_input_subtext: "Receive 5 qualified leads similar to your target",
+  landing_hero_input_subtext:
+    "Receive 5 qualified leads similar to your target",
   landing_stats_startups: "Startups",
   landing_stats_countries: "Countries",
   landing_stats_investors: "Investors",
@@ -48,6 +50,8 @@ export const en_trans = {
   news_we_found: "We found",
   news_results_with: "results (including",
   news_shown: "shown)",
+  news_partners_description:
+    "Your expertise deserves to be visible. Partner with Possible.Africa and shine across the continent.",
   news_matching_filters: "matching your filters.",
   database_total_organisations: "Total Organisations",
   database_sectors: "Sectors",
@@ -102,7 +106,8 @@ export const en_trans = {
   modal_and_target: "and your target",
   modal_similarity_score: "Similarity Score",
   modal_get_more: "Get 45 Additional Free Leads",
-  modal_email_subtitle: "Enter your email to receive your additional leads immediately",
+  modal_email_subtitle:
+    "Enter your email to receive your additional leads immediately",
   modal_email_placeholder: "Your professional email",
   modal_submit_button: "Get my 45 leads",
   modal_close: "Close",

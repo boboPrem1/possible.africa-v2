@@ -67,7 +67,7 @@ const Landing = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!companyName.trim() || !targetName.trim()) return;
-    
+
     setIsSubmitting(true);
     setLeads(null);
 
@@ -97,41 +97,44 @@ Critères importants :
 Retourne uniquement le JSON, sans texte additionnel.`;
 
     try {
-      const response = await fetch('https://api.possible.africa/ai/generate-any', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }),
-      });
+      const response = await fetch(
+        "https://api.possible.africa/ai/generate-any",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log('AI Response:', data.completion);
+      console.log("AI Response:", data.completion);
 
       try {
         // Tenter de parser la réponse JSON
         const parsedLeads = JSON.parse(data.completion);
-        console.log('Parsed Leads:', parsedLeads);
+        console.log("Parsed Leads:", parsedLeads);
         setLeads(parsedLeads.leads);
         setShowLeadsModal(true);
       } catch (parseError) {
-        console.error('Error parsing AI response:', parseError);
+        console.error("Error parsing AI response:", parseError);
       }
 
       setShowSuccess(true);
       setCompanyName("");
       setTargetName("");
-      
+
       // Réinitialiser le message de succès après 5 secondes
       setTimeout(() => {
         setShowSuccess(false);
       }, 5000);
     } catch (error) {
-      console.error('Error fetching AI response:', error);
+      console.error("Error fetching AI response:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -140,9 +143,9 @@ Retourne uniquement le JSON, sans texte additionnel.`;
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
-    
+
     setIsSubmittingEmail(true);
-    
+
     // Simuler l'envoi d'email (à remplacer par votre véritable API)
     setTimeout(() => {
       setIsSubmittingEmail(false);
@@ -197,111 +200,200 @@ Retourne uniquement le JSON, sans texte additionnel.`;
               </p>
               <div className="mt-6 md:mt-8 flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
                 <Link
-                  to="/database"
-                  className="px-5 md:px-6 py-2.5 md:py-3 bg-primary text-white text-sm md:text-base rounded-full font-medium hover:bg-darkPrimary transition-all shadow-md hover:shadow-lg"
+                  to="https://pyramid.possible.africa/login"
+                  target="_blank"
+                  className="group relative inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 overflow-hidden font-bold text-white text-sm md:text-base rounded-full bg-gradient-to-r from-primary to-darkPrimary shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 active:scale-95 animate-pulse hover:animate-none"
                 >
-                  {_.landing_hero_cta_primary || "Explorer la base de données"}
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary via-primary to-darkPrimary animate-gradient-x"></span>
+                  <span className="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition-all duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-white opacity-10 group-hover:rotate-90 ease rounded-full animate-pulse-slow"></span>
+                  <span className="absolute top-0 left-0 w-10 h-full bg-white opacity-10 transform -skew-x-20 animate-shimmer"></span>
+                  
+                  <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary to-darkPrimary opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
+                  <span className="absolute -inset-1 rounded-full blur-sm opacity-30 animate-pulse-slow bg-primary"></span><span className="relative flex items-center text-white">
+                    {_.landing_hero_cta_primary}
+                    <svg className="w-5 h-5 ml-2 transform transition-transform duration-300 ease-out animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                  </span>
                 </Link>
-                <Link
+                {/* <Link
                   to="/news"
                   className="px-5 md:px-6 py-2.5 md:py-3 bg-white text-sm md:text-base text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
                 >
                   {_.landing_hero_cta_secondary || "Actualités Tech"}
-                </Link>
+                </Link> */}
               </div>
-              
-              
             </div>
 
             {/* Animation/Illustration */}
             {/* Input animé pour recevoir des prospects gratuits */}
             <div className="mt-8 md:mt-10 w-full max-w-md mx-auto md:mx-0">
-                <form onSubmit={handleSubmit} className="relative">
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-400 to-teal-300 rounded-2xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                    <div className="relative bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-xl">
-                      <div className="flex flex-col gap-3">
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                          </div>
-                          <input
-                            type="text"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                            placeholder={_.landing_hero_input_placeholder || "Entrez le nom de votre entreprise"}
-                            className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
-                          />
+              <form onSubmit={handleSubmit} className="relative">
+                <div className="relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-400 to-teal-300 rounded-2xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                  <div className="relative bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-xl">
+                    <div className="flex flex-col gap-3">
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg
+                            className="h-5 w-5 text-gray-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                            />
+                          </svg>
                         </div>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                          </div>
-                          <input
-                            type="text"
-                            value={targetName}
-                            onChange={(e) => setTargetName(e.target.value)}
-                            placeholder={_.landing_hero_input_target_placeholder || "Entrez le nom d'une entreprise cible"}
-                            className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
-                          />
+                        <input
+                          type="text"
+                          value={companyName}
+                          onChange={(e) => setCompanyName(e.target.value)}
+                          placeholder={
+                            _.landing_hero_input_placeholder ||
+                            "Entrez le nom de votre entreprise"
+                          }
+                          className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
+                        />
+                      </div>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg
+                            className="h-5 w-5 text-gray-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                            />
+                          </svg>
                         </div>
-                        <button 
-                          type="submit"
-                          disabled={isSubmitting || !companyName.trim() || !targetName.trim()}
-                          className={`w-full px-6 py-3.5 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
-                            ${isSubmitting || !companyName.trim() || !targetName.trim()
-                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                              : 'bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5'}`}
-                        >
-                          {isSubmitting ? (
-                            <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <input
+                          type="text"
+                          value={targetName}
+                          onChange={(e) => setTargetName(e.target.value)}
+                          placeholder={
+                            _.landing_hero_input_target_placeholder ||
+                            "Entrez le nom d'une entreprise cible"
+                          }
+                          className="w-full pl-12 pr-4 py-3.5 bg-white/50 backdrop-blur-sm border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-inner transition-all placeholder:text-gray-400"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={
+                          isSubmitting ||
+                          !companyName.trim() ||
+                          !targetName.trim()
+                        }
+                        className={`w-full px-6 py-3.5 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
+                            ${
+                              isSubmitting ||
+                              !companyName.trim() ||
+                              !targetName.trim()
+                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                : "bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                            }`}
+                      >
+                        {isSubmitting ? (
+                          <svg
+                            className="animate-spin h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        ) : (
+                          <>
+                            <span>
+                              {_.landing_hero_input_button ||
+                                "Recevoir 5 prospects gratuits"}
+                            </span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5 transition-transform group-hover:translate-x-1"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"
+                              />
                             </svg>
-                          ) : (
-                            <>
-                              <span>{_.landing_hero_input_button || "Recevoir 5 prospects gratuits"}</span>
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                              </svg>
-                            </>
-                          )}
-                        </button>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 mt-3 text-center md:text-left">
+                  {_.landing_hero_input_subtext ||
+                    "Recevez 5 prospects qualifiés similaires à votre cible"}
+                </p>
+
+                {/* Message de succès */}
+                {showSuccess && (
+                  <div className="absolute top-full left-0 right-0 mt-4">
+                    <div className="bg-green-50/80 backdrop-blur-sm border border-green-100 rounded-xl p-4 shadow-lg animate-fade-in">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                          <svg
+                            className="h-6 w-6 text-green-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-medium text-green-800">
+                            Demande envoyée avec succès !
+                          </h3>
+                          <p className="mt-1 text-sm text-green-600">
+                            Nous vous contacterons très prochainement avec vos
+                            prospects.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-500 mt-3 text-center md:text-left">
-                    {_.landing_hero_input_subtext || "Recevez 5 prospects qualifiés similaires à votre cible"}
-                  </p>
-                  
-                  {/* Message de succès */}
-                  {showSuccess && (
-                    <div className="absolute top-full left-0 right-0 mt-4">
-                      <div className="bg-green-50/80 backdrop-blur-sm border border-green-100 rounded-xl p-4 shadow-lg animate-fade-in">
-                        <div className="flex items-center gap-3">
-                          <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                            <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                          <div>
-                            <h3 className="text-sm font-medium text-green-800">Demande envoyée avec succès !</h3>
-                            <p className="mt-1 text-sm text-green-600">Nous vous contacterons très prochainement avec vos prospects.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </form>
-              </div>
+                )}
+              </form>
+            </div>
           </div>
 
           {/* Statistiques */}
-          <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
+          <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-3 gap-3 md:gap-4 text-center">
             <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
               <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
                 +60 000
@@ -326,7 +418,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 {_.landing_stat_news || "Pays"}
               </div>
             </div>
-            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+            {/* <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
               <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
                 3 Services
               </div>
@@ -334,7 +426,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 {_.landing_stat_partners ||
                   "Génération de Lead, Deals, Interactions"}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -364,7 +456,8 @@ Retourne uniquement le JSON, sans texte additionnel.`;
             animation-delay: 4s;
           }
           @keyframes tilt {
-            0%, 100% {
+            0%,
+            100% {
               transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
             }
             25% {
@@ -404,12 +497,44 @@ Retourne uniquement le JSON, sans texte additionnel.`;
             }
           }
           .animate-pulse-ring:before {
-            content: '';
+            content: "";
             position: absolute;
             inset: 0;
             border-radius: inherit;
             background: inherit;
             animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          }
+          @keyframes shimmer {
+            0% { transform: translateX(-100%) skewX(-20deg); }
+            100% { transform: translateX(200%) skewX(-20deg); }
+          }
+          
+          @keyframes bounce-x {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(3px); }
+          }
+          
+          @keyframes gradient-x {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          
+          .animate-shimmer {
+            animation: shimmer 2s infinite;
+          }
+          
+          .animate-bounce-x {
+            animation: bounce-x 1.5s infinite;
+          }
+          
+          .animate-gradient-x {
+            background-size: 200% 200%;
+            animation: gradient-x 3s ease infinite;
+          }
+          
+          .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
           }
         `}</style>
       </div>
@@ -512,11 +637,11 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                   {_.landing_our_partners}
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-                  Ensemble, nous travaillons avec des organisations leaders pour
-                  transformer le paysage technologique africain.
+                  {_.news_partners_description ||
+                    "Votre expertise mérite d'être visible. Associez-vous à Possible.Africa et rayonnez sur le continent."}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                   {/* Partenaire 1 */}
                   <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
                     <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
@@ -551,7 +676,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                   </div>
 
                   {/* Partenaire 2 */}
-                  <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
+                  {/* <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
                     <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
                       <div className="flex flex-col h-full">
                         <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
@@ -581,7 +706,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Partenaire 3 */}
                   <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
@@ -651,9 +776,9 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 </div>
 
                 <div className="mt-10 text-center">
-                  <button className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-colors shadow-sm hover:shadow">
+                  <Link to="mailto:benjamin.bonnell@expand-in-africa.com" className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-colors shadow-sm hover:shadow">
                     Devenir partenaire
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -667,40 +792,72 @@ Retourne uniquement le JSON, sans texte additionnel.`;
       {/* Modal des résultats */}
       {showLeadsModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="p-6 bg-gradient-to-br from-primary/10 to-transparent">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-gray-800">Vos 5 premiers prospects qualifiés</h2>
-                <button 
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Vos 5 premiers prospects qualifiés
+                </h2>
+                <button
                   onClick={() => setShowLeadsModal(false)}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                 >
-                  <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    className="w-6 h-6 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               </div>
-              
+
               <div className="text-sm text-gray-600 mb-6">
-                Basé sur votre entreprise <span className="font-semibold text-primary">{companyName}</span> et 
-                votre cible <span className="font-semibold text-primary">{targetName}</span>
+                Basé sur votre entreprise{" "}
+                <span className="font-semibold text-primary">
+                  {companyName}
+                </span>{" "}
+                et votre cible{" "}
+                <span className="font-semibold text-primary">{targetName}</span>
               </div>
 
               <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2 mb-6">
                 {leads?.map((lead, index) => (
-                  <div key={index} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                  >
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="font-semibold text-lg text-gray-800">{lead.company_name}</h3>
+                        <h3 className="font-semibold text-lg text-gray-800">
+                          {lead.company_name}
+                        </h3>
                         <div className="flex items-center gap-2 mt-1 text-sm text-gray-600">
-                          <span className="px-2 py-1 bg-primary/10 rounded-full">{lead.sector}</span>
-                          <span className="px-2 py-1 bg-blue-50 rounded-full">{lead.country}</span>
+                          <span className="px-2 py-1 bg-primary/10 rounded-full">
+                            {lead.sector}
+                          </span>
+                          <span className="px-2 py-1 bg-blue-50 rounded-full">
+                            {lead.country}
+                          </span>
                         </div>
                       </div>
                       <div className="flex items-center">
                         <div className="text-right">
-                          <div className="text-xs text-gray-500">Score de similarité</div>
-                          <div className="font-semibold text-primary">{lead.similarity_score}%</div>
+                          <div className="text-xs text-gray-500">
+                            Score de similarité
+                          </div>
+                          <div className="font-semibold text-primary">
+                            {lead.similarity_score}%
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -715,11 +872,15 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                     Recevez 45 prospects supplémentaires gratuits
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Entrez votre email pour recevoir immédiatement vos prospects additionnels
+                    Entrez votre email pour recevoir immédiatement vos prospects
+                    additionnels
                   </p>
                 </div>
 
-                <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3">
+                <form
+                  onSubmit={handleEmailSubmit}
+                  className="flex flex-col sm:flex-row gap-3"
+                >
                   <div className="flex-grow relative">
                     <input
                       type="email"
@@ -734,21 +895,47 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                     type="submit"
                     disabled={isSubmittingEmail || !email.trim()}
                     className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
-                      ${isSubmittingEmail || !email.trim()
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5'
+                      ${
+                        isSubmittingEmail || !email.trim()
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                       }`}
                   >
                     {isSubmittingEmail ? (
-                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                     ) : (
                       <>
                         <span>Recevoir mes 45 prospects</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       </>
                     )}

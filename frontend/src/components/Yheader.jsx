@@ -7,9 +7,9 @@ const Yheader = () => {
     <div className="flex text-sm md:text-base lg:text-lg flex-col md:flex-row w-[90%] mx-auto items-center justify-center">
       <div className="md:w-[75%] lg:w-[50%]">
         <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-[#3030F9]">
-          Startup Challenge Africa
+          Challenge Tech Africa
         </h1>
-        <p className="py-6">  
+        <p className="py-6">
           Propulsé par{" "}
           <a
             className="text-[#2BB19C]"
