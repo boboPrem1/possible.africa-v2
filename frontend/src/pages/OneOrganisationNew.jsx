@@ -90,7 +90,20 @@ export default function OneOrganisation({ iconSx, backUrl }) {
         {/* En-tête avec bouton retour et titre */}
         <div className="flex items-center mb-8">
           <button 
-            onClick={() => window.history.back()}
+            onClick={() => {
+              // Vérifier si nous avons un paramètre focusOrgId dans l'URL de référence
+              const referrer = document.referrer;
+              if (referrer && referrer.includes('/database')) {
+                // Si on vient de la page de base de données, on retourne avec le paramètre focusOrgId
+                window.history.back();
+              } else {
+                // Sinon, on redirige vers la page de base de données avec un paramètre pour mettre en évidence cette organisation
+                const orgId = `org-row-${data.id || data.name.replace(/\s+/g, '-').toLowerCase()}`;
+                const databaseUrl = new URL(`${window.location.origin}/database`);
+                databaseUrl.searchParams.set('focusOrgId', orgId);
+                window.location.href = databaseUrl.toString();
+              }
+            }}
             className="flex items-center justify-center mr-4 bg-primary-50 hover:bg-primary-100 text-primary px-3 py-2 rounded-full transition-colors"
             aria-label="Retour"
             title="Retour à la page précédente"

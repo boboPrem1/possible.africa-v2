@@ -575,6 +575,76 @@ function Organisations({
     }
   }, [currentPage]);
 
+  // Détecter et faire défiler vers l'organisation ciblée
+  useEffect(() => {
+    // Attendre que les organisations soient chargées
+    if (!isLoading && !isFetching && organisations && organisations.length > 0) {
+      // Récupérer l'ID de l'organisation à cibler depuis l'URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const focusOrgId = urlParams.get('focusOrgId');
+      
+      if (focusOrgId) {
+        // Petite temporisation pour s'assurer que le DOM est prêt
+        setTimeout(() => {
+          const targetElement = document.getElementById(focusOrgId);
+          if (targetElement) {
+            // Faire défiler jusqu'à l'élément et le mettre en évidence
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Ajouter une animation de pulsation
+            targetElement.classList.add('bg-primary-50');
+            targetElement.classList.add('transition-colors');
+            targetElement.classList.add('duration-500');
+            
+            // Effet de pulsation
+            let pulseCount = 0;
+            const maxPulses = 3;
+            const pulseInterval = setInterval(() => {
+              if (pulseCount < maxPulses) {
+                targetElement.classList.toggle('bg-primary-100');
+                targetElement.classList.toggle('bg-primary-50');
+                pulseCount++;
+              } else {
+                clearInterval(pulseInterval);
+                targetElement.classList.remove('bg-primary-50');
+                targetElement.classList.remove('bg-primary-100');
+              }
+            }, 500);
+            
+            // Réinitialiser le compteur de tentatives car nous avons trouvé l'élément
+            sessionStorage.removeItem('loadAttempt');
+          } else {
+            console.log(`Élément avec ID ${focusOrgId} non trouvé dans la page actuelle.`);
+            
+            // Si nous n'avons pas atteint le nombre maximum de pages et que nous ne sommes pas déjà en train de charger
+            // Vérifier si nous avons déjà tenté de charger plusieurs fois
+            const maxLoadAttempts = 5; // Limite pour éviter les boucles infinies
+            const currentAttempt = parseInt(sessionStorage.getItem('loadAttempt') || '0');
+            
+            if (currentAttempt < maxLoadAttempts && !isFetching) {
+              console.log(`Tentative ${currentAttempt + 1}/${maxLoadAttempts} de chargement de plus de pages pour trouver ${focusOrgId}`);
+              sessionStorage.setItem('loadAttempt', (currentAttempt + 1).toString());
+              
+              // Charger plus de pages
+              const newPage = page + loadCount;
+              setPageS(newPage);
+              setPage(newPage);
+              
+              // Notifier le parent du changement
+              if (onLoadCountChange) {
+                onLoadCountChange(loadCount);
+              }
+            } else if (currentAttempt >= maxLoadAttempts) {
+              console.log(`Nombre maximum de tentatives atteint (${maxLoadAttempts}). Impossible de trouver ${focusOrgId}`);
+              // Réinitialiser le compteur pour les futures tentatives
+              sessionStorage.removeItem('loadAttempt');
+            }
+          }
+        }, 500);
+      }
+    }
+  }, [isLoading, isFetching, organisations, page, loadCount]);
+
   // Mettre à jour le composant parent lorsque page change en interne
   useEffect(() => {
     if (page !== currentPage && onPageChange) {
@@ -1501,8 +1571,12 @@ function Tr({ org, date, _ }) {
   }
 
   const { plusLength, initials } = randomName();
+  
+  // Création d'un identifiant unique pour la ligne
+  const orgRowId = `org-row-${org.id || org.name.replace(/\s+/g, '-').toLowerCase()}`;
+  
   return (
-    <tr className="border-b border-[#EAECF0] hover:bg-gray-50">
+    <tr id={orgRowId} className="border-b border-[#EAECF0] hover:bg-gray-50 transition-all duration-300">
       <td className="px-10 py-4">
         <span className="w-full flex justify-center">
           {/* <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" /> */}
@@ -1513,6 +1587,12 @@ function Tr({ org, date, _ }) {
           <Link
             className="inline-flex"
             to={`/database/${org.name}`}
+            onClick={() => {
+              // Mémoriser l'id de l'organisation dans l'URL
+              const newUrl = new URL(window.location.href);
+              newUrl.searchParams.set('focusOrgId', orgRowId);
+              window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+            }}
           >
             <span className="flex justify-start gap-x-3 items-center group">
               <img
@@ -1606,7 +1686,15 @@ function Tr({ org, date, _ }) {
                 {_.database_action_add_to_leads}
               </span>
             </Link>
-            <Link className="inline-flex w-full" to={`/database/${org.name}`}>
+            <Link className="inline-flex w-full" 
+              to={`/database/${org.name}`}
+              onClick={() => {
+                // Mémoriser l'id de l'organisation dans l'URL
+                const newUrl = new URL(window.location.href);
+                newUrl.searchParams.set('focusOrgId', orgRowId);
+                window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+              }}
+            >
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
                 {_.database_action_see}
               </span>
