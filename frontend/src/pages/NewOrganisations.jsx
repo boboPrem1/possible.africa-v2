@@ -588,7 +588,7 @@ function Organisations({
         setTimeout(() => {
           const targetElement = document.getElementById(focusOrgId);
           if (targetElement) {
-            // Faire défiler jusqu'à l'élément et le mettre en évidence
+            // Faire défiler jusqu'à l'élément ePPPt le mettre en évidence
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             // Ajouter une animation de pulsation
