@@ -93,6 +93,8 @@ export const ResponsiveCloropleth = ({
   className,
   title,
   subtitle,
+  onCountryClick, // Add this prop
+  selectedCountry, // Add this prop
 }) => {
   const [features, setFeatures] = useState([]);
   const lang_trans = useContext(LangTransContext);
@@ -132,6 +134,11 @@ export const ResponsiveCloropleth = ({
         graticuleLineColor="#dddddd"
         borderWidth={0.5}
         borderColor="#152538"
+        onClick={(feature) => {
+          if (onCountryClick && feature.properties && feature.properties.name) {
+            onCountryClick(feature.properties.name);
+          }
+        }}
         defs={[
           {
             id: "dots",
@@ -164,6 +171,16 @@ export const ResponsiveCloropleth = ({
                 color: "inherit",
               },
             ],
+          },
+          // Add pattern for selected country
+          {
+            id: "selectedCountry",
+            type: "patternLines",
+            background: "rgba(43, 177, 156, 0.7)", // Primary color with transparency
+            color: "rgba(255, 255, 255, 0.7)",
+            rotation: -45,
+            lineWidth: 6,
+            spacing: 10,
           },
         ]}
         fill={[
@@ -231,6 +248,8 @@ export const MobileResponsiveCloropleth = ({
   className,
   title,
   subtitle,
+  onCountryClick, // Add this prop
+  selectedCountry, // Add this prop
 }) => {
   const [features, setFeatures] = useState([]);
   const lang_trans = useContext(LangTransContext);
@@ -270,6 +289,11 @@ export const MobileResponsiveCloropleth = ({
         graticuleLineColor="#dddddd"
         borderWidth={0.5}
         borderColor="#152538"
+        onClick={(feature) => {
+          if (onCountryClick && feature.properties && feature.properties.name) {
+            onCountryClick(feature.properties.name);
+          }
+        }}
         defs={[
           {
             id: "dots",
@@ -302,6 +326,16 @@ export const MobileResponsiveCloropleth = ({
                 color: "inherit",
               },
             ],
+          },
+          // Add pattern for selected country
+          {
+            id: "selectedCountry",
+            type: "patternLines",
+            background: "rgba(43, 177, 156, 0.7)", // Primary color with transparency
+            color: "rgba(255, 255, 255, 0.7)",
+            rotation: -45,
+            lineWidth: 6,
+            spacing: 10,
           },
         ]}
         fill={[

@@ -9,6 +9,7 @@ import { Button } from "@chakra-ui/react";
 import { LangTransContext } from "../langTransContext";
 import Input from "../components/Input";
 import CustumSelect from "../components/Select";
+import { useFilter } from "../components/for_database/FilterContext";
 
 const countries = {
   all: [
@@ -403,6 +404,14 @@ function pageEqReducer(state, action) {
       break;
     case "headquarter":
       state[3] = { ...state[3], value: action.value };
+      const headquarterIndex = state.findIndex(
+        (item) => item.field === "headquarter"
+      );
+      state[headquarterIndex] = {
+        ...state[headquarterIndex],
+        value: action.value,
+      };
+      return [...state];
       break;
     case "operatingCountries":
       state[4] = { ...state[4], value: action.value };
@@ -443,6 +452,8 @@ function Organisations({ withoutHeader }) {
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
   const _ = langTrans._;
+  const { selectedCountry, clearCountryFilter } = useFilter(); // Access the filter context
+
   const initialPageEq = [
     { field: "name", value: "" },
     { field: "source", value: "" },
@@ -518,6 +529,61 @@ function Organisations({ withoutHeader }) {
     }
   }, [isLoading, page, pageS]);
 
+  // Apply country filter when selectedCountry changes
+  useEffect(() => {
+    if (selectedCountry) {
+      // Find the headquarter field and update it
+      const updatedEq = [...pageEq];
+      const headquarterIndex = updatedEq.findIndex(
+        (item) => item.field === "headquarter"
+      );
+      updatedEq[headquarterIndex] = {
+        ...updatedEq[headquarterIndex],
+        value: selectedCountry,
+      };
+
+      // Update both the working state and the query state
+      setPageEqS(updatedEq);
+
+      // Reset pagination
+      setPage(1);
+      setPageS(1);
+      setFirstLoad(true);
+    }
+  }, [selectedCountry]);
+
+  // Render active country filter indicator
+  const renderActiveCountryFilter = () => {
+    if (!selectedCountry) return null;
+
+    return (
+      <div className="flex items-center bg-primary-50 py-2 px-4 rounded-lg mb-4">
+        <span className="flex-grow">
+          <span className="font-medium">Filtré par pays: </span>
+          <span className="text-primary">{selectedCountry}</span>
+        </span>
+        <button
+          onClick={clearCountryFilter}
+          className="text-gray-500 hover:text-red-500 ml-2"
+          title="Effacer le filtre pays"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    );
+  };
+
   // Vérifier si des filtres sont actifs
   const hasActiveFilters = () => {
     return pageEqS.some((eq) => eq.value !== "");
@@ -559,6 +625,8 @@ function Organisations({ withoutHeader }) {
       <div className="flex justify-center items-start">
         <div className="flex flex-col justify-start w-11/12">
           <div className="min-h-[70vh] flex flex-col justify-start">
+            {/* Show country filter indicator if active */}
+            {renderActiveCountryFilter()}
             {/* Bouton pour ouvrir le modal des filtres */}
             <div className="w-full flex justify-center md:justify-end items-center mb-4">
               <button

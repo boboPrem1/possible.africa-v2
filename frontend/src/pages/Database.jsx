@@ -17,13 +17,27 @@ import Loader from "../assets/icons/loader.svg";
 import { Footer, Header } from "./Landing";
 import Organisations from "./NewOrganisations";
 import { LangTransContext } from "../langTransContext";
+import {
+  FilterProvider,
+  useFilter,
+} from "../components/for_database/FilterContext";
 
-export default function Database() {
+function DatabaseContent() {
+  const { selectedCountry, setSelectedCountry } = useFilter();
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
   const _ = langTrans._;
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleCountryClick = (countryName) => {
+    // Toggle selection if clicking on the already selected country
+    if (selectedCountry === countryName) {
+      setSelectedCountry(null);
+    } else {
+      setSelectedCountry(countryName);
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -279,6 +293,8 @@ export default function Database() {
                   width: "100%",
                 }}
                 data={uniqueHeadquarters}
+                onCountryClick={handleCountryClick}
+                selectedCountry={selectedCountry}
               />
             </div>
             <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] block md:hidden">
@@ -288,6 +304,8 @@ export default function Database() {
                   width: "100%",
                 }}
                 data={uniqueHeadquarters}
+                onCountryClick={handleCountryClick}
+                selectedCountry={selectedCountry}
               />
             </div>
           </div>
@@ -313,5 +331,13 @@ export default function Database() {
 
       <Footer />
     </>
+  );
+}
+
+export default function Database() {
+  return (
+    <FilterProvider>
+      <DatabaseContent />
+    </FilterProvider>
   );
 }
