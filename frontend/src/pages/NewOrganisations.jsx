@@ -452,7 +452,8 @@ function Organisations({ withoutHeader }) {
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
   const _ = langTrans._;
-  const { selectedCountry, clearCountryFilter } = useFilter(); // Access the filter context
+  const { selectedCountry, clearCountryFilter, tableRef } = useFilter(); // Access the filter context
+  const [highlightTable, setHighlightTable] = useState(false);
 
   const initialPageEq = [
     { field: "name", value: "" },
@@ -549,6 +550,12 @@ function Organisations({ withoutHeader }) {
       setPage(1);
       setPageS(1);
       setFirstLoad(true);
+
+      // Add highlight effect
+      setHighlightTable(true);
+      setTimeout(() => {
+        setHighlightTable(false);
+      }, 1500);
     }
   }, [selectedCountry]);
 
@@ -1185,7 +1192,12 @@ function Organisations({ withoutHeader }) {
             )}
 
             {/* Conteneur de tableau avec hauteur fixe et scroll */}
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-200 max-h-[85vh] max-h-[60vh] overflow-y-auto">
+            <div
+              ref={tableRef}
+              className={`relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-200 max-h-[85vh] max-h-[60vh] overflow-y-auto transition-all duration-500 ${
+                highlightTable ? "ring-4 ring-primary ring-opacity-50" : ""
+              }`}
+            >
               <table className="min-w-full text-sm text-left">
                 <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0">
                   <tr className="h-11">

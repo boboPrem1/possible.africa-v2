@@ -23,7 +23,7 @@ import {
 } from "../components/for_database/FilterContext";
 
 function DatabaseContent() {
-  const { selectedCountry, setSelectedCountry } = useFilter();
+  const { selectedCountry, setSelectedCountry, scrollToTable } = useFilter();
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
   const _ = langTrans._;
@@ -36,6 +36,11 @@ function DatabaseContent() {
       setSelectedCountry(null);
     } else {
       setSelectedCountry(countryName);
+      
+      // Add a small delay to ensure the filter is applied before scrolling
+      setTimeout(() => {
+        scrollToTable();
+      }, 100);
     }
   };
 
