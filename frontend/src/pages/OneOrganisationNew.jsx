@@ -24,15 +24,18 @@ import { Footer, Header } from "./Landing";
 import { Link, useParams } from "react-router-dom";
 import NoData from "../utils/NoData";
 import { useGetOrganisationByNameQuery } from "../features/api/apiSlice";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Loader from "../assets/icons/loader.svg";
 import Organisations, { logoPlaceholder } from "./NewOrganisations";
 import ArrowLeftSolidCustomIcon from "../components/icons/ArrowLeftSolidCustomIcon";
 import SimilarOrganizations from "../components/SimilarOrganizations";
+import { LangTransContext } from "../langTransContext";
 
 export default function OneOrganisation({ iconSx, backUrl }) {
   const { name } = useParams();
   const { data, isLoading, isError } = useGetOrganisationByNameQuery(name);
+  const langTrans = useContext(LangTransContext);
+  const _ = langTrans._;
 
   let contactRandomLength = Math.round(Math.random() * 10);
 
@@ -86,11 +89,29 @@ export default function OneOrganisation({ iconSx, backUrl }) {
       <div className="container mx-auto max-w-screen-xl px-4 py-8">
         {/* En-tête avec bouton retour et titre */}
         <div className="flex items-center mb-8">
-          <ArrowLeftSolidCustomIcon
-            sx={iconSx}
-            backUrl="/database"
-            className="mr-3 text-primary hover:text-darkPrimary transition-colors"
-          />
+          <button 
+            onClick={() => window.history.back()}
+            className="flex items-center justify-center mr-4 bg-primary-50 hover:bg-primary-100 text-primary px-3 py-2 rounded-full transition-colors"
+            aria-label="Retour"
+            title="Retour à la page précédente"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M10 19l-7-7m0 0l7-7m-7 7h18" 
+              />
+            </svg>
+            <span className="ml-2 font-medium">{_?.back || "Retour"}</span>
+          </button>
+          
           <h1 className="text-2xl font-bold text-gray-800">{data?.name}</h1>
         </div>
 
@@ -138,7 +159,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                   <img src={globe_icon} alt="Country" width={16} height={16} />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Pays</p>
+                  <p className="text-sm text-gray-500">{_?.country || "Pays"}</p>
                   <p className="font-medium">{data.headquarter || "-"}</p>
                 </div>
               </div>
@@ -153,7 +174,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                   />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Secteur</p>
+                  <p className="text-sm text-gray-500">{_?.sector || "Secteur"}</p>
                   <p className="font-medium">{data.sector || "-"}</p>
                 </div>
               </div>
@@ -174,8 +195,8 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                     />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Site web</p>
-                    <p className="font-medium break-all">Visiter le site web</p>
+                    <p className="text-sm text-gray-500">{_?.website || "Site web"}</p>
+                    <p className="font-medium break-all">{_?.visit_website || "Visiter le site web"}</p>
                   </div>
                 </a>
               )}
@@ -185,7 +206,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
           {/* Informations principales */}
           <div className="lg:col-span-3 bg-white rounded-xl shadow-sm p-6">
             <h2 className="text-xl font-semibold text-gray-800 mb-6">
-              À propos de {data?.name}
+              {_?.about || "À propos de"} {data?.name}
             </h2>
 
             {data.description ? (
@@ -194,7 +215,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
               </div>
             ) : (
               <div className="text-gray-500 italic mb-6">
-                Aucune description disponible.
+                {_?.no_description || "Aucune description disponible."}
               </div>
             )}
 
@@ -202,7 +223,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             <div className="flex flex-wrap gap-3 mb-6">
               {data.operatingCountries && (
                 <div className="bg-primary-50 text-primary rounded-full px-4 py-1 text-sm">
-                  Opère en: {data.operatingCountries}
+                  {_?.operates_in || "Opère en"}: {data.operatingCountries}
                 </div>
               )}
               {data.tier && (

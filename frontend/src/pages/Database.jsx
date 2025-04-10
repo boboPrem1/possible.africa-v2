@@ -29,13 +29,81 @@ function DatabaseContent() {
   const _ = langTrans._;
   const [dashBoardData, setDashboardData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [loadCount, setLoadCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Fonction pour récupérer les paramètres depuis l'URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Récupérer loadCount
+    const loadCountParam = urlParams.get('loadCount');
+    if (loadCountParam) {
+      try {
+        const parsedValue = parseInt(loadCountParam, 10);
+        if (parsedValue > 0) {
+          setLoadCount(parsedValue);
+        }
+      } catch (e) {
+        console.error("Erreur de conversion loadCount:", e);
+      }
+    }
+    
+    // Récupérer currentPage (nombre de pages déjà chargées)
+    const pageParam = urlParams.get('page');
+    if (pageParam) {
+      try {
+        const parsedPage = parseInt(pageParam, 10);
+        if (parsedPage > 0) {
+          setCurrentPage(parsedPage);
+        }
+      } catch (e) {
+        console.error("Erreur de conversion page:", e);
+      }
+    }
+    
+    // Récupérer le pays sélectionné
+    const countryParam = urlParams.get('country');
+    if (countryParam) {
+      setSelectedCountry(countryParam);
+    }
+  }, [setSelectedCountry]);
+
+  // Fonction pour mettre à jour l'URL avec tous les paramètres
+  const updateUrlParams = (params) => {
+    const newUrl = new URL(window.location.href);
+    
+    // Mettre à jour les paramètres existants
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        newUrl.searchParams.set(key, value.toString());
+      }
+    });
+    
+    // Mettre à jour l'URL sans recharger la page
+    window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+  };
+
+  const handleLoadCountChange = (newValue) => {
+    if (newValue > 0) {
+      setLoadCount(newValue);
+      updateUrlParams({ loadCount: newValue });
+    }
+  };
+  
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    updateUrlParams({ page: newPage });
+  };
 
   const handleCountryClick = (countryName) => {
     // Toggle selection if clicking on the already selected country
     if (selectedCountry === countryName) {
       setSelectedCountry(null);
+      updateUrlParams({ country: null });
     } else {
       setSelectedCountry(countryName);
+      updateUrlParams({ country: countryName });
       
       // Add a small delay to ensure the filter is applied before scrolling
       setTimeout(() => {
@@ -329,7 +397,31 @@ function DatabaseContent() {
           </div>
 
           <div className="bg-white rounded-lg shadow-sm overflow-hidden col-span-3 w-11/12">
-            <Organisations withoutHeader={true} />
+            <div className="flex justify-end p-4">
+              <div className="flex items-center gap-2">
+                <label htmlFor="loadCount" className="text-sm font-medium text-gray-700">
+                  {_.load_more_results_count || "Nombre de pages à charger :"}
+                </label>
+                <select
+                  id="loadCount"
+                  className="border rounded-md px-2 py-1 text-sm"
+                  value={loadCount}
+                  onChange={(e) => handleLoadCountChange(parseInt(e.target.value, 10))}
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+            <Organisations 
+              withoutHeader={true} 
+              loadCount={loadCount}
+              onLoadCountChange={handleLoadCountChange}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
       </div>

@@ -449,7 +449,13 @@ function pageEqReducer(state, action) {
   return [...state];
 }
 
-function Organisations({ withoutHeader }) {
+function Organisations({ 
+  withoutHeader, 
+  loadCount = 1, 
+  onLoadCountChange,
+  currentPage = 1,
+  onPageChange
+}) {
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
   const _ = langTrans._;
@@ -471,10 +477,11 @@ function Organisations({ withoutHeader }) {
     { field: "website", value: "" },
   ];
 
-  const [page, setPage] = useState(1);
+  // Initialiser avec currentPage provenant des props
+  const [page, setPage] = useState(currentPage);
   const [mobileFilterIsVisible, setMobileFilterIsVisible] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
-  const [pageS, setPageS] = useState(page + 1);
+  const [pageS, setPageS] = useState(currentPage);
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const [pageEq, dispatch] = useReducer(pageEqReducer, [
@@ -559,6 +566,66 @@ function Organisations({ withoutHeader }) {
       }, 1500);
     }
   }, [selectedCountry]);
+
+  // Synchroniser la valeur de page avec les props currentPage
+  useEffect(() => {
+    if (currentPage !== page) {
+      setPage(currentPage);
+      setPageS(currentPage);
+    }
+  }, [currentPage]);
+
+  // Mettre à jour le composant parent lorsque page change en interne
+  useEffect(() => {
+    if (page !== currentPage && onPageChange) {
+      onPageChange(page);
+    }
+  }, [page, currentPage, onPageChange]);
+
+  // Mise à jour de pageEq à partir de l'URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filters = initialPageEq.map(filter => {
+      const value = urlParams.get(`filter_${filter.field}`);
+      return {
+        ...filter,
+        value: value || ""
+      };
+    });
+    
+    // Mettre à jour pageEq et pageEqS avec les filtres de l'URL si nécessaire
+    if (filters.some(f => f.value !== "")) {
+      const updatedFilters = [...filters];
+      setPageEqS(updatedFilters);
+      
+      // Mettre à jour le reducer
+      filters.forEach(filter => {
+        if (filter.value) {
+          dispatch({ field: filter.field, value: filter.value });
+        }
+      });
+    }
+  }, []);
+  
+  // Fonction pour mettre à jour les filtres dans l'URL
+  const updateFiltersInUrl = (filters) => {
+    const newUrl = new URL(window.location.href);
+    
+    // Supprimer les anciens filtres
+    Array.from(newUrl.searchParams.keys())
+      .filter(key => key.startsWith('filter_'))
+      .forEach(key => newUrl.searchParams.delete(key));
+    
+    // Ajouter les nouveaux filtres
+    filters.forEach(filter => {
+      if (filter.value) {
+        newUrl.searchParams.set(`filter_${filter.field}`, filter.value);
+      }
+    });
+    
+    // Mettre à jour l'URL sans recharger la page
+    window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+  };
 
   // Render active country filter indicator
   const renderActiveCountryFilter = () => {
@@ -1048,6 +1115,7 @@ function Organisations({ withoutHeader }) {
                         className="w-full max-w-[200px] h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
                         onClick={() => {
                           setPageEqS([...pageEq]);
+                          updateFiltersInUrl([...pageEq]);
                           setShowFilterModal(false);
                         }}
                       >
@@ -1071,6 +1139,7 @@ function Organisations({ withoutHeader }) {
                             { field: "tier", value: "" },
                             { field: "website", value: "" },
                           ]);
+                          updateFiltersInUrl([]);
                           dispatch({ field: "reset", value: "" });
                           setShowFilterModal(false);
                         }}
@@ -1143,6 +1212,7 @@ function Organisations({ withoutHeader }) {
                             };
                             // Mettre à jour les filtres
                             setPageEqS(newPageEqS);
+                            updateFiltersInUrl(newPageEqS);
                             // Mettre à jour le state du reducer
                             dispatch({ field: filter.field, value: "" });
                           }}
@@ -1182,6 +1252,7 @@ function Organisations({ withoutHeader }) {
                         { field: "tier", value: "" },
                         { field: "website", value: "" },
                       ]);
+                      updateFiltersInUrl([]);
                       dispatch({ field: "reset", value: "" });
                     }}
                     className="text-primary hover:text-darkPrimary text-sm font-medium flex items-center"
@@ -1200,7 +1271,7 @@ function Organisations({ withoutHeader }) {
               }`}
             >
               <table className="min-w-full text-sm text-left">
-                <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0 z-[100]">
+                <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0 z-[20]">
                   <tr className="h-11">
                     <th className="px-10 py-3">
                       {/* <span className="flex justify-center">
@@ -1254,8 +1325,16 @@ function Organisations({ withoutHeader }) {
             <button
               className="w-full h-[45px] flex justify-center items-center bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
-                setPageS((s) => s + 1);
-                setPage((s) => s + 1);
+                console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
+                
+                // Notifier le parent du changement
+                if (onLoadCountChange) {
+                  onLoadCountChange(loadCount);
+                }
+                
+                const newPage = page + loadCount;
+                setPageS(newPage);
+                setPage(newPage);
               }}
             >
               {isFetching && (
@@ -1322,20 +1401,20 @@ function Organisations({ withoutHeader }) {
             <button
               className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
-                setPageS((s) => s + 1);
-                setPage((s) => s + 1);
+                console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
+                
+                // Notifier le parent du changement
+                if (onLoadCountChange) {
+                  onLoadCountChange(loadCount);
+                }
+                
+                const newPage = page + loadCount;
+                setPageS(newPage);
+                setPage(newPage);
               }}
             >
               {isFetching && (
-                <img
-                  src={Loader}
-                  style={{
-                    transformOrigin: "bottom center",
-                    translate: "-35px 0",
-                  }}
-                  alt="Loader possible"
-                  className="ml-24 w-8 animate-[loading_1s_ease-in-out_infinite_alternate]"
-                />
+                <span className="inline-block w-6 h-6 border-2 border-white border-b-transparent mr-4 rounded-full animate-spin"></span>
               )}
               {_.load_more_results}
             </button>
