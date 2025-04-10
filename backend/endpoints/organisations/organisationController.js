@@ -22,7 +22,7 @@ const Post = require("../posts/postModel.js");
 
 function extraireDomaine(url) {
   const regex = /^(https?:\/\/)?([\w\d-]+\.)+[\w\d-]+/;
-  if(url) {
+  if (url) {
     const match = url.match(regex);
     return match ? match[0] : null;
   } else {
@@ -233,7 +233,9 @@ exports.getOrganisationsFromAirtable = async (req, res) => {
               source: organisation.source ? organisation.source : "",
               tier: organisation.tier ? organisation.tier : "",
               dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
-              postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
+              postsRelated: organisation.postsRelated
+                ? organisation.postsRelated
+                : "",
             });
           } else {
             const urla =
@@ -260,7 +262,9 @@ exports.getOrganisationsFromAirtable = async (req, res) => {
               source: organisation.source ? organisation.source : "",
               tier: organisation.tier ? organisation.tier : "",
               dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
-              postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
+              postsRelated: organisation.postsRelated
+                ? organisation.postsRelated
+                : "",
             });
           }
         } catch (e) {
@@ -365,7 +369,9 @@ exports.cronOrganisationsFromAirtable = async () => {
                 source: organisation.source ? organisation.source : "",
                 tier: organisation.tier ? organisation.tier : "",
                 dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
-                postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
+                postsRelated: organisation.postsRelated
+                  ? organisation.postsRelated
+                  : "",
               });
             } else {
               const urla =
@@ -396,7 +402,9 @@ exports.cronOrganisationsFromAirtable = async () => {
                 source: organisation.source ? organisation.source : "",
                 tier: organisation.tier ? organisation.tier : "",
                 dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
-                postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
+                postsRelated: organisation.postsRelated
+                  ? organisation.postsRelated
+                  : "",
               });
             }
           } else {
@@ -421,7 +429,9 @@ exports.cronOrganisationsFromAirtable = async () => {
               source: organisation.source ? organisation.source : "",
               tier: organisation.tier ? organisation.tier : "",
               dateAdded: organisation.dateAdded ? organisation.dateAdded : "",
-              postsRelated: organisation.postsRelated ? organisation.postsRelated : "",
+              postsRelated: organisation.postsRelated
+                ? organisation.postsRelated
+                : "",
             });
           }
           // console.log(domain_racine);
@@ -493,7 +503,8 @@ exports.getAllOrganisations = async (req, res) => {
     const allDataLength = await Organisation.find().count();
     const allQueryLength = await Organisation.find(queryObj)
       .sort({ dateAdded: -1, ...sort })
-      .select(fields).count();
+      .select(fields)
+      .count();
     const orgs = await Organisation.find(queryObj)
       .limit(limit * 1)
       .skip(_start ? _start : 0)
@@ -550,7 +561,9 @@ exports.getOrganisationById = async (req, res) => {
 
     // Populate postsRelated
     if (organisation.postsRelated) {
-      const posts = await Post.find({ postId: { $in: organisation.postsRelated } });
+      const posts = await Post.find({
+        postId: { $in: organisation.postsRelated },
+      });
       organisation.postsRelated = posts;
     }
 
@@ -573,6 +586,15 @@ exports.getOrganisationByName = async (req, res) => {
     const organisation = await Organisation.find({
       name: req.params.name,
     });
+
+    // Populate postsRelated
+    if (organisation.postsRelated) {
+      const posts = await Post.find({
+        postId: { $in: organisation.postsRelated },
+      });
+      organisation.postsRelated = posts;
+    }
+    
     if (!organisation.length)
       return res.status(404).json({ message: CustomUtils.consts.NOT_EXIST });
     res.status(200).json(organisation[0]);
