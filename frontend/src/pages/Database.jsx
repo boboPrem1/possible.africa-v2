@@ -216,84 +216,110 @@ export default function Database() {
   return (
     <>
       <Header page="/database" />
-      <div className="flex justify-center py-8">
-        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-3 justify-items-center items-center">
-          <div className="col-span-3 md:col-span-1 grid grid-cols-2 gap-2 mb-8 w-full md:w-9/12 h-[275px] justify-items-center items-center">
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_total_organisations}
+      <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Section des statistiques */}
+          <div className="mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
+              {_.database_title || "African Tech Ecosystem Overview"}
+            </h1>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="transform hover:scale-105 transition-transform duration-300">
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-primary/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full transform translate-x-8 -translate-y-8"></div>
+                  <h3 className="text-gray-600 font-medium mb-2">
+                    {_.database_total_organisations}
+                  </h3>
+                  <div className="text-4xl font-bold text-primary">
+                    {dashBoardData?.organisations?.all}
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mt-1">
-                {dashBoardData?.organisations?.all}
-              </div>
-            </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_sectors}
+              <div className="transform hover:scale-105 transition-transform duration-300">
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-primary/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full transform translate-x-8 -translate-y-8"></div>
+                  <h3 className="text-gray-600 font-medium mb-2">
+                    {_.database_sectors}
+                  </h3>
+                  <div className="text-4xl font-bold text-primary">
+                    {Object.keys(SUB_SECTORS).length}
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mt-1">
-                {Object.keys(SUB_SECTORS).length}
-              </div>
-            </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_covered_countries}
+              <div className="transform hover:scale-105 transition-transform duration-300">
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-primary/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full transform translate-x-8 -translate-y-8"></div>
+                  <h3 className="text-gray-600 font-medium mb-2">
+                    {_.database_covered_countries}
+                  </h3>
+                  <div className="text-4xl font-bold text-primary">
+                    {Object.keys(COUNTRIES).length}
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold mt-1">
-                {Object.keys(COUNTRIES).length}
-              </div>
-            </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_sub_sectors}
-              </div>
-              <div className="text-3xl font-bold mt-1">
-                {Object.keys(SUB_SECTORS).reduce(
-                  (acc, sector) => acc + SUB_SECTORS[sector].length,
-                  0
-                )}
+              <div className="transform hover:scale-105 transition-transform duration-300">
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-primary/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full transform translate-x-8 -translate-y-8"></div>
+                  <h3 className="text-gray-600 font-medium mb-2">
+                    {_.database_sub_sectors}
+                  </h3>
+                  <div className="text-4xl font-bold text-primary">
+                    {Object.keys(SUB_SECTORS).reduce(
+                      (acc, sector) => acc + SUB_SECTORS[sector].length,
+                      0
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="mb-8 md:pr-20 md:min-w-[675px] w-full col-span-3 md:col-span-1">
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] hidden md:block">
-              <ResponsiveCloropleth
-                style={{
-                  height: "550px",
-                  width: "100%",
-                }}
-                data={uniqueHeadquarters}
-              />
+          {/* Section de la carte et des graphiques */}
+          <div className="mb-12">
+            <div className="bg-white rounded-2xl overflow-hidden border border-primary/10 p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                {_.database_map_title || "African Tech Distribution"}
+              </h2>
+              <div className="h-[600px] hidden md:block max-w-5xl mx-auto">
+                <ResponsiveCloropleth
+                  style={{
+                    height: "600px",
+                    width: "100%",
+                    margin: "0 auto",
+                  }}
+                  data={uniqueHeadquarters}
+                />
+              </div>
             </div>
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] block md:hidden">
+
+            <div className="h-[400px] block md:hidden max-w-xl mx-auto">
               <MobileResponsiveCloropleth
                 style={{
                   height: "400px",
                   width: "100%",
+                  margin: "0 auto",
                 }}
                 data={uniqueHeadquarters}
               />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] w-full col-span-3 md:col-span-1">
-            <div className="p-4">
-              <div className="flex justify-between mb-2">
-                <div className="text-lg font-medium">By regions</div>
-                <div className="text-lg font-medium">By tiers</div>
-              </div>
-              <OrganisationsByRegionsByTier
-                byRegionsData={byRegionsData}
-                byTiersData={byTiersData}
-              />
+          {/* <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-primary/10 p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {_.database_distribution || "Distribution"}
+              </h2>
             </div>
-          </div>
+            <OrganisationsByRegionsByTier
+              byRegionsData={byRegionsData}
+              byTiersData={byTiersData}
+            />
+          </div> */}
 
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden col-span-3 w-11/12">
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden col-span-3 w-full justify-center items-center">
             <Organisations withoutHeader={true} />
           </div>
         </div>

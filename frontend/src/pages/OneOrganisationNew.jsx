@@ -40,7 +40,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
 
   useEffect(() => {
     if (data) {
-      // console.log(data);
+      console.log(data);
     }
   }, [isLoading, data]);
 
@@ -245,7 +245,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
-                <span>Ajouter un contact</span>
+                <span>Contacter l'organisation</span>
               </Link>
             </div>
 
@@ -257,7 +257,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
           </div>
         </div>
 
-        {/* Section des interactions */}
+        {/* Section des interactions
         <div className="mt-8 bg-white rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-800">Interactions</h2>
@@ -272,10 +272,10 @@ export default function OneOrganisation({ iconSx, backUrl }) {
                   Filtrer
                 </Button>
               </a>
-            </div> */}
+            </div> 
           </div>
           
-          {/* Liste des interactions - vide pour le moment */}
+          {/* Liste des interactions - vide pour le moment 
           <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-gray-200 rounded-xl">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -287,7 +287,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
               </Button>
             </Link>
           </div>
-        </div>
+        </div> */}
       </div>
       
       <Footer />
