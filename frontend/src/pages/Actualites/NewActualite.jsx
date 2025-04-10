@@ -853,7 +853,7 @@ function News() {
                       </div>
 
                       {/* Partenaire 2 */}
-                      <div
+                      {/* <div
                         className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 transform transition-all duration-300 hover:scale-105 hover:shadow-md"
                         style={{
                           animation: `floatDesktop 2.5s ease-in-out infinite alternate`,
@@ -870,7 +870,7 @@ function News() {
                         <div className="text-center text-primary font-medium text-sm mt-2">
                           Pyramid Africa
                         </div>
-                      </div>
+                      </div> */}
 
                       {/* Partenaire 3 */}
                       <div
