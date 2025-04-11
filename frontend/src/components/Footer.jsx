@@ -85,11 +85,11 @@ export const Footer = () => {
         setEditorContent("");
         setModalText("");
       } else {
-        console.log("Erreur lors de la création du ticket.");
+        // console.log("Erreur lors de la création du ticket.");
         setConfirmLoading(false);
       }
     } catch (error) {
-      console.log("Erreur lors de la création du ticket :", error);
+      // console.log("Erreur lors de la création du ticket :", error);
       setConfirmLoading(false);
     }
   };

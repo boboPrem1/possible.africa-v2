@@ -147,7 +147,7 @@ function Interviews() {
       </InfiniteScroll>
     );
   } else if (isError) {
-    console.log({ error });
+    // console.log({ error });
     return <div>{error.status}</div>;
   }
 

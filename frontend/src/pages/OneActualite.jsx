@@ -19,7 +19,7 @@ function OneActualite({ iconSx, backUrl, events }) {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
+      // console.log(data);
     }
   }, [isLoading]);
 

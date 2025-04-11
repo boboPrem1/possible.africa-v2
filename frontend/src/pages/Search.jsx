@@ -154,7 +154,7 @@ function Search() {
       );
     });
   } else if (isError) {
-    console.log({ error });
+    // console.log({ error });
     return <Box>{error.status}</Box>;
   }
   return (

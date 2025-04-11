@@ -15,7 +15,7 @@ import {
   LangTransContext,
   LangTransDispatchContext,
 } from "../langTransContext";
-import { logoPlaceholder, socialMedias } from "./NewOrganisations";
+
 import { Link } from "react-router-dom";
 
 function getDate(dateSended) {
@@ -30,6 +30,28 @@ function getDate(dateSended) {
   return `${day}/${month}`;
   // return `${day}/${month}/${year} à ${hours}:${minutes}`;
 }
+
+const socialMedias = [
+  "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
+  "https://api.possible.africa/storage/logos/linkedincom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtwittercom.jpg",
+  "https://api.possible.africa/storage/logos/twittercom.jpg",
+  "https://api.possible.africa/storage/logos/wwwfacebookcom.jpg",
+  "https://api.possible.africa/storage/logos/facebookcom.jpg",
+  "https://api.possible.africa/storage/logos/wwwinstagramcom.jpg",
+  "https://api.possible.africa/storage/logos/instagramcom.jpg",
+  "https://logo.clearbit.com/",
+  "https://api.possible.africa/storage/logos/wwwredditcom.jpg",
+  "https://api.possible.africa/storage/logos/workspacegooglecom.jpg",
+  "https://api.possible.africa/storage/logos/myaccountgooglecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwyoutubecom.jpg",
+  "https://api.possible.africa/storage/logos/youtubecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/tiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/iriswhoint.jpg",
+];
+const logoPlaceholder =
+  "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
 const Landing = () => {
   const lang_trans = useContext(LangTransContext);
@@ -53,7 +75,7 @@ const Landing = () => {
       // You can await here
       let data = await fetchResource("dashboard/lasts", {});
       setDashboardData(data);
-      console.log(data);
+      // console.log(data);
       // ...
     }
     fetchData();
@@ -118,12 +140,12 @@ Retourne uniquement le JSON, sans texte additionnel.`;
       }
 
       const data = await response.json();
-      console.log("AI Response:", data.completion);
+      // console.log("AI Response:", data.completion);
 
       try {
         // Tenter de parser la réponse JSON
         const parsedLeads = JSON.parse(data.completion);
-        console.log("Parsed Leads:", parsedLeads);
+        // console.log("Parsed Leads:", parsedLeads);
         setLeads(parsedLeads.leads);
         setShowLeadsModal(true);
       } catch (parseError) {

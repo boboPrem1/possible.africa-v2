@@ -373,7 +373,7 @@ const subSectors = {
   ],
 };
 
-export const socialMedias = [
+const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
   "https://api.possible.africa/storage/logos/linkedincom.jpg",
   "https://api.possible.africa/storage/logos/wwwtwittercom.jpg",
@@ -392,7 +392,7 @@ export const socialMedias = [
   "https://api.possible.africa/storage/logos/tiktokcom.jpg",
   "https://api.possible.africa/storage/logos/iriswhoint.jpg",
 ];
-export const logoPlaceholder =
+const logoPlaceholder =
   "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
 function pageEqReducer(state, action) {
@@ -443,7 +443,7 @@ function pageEqReducer(state, action) {
       ];
       break;
     default:
-      console.log("undefined action");
+      // console.log("undefined action");
       break;
   }
   return [...state];
@@ -614,7 +614,7 @@ function Organisations({
             // Réinitialiser le compteur de tentatives car nous avons trouvé l'élément
             sessionStorage.removeItem('loadAttempt');
           } else {
-            console.log(`Élément avec ID ${focusOrgId} non trouvé dans la page actuelle.`);
+            // console.log(`Élément avec ID ${focusOrgId} non trouvé dans la page actuelle.`);
             
             // Si nous n'avons pas atteint le nombre maximum de pages et que nous ne sommes pas déjà en train de charger
             // Vérifier si nous avons déjà tenté de charger plusieurs fois
@@ -622,7 +622,7 @@ function Organisations({
             const currentAttempt = parseInt(sessionStorage.getItem('loadAttempt') || '0');
             
             if (currentAttempt < maxLoadAttempts && !isFetching) {
-              console.log(`Tentative ${currentAttempt + 1}/${maxLoadAttempts} de chargement de plus de pages pour trouver ${focusOrgId}`);
+              // console.log(`Tentative ${currentAttempt + 1}/${maxLoadAttempts} de chargement de plus de pages pour trouver ${focusOrgId}`);
               sessionStorage.setItem('loadAttempt', (currentAttempt + 1).toString());
               
               // Charger plus de pages
@@ -635,7 +635,7 @@ function Organisations({
                 onLoadCountChange(loadCount);
               }
             } else if (currentAttempt >= maxLoadAttempts) {
-              console.log(`Nombre maximum de tentatives atteint (${maxLoadAttempts}). Impossible de trouver ${focusOrgId}`);
+              // console.log(`Nombre maximum de tentatives atteint (${maxLoadAttempts}). Impossible de trouver ${focusOrgId}`);
               // Réinitialiser le compteur pour les futures tentatives
               sessionStorage.removeItem('loadAttempt');
             }
@@ -773,10 +773,10 @@ function Organisations({
             {/* Show country filter indicator if active */}
             {/* {renderActiveCountryFilter()} */}
             {/* Bouton pour ouvrir le modal des filtres */}
-            <div className="w-full flex justify-center md:justify-end items-center mb-4">
+            <div className="w-full flex justify-center md:justify-end items-center mb-4 relative">
               <button
                 onClick={() => setShowFilterModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300"
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300 absolute top-5 right-1 z-30"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -790,7 +790,7 @@ function Organisations({
                     clipRule="evenodd"
                   />
                 </svg>
-                Filtres
+                <span className="text-sm font-bold">Filtres</span>
                 {hasActiveFilters() && (
                   <span className="inline-flex items-center justify-center w-5 h-5 ml-1 text-xs font-semibold text-white bg-darkPrimary rounded-full">
                     {pageEqS.filter((eq) => eq.value !== "").length}
@@ -1395,7 +1395,7 @@ function Organisations({
             <button
               className="w-full h-[45px] flex justify-center items-center bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
-                console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
+                // console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
                 
                 // Notifier le parent du changement
                 if (onLoadCountChange) {
@@ -1471,7 +1471,7 @@ function Organisations({
             <button
               className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
-                console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
+                // console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
                 
                 // Notifier le parent du changement
                 if (onLoadCountChange) {
@@ -1558,7 +1558,7 @@ function Tr({ org, date, _ }) {
     const plusLength = plusLengthRand >= 1 ? plusLengthRand : 1;
     const initials = [];
 
-    console.log(initialLength, plusLength);
+    // console.log(initialLength, plusLength);
 
     for (let i = 0; i < initialLength; i++) {
       const name = names[Math.floor(Math.random() * names.length)];

@@ -21,7 +21,29 @@ import tierSolid from "../assets/icons/tier.svg";
 import filterSolid from "../assets/icons/filter-solid.svg";
 import xmarkSolid from "../assets/icons/xmark-solid.svg";
 import headquarterSolid from "../assets/icons/building-flag-solid.svg";
-import { logoPlaceholder, socialMedias } from "./NewOrganisations.jsx";
+
+
+const socialMedias = [
+  "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
+  "https://api.possible.africa/storage/logos/linkedincom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtwittercom.jpg",
+  "https://api.possible.africa/storage/logos/twittercom.jpg",
+  "https://api.possible.africa/storage/logos/wwwfacebookcom.jpg",
+  "https://api.possible.africa/storage/logos/facebookcom.jpg",
+  "https://api.possible.africa/storage/logos/wwwinstagramcom.jpg",
+  "https://api.possible.africa/storage/logos/instagramcom.jpg",
+  "https://logo.clearbit.com/",
+  "https://api.possible.africa/storage/logos/wwwredditcom.jpg",
+  "https://api.possible.africa/storage/logos/workspacegooglecom.jpg",
+  "https://api.possible.africa/storage/logos/myaccountgooglecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwyoutubecom.jpg",
+  "https://api.possible.africa/storage/logos/youtubecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/tiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/iriswhoint.jpg",
+];
+const logoPlaceholder =
+  "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
 const countries = {
   all: [
@@ -423,7 +445,7 @@ function pageEqReducer(state, action) {
       ];
       break;
     default:
-      console.log("undefined action");
+      // console.log("undefined action");
       break;
   }
   return [...state];

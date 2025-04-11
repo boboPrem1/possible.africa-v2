@@ -17,7 +17,7 @@ export function ParseSlice(content){
  const parseOptions = {
   replace: (domNode) => {
     if (domNode.data && domNode.data.includes("iframe")) {
-      console.log(domNode.data);
+      // console.log(domNode.data);
       // create a new iframe element with the string
       return(parse(domNode.data));
      }

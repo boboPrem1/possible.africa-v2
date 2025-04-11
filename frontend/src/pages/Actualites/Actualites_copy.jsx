@@ -26,7 +26,28 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import NoData from "../../utils/NoData.jsx";
 import CenteredContainer from "../../utils/CenteredContainer.jsx";
 import { NoMoreDataToLoad } from "../../components/noMoreDataToLoad.jsx";
-import { logoPlaceholder, socialMedias } from "../NewOrganisations.jsx";
+
+const socialMedias = [
+  "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
+  "https://api.possible.africa/storage/logos/linkedincom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtwittercom.jpg",
+  "https://api.possible.africa/storage/logos/twittercom.jpg",
+  "https://api.possible.africa/storage/logos/wwwfacebookcom.jpg",
+  "https://api.possible.africa/storage/logos/facebookcom.jpg",
+  "https://api.possible.africa/storage/logos/wwwinstagramcom.jpg",
+  "https://api.possible.africa/storage/logos/instagramcom.jpg",
+  "https://logo.clearbit.com/",
+  "https://api.possible.africa/storage/logos/wwwredditcom.jpg",
+  "https://api.possible.africa/storage/logos/workspacegooglecom.jpg",
+  "https://api.possible.africa/storage/logos/myaccountgooglecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwyoutubecom.jpg",
+  "https://api.possible.africa/storage/logos/youtubecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/tiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/iriswhoint.jpg",
+];
+const logoPlaceholder =
+  "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
 function ActualitesCopy() {
   const [page, setPage] = useState(1);

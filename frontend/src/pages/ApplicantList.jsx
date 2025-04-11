@@ -53,7 +53,7 @@ const ApplicantList = () => {
         });
         const candidateData = response.data.records;
         setData(candidateData);
-        console.log("Data fetched successfully:", candidateData);
+        // console.log("Data fetched successfully:", candidateData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

@@ -26,10 +26,31 @@ import NoData from "../utils/NoData";
 import { useGetOrganisationByNameQuery } from "../features/api/apiSlice";
 import { useEffect, useContext } from "react";
 import Loader from "../assets/icons/loader.svg";
-import Organisations, { logoPlaceholder } from "./NewOrganisations";
 import ArrowLeftSolidCustomIcon from "../components/icons/ArrowLeftSolidCustomIcon";
 import SimilarOrganizations from "../components/SimilarOrganizations";
 import { LangTransContext } from "../langTransContext";
+
+const socialMedias = [
+  "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
+  "https://api.possible.africa/storage/logos/linkedincom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtwittercom.jpg",
+  "https://api.possible.africa/storage/logos/twittercom.jpg",
+  "https://api.possible.africa/storage/logos/wwwfacebookcom.jpg",
+  "https://api.possible.africa/storage/logos/facebookcom.jpg",
+  "https://api.possible.africa/storage/logos/wwwinstagramcom.jpg",
+  "https://api.possible.africa/storage/logos/instagramcom.jpg",
+  "https://logo.clearbit.com/",
+  "https://api.possible.africa/storage/logos/wwwredditcom.jpg",
+  "https://api.possible.africa/storage/logos/workspacegooglecom.jpg",
+  "https://api.possible.africa/storage/logos/myaccountgooglecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwyoutubecom.jpg",
+  "https://api.possible.africa/storage/logos/youtubecom.jpg",
+  "https://api.possible.africa/storage/logos/wwwtiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/tiktokcom.jpg",
+  "https://api.possible.africa/storage/logos/iriswhoint.jpg",
+];
+const logoPlaceholder =
+  "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
 export default function OneOrganisation({ iconSx, backUrl }) {
   const { name } = useParams();
@@ -43,7 +64,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
+      // console.log(data);
     }
   }, [isLoading, data]);
 

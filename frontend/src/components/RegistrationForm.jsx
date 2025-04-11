@@ -64,7 +64,7 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
 
     const apiKey = import.meta.env.VITE_AIRTABLE_API_KEY;
     const baseId = import.meta.env.VITE_AIRTABLE_BASE_ID;
@@ -84,7 +84,7 @@ const RegistrationForm = () => {
           },
         }
       );
-      console.log("Data submitted successfully:", response.data);
+      // console.log("Data submitted successfully:", response.data);
       showToast("Data submitted successfully!", "success");
     } catch (error) {
       console.error("Error submitting data:", error.message);

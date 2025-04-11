@@ -81,7 +81,7 @@ function Emplois() {
       );
     });
   } else if (isError) {
-    console.log({ error });
+    // console.log({ error });
     return <div>{error.status}</div>;
   }
   return <CustomContainer content={content || "Pas de contenu"} />;

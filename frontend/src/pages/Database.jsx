@@ -304,7 +304,7 @@ function DatabaseContent() {
     <>
       <Header page="/database" />
       <div className="flex justify-center py-8">
-        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-12 gap-6 justify-items-center items-center">
+        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-12 gap-x-6 gap-y-20 justify-items-center items-center">
           {/* Stats cards - 3 colonnes sur grand écran */}
           <div className="col-span-12 md:col-span-4 grid grid-cols-2 gap-5 w-full md:w-full h-auto">
             <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
