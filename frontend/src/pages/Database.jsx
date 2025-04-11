@@ -202,51 +202,44 @@ function DatabaseContent() {
       {
         id: uniqueRegions[0]._id || "_",
         label: uniqueRegions[0]._id || "_",
-        // value: Math.round((uniqueRegions[0].count * 100) / totalRegions),
         value: uniqueRegions[0].count,
-        color: "hsl(110, 61%, 43%)",
+        color: "#2f7de1", // Bleu
       },
       {
         id: uniqueRegions[1]._id || "_",
         label: uniqueRegions[1]._id || "_",
-        // value: Math.round((uniqueRegions[1].count * 100) / totalRegions),
         value: uniqueRegions[1].count,
-        color: "hsl(171, 61%, 43%)",
+        color: "#37c172", // Vert
       },
       {
         id: uniqueRegions[2]._id || "_",
         label: uniqueRegions[2]._id || "_",
-        // value: Math.round((uniqueRegions[2].count * 100) / totalRegions),
         value: uniqueRegions[2].count,
-        color: "hsl(215, 100%, 79%)",
+        color: "#f6993f", // Orange
       },
       {
         id: uniqueRegions[3]._id || "_",
         label: uniqueRegions[3]._id || "_",
-        // value: Math.round((uniqueRegions[3].count * 100) / totalRegions),
         value: uniqueRegions[3].count,
-        color: "hsl(165, 5%, 15%)",
+        color: "#9561e2", // Violet
       },
       {
         id: uniqueRegions[4]._id || "_",
         label: uniqueRegions[4]._id || "_",
-        // value: Math.round((uniqueRegions[4].count * 100) / totalRegions),
         value: uniqueRegions[4].count,
-        color: "hsl(216, 64%, 81%)",
+        color: "#e3342f", // Rouge
       },
       {
         id: uniqueRegions[5]._id || "_",
         label: uniqueRegions[5]._id || "_",
-        // value: Math.round((uniqueRegions[5].count * 100) / totalRegions),
         value: uniqueRegions[5].count,
-        color: "hsl(306, 64%, 81%)",
+        color: "#6574cd", // Indigo
       },
       {
         id: uniqueRegions[6]._id || "_",
         label: uniqueRegions[6]._id || "_",
-        // value: Math.round((uniqueRegions[6].count * 100) / totalRegions),
         value: uniqueRegions[6].count,
-        color: "hsl(106, 64%, 81%)",
+        color: "#ffed4a", // Jaune
       },
     ];
   }
@@ -256,37 +249,32 @@ function DatabaseContent() {
       {
         id: uniqueTiers[0]._id || "_",
         label: uniqueTiers[0]._id || "_",
-        // value: Math.round((uniqueTiers[0].count * 100) / totalTiers),
         value: uniqueTiers[0].count,
-        color: "hsl(110, 61%, 43%)",
+        color: "#2f7de1", // Bleu
       },
       {
         id: uniqueTiers[1]._id || "_",
         label: uniqueTiers[1]._id || "_",
-        // value: Math.round((uniqueTiers[1].count * 100) / totalTiers),
         value: uniqueTiers[1].count,
-        color: "hsl(171, 61%, 43%)",
+        color: "#37c172", // Vert
       },
       {
         id: uniqueTiers[2]._id || "_",
         label: uniqueTiers[2]._id || "_",
-        // value: Math.round((uniqueTiers[2].count * 100) / totalTiers),
         value: uniqueTiers[2].count,
-        color: "hsl(215, 100%, 79%)",
+        color: "#f6993f", // Orange
       },
       {
         id: uniqueTiers[3]._id || "_",
         label: uniqueTiers[3]._id || "_",
-        // value: Math.round((uniqueTiers[3].count * 100) / totalTiers),
         value: uniqueTiers[3].count,
-        color: "hsl(165, 5%, 15%)",
+        color: "#9561e2", // Violet
       },
       {
         id: uniqueTiers[4]._id || "_",
         label: uniqueTiers[4]._id || "_",
-        // value: Math.round((uniqueTiers[4].count * 100) / totalTiers),
         value: uniqueTiers[4].count,
-        color: "hsl(216, 64%, 81%)",
+        color: "#e3342f", // Rouge
       },
     ];
   }
@@ -316,9 +304,10 @@ function DatabaseContent() {
     <>
       <Header page="/database" />
       <div className="flex justify-center py-8">
-        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-3 justify-items-center items-center">
-          <div className="col-span-3 md:col-span-1 grid grid-cols-2 gap-2 mb-8 w-full md:w-9/12 h-[275px] justify-items-center items-center">
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
+        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-12 gap-6 justify-items-center items-center">
+          {/* Stats cards - 3 colonnes sur grand écran */}
+          <div className="col-span-12 md:col-span-4 grid grid-cols-2 gap-5 w-full md:w-full h-auto">
+            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_total_organisations}
               </div>
@@ -327,7 +316,7 @@ function DatabaseContent() {
               </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
+            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_sectors}
               </div>
@@ -336,7 +325,7 @@ function DatabaseContent() {
               </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
+            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_covered_countries}
               </div>
@@ -345,7 +334,7 @@ function DatabaseContent() {
               </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-11/12 md:w-[200px] h-[125px]">
+            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_sub_sectors}
               </div>
@@ -358,7 +347,8 @@ function DatabaseContent() {
             </div>
           </div>
 
-          <div className="mb-8 md:pr-20 md:min-w-[675px] w-full col-span-3 md:col-span-1">
+          {/* Carte choroplèthe - 6 colonnes sur grand écran - maintenant au milieu */}
+          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-sm h-[550px] w-full">
             <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] hidden md:block">
               <ResponsiveCloropleth
                 style={{
@@ -383,21 +373,33 @@ function DatabaseContent() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[400px] w-full col-span-3 md:col-span-1">
-            <div className="p-4">
-              <div className="flex justify-between h-3">
-                {/* <div className="text-lg font-medium">By regions</div>
-                <div className="text-lg font-medium">By tiers</div> */}
-              </div>
-              <OrganisationsByRegionsByTier
-                byRegionsData={byRegionsData}
-                byTiersData={byTiersData}
-              />
+          {/* Donut chart - 3 colonnes sur grand écran */}
+          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-sm h-[450px] w-full">
+            <div className="p-4 h-full flex flex-col" style={{ position: "relative", overflow: "hidden" }}>
+              <h3 className="text-lg font-semibold text-center text-gray-800 mb-2">
+                {_.analytics_title || "Analyse des organisations"}
+              </h3>
+              {!byRegionsData || !byTiersData ? (
+                <div className="flex-1 flex items-center justify-center text-gray-500">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary mx-auto mb-0"></div>
+                    <p>{_.loading_data || "Chargement des données..."}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1" style={{ position: "relative" }}>
+                  <OrganisationsByRegionsByTier
+                    byRegionsData={byRegionsData}
+                    byTiersData={byTiersData}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden col-span-3 w-11/12">
-            <div className="flex justify-end p-4">
+          {/* Table des organisations - pleine largeur */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden col-span-12 w-full">
+            {/* <div className="flex justify-end p-4">
               <div className="flex items-center gap-2">
                 <label htmlFor="loadCount" className="text-sm font-medium text-gray-700">
                   {_.load_more_results_count || "Nombre de pages à charger :"}
@@ -414,7 +416,7 @@ function DatabaseContent() {
                   <option value="10">10</option>
                 </select>
               </div>
-            </div>
+            </div> */}
             <Organisations 
               withoutHeader={true} 
               loadCount={loadCount}
