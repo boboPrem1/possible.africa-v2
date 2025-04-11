@@ -45,6 +45,7 @@ const Landing = () => {
   const [showLeadsModal, setShowLeadsModal] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
+  const [topTenNews, setTopTenNews] = useState([]);
 
   useEffect(() => {
     let data;
@@ -60,6 +61,10 @@ const Landing = () => {
 
   useEffect(() => {
     if (dashBoardData) {
+      let topTenNews = dashBoardData.topTenNews?.[0]?.articles;
+      topTenNews.length >= 11 ? topTenNews = topTenNews.slice(0, 11) : topTenNews = [...topTenNews, ...dashBoardData.topTenNews?.[1]?.articles?.slice(0, 11 - topTenNews.length)];
+      setTopTenNews(topTenNews);
+      // console.log(topTenNews);
       setIsLoading(false);
     }
   }, [dashBoardData]);
@@ -207,12 +212,24 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                   <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary via-primary to-darkPrimary animate-gradient-x"></span>
                   <span className="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition-all duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-white opacity-10 group-hover:rotate-90 ease rounded-full animate-pulse-slow"></span>
                   <span className="absolute top-0 left-0 w-10 h-full bg-white opacity-10 transform -skew-x-20 animate-shimmer"></span>
-                  
+
                   <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary to-darkPrimary opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
-                  <span className="absolute -inset-1 rounded-full blur-sm opacity-30 animate-pulse-slow bg-primary"></span><span className="relative flex items-center text-white">
+                  <span className="absolute -inset-1 rounded-full blur-sm opacity-30 animate-pulse-slow bg-primary"></span>
+                  <span className="relative flex items-center text-white">
                     {_.landing_hero_cta_primary}
-                    <svg className="w-5 h-5 ml-2 transform transition-transform duration-300 ease-out animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    <svg
+                      className="w-5 h-5 ml-2 transform transition-transform duration-300 ease-out animate-bounce-x"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      ></path>
                     </svg>
                   </span>
                 </Link>
@@ -505,34 +522,49 @@ Retourne uniquement le JSON, sans texte additionnel.`;
             animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           }
           @keyframes shimmer {
-            0% { transform: translateX(-100%) skewX(-20deg); }
-            100% { transform: translateX(200%) skewX(-20deg); }
+            0% {
+              transform: translateX(-100%) skewX(-20deg);
+            }
+            100% {
+              transform: translateX(200%) skewX(-20deg);
+            }
           }
-          
+
           @keyframes bounce-x {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(3px); }
+            0%,
+            100% {
+              transform: translateX(0);
+            }
+            50% {
+              transform: translateX(3px);
+            }
           }
-          
+
           @keyframes gradient-x {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+              background-position: 0% 50%;
+            }
+            50% {
+              background-position: 100% 50%;
+            }
+            100% {
+              background-position: 0% 50%;
+            }
           }
-          
+
           .animate-shimmer {
             animation: shimmer 2s infinite;
           }
-          
+
           .animate-bounce-x {
             animation: bounce-x 1.5s infinite;
           }
-          
+
           .animate-gradient-x {
             background-size: 200% 200%;
             animation: gradient-x 3s ease infinite;
           }
-          
+
           .animate-pulse-slow {
             animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
           }
@@ -582,7 +614,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 {/* {dashBoardData.posts?.lastByLang[lang].map((post) => {
                   return <New post={post} />;
                 })} */}
-                {dashBoardData.topTenNews?.[0]?.articles?.map((post) => {
+                {topTenNews?.map((post) => {
                   return <New post={post} />;
                 })}
               </div>
@@ -658,9 +690,9 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                             EXA
                           </h3>
                           <p className="text-gray-600">
-                    {_.landing_service_exa}
+                            {_.landing_service_exa}
                           </p>
-                </div>
+                        </div>
                         <div className="bg-primary-50 p-3 text-center">
                           <Link
                             to="https://expand-in-africa.com/"
@@ -713,8 +745,8 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                     <div className="bg-white rounded-xl shadow-sm h-full overflow-hidden border border-gray-100">
                       <div className="flex flex-col h-full">
                         <div className="p-5 md:p-8 bg-gradient-to-r from-primary-50 to-white flex items-center justify-center h-[120px] md:h-[160px]">
-                    <img
-                      src={AfricanTechIndustry}
+                          <img
+                            src={AfricanTechIndustry}
                             alt="African Tech Industry"
                             className="h-16 md:h-20 w-auto object-contain"
                           />
@@ -724,9 +756,9 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                             African Tech Industry
                           </h3>
                           <p className="text-gray-600">
-                    {_.landing_service_african_tech}
+                            {_.landing_service_african_tech}
                           </p>
-                </div>
+                        </div>
                         <div className="bg-primary-50 p-3 text-center">
                           <a
                             href="https://www.africantechindustry.com/african-tech-industry"
@@ -757,7 +789,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                             Yprlink
                           </h3>
                           <p className="text-gray-600">
-                    {_.landing_service_yprlink}
+                            {_.landing_service_yprlink}
                           </p>
                         </div>
                         <div className="bg-primary-50 p-3 text-center">
@@ -776,7 +808,10 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 </div>
 
                 <div className="mt-10 text-center">
-                  <Link to="mailto:benjamin.bonnell@expand-in-africa.com" className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-colors shadow-sm hover:shadow">
+                  <Link
+                    to="mailto:benjamin.bonnell@expand-in-africa.com"
+                    className="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-colors shadow-sm hover:shadow"
+                  >
                     Devenir partenaire
                   </Link>
                 </div>
@@ -847,19 +882,19 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                           </span>
                           <span className="px-2 py-1 bg-blue-50 rounded-full">
                             {lead.country}
-                  </span>
-                </div>
-              </div>
+                          </span>
+                        </div>
+                      </div>
                       <div className="flex items-center">
                         <div className="text-right">
                           <div className="text-xs text-gray-500">
                             Score de similarité
-            </div>
+                          </div>
                           <div className="font-semibold text-primary">
                             {lead.similarity_score}%
-          </div>
-        </div>
-      </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <p className="mt-3 text-sm text-gray-600">{lead.reason}</p>
                   </div>
@@ -976,12 +1011,12 @@ const New = ({ post }) => {
                 ? logoPlaceholder
                 : post?.logo?.[0]?.url
             }
-          onError={(e) => {
-            e.target.src = logoPlaceholder;
-          }}
-          alt={`media img's logo`}
-          className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
-        />
+            onError={(e) => {
+              e.target.src = logoPlaceholder;
+            }}
+            alt={`media img's logo`}
+            className="w-10 h-10 min-w-10 min-h-10 md:w-14 md:h-14 md:min-w-14 md:min-h-14 rounded-md"
+          />
         ) : (
           <img
             src={logoPlaceholder}
@@ -1206,7 +1241,7 @@ const PartnerCarousel = ({ partners }) => {
                 strokeLinejoin="round"
               >
                 <path d="M15 18l-6-6 6-6" />
-    </svg>
+              </svg>
             </button>
             <button
               onClick={() =>
@@ -1339,57 +1374,57 @@ export const Header = ({ page }) => {
                 </button>
               </div>
               <div className="flex flex-col py-4 overflow-y-auto">
-              <Link
-                to="/"
+                <Link
+                  to="/"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
                     page === "/"
                       ? "font-bold text-primary border-l-4 border-primary"
                       : "border-l-4 border-transparent"
-                }`}
-              >
-                {_.header_link_home}
-              </Link>
-              <Link
-                to="/news"
+                  }`}
+                >
+                  {_.header_link_home}
+                </Link>
+                <Link
+                  to="/news"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                  page === "/news"
+                    page === "/news"
                       ? "font-bold text-primary border-l-4 border-primary"
                       : "border-l-4 border-transparent"
-                }`}
-              >
-                {_.header_link_news}
-              </Link>
-              <Link
-                to="/database"
+                  }`}
+                >
+                  {_.header_link_news}
+                </Link>
+                <Link
+                  to="/database"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                  page === "/database"
+                    page === "/database"
                       ? "font-bold text-primary border-l-4 border-primary"
                       : "border-l-4 border-transparent"
-                }`}
-              >
-                {_.header_link_database}
-              </Link>
-              <Link
+                  }`}
+                >
+                  {_.header_link_database}
+                </Link>
+                <Link
                   to="https://pyramid.possible.africa"
-                target="_blank"
+                  target="_blank"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
                     page === "https://pyramid.possible.africa"
                       ? "font-bold text-primary border-l-4 border-primary"
                       : "border-l-4 border-transparent"
-                }`}
-              >
-                Sales Platform
-              </Link>
-              <Link
-                to="https://yprlink.africa"
+                  }`}
+                >
+                  Sales Platform
+                </Link>
+                <Link
+                  to="https://yprlink.africa"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                  page === "https://yprlink.africa"
+                    page === "https://yprlink.africa"
                       ? "font-bold text-primary border-l-4 border-primary"
                       : "border-l-4 border-transparent"
-                }`}
-              >
-                Yperlink
-              </Link>
+                  }`}
+                >
+                  Yperlink
+                </Link>
 
                 <Link
                   to="https://pyramid.possible.africa/database/create-campaign"
@@ -1489,7 +1524,7 @@ export const Header = ({ page }) => {
               Yprlink
             </Link>
           </nav>
-          </div>
+        </div>
 
         {/* Right side */}
         <div className="flex items-center gap-x-3 md:gap-x-4 lg:gap-x-6">
@@ -1497,19 +1532,19 @@ export const Header = ({ page }) => {
             Connect AfricaTech Ecosystem
           </p>
           <div className="hidden md:flex items-center">
-          <select
-            defaultValue={lang}
+            <select
+              defaultValue={lang}
               className="px-4 py-1.5 rounded-md bg-primary-50 text-primary font-medium border border-primary/20 hover:border-primary/50 transition-colors outline-none cursor-pointer"
-            onChange={(e) => {
-              dispatch({
-                type: "change",
-                lang: e.target.value,
-              });
-            }}
-          >
-            <option value="en">EN</option>
-            <option value="fr">FR</option>
-          </select>
+              onChange={(e) => {
+                dispatch({
+                  type: "change",
+                  lang: e.target.value,
+                });
+              }}
+            >
+              <option value="en">EN</option>
+              <option value="fr">FR</option>
+            </select>
           </div>
 
           <Link
@@ -1528,11 +1563,11 @@ export const Header = ({ page }) => {
             className="lg:hidden flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
             aria-label="Menu"
           >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
-                viewBox="0 0 24 24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -1542,7 +1577,7 @@ export const Header = ({ page }) => {
               <line x1="3" y1="12" x2="21" y2="12"></line>
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
+            </svg>
           </button>
         </div>
       </div>
@@ -1584,8 +1619,8 @@ export const Footer = () => {
                   }}
                   whileTap={{ scale: 0.9 }}
                 >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
                     fill="currentColor"
@@ -1613,14 +1648,14 @@ export const Footer = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
-                  fill="currentColor"
+                    fill="currentColor"
                     viewBox="0 0 16 16"
                   >
                     <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
-              </svg>
+                  </svg>
                 </motion.div>
               </a>
-          </div>
+            </div>
           </div>
 
           <div>
@@ -1661,7 +1696,7 @@ export const Footer = () => {
                 </a>
               </li>
             </ul>
-        </div>
+          </div>
 
           <div>
             <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
@@ -1701,7 +1736,7 @@ export const Footer = () => {
                 </a>
               </li>
             </ul>
-      </div>
+          </div>
 
           <div>
             <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
@@ -1730,7 +1765,7 @@ export const Footer = () => {
                 <option value="en">English</option>
                 <option value="fr">Français</option>
               </select>
-    </div>
+            </div>
           </div>
         </div>
         <div className="border-t border-gray-200 mt-8 pt-8 text-center">
