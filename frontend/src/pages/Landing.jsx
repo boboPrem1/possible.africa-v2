@@ -205,7 +205,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
               </p>
               <div className="mt-6 md:mt-8 flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
                 <Link
-                  to="https://pyramid.possible.africa/login"
+                  to="https://pyramid.possible.africa/auth/login"
                   target="_blank"
                   className="group relative inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 overflow-hidden font-bold text-white text-sm md:text-base rounded-full bg-gradient-to-r from-primary to-darkPrimary shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 active:scale-95 animate-pulse hover:animate-none"
                 >
