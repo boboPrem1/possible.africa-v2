@@ -249,7 +249,7 @@ export const DonutChart = ({
                 width="40" 
                 height="24" 
                 rx="4" 
-                fill="rgba(0,0,0,0.3)" 
+                fill="rgba(255, 255, 255, 1)" 
               />
               <text
                 textAnchor="middle"
@@ -261,110 +261,111 @@ export const DonutChart = ({
                   textShadow: "0px 1px 2px rgba(0, 0, 0, 0.5)",
                 }}
               >
-                {datum.value}
-              </text>
-            </g>
-          )}
-          legends={[
-            {
-              anchor: "right",
-              direction: "column",
-              translateX: 100,
-              translateY: 0,
-              itemWidth: 110,
-              itemHeight: 20,
-              itemsSpacing: 10,
-              itemTextColor: "#444",
-              symbolSize: 15,
-              symbolShape: "circle",
-              effects: [
-                {
-                  on: "hover",
-                  style: {
-                    itemTextColor: "#2BB19C",
-                    symbolSize: 17
-                  },
-                },
-              ],
-              itemComponent: ({ label, color, value }) => (
-                <div style={{ 
-                  display: "flex", 
-                  alignItems: "center",
-                  padding: "3px 5px",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  paddingLeft: "10px",
-                  border: "5px solid #000000"
-                }}>
-                  <span
-                    style={{
-                      display: "block",
-                      width: 12,
-                      height: 12,
-                      backgroundColor: color,
-                      borderRadius: "50%",
-                      marginRight: 8,
-                      boxShadow: "0 0 3px rgba(0,0,0,0.2)"
-                    }}
-                  />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span style={{ 
-                      fontSize: "11px", 
-                      fontWeight: 600, 
-                      whiteSpace: "nowrap", 
-                      overflow: "hidden", 
-                      textOverflow: "ellipsis",
-                      color: "#444"
-                    }}>
-                      {label.length > 20 ? `${label.substring(0, 18)}...` : label}
-                    </span>
-                    <span style={{ fontSize: "10px", color: "#777" }}>
-                      {value} ({((value / total) * 100).toFixed(1)}%)
-                    </span>
-                  </div>
-                </div>
-              ),
-            },
-          ]}
-          tooltip={({ datum }) => (
-            <div
-              style={{
-                background: "white",
-                padding: "10px 14px",
-                border: "1px solid #e0e0e0",
-                borderRadius: "6px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                fontSize: "12px",
-                fontWeight: 500,
-              }}
-            >
-              <div style={{ 
-                color: datum.color, 
-                fontWeight: 700, 
-                marginBottom: "5px",
-                fontSize: "14px"
-              }}>
-                {datum.label}
-              </div>
-              <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: "12px"
-              }}>
-                <span>
-                  <strong style={{ fontSize: "13px" }}>{datum.value}</strong> {_?.organisations || "organisations"}
-                </span>
-                <span style={{
-                  background: "#f5f5f5",
-                  padding: "3px 8px",
-                  borderRadius: "12px",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  color: "#2BB19C"
-                }}>
-                  {((datum.value / total) * 100).toFixed(1)}%
-                </span>
+                {/* {datum.value} */}
+                </text>
+                        </g>
+                      )}
+                      legends={[
+                      {
+                        anchor: "right",
+                        direction: "column",
+                        translateX: 125, // Increased from 100 to 125 to add more spacing
+                        translateY: 0,
+                        itemWidth: 110,
+                        itemHeight: 20,
+                        itemsSpacing: 10,
+                        itemTextColor: "#444",
+                        symbolSize: 15,
+                        symbolShape: "circle",
+                        effects: [
+                        {
+                          on: "hover",
+                          style: {
+                          itemTextColor: "#2BB19C",
+                          symbolSize: 17
+                          },
+                        },
+                        ],
+                        itemComponent: ({ label, color, value }) => (
+                        <div style={{ 
+                          display: "flex", 
+                          alignItems: "center",
+                          padding: "3px 5px",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                          paddingLeft: "10px",
+                          border: "5px solid #000000"
+                        }}>
+                          <span
+                          style={{
+                            display: "block",
+                            width: 12,
+                            height: 12,
+                            backgroundColor: color,
+                            borderRadius: "50%",
+                            marginRight: 8,
+                            boxShadow: "0 0 3px rgba(0,0,0,0.2)"
+                          }}
+                          />
+                          <div style={{ display: "flex", flexDirection: "column" }}>
+                          <span style={{ 
+                            fontSize: "11px", 
+                            fontWeight: 600, 
+                            whiteSpace: "nowrap", 
+                            overflow: "hidden", 
+                            textOverflow: "ellipsis",
+                            color: "#444"
+                          }}>
+                            {label.length > 20 ? `${label.substring(0, 18)}...` : label}
+                          </span>
+                          <span style={{ fontSize: "10px", color: "#777" }}>
+                            {value} ({((value / total) * 100).toFixed(1)}%)
+                          </span>
+                          </div>
+                        </div>
+                        ),
+                      },
+                      ]}
+                      tooltip={({ datum }) => (
+                      <div
+                        style={{
+                        background: "white",
+                        padding: "10px 14px",
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "6px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        zIndex: 999,
+                        }}
+                      >
+                        <div style={{ 
+                        color: datum.color, 
+                        fontWeight: 700, 
+                        marginBottom: "5px",
+                        fontSize: "14px"
+                        }}>
+                        {datum.label}
+                        </div>
+                        <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        gap: "12px"
+                        }}>
+                        <span>
+                          <strong style={{ fontSize: "13px" }}>{datum.value}</strong> {_?.organisations || "organisations"}
+                        </span>
+                        {/* <span style={{
+                          background: "#f5f5f5",
+                          padding: "3px 8px",
+                          borderRadius: "12px",
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          color: "#2BB19C"
+                        }}>
+                          {((datum.value / total) * 100).toFixed(1)}%
+                        </span> */}
               </div>
             </div>
           )}
