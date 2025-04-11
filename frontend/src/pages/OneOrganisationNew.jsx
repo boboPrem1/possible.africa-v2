@@ -291,7 +291,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
 
               {/* Bouton ajouter un contact */}
               <Link
-                to="https://pyramid.possible.africa/dashboard/deals"
+                to="https://pyramid.possible.africa/dashboard/leads"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white border-2 border-dashed border-primary-100 rounded-xl p-4 flex flex-col items-center justify-center text-primary hover:bg-primary-50 transition-colors"
