@@ -84,7 +84,15 @@ const Landing = () => {
   useEffect(() => {
     if (dashBoardData) {
       let topTenNews = dashBoardData.topTenNews?.[0]?.articles;
-      topTenNews.length >= 11 ? topTenNews = topTenNews.slice(0, 11) : topTenNews = [...topTenNews, ...dashBoardData.topTenNews?.[1]?.articles?.slice(0, 11 - topTenNews.length)];
+      topTenNews.length >= 11
+        ? (topTenNews = topTenNews.slice(0, 11))
+        : (topTenNews = [
+            ...topTenNews,
+            ...dashBoardData.topTenNews?.[1]?.articles?.slice(
+              0,
+              11 - topTenNews.length
+            ),
+          ]);
       setTopTenNews(topTenNews);
       // console.log(topTenNews);
       setIsLoading(false);
@@ -1426,7 +1434,7 @@ export const Header = ({ page }) => {
                 >
                   {_.header_link_database}
                 </Link>
-                <Link
+                {/* <Link
                   to="https://pyramid.possible.africa"
                   target="_blank"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
@@ -1446,7 +1454,7 @@ export const Header = ({ page }) => {
                   }`}
                 >
                   Yperlink
-                </Link>
+                </Link> */}
 
                 <Link
                   to="https://pyramid.possible.africa/database/create-campaign"
@@ -1455,7 +1463,7 @@ export const Header = ({ page }) => {
                 >
                   <span className="font-bold">+</span>
                   <span className="whitespace-nowrap text-sm">
-                    {_.header_btn_free_first_campaign}
+                    {_.landing_hero_cta_primary}
                   </span>
                 </Link>
               </div>
@@ -1524,7 +1532,7 @@ export const Header = ({ page }) => {
             >
               {_.header_link_database}
             </Link>
-            <Link
+            {/* <Link
               to="https://pyramid.possible.africa"
               target="_blank"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
@@ -1544,15 +1552,15 @@ export const Header = ({ page }) => {
               }`}
             >
               Yprlink
-            </Link>
+            </Link> */}
           </nav>
         </div>
 
         {/* Right side */}
         <div className="flex items-center gap-x-3 md:gap-x-4 lg:gap-x-6">
-          <p className="hidden md:block text-primary font-semibold text-sm lg:text-base">
+          {/* <p className="hidden md:block text-primary font-semibold text-sm lg:text-base">
             Connect AfricaTech Ecosystem
-          </p>
+          </p> */}
           <div className="hidden md:flex items-center">
             <select
               defaultValue={lang}
@@ -1576,7 +1584,7 @@ export const Header = ({ page }) => {
           >
             <span className="font-bold">+</span>
             <span className="whitespace-nowrap text-sm md:text-base">
-              {_.header_btn_free_first_campaign}
+              {_.landing_hero_cta_primary}
             </span>
           </Link>
 
@@ -1720,7 +1728,7 @@ export const Footer = () => {
             </ul>
           </div>
 
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
               {_.footer_useful_links || "Liens utiles"}
             </h3>
@@ -1758,7 +1766,7 @@ export const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           <div>
             <h3 className="font-semibold text-gray-900 mb-3 text-center md:text-start">
@@ -1768,10 +1776,10 @@ export const Footer = () => {
               {_.footer_questions || "Vous avez des questions? Contactez-nous:"}
             </p>
             <a
-              href="mailto:info@possible.africa"
+              href="mailto:benjamin.bonnell@expand-in-africa.com"
               className="text-primary hover:underline text-sm block md:inline text-center md:text-start"
             >
-              info@possible.africa
+              benjamin.bonnell@expand-in-africa.com
             </a>
             <div className="mt-4">
               <select

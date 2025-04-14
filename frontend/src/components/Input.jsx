@@ -2,10 +2,10 @@ export default function Input(props) {
   return (
     <>
       {props.type === "text" ? (
-        <div className="w-[248px] min-h-[60px] flex flex-col justify-center gap-2">
-          <div className="font-semibold ps-1">{props.label || "Label"}</div>
+        <div className={`${props.containerClassName || ""} w-[248px] min-h-[60px] flex flex-col justify-center gap-2`}>
+          <div className={`font-semibold ps-1 ${props.labelClassName || ""}`}>{props.label || "Label"}</div>
           <input
-            className="w-[248px] min-h-[44px] rounded-[8px] border-2 px-2 text-lg font-semibold border-lightPrimary outline-none"
+            className={`w-[248px] min-h-[44px] rounded-[8px] border-2 px-2 text-lg font-semibold border-lightPrimary outline-none ${props.inputClassName || ""}`}
             type={props.type || "text"}
             name={props.name || "name"}
             value={props.value}
@@ -15,21 +15,21 @@ export default function Input(props) {
           />
         </div>
       ) : props.type === "checkbox" ? (
-        <div className="w-[248px] min-h-[30px] flex justify-start items-center gap-2">
+        <div className={`w-[248px] min-h-[30px] flex justify-start items-center gap-2 ${props.containerClassName || ""}`}>
           <input
-            className="w-[20px] h-[20px] rounded-[4px] border-0 px-2 font-semibold border-primary outline-none check"
+            className={`w-[20px] h-[20px] rounded-[4px] border-0 px-2 font-semibold border-primary outline-none check ${props.inputClassName || ""}`}
             type={props.type || "text"}
             name={props.name || "name"}
             id={props.id || "id"}
             placeholder={props.placeholder || "Placeholder"}
           />
-          <div className="font-semibold ps-1">{props.label || "Label"}</div>
+          <div className={`font-semibold ps-1 ${props.labelClassName || ""}`}>{props.label || "Label"}</div>
         </div>
       ) : props.type === "date" ? (
-        <div className="w-[248px] min-h-[60px] flex flex-col justify-center gap-2">
-          <div className="font-semibold ps-1">{props.label || "Label"}</div>
+        <div className={`w-[248px] min-h-[60px] flex flex-col justify-center gap-2 ${props.containerClassName || ""}`}>
+          <div className={`font-semibold ps-1 ${props.labelClassName || ""}`}>{props.label || "Label"}</div>
           <input
-            className="w-[248px] min-h-[44px] rounded-[8px] border-2 px-2 text-lg font-semibold border-lightPrimary outline-none"
+            className={`w-[248px] min-h-[44px] rounded-[8px] border-2 px-2 text-lg font-semibold border-lightPrimary outline-none ${props.inputClassName || ""}`}
             type={props.type || "text"}
             name={props.name || "name"}
             id={props.id || "id"}
