@@ -1486,7 +1486,7 @@ function Organisations({
               {_.load_more_results}
             </button>
           </div> */}
-          <div className="h-10"></div>
+          <div className="h-6"></div>
           {/* Replace with: */}
           <PaginationControls
             currentPage={page}
@@ -1572,7 +1572,7 @@ function Organisations({
               {_.load_more_results}
             </button>
           </div> */}
-          <div className="h-10"></div>
+          <div className="h-6"></div>
           <PaginationControls
             currentPage={page}
             onPageChange={handlePageChange}
@@ -1834,7 +1834,7 @@ const PaginationControls = ({
 }) => {
   return (
     <div className="flex justify-between items-center w-full my-4">
-      <button
+      {/* <button
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage <= 1 || isLoading || isFetching}
         className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${
@@ -1858,7 +1858,7 @@ const PaginationControls = ({
           />
         </svg>
         {_.previous || "Previous"}
-      </button>
+      </button> */}
 
       <div className="font-medium text-gray-700">
         {_.page || "Page"} {currentPage}
@@ -1873,7 +1873,7 @@ const PaginationControls = ({
             : "bg-primary text-white hover:bg-darkPrimary active:scale-95"
         }`}
       >
-        {_.next || "Next"}
+        {_.load_more_results}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
