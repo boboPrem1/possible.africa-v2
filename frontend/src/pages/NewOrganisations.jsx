@@ -449,18 +449,19 @@ function pageEqReducer(state, action) {
   return [...state];
 }
 
-function Organisations({ 
-  withoutHeader, 
-  loadCount = 1, 
+function Organisations({
+  withoutHeader,
+  loadCount = 1,
   onLoadCountChange,
   currentPage = 1,
-  onPageChange
+  onPageChange,
 }) {
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
   const _ = langTrans._;
   const { selectedCountry, clearCountryFilter, tableRef } = useFilter(); // Access the filter context
   const [highlightTable, setHighlightTable] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   const initialPageEq = [
     { field: "name", value: "" },
@@ -483,6 +484,7 @@ function Organisations({
   const [firstLoad, setFirstLoad] = useState(true);
   const [pageS, setPageS] = useState(currentPage);
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [isPaginating, setIsPaginating] = useState(false);
 
   const [pageEq, dispatch] = useReducer(pageEqReducer, [
     { field: "name", value: "" },
@@ -538,6 +540,14 @@ function Organisations({
     }
   }, [isLoading, page, pageS]);
 
+  useEffect(() => {
+    if (organisations && organisations.length === 0) {
+      setHasMore(false);
+    } else {
+      setHasMore(true);
+    }
+  }, [organisations]);
+
   // Apply country filter when selectedCountry changes
   useEffect(() => {
     if (selectedCountry) {
@@ -578,58 +588,71 @@ function Organisations({
   // Détecter et faire défiler vers l'organisation ciblée
   useEffect(() => {
     // Attendre que les organisations soient chargées
-    if (!isLoading && !isFetching && organisations && organisations.length > 0) {
+    if (
+      !isLoading &&
+      !isFetching &&
+      organisations &&
+      organisations.length > 0
+    ) {
       // Récupérer l'ID de l'organisation à cibler depuis l'URL
       const urlParams = new URLSearchParams(window.location.search);
-      const focusOrgId = urlParams.get('focusOrgId');
-      
+      const focusOrgId = urlParams.get("focusOrgId");
+
       if (focusOrgId) {
         // Petite temporisation pour s'assurer que le DOM est prêt
         setTimeout(() => {
           const targetElement = document.getElementById(focusOrgId);
           if (targetElement) {
             // Faire défiler jusqu'à l'élément ePPPt le mettre en évidence
-            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
+            targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+
             // Ajouter une animation de pulsation
-            targetElement.classList.add('bg-primary-50');
-            targetElement.classList.add('transition-colors');
-            targetElement.classList.add('duration-500');
-            
+            targetElement.classList.add("bg-primary-50");
+            targetElement.classList.add("transition-colors");
+            targetElement.classList.add("duration-500");
+
             // Effet de pulsation
             let pulseCount = 0;
             const maxPulses = 3;
             const pulseInterval = setInterval(() => {
               if (pulseCount < maxPulses) {
-                targetElement.classList.toggle('bg-primary-100');
-                targetElement.classList.toggle('bg-primary-50');
+                targetElement.classList.toggle("bg-primary-100");
+                targetElement.classList.toggle("bg-primary-50");
                 pulseCount++;
               } else {
                 clearInterval(pulseInterval);
-                targetElement.classList.remove('bg-primary-50');
-                targetElement.classList.remove('bg-primary-100');
+                targetElement.classList.remove("bg-primary-50");
+                targetElement.classList.remove("bg-primary-100");
               }
             }, 500);
-            
+
             // Réinitialiser le compteur de tentatives car nous avons trouvé l'élément
-            sessionStorage.removeItem('loadAttempt');
+            sessionStorage.removeItem("loadAttempt");
           } else {
             // console.log(`Élément avec ID ${focusOrgId} non trouvé dans la page actuelle.`);
-            
+
             // Si nous n'avons pas atteint le nombre maximum de pages et que nous ne sommes pas déjà en train de charger
             // Vérifier si nous avons déjà tenté de charger plusieurs fois
             const maxLoadAttempts = 5; // Limite pour éviter les boucles infinies
-            const currentAttempt = parseInt(sessionStorage.getItem('loadAttempt') || '0');
-            
+            const currentAttempt = parseInt(
+              sessionStorage.getItem("loadAttempt") || "0"
+            );
+
             if (currentAttempt < maxLoadAttempts && !isFetching) {
               // console.log(`Tentative ${currentAttempt + 1}/${maxLoadAttempts} de chargement de plus de pages pour trouver ${focusOrgId}`);
-              sessionStorage.setItem('loadAttempt', (currentAttempt + 1).toString());
-              
+              sessionStorage.setItem(
+                "loadAttempt",
+                (currentAttempt + 1).toString()
+              );
+
               // Charger plus de pages
               const newPage = page + loadCount;
               setPageS(newPage);
               setPage(newPage);
-              
+
               // Notifier le parent du changement
               if (onLoadCountChange) {
                 onLoadCountChange(loadCount);
@@ -637,7 +660,7 @@ function Organisations({
             } else if (currentAttempt >= maxLoadAttempts) {
               // console.log(`Nombre maximum de tentatives atteint (${maxLoadAttempts}). Impossible de trouver ${focusOrgId}`);
               // Réinitialiser le compteur pour les futures tentatives
-              sessionStorage.removeItem('loadAttempt');
+              sessionStorage.removeItem("loadAttempt");
             }
           }
         }, 500);
@@ -655,47 +678,95 @@ function Organisations({
   // Mise à jour de pageEq à partir de l'URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const filters = initialPageEq.map(filter => {
+    const filters = initialPageEq.map((filter) => {
       const value = urlParams.get(`filter_${filter.field}`);
       return {
         ...filter,
-        value: value || ""
+        value: value || "",
       };
     });
-    
+
     // Mettre à jour pageEq et pageEqS avec les filtres de l'URL si nécessaire
-    if (filters.some(f => f.value !== "")) {
+    if (filters.some((f) => f.value !== "")) {
       const updatedFilters = [...filters];
       setPageEqS(updatedFilters);
-      
+
       // Mettre à jour le reducer
-      filters.forEach(filter => {
+      filters.forEach((filter) => {
         if (filter.value) {
           dispatch({ field: filter.field, value: filter.value });
         }
       });
     }
   }, []);
-  
+
   // Fonction pour mettre à jour les filtres dans l'URL
   const updateFiltersInUrl = (filters) => {
     const newUrl = new URL(window.location.href);
-    
+
     // Supprimer les anciens filtres
     Array.from(newUrl.searchParams.keys())
-      .filter(key => key.startsWith('filter_'))
-      .forEach(key => newUrl.searchParams.delete(key));
-    
+      .filter((key) => key.startsWith("filter_"))
+      .forEach((key) => newUrl.searchParams.delete(key));
+
     // Ajouter les nouveaux filtres
-    filters.forEach(filter => {
+    filters.forEach((filter) => {
       if (filter.value) {
         newUrl.searchParams.set(`filter_${filter.field}`, filter.value);
       }
     });
-    
+
     // Mettre à jour l'URL sans recharger la page
-    window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+    window.history.pushState(
+      { path: newUrl.toString() },
+      "",
+      newUrl.toString()
+    );
   };
+
+  const handlePageChange = (newPage) => {
+    // Validate the new page number
+    if (newPage < 1 || (newPage > page && !hasMore)) return;
+
+    // Set paginating state to show loading overlay
+    setIsPaginating(true);
+
+    // Update the page state
+    setPage(newPage);
+    setPageS(newPage);
+
+    // Notify parent component if needed
+    if (onPageChange) {
+      onPageChange(newPage);
+    }
+
+    // Update URL params
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set("page", newPage.toString());
+    window.history.pushState(
+      { path: newUrl.toString() },
+      "",
+      newUrl.toString()
+    );
+  };
+  // Add this effect to scroll after data loads
+  useEffect(() => {
+    if (isPaginating && !isFetching) {
+      setTimeout(() => {
+        // Scroll to bottom of table with smooth animation
+        if (tableRef.current) {
+          const scrollDistance = tableRef.current.scrollHeight * 0.6;
+          tableRef.current.scrollTo({
+            top: scrollDistance,
+            behavior: "smooth",
+          });
+        }
+
+        // Reset paginating state
+        setIsPaginating(false);
+      }, 300);
+    }
+  }, [isFetching, isPaginating]);
 
   // Render active country filter indicator
   const renderActiveCountryFilter = () => {
@@ -836,388 +907,388 @@ function Organisations({
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              <Input
-                label="Rechercher par nom"
-                placeholder="Entrez le nom de l'organisation ."
-                type="text"
-                value={pageEq[0].value}
-                onChange={(e) => {
-                  dispatch({ field: "name", value: e.target.value });
-                }}
-              />
-              <CustumSelect
-                label="Région d'appartenance"
-                placeholder="Choisissez une région."
-                value={pageEq[2].value}
-                onChange={(e) => {
-                  dispatch({ field: "region", value: e.target.value });
-                }}
-              >
-                <option value="">Choisissez une région</option>
-                <option value="All">All</option>
-                <option value="North Africa">North Africa</option>
-                <option value="West Africa">West Africa</option>
-                <option value="Central Africa">Central Africa</option>
-                <option value="East Africa">East Africa</option>
-                <option value="Southern Africa">Southern Africa</option>
-              </CustumSelect>
-              <CustumSelect
-                label="Siège de l'organisation"
-                placeholder="Choisissez un pays."
-                value={pageEq[3].value}
-                onChange={(e) => {
+                      <Input
+                        label="Rechercher par nom"
+                        placeholder="Entrez le nom de l'organisation ."
+                        type="text"
+                        value={pageEq[0].value}
+                        onChange={(e) => {
+                          dispatch({ field: "name", value: e.target.value });
+                        }}
+                      />
+                      <CustumSelect
+                        label="Région d'appartenance"
+                        placeholder="Choisissez une région."
+                        value={pageEq[2].value}
+                        onChange={(e) => {
+                          dispatch({ field: "region", value: e.target.value });
+                        }}
+                      >
+                        <option value="">Choisissez une région</option>
+                        <option value="All">All</option>
+                        <option value="North Africa">North Africa</option>
+                        <option value="West Africa">West Africa</option>
+                        <option value="Central Africa">Central Africa</option>
+                        <option value="East Africa">East Africa</option>
+                        <option value="Southern Africa">Southern Africa</option>
+                      </CustumSelect>
+                      <CustumSelect
+                        label="Siège de l'organisation"
+                        placeholder="Choisissez un pays."
+                        value={pageEq[3].value}
+                        onChange={(e) => {
                           dispatch({
                             field: "headquarter",
                             value: e.target.value,
                           });
-                }}
-              >
-                <option value="">Choisissez un pays</option>
-                {pageEq[2].value === "All"
-                  ? countries.all.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[2].value === "North Africa"
-                  ? countries.north.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[2].value === "West Africa"
-                  ? countries.west.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[2].value === "Central Africa"
-                  ? countries.central.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[2].value === "East Africa"
-                  ? countries.east.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[2].value === "Southern Africa"
-                  ? countries.southern.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : null}
-              </CustumSelect>
-              <CustumSelect
-                label="Pays couverts"
-                placeholder="Choisissez un pays."
-                value={pageEq[4].value}
-                onChange={(e) => {
-                  dispatch({
-                    field: "operatingCountries",
-                    value: e.target.value,
-                  });
-                }}
-              >
-                <option value="">Choisissez un pays</option>
-                <option value="All">All</option>
-                <option value="South Africa">South Africa</option>
-                <option value="Algeria">Algeria</option>
-                <option value="Angola">Angola</option>
-                <option value="Benin">Benin</option>
-                <option value="Botswana">Botswana</option>
-                <option value="Burkina Faso">Burkina Faso</option>
-                <option value="Burundi">Burundi</option>
-                <option value="Cameroon">Cameroon</option>
-                <option value="Cape Verde">Cape Verde</option>
-                <option value="Comoros">Comoros</option>
-                <option value="Ivory Coast">Ivory Coast</option>
-                <option value="Djibouti">Djibouti</option>
-                <option value="Egypt">Egypt</option>
-                <option value="Ethiopia">Ethiopia</option>
-                <option value="Gabon">Gabon</option>
-                <option value="Gambia">Gambia</option>
-                <option value="Ghana">Ghana</option>
-                <option value="Guinea">Guinea</option>
-                <option value="Guinea-Bissau">Guinea-Bissau</option>
+                        }}
+                      >
+                        <option value="">Choisissez un pays</option>
+                        {pageEq[2].value === "All"
+                          ? countries.all.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[2].value === "North Africa"
+                          ? countries.north.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[2].value === "West Africa"
+                          ? countries.west.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[2].value === "Central Africa"
+                          ? countries.central.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[2].value === "East Africa"
+                          ? countries.east.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[2].value === "Southern Africa"
+                          ? countries.southern.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : null}
+                      </CustumSelect>
+                      <CustumSelect
+                        label="Pays couverts"
+                        placeholder="Choisissez un pays."
+                        value={pageEq[4].value}
+                        onChange={(e) => {
+                          dispatch({
+                            field: "operatingCountries",
+                            value: e.target.value,
+                          });
+                        }}
+                      >
+                        <option value="">Choisissez un pays</option>
+                        <option value="All">All</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Algeria">Algeria</option>
+                        <option value="Angola">Angola</option>
+                        <option value="Benin">Benin</option>
+                        <option value="Botswana">Botswana</option>
+                        <option value="Burkina Faso">Burkina Faso</option>
+                        <option value="Burundi">Burundi</option>
+                        <option value="Cameroon">Cameroon</option>
+                        <option value="Cape Verde">Cape Verde</option>
+                        <option value="Comoros">Comoros</option>
+                        <option value="Ivory Coast">Ivory Coast</option>
+                        <option value="Djibouti">Djibouti</option>
+                        <option value="Egypt">Egypt</option>
+                        <option value="Ethiopia">Ethiopia</option>
+                        <option value="Gabon">Gabon</option>
+                        <option value="Gambia">Gambia</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Guinea">Guinea</option>
+                        <option value="Guinea-Bissau">Guinea-Bissau</option>
                         <option value="Equatorial Guinea">
                           Equatorial Guinea
                         </option>
-                <option value="Haiti">Haiti</option>
-                <option value="Kenya">Kenya</option>
-                <option value="Lesotho">Lesotho</option>
-                <option value="Liberia">Liberia</option>
-                <option value="Libya">Libya</option>
-                <option value="Madagascar">Madagascar</option>
-                <option value="Malawi">Malawi</option>
-                <option value="Mali">Mali</option>
-                <option value="Mauritius">Mauritius</option>
-                <option value="Mauritania">Mauritania</option>
-                <option value="Mozambique">Mozambique</option>
-                <option value="Namibia">Namibia</option>
-                <option value="Niger">Niger</option>
-                <option value="Nigeria">Nigeria</option>
-                <option value="Central African Republic">
-                  Central African Republic
-                </option>
-                <option value="Democratic Republic of the Congo">
-                  Democratic Republic of the Congo
-                </option>
-                <option value="Republic of the Congo">
-                  Republic of the Congo
-                </option>
-                <option value="Rwanda">Rwanda</option>
-                <option value="Sao Tome and Principe">
-                  Sao Tome and Principe
-                </option>
-                <option value="Senegal">Senegal</option>
-                <option value="Seychelles">Seychelles</option>
-                <option value="Sierra Leone">Sierra Leone</option>
-                <option value="Somalia">Somalia</option>
-                <option value="Sudan">Sudan</option>
-                <option value="South Sudan">South Sudan</option>
-                <option value="Swaziland">Swaziland</option>
-                <option value="Tanzania">Tanzania</option>
-                <option value="Chad">Chad</option>
-                <option value="Togo">Togo</option>
-                <option value="Tunisia">Tunisia</option>
-                <option value="Uganda">Uganda</option>
-                <option value="Zambia">Zambia</option>
-                <option value="Zimbabwe">Zimbabwe</option>
-              </CustumSelect>
-              <CustumSelect
-                label="Filtrer par secteur"
-                placeholder="Choisissez un secteur."
-                value={pageEq[5].value}
-                onChange={(e) => {
-                  dispatch({ field: "sector", value: e.target.value });
-                }}
-              >
-                <option value="">Choisissez un secteur</option>
-                <option value="All">All</option>
-                <option value="Secteur">Secteur</option>
-                <option value="Health">Health</option>
-                <option value="Agribusiness">Agribusiness</option>
-                <option value="Education">Education</option>
-                <option value="Mobility">Mobility</option>
-                <option value="Logistic">Logistic</option>
-                <option value="telecom">Telecom</option>
-                <option value="Energy">Energy</option>
+                        <option value="Haiti">Haiti</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Lesotho">Lesotho</option>
+                        <option value="Liberia">Liberia</option>
+                        <option value="Libya">Libya</option>
+                        <option value="Madagascar">Madagascar</option>
+                        <option value="Malawi">Malawi</option>
+                        <option value="Mali">Mali</option>
+                        <option value="Mauritius">Mauritius</option>
+                        <option value="Mauritania">Mauritania</option>
+                        <option value="Mozambique">Mozambique</option>
+                        <option value="Namibia">Namibia</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="Central African Republic">
+                          Central African Republic
+                        </option>
+                        <option value="Democratic Republic of the Congo">
+                          Democratic Republic of the Congo
+                        </option>
+                        <option value="Republic of the Congo">
+                          Republic of the Congo
+                        </option>
+                        <option value="Rwanda">Rwanda</option>
+                        <option value="Sao Tome and Principe">
+                          Sao Tome and Principe
+                        </option>
+                        <option value="Senegal">Senegal</option>
+                        <option value="Seychelles">Seychelles</option>
+                        <option value="Sierra Leone">Sierra Leone</option>
+                        <option value="Somalia">Somalia</option>
+                        <option value="Sudan">Sudan</option>
+                        <option value="South Sudan">South Sudan</option>
+                        <option value="Swaziland">Swaziland</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Chad">Chad</option>
+                        <option value="Togo">Togo</option>
+                        <option value="Tunisia">Tunisia</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Zambia">Zambia</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                      </CustumSelect>
+                      <CustumSelect
+                        label="Filtrer par secteur"
+                        placeholder="Choisissez un secteur."
+                        value={pageEq[5].value}
+                        onChange={(e) => {
+                          dispatch({ field: "sector", value: e.target.value });
+                        }}
+                      >
+                        <option value="">Choisissez un secteur</option>
+                        <option value="All">All</option>
+                        <option value="Secteur">Secteur</option>
+                        <option value="Health">Health</option>
+                        <option value="Agribusiness">Agribusiness</option>
+                        <option value="Education">Education</option>
+                        <option value="Mobility">Mobility</option>
+                        <option value="Logistic">Logistic</option>
+                        <option value="telecom">Telecom</option>
+                        <option value="Energy">Energy</option>
                         <option value="Financial services">
                           Financial services
                         </option>
-                <option value="FMCG">FMCG</option>
-                <option value="Hospitality">Hospitality</option>
-                <option value="media">media</option>
-                <option value="Retail">Retail</option>
-                <option value="Climat">Climat</option>
-                <option value="Data">Data</option>
-                <option value="VC">VC</option>
-                <option value="Hub">Hub</option>
-              </CustumSelect>
-              <CustumSelect
-                label="Filtrer par sous secteur"
-                placeholder="Choisissez un sous secteur."
-                value={pageEq[6].value}
-                onChange={(e) => {
+                        <option value="FMCG">FMCG</option>
+                        <option value="Hospitality">Hospitality</option>
+                        <option value="media">media</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Climat">Climat</option>
+                        <option value="Data">Data</option>
+                        <option value="VC">VC</option>
+                        <option value="Hub">Hub</option>
+                      </CustumSelect>
+                      <CustumSelect
+                        label="Filtrer par sous secteur"
+                        placeholder="Choisissez un sous secteur."
+                        value={pageEq[6].value}
+                        onChange={(e) => {
                           dispatch({
                             field: "subSector",
                             value: e.target.value,
                           });
-                }}
-              >
-                <option value="">Choisissez un sous secteur</option>
-                {pageEq[5].value === "Health"
-                  ? subSectors.health.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Education"
-                  ? subSectors.education.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Mobility"
-                  ? subSectors.mobility.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Logistic"
-                  ? subSectors.logistic.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Telecom"
-                  ? subSectors.telecom.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Energy"
-                  ? subSectors.energy.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Financial services"
-                  ? subSectors.financialServices.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "FMCG"
-                  ? subSectors.fmcg.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Hospitality"
-                  ? subSectors.hospitality.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "media"
-                  ? subSectors.media.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Retail"
-                  ? subSectors.retail.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Climat"
-                  ? subSectors.climate.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Data"
-                  ? subSectors.data.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "VC"
-                  ? subSectors.vc.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : pageEq[5].value === "Hub"
-                  ? subSectors.hub.map((c) => {
-                      return (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      );
-                    })
-                  : null}
-              </CustumSelect>
-              <CustumSelect
-                label="Filtrer par tier"
-                placeholder="Choisissez un tier."
-                value={pageEq[10].value}
-                onChange={(e) => {
-                  dispatch({ field: "tier", value: e.target.value });
-                }}
-              >
-                <option value="">Choisissez un tier</option>
-                <option value="Global">Global</option>
-                <option value="Panafrican">Panafrican</option>
-                <option value="Startups">Startups</option>
-                <option value="Local SMEs">Local SMEs</option>
-              </CustumSelect>
+                        }}
+                      >
+                        <option value="">Choisissez un sous secteur</option>
+                        {pageEq[5].value === "Health"
+                          ? subSectors.health.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Education"
+                          ? subSectors.education.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Mobility"
+                          ? subSectors.mobility.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Logistic"
+                          ? subSectors.logistic.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Telecom"
+                          ? subSectors.telecom.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Energy"
+                          ? subSectors.energy.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Financial services"
+                          ? subSectors.financialServices.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "FMCG"
+                          ? subSectors.fmcg.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Hospitality"
+                          ? subSectors.hospitality.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "media"
+                          ? subSectors.media.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Retail"
+                          ? subSectors.retail.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Climat"
+                          ? subSectors.climate.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Data"
+                          ? subSectors.data.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "VC"
+                          ? subSectors.vc.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : pageEq[5].value === "Hub"
+                          ? subSectors.hub.map((c) => {
+                              return (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              );
+                            })
+                          : null}
+                      </CustumSelect>
+                      <CustumSelect
+                        label="Filtrer par tier"
+                        placeholder="Choisissez un tier."
+                        value={pageEq[10].value}
+                        onChange={(e) => {
+                          dispatch({ field: "tier", value: e.target.value });
+                        }}
+                      >
+                        <option value="">Choisissez un tier</option>
+                        <option value="Global">Global</option>
+                        <option value="Panafrican">Panafrican</option>
+                        <option value="Startups">Startups</option>
+                        <option value="Local SMEs">Local SMEs</option>
+                      </CustumSelect>
                     </div>
 
                     <div className="flex justify-center gap-4 mt-6">
-                <button
+                      <button
                         className="w-full max-w-[200px] h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-                  onClick={() => {
-                    setPageEqS([...pageEq]);
+                        onClick={() => {
+                          setPageEqS([...pageEq]);
                           updateFiltersInUrl([...pageEq]);
                           setShowFilterModal(false);
-                  }}
-                >
+                        }}
+                      >
                         Appliquer les filtres
-                </button>
+                      </button>
 
-                <button
+                      <button
                         className="w-full max-w-[200px] h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-                  onClick={() => {
-                    setPageEqS([
-                      { field: "name", value: "" },
-                      { field: "source", value: "" },
-                      { field: "region", value: "" },
-                      { field: "headquarter", value: "" },
-                      { field: "operatingCountries", value: "" },
-                      { field: "sector", value: "" },
-                      { field: "subSector", value: "" },
-                      { field: "active", value: "" },
-                      { field: "fundraising", value: "" },
-                      { field: "amountFundraised", value: "" },
-                      { field: "tier", value: "" },
-                      { field: "website", value: "" },
-                    ]);
+                        onClick={() => {
+                          setPageEqS([
+                            { field: "name", value: "" },
+                            { field: "source", value: "" },
+                            { field: "region", value: "" },
+                            { field: "headquarter", value: "" },
+                            { field: "operatingCountries", value: "" },
+                            { field: "sector", value: "" },
+                            { field: "subSector", value: "" },
+                            { field: "active", value: "" },
+                            { field: "fundraising", value: "" },
+                            { field: "amountFundraised", value: "" },
+                            { field: "tier", value: "" },
+                            { field: "website", value: "" },
+                          ]);
                           updateFiltersInUrl([]);
-                    dispatch({ field: "reset", value: "" });
+                          dispatch({ field: "reset", value: "" });
                           setShowFilterModal(false);
-                  }}
-                >
+                        }}
+                      >
                         Réinitialiser
-                </button>
-              </div>
-            </div>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -1340,9 +1411,11 @@ function Organisations({
                 highlightTable ? "ring-4 ring-primary ring-opacity-50" : ""
               }`}
             >
+              {/* Add loading overlay */}
+              {(isFetching || isPaginating) && <TableLoadingOverlay />}
               <table className="min-w-full text-sm text-left">
                 <thead className="bg-[#F9FAFB] text-xs uppercase sticky top-0 z-[20]">
-                <tr className="h-11">
+                  <tr className="h-11">
                     <th className="px-10 py-3">
                       {/* <span className="flex justify-center">
                       <input
@@ -1352,32 +1425,32 @@ function Organisations({
                         className="h-5 w-5"
                       />
                       </span> */}
-                  </th>
+                    </th>
                     <th className="text-start text-nowrap px-10 py-3">
-                    {_.database_company_name}
-                  </th>
+                      {_.database_company_name}
+                    </th>
                     <th className="text-start text-nowrap px-10 py-3">
-                    {_.database_sector}
-                  </th>
+                      {_.database_sector}
+                    </th>
                     <th className="text-start text-nowrap px-10 py-3">
-                    {_.database_location}
-                  </th>
+                      {_.database_location}
+                    </th>
                     <th className="text-start text-nowrap px-10 py-3">
-                    {_.database_contact_person}
-                  </th>
+                      {_.database_contact_person}
+                    </th>
                     <th className="text-start text-nowrap px-10 py-3"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {organisations.map((organisation, index) => {
-                  const createdAt = new Date(organisation?.dateAdded);
-                  // transform date to french format
-                  const date =
-                    createdAt.getDate() +
-                    "/" +
-                    (createdAt.getMonth() + 1) +
-                    "/" +
-                    createdAt.getFullYear();
+                  </tr>
+                </thead>
+                <tbody>
+                  {organisations.map((organisation, index) => {
+                    const createdAt = new Date(organisation?.dateAdded);
+                    // transform date to french format
+                    const date =
+                      createdAt.getDate() +
+                      "/" +
+                      (createdAt.getMonth() + 1) +
+                      "/" +
+                      createdAt.getFullYear();
                     return (
                       <Tr
                         org={organisation}
@@ -1386,22 +1459,22 @@ function Organisations({
                         key={organisation.id || index}
                       />
                     );
-                })}
-              </tbody>
-            </table>
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
-          <div className="w-full md:flex md:justify-center">
+          {/* <div className="w-full md:flex md:justify-center">
             <button
               className="w-full h-[45px] flex justify-center items-center bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
                 // console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
-                
+
                 // Notifier le parent du changement
                 if (onLoadCountChange) {
                   onLoadCountChange(loadCount);
                 }
-                
+
                 const newPage = page + loadCount;
                 setPageS(newPage);
                 setPage(newPage);
@@ -1412,7 +1485,17 @@ function Organisations({
               )}
               {_.load_more_results}
             </button>
-          </div>
+          </div> */}
+          <div className="h-10"></div>
+          {/* Replace with: */}
+          <PaginationControls
+            currentPage={page}
+            onPageChange={handlePageChange}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            hasMore={hasMore}
+            _={_}
+          />
         </div>
       </div>
     );
@@ -1467,17 +1550,17 @@ function Organisations({
               </tbody>
             </table>
           </div>
-          <div className="w-full md:flex md:justify-center">
+          {/* <div className="w-full md:flex md:justify-center">
             <button
               className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 md:w-6/12 lg:w-5/12 transition-all duration-300 my-2"
               onClick={() => {
                 // console.log(`Chargement de ${loadCount} page(s) supplémentaire(s)`);
-                
+
                 // Notifier le parent du changement
                 if (onLoadCountChange) {
                   onLoadCountChange(loadCount);
                 }
-                
+
                 const newPage = page + loadCount;
                 setPageS(newPage);
                 setPage(newPage);
@@ -1488,7 +1571,16 @@ function Organisations({
               )}
               {_.load_more_results}
             </button>
-          </div>
+          </div> */}
+          <div className="h-10"></div>
+          <PaginationControls
+            currentPage={page}
+            onPageChange={handlePageChange}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            hasMore={hasMore}
+            _={_}
+          />
         </div>
       </div>
     </>
@@ -1571,12 +1663,17 @@ function Tr({ org, date, _ }) {
   }
 
   const { plusLength, initials } = randomName();
-  
+
   // Création d'un identifiant unique pour la ligne
-  const orgRowId = `org-row-${org.id || org.name.replace(/\s+/g, '-').toLowerCase()}`;
-  
+  const orgRowId = `org-row-${
+    org.id || org.name.replace(/\s+/g, "-").toLowerCase()
+  }`;
+
   return (
-    <tr id={orgRowId} className="border-b border-[#EAECF0] hover:bg-gray-50 transition-all duration-300">
+    <tr
+      id={orgRowId}
+      className="border-b border-[#EAECF0] hover:bg-gray-50 transition-all duration-300"
+    >
       <td className="px-10 py-4">
         <span className="w-full flex justify-center">
           {/* <input type="checkbox" name="" id="" className="mx-auto h-5 w-5" /> */}
@@ -1590,8 +1687,12 @@ function Tr({ org, date, _ }) {
             onClick={() => {
               // Mémoriser l'id de l'organisation dans l'URL
               const newUrl = new URL(window.location.href);
-              newUrl.searchParams.set('focusOrgId', orgRowId);
-              window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+              newUrl.searchParams.set("focusOrgId", orgRowId);
+              window.history.pushState(
+                { path: newUrl.toString() },
+                "",
+                newUrl.toString()
+              );
             }}
           >
             <span className="flex justify-start gap-x-3 items-center group">
@@ -1600,8 +1701,8 @@ function Tr({ org, date, _ }) {
                   socialMedias.includes(org?.logo) ? logoPlaceholder : org?.logo
                 }
                 alt={`${org.name}'s logo`}
-            height={40}
-            width={40}
+                height={40}
+                width={40}
                 className="w-10 h-10 rounded-md object-cover"
                 onError={(e) => {
                   e.target.src = logoPlaceholder;
@@ -1686,13 +1787,18 @@ function Tr({ org, date, _ }) {
                 {_.database_action_add_to_leads}
               </span>
             </Link>
-            <Link className="inline-flex w-full" 
+            <Link
+              className="inline-flex w-full"
               to={`/database/${org.name}`}
               onClick={() => {
                 // Mémoriser l'id de l'organisation dans l'URL
                 const newUrl = new URL(window.location.href);
-                newUrl.searchParams.set('focusOrgId', orgRowId);
-                window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+                newUrl.searchParams.set("focusOrgId", orgRowId);
+                window.history.pushState(
+                  { path: newUrl.toString() },
+                  "",
+                  newUrl.toString()
+                );
               }}
             >
               <span className="bg-white hover:bg-[#2BB19C] text-[#248b7c] hover:text-white font-bold py-2 px-3 w-full transition duration-300">
@@ -1716,3 +1822,85 @@ function Tr({ org, date, _ }) {
     </tr>
   );
 }
+
+// Simple Pagination component
+const PaginationControls = ({
+  currentPage,
+  onPageChange,
+  isLoading,
+  isFetching,
+  hasMore,
+  _,
+}) => {
+  return (
+    <div className="flex justify-between items-center w-full my-4">
+      <button
+        onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+        disabled={currentPage <= 1 || isLoading || isFetching}
+        className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${
+          currentPage <= 1 || isLoading || isFetching
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "bg-white text-primary border border-primary hover:bg-primary hover:text-white active:scale-95"
+        }`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        {_.previous || "Previous"}
+      </button>
+
+      <div className="font-medium text-gray-700">
+        {_.page || "Page"} {currentPage}
+      </div>
+
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={!hasMore || isLoading || isFetching}
+        className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${
+          !hasMore || isLoading || isFetching
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "bg-primary text-white hover:bg-darkPrimary active:scale-95"
+        }`}
+      >
+        {_.next || "Next"}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
+// Add this component near the PaginationControls component
+const TableLoadingOverlay = () => {
+  return (
+    <div className="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center z-30">
+      <div className="flex flex-col items-center">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-3"></div>
+        <p className="text-primary font-medium">Loading data...</p>
+      </div>
+    </div>
+  );
+};

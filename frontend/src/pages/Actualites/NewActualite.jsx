@@ -467,7 +467,8 @@ function News() {
                           }
                         </span>{" "}
                         {_.news_shown}{" "}
-                        {language === "fr" ? "en français" : "en anglais"}
+                        {/* {language === "fr" ? "en français" : "en anglais"} */}
+                        {language === "eng" ? "in french" : "in english"}
                       </p>
                     </div>
 
