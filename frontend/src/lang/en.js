@@ -51,7 +51,7 @@ export const en_trans = {
   news_results_with: "results (including",
   news_shown: "shown)",
   news_partners_description:
-    "Your expertise deserves to be visible. Partner with Possible.Africa and shine across the continent.",
+    "Committed partners. A shared ambition. Together, we can turn challenges into levers for growth.",
   news_matching_filters: "matching your filters.",
   database_total_organisations: "Total Organisations",
   database_sectors: "Sectors",

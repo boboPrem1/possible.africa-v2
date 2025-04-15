@@ -27,7 +27,7 @@ export const fr_trans = {
   landing_view_more: "Voir plus",
   landing_our_partners: "Nos partenaires",
   news_partners_description:
-    "Votre expertise mérite d’être visible. Associez-vous à Possible.Africa et rayonnez sur le continent.",
+    "Des partenaires engagés. Une ambition partagée. Ensemble, on transforme les défis en leviers de croissance.",
   landing_service_exa:
     "Exa Consulting : Travaillez avec nous ou engagez un consultant de notre réseau pour développer votre entreprise sur le continent africain.",
   landing_service_pyramid:

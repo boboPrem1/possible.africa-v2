@@ -984,7 +984,7 @@ function News() {
             <div className="space-y-5">
               <p className="text-mediumGray font-medium text-center">
                 {_.news_partners_description ||
-                  "Votre expertise mérite d’être visible. Associez-vous à Possible.Africa et rayonnez sur le continent."}
+                  "Des partenaires engagés. Une ambition partagée. Ensemble, on transforme les défis en leviers de croissance."}
               </p>
 
               {/* Animation des partenaires */}

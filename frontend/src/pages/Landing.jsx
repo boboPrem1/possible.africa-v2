@@ -700,7 +700,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto mb-8">
                   {_.news_partners_description ||
-                    "Votre expertise mérite d'être visible. Associez-vous à Possible.Africa et rayonnez sur le continent."}
+                    "Des partenaires engagés. Une ambition partagée. Ensemble, on transforme les défis en leviers de croissance."}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -1500,8 +1500,8 @@ export const Header = ({ page }) => {
         </div>
 
         {/* Navigation - Desktop */}
-        <div className="hidden lg:flex items-center justify-center flex-grow">
-          <nav className="flex space-x-8 xl:space-x-12">
+        <div className="hidden lg:flex items-center justify-end flex-grow">
+          <nav className="flex space-x-8 xl:space-x-4 mr-8">
             <Link
               to="/"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
