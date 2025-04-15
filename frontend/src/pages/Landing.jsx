@@ -602,12 +602,12 @@ Retourne uniquement le JSON, sans texte additionnel.`;
       </div>
       <div className="flex flex-col justify-center mt-10">
         <h2 className="text-3xl text-center font-bold text-gray-800 mb-2">
-          {"Un vivier de prospects qualifiés à portée de main."}
+          {_.landing_org_cta ||
+            "Un vivier de prospects qualifiés à portée de main."}
         </h2>
         <p className="text-gray-600 text-center max-w-2xl mx-auto mb-8">
-          {
-            "Ciblez et engagez les bons contacts, selon vos critères — pour une prospection plus rapide et plus efficace."
-          }
+          {_.landing_org_cta_subtext ||
+            "Ciblez et engagez les bons contacts, selon vos critères — pour une prospection plus rapide et plus efficace."}
         </p>
       </div>
 

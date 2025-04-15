@@ -26,6 +26,9 @@ export const en_trans = {
   landing_lats_orgs: "Top organisations",
   landing_view_more: "View more",
   landing_our_partners: "Our partners",
+  landing_org_cta: "A pool of qualified prospects at your fingertips.",
+  landing_org_cta_subtext:
+    "Target and engage the right contacts, according to your criteria - for faster, more effective prospecting.",
   landing_service_exa:
     "Exa Consulting : Work with us or hire a consultant from our network to expand your business on the African Continent.",
   landing_service_pyramid:

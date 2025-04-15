@@ -26,6 +26,9 @@ export const fr_trans = {
   landing_lats_orgs: "Top organisations",
   landing_view_more: "Voir plus",
   landing_our_partners: "Nos partenaires",
+  landing_org_cta: "Un vivier de prospects qualifiés à portée de main.",
+  landing_org_cta_subtext:
+    "Ciblez et engagez les bons contacts, selon vos critères — pour une prospection plus rapide et plus efficace.",
   news_partners_description:
     "Des partenaires engagés. Une ambition partagée. Ensemble, on transforme les défis en leviers de croissance.",
   landing_service_exa:
