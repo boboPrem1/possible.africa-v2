@@ -843,32 +843,6 @@ function Organisations({
           <div className="min-h-[70vh] flex flex-col justify-start">
             {/* Show country filter indicator if active */}
             {/* {renderActiveCountryFilter()} */}
-            {/* Bouton pour ouvrir le modal des filtres */}
-            <div className="w-full flex justify-center md:justify-end items-center mb-4 relative">
-              <button
-                onClick={() => setShowFilterModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300 absolute top-5 right-1 z-30"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-sm font-bold">Filters</span>
-                {hasActiveFilters() && (
-                  <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-darkPrimary rounded-full">
-                    {pageEqS.filter((eq) => eq.value !== "").length}
-                  </span>
-                )}
-              </button>
-            </div>
 
             {/* Modal des filtres */}
             {showFilterModal && (
@@ -1037,7 +1011,36 @@ function Organisations({
                     <th className="text-start text-nowrap px-10 py-3">
                       {_.database_contact_person}
                     </th>
-                    <th className="text-start text-nowrap px-10 py-3"></th>
+                    <th className="text-start text-nowrap px-10 py-3">
+                      {" "}
+                      {/* Bouton pour ouvrir le modal des filtres */}
+                      <button
+                        onClick={() => setShowFilterModal(true)}
+                        className="flex items-center gap-0.5 px-2 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span className="text-sm font-bold">Filters</span>
+                        {hasActiveFilters() && (
+                          <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-darkPrimary rounded-full">
+                            {pageEqS.filter((eq) => eq.value !== "").length}
+                          </span>
+                        )}
+                      </button>
+                      {/* <div className="w-full flex justify-center md:justify-end items-center mb-4">
+
+                      </div> */}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

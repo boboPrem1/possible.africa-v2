@@ -62,7 +62,7 @@ export default function OrganisationsByRegionsByTier({byRegionsData, byTiersData
     return (
         <div 
             ref={containerRef}
-            className="w-full bg-white rounded-2xl flex flex-col justify-between pt-4 pb-6 px-2 h-[550px]"
+            className="w-full bg-white rounded-2xl flex flex-col justify-between pt-4 px-2"
             style={containerStyle}
         >
             <div className="flex justify-between items-center gap-x-2 bg-primary-50 rounded-full h-8 mx-4 mb-0">
@@ -84,7 +84,7 @@ export default function OrganisationsByRegionsByTier({byRegionsData, byTiersData
                 </div>
             </div>
             
-            <div className="flex-1 p-3 md:p-4" >
+            <div className="flex-1 px-3 md:px-4" >
                 {/* Afficher un message si les données ne sont pas disponibles ou si le composant n'est pas encore monté */}
                 {!hasData || !mounted ? (
                     <div className="h-full flex items-center justify-center text-gray-500">

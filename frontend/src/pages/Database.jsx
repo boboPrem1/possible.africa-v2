@@ -306,7 +306,7 @@ function DatabaseContent() {
       <div className="flex justify-center py-8">
         <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-12 gap-x-6 gap-y-20 justify-items-center items-center">
           {/* Stats cards - 3 colonnes sur grand écran */}
-          <div className="col-span-12 md:col-span-4 grid grid-cols-2 gap-5 w-full md:w-full h-auto">
+          <div className="col-span-12 md:col-span-4 grid grid-cols-2 shadow-xl md:py-12 md:px-12 gap-5 w-full md:w-full h-auto">
             <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
               <div className="text-gray-600 text-sm font-medium">
                 {_.database_total_organisations}
@@ -374,7 +374,7 @@ function DatabaseContent() {
           </div>
 
           {/* Donut chart - 3 colonnes sur grand écran */}
-          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-sm h-[450px] w-full">
+          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-xl h-[450px] w-full">
             <div className="p-4 h-full flex flex-col" style={{ position: "relative", overflow: "hidden" }}>
               <h3 className="text-lg font-semibold text-center text-gray-800 mb-2">
                 {_.analytics_title || "Analyse des organisations"}
