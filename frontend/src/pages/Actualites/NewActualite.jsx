@@ -403,6 +403,14 @@ function News() {
   );
   // Add scroll listener to handle hero visibility
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+
+    // Reset hero visibility
+    setShowHero(true);
+    if (heroRef.current) {
+      heroRef.current.style.opacity = 1;
+    }
     const handleScroll = () => {
       if (!heroRef.current) return;
 

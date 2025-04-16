@@ -1528,8 +1528,8 @@ export const Header = ({ page }) => {
         </div>
 
         {/* Navigation - Desktop */}
-        <div className="hidden lg:flex items-center justify-end flex-grow">
-          <nav className="flex space-x-8 xl:space-x-4 mr-8">
+        <div className="hidden lg:flex items-center justify-start flex-grow">
+          <nav className="flex space-x-8 lg:ml-8 xl:space-x-2 mr-8">
             <Link
               to="/"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
