@@ -216,7 +216,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
       <Header page="/" />
 
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-primary-50 to-white">
+      <div className="relative h-[80vh] overflow-hidden bg-gradient-to-br from-primary-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             {/* Texte */}
@@ -438,43 +438,6 @@ Retourne uniquement le JSON, sans texte additionnel.`;
               </form>
             </div>
           </div>
-
-          {/* Statistiques */}
-          <div className="mt-8 md:mt-16 grid grid-col-1 md:grid-cols-3 gap-3 md:gap-4 text-center">
-            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
-                +60 000
-              </div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
-                {_.landing_stat_companies || "Organisations"}
-              </div>
-            </div>
-            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
-                +100
-              </div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
-                {_.landing_stat_countries || "Médias tech suivis"}
-              </div>
-            </div>
-            <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
-                +54
-              </div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
-                {_.landing_stat_news || "Pays"}
-              </div>
-            </div>
-            {/* <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
-                3 Services
-              </div>
-              <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
-                {_.landing_stat_partners ||
-                  "Génération de Lead, Deals, Interactions"}
-              </div>
-            </div> */}
-          </div>
         </div>
 
         {/* Style pour les animations */}
@@ -600,7 +563,8 @@ Retourne uniquement le JSON, sans texte additionnel.`;
           }
         `}</style>
       </div>
-      <div className="flex flex-col justify-center mt-10">
+      {/* <div className="h-36"></div> */}
+      {/* <div className="flex flex-col justify-center mt-10">
         <h2 className="text-3xl text-center font-bold text-gray-800 mb-2">
           {_.landing_org_cta ||
             "Un vivier de prospects qualifiés à portée de main."}
@@ -609,7 +573,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
           {_.landing_org_cta_subtext ||
             "Ciblez et engagez les bons contacts, selon vos critères — pour une prospection plus rapide et plus efficace."}
         </p>
-      </div>
+      </div> */}
 
       <div className="flex justify-center mt-10">
         <div className="flex flex-col w-11/12">
@@ -661,8 +625,9 @@ Retourne uniquement le JSON, sans texte additionnel.`;
             </div>
             <div className="w-full md:min-h-16 md:w-3/12 p-5 rounded-xl shadow-xl">
               <div className="flex justify-between items-center mb-5">
-                <span className="text-lg font-medium">
-                  {_.landing_lats_orgs}
+                <span className="text-sm font-medium">
+                  {/* {_.landing_lats_orgs} */}
+                  {_.landing_org_cta}
                 </span>
                 <a
                   href="/database"
@@ -702,6 +667,57 @@ Retourne uniquement le JSON, sans texte additionnel.`;
               </div>
             </div>
           </div>
+          {/* Stats section */}
+          <div className="p-5">
+            <div className="rounded-xl overflow-hidden">
+              <div className="p-6 md:p-10 text-center">
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  {_.landing_our_partners_cta}
+                </h2>
+              </div>
+
+              {/* Statistiques   */}
+              <div className="flex justify-center h-fit items-center">
+                <div className="mt-12 md:mt-10 grid grid-col-1 md:grid-cols-3 gap-6 md:gap-12 text-center">
+                  <div className="bg-white/90 backdrop-blur-sm p-6 md:p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                    <div className="text-4xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 text-transparent bg-clip-text mb-3">
+                      +<AnimatedCounter end={60000} duration={2000} />
+                    </div>
+                    <div className="text-sm md:text-base lg:text-lg text-gray-600 font-medium">
+                      {_.landing_stat_companies || "Organisations"}
+                    </div>
+                  </div>
+                  <div className="bg-white/90 backdrop-blur-sm p-6 md:p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                    <div className="text-4xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-teal-500 text-transparent bg-clip-text mb-3">
+                      +<AnimatedCounter end={100} duration={1500} />
+                    </div>
+                    <div className="text-sm md:text-base lg:text-lg text-gray-600 font-medium">
+                      {_.landing_stat_countries || "Médias tech suivis"}
+                    </div>
+                  </div>
+                  <div className="bg-white/90 backdrop-blur-sm p-6 md:p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                    <div className="text-4xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-teal-400 text-transparent bg-clip-text mb-3">
+                      +<AnimatedCounter end={54} duration={1200} />
+                    </div>
+                    <div className="text-sm md:text-base lg:text-lg text-gray-600 font-medium">
+                      {_.landing_stat_news || "Pays"}
+                    </div>
+                  </div>
+                  {/* <div className="bg-white bg-opacity-80 p-3 md:p-4 rounded-lg shadow-sm">
+                          <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+                          3 Services
+                          </div>
+                          <div className="text-xs md:text-sm lg:text-base text-gray-600 font-medium text-center">
+                          {_.landing_stat_partners ||
+                          "Génération de Lead, Deals, Interactions"}
+                          </div>
+                          </div> */}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <div className="h-8"></div> */}
+
           <div className="p-5">
             <div className="rounded-xl overflow-hidden">
               <div className="p-6 md:p-10 text-center">
@@ -1154,11 +1170,16 @@ const Organisation = ({ org }) => {
         <div className="w-full text-xs font-medium text-[#7C7E7D]">
           {org.description.length > 45
             ? org.description.slice(0, 45) + " ..."
-            : org.description}
+            : org.description}{" "}
+          {org.headquarter ? (
+            <span className="border border-[#7C7E7D] text-xs mt-1 rounded px-1.5">
+              {org.headquarter}
+            </span>
+          ) : (
+            "-"
+          )}
         </div>
-        <div className="flex justify-start gap-x-2.5 w-full text-[#7C7E7D]">
-          {/* {org.headquarters.length > 0 && } */}
-          {/* <p>{JSON.stringify(org)}</p> */}
+        {/* <div className="flex justify-start gap-x-2.5 w-full text-[#7C7E7D]">
           {org.headquarter ? (
             <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
               {org.headquarter}
@@ -1166,10 +1187,7 @@ const Organisation = ({ org }) => {
           ) : (
             "-"
           )}
-          {/* <span className="border border-[#7C7E7D] text-xs rounded px-1.5 py-0.5">
-            Morocco
-          </span> */}
-        </div>
+        </div> */}
       </div>
     </Link>
   );
@@ -1497,7 +1515,7 @@ export const Header = ({ page }) => {
         )}
       </AnimatePresence>
 
-      <div className="h-16 md:h-20 lg:h-24 w-full flex justify-between items-center">
+      <div className="h-16 md:h-20 lg:h-24 max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-x-4 md:gap-x-10 flex-shrink-0">
           <a href="/" className="flex items-center">
@@ -1646,7 +1664,7 @@ export const Footer = () => {
             </p>
             <div className="flex gap-4 mt-4 justify-center md:justify-start">
               <a
-                href="#"
+                href="https://x.com/possible_africa"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 hover:text-primary group"
@@ -1719,7 +1737,7 @@ export const Footer = () => {
                   {_.footer_tech_news || "Actualités Tech"}
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="https://pyramid.possible.africa"
                   className="text-gray-600 hover:text-primary text-sm"
@@ -1734,7 +1752,7 @@ export const Footer = () => {
                 >
                   {_.footer_yprlink || "Yprlink"}
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -1787,9 +1805,9 @@ export const Footer = () => {
             </p>
             <a
               href="mailto:benjamin.bonnell@expand-in-africa.com"
-              className="text-primary hover:underline text-sm block md:inline text-center md:text-start"
+              className="text-primary underline hover:underline text-sm block md:inline text-center md:text-start"
             >
-              benjamin.bonnell@expand-in-africa.com
+              {_.footer_response}
             </a>
             <div className="mt-4">
               <select
@@ -1817,4 +1835,59 @@ export const Footer = () => {
       </div>
     </footer>
   );
+};
+
+/* AnimatedCounter Component - add this near the top of your Landing component */
+
+const AnimatedCounter = ({ end, duration }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(null);
+
+  useEffect(() => {
+    // Check if element is in viewport using Intersection Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          animate();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (countRef.current) {
+      observer.observe(countRef.current);
+    }
+
+    function animate() {
+      let startTime;
+      let startValue = 0;
+      const endValue = end;
+
+      function updateCount(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+
+        // Use easeOutExpo for smoother animation
+        const easeProgress =
+          progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const currentCount = Math.floor(
+          easeProgress * (endValue - startValue) + startValue
+        );
+
+        setCount(currentCount);
+
+        if (progress < 1) {
+          window.requestAnimationFrame(updateCount);
+        }
+      }
+
+      window.requestAnimationFrame(updateCount);
+    }
+
+    return () => observer.disconnect();
+  }, [end, duration]);
+
+  return <span ref={countRef}>{count.toLocaleString()}</span>;
 };

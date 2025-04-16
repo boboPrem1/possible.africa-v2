@@ -1,12 +1,12 @@
 export const fr_trans = {
   header_link_home: "Accueil",
   header_link_news: "Actualités",
-  header_link_database: "Base de données",
+  header_link_database: "Réseaux",
   header_connect: "Connecter l'écosystème AfricaTech",
   header_btn_free_first_campaign: "Première campagne gratuite",
-  landing_hero_title: "Connectez-vous avec l'écosystème Tech africain",
+  landing_hero_title: "Connectez-vous avec l'écosystème africain",
   landing_hero_description:
-    "Découvrez et connectez-vous avec les acteurs clés de l'écosystème technologique africain. Une plateforme pour explorer, analyser et collaborer.",
+    "Découvrez et connectez-vous avec les acteurs clés de l'écosystème africain. Une plateforme pour explorer, analyser et collaborer.",
   landing_hero_cta_primary: "Essayez gratuitement",
   landing_hero_cta_secondary: "Actualités Tech",
   landing_hero_input_placeholder: "Entrez le nom de votre entreprise",
@@ -22,11 +22,12 @@ export const fr_trans = {
   landing_stat_countries: "Médias tech suivis",
   landing_stat_news: "Pays",
   landing_stat_partners: "Génération de Lead, Deals, Interactions",
-  landing_lats_news: "Top actualités",
+  landing_lats_news: "Top actualités en Afrique",
   landing_lats_orgs: "Top organisations",
   landing_view_more: "Voir plus",
   landing_our_partners: "Nos partenaires",
-  landing_org_cta: "Un vivier de prospects qualifiés à portée de main.",
+  landing_our_partners_cta: "Notre réseau, votre levier",
+  landing_org_cta: "Un vivier de réseaux qualifiés.",
   landing_org_cta_subtext:
     "Ciblez et engagez les bons contacts, selon vos critères — pour une prospection plus rapide et plus efficace.",
   news_partners_description:
@@ -87,7 +88,7 @@ export const fr_trans = {
   footer_connect_text:
     "Connectez-vous avec l'écosystème technologique africain en pleine croissance.",
   footer_platforms: "Plateformes",
-  footer_database: "Base de données",
+  footer_database: "Réseaux",
   footer_tech_news: "Actualités Tech",
   footer_sales_platform: "Plateforme de vente",
   footer_yprlink: "Yprlink",
@@ -97,7 +98,8 @@ export const fr_trans = {
   footer_privacy: "Confidentialité",
   footer_terms: "Conditions d'utilisation",
   footer_contact: "Contact",
-  footer_questions: "Vous avez des questions? Contactez-nous:",
+  footer_questions: "Vous avez des questions ?",
+  footer_response: "Contactez-nous",
   footer_all_rights_reserved: "Tous droits réservés.",
 
   // Charts and maps
