@@ -514,13 +514,30 @@ exports.getAllOrganisations = async (req, res) => {
 
     const allQueryLength = await Organisation.countDocuments(queryObj);
 
-    const orgs = await Organisation.find(queryObj)
-      .limit(limit * 1)
-      .skip(_start ? _start : 0)
-      .sort({ dateAdded: -1, ...sort })
-      .select(fields)
-      .option({ allowDiskUse: true });
-      
+    // const orgs = await Organisation.find(queryObj)
+    //   .limit(limit * 1)
+    //   .skip(_start ? _start : 0)
+    //   .sort({ dateAdded: -1, ...sort })
+    //   .select(fields)
+    //   .option({ allowDiskUse: true });
+
+    const pipeline = [
+      { $match: queryObj },
+      { $sort: { dateAdded: -1, ...sort } },
+      { $skip: _start ? parseInt(_start) : 0 },
+      { $limit: limit ? parseInt(limit) : 10 },
+    ];
+    
+    if (fields) {
+      const projectFields = fields.split(',').reduce((acc, field) => {
+        acc[field.trim()] = 1;
+        return acc;
+      }, {});
+      pipeline.push({ $project: projectFields });
+    }
+    
+    const orgs = await Organisation.aggregate(pipeline).allowDiskUse(true);
+
     if (response_mode === "basic") {
       res.status(200).json(orgs);
     } else {
