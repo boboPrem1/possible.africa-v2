@@ -536,7 +536,9 @@ exports.getAllOrganisations = async (req, res) => {
       pipeline.push({ $project: projectFields });
     }
     
-    const orgs = await Organisation.aggregate(pipeline).allowDiskUse(true);
+    // const orgs = await Organisation.aggregate(pipeline).allowDiskUse(true);
+
+    const orgs = await Organisation.aggregate(pipeline, { allowDiskUse: true });
 
     if (response_mode === "basic") {
       res.status(200).json(orgs);
