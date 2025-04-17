@@ -500,11 +500,10 @@ exports.getAllOrganisations = async (req, res) => {
     if (_end && (_start || _start == 0)) {
       limit = _end - _start;
     }
-    const allDataLength = await Organisation.find().count().allowDiskUse(true);
-    const allQueryLength = await Organisation.find(queryObj)
+    const allDataLength = await Organisation.countDocuments();
+    const allQueryLength = await Organisation.countDocuments(queryObj)
       .sort({ dateAdded: -1, ...sort })
-      .select(fields)
-      .count().allowDiskUse(true);
+      .select(fields).allowDiskUse(true);
     const orgs = await Organisation.find(queryObj)
       .limit(limit * 1)
       .skip(_start ? _start : 0)
