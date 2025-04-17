@@ -500,15 +500,27 @@ exports.getAllOrganisations = async (req, res) => {
     if (_end && (_start || _start == 0)) {
       limit = _end - _start;
     }
+    // const allDataLength = await Organisation.countDocuments();
+    // const allQueryLength = await Organisation.countDocuments(queryObj)
+    //   .sort({ dateAdded: -1, ...sort })
+    //   .select(fields).allowDiskUse(true);
+    // const orgs = await Organisation.find(queryObj)
+    //   .limit(limit * 1)
+    //   .skip(_start ? _start : 0)
+    //   .sort({ dateAdded: -1, ...sort })
+    //   .select(fields).allowDiskUse(true);
+
     const allDataLength = await Organisation.countDocuments();
-    const allQueryLength = await Organisation.countDocuments(queryObj)
-      .sort({ dateAdded: -1, ...sort })
-      .select(fields).allowDiskUse(true);
+
+    const allQueryLength = await Organisation.countDocuments(queryObj);
+
     const orgs = await Organisation.find(queryObj)
       .limit(limit * 1)
       .skip(_start ? _start : 0)
       .sort({ dateAdded: -1, ...sort })
-      .select(fields).allowDiskUse(true);
+      .select(fields)
+      .option({ allowDiskUse: true });
+      
     if (response_mode === "basic") {
       res.status(200).json(orgs);
     } else {
@@ -519,32 +531,6 @@ exports.getAllOrganisations = async (req, res) => {
         allQueryLength,
       });
     }
-
-    // const orgsToBeModified = await Organisation.find();
-    // orgsToBeModified.map(async (org) => {
-    //   const oooooo = await Organisation.findByIdAndUpdate(
-    //     org._id,
-    //     {
-    //       name: org.name ? org.name : "",
-    //       description: org.description ? org.description : "",
-    //       source: org.source ? org.source : "",
-    //       region: org.region ? org.region : "",
-    //       headquarter: org.headquarter ? org.headquarter : "",
-    //       operatingCountries: org.operatingCountries
-    //         ? org.operatingCountries
-    //         : "",
-    //       sector: org.sector ? org.sector : "",
-    //       subSector: org.subSector ? org.subSector : "",
-    //       active: org.active ? org.active : "",
-    //       fundraising: org.fundraising ? org.fundraising : "",
-    //       amountFundraised: org.amountFundraised ? org.amountFundraised : "",
-    //       tier: org.tier ? org.tier : "",
-    //       website: org.website ? org.website : "",
-    //     },
-    //     { new: true }
-    //   );
-    //   console.log(oooooo);
-    // });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
