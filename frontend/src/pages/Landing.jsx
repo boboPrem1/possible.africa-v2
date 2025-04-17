@@ -216,11 +216,11 @@ Retourne uniquement le JSON, sans texte additionnel.`;
       <Header page="/" />
 
       {/* Hero Section */}
-      <div className="relative h-[80vh] overflow-hidden bg-gradient-to-br from-primary-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 py-8 md:py-12 lg:py-16">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             {/* Texte */}
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left md:flex md:flex-col md:justify-center md:h-full">
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 <span className="text-primary">
                   {_.landing_hero_title?.split(" ")[0] || "Connect"}
@@ -264,18 +264,18 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                   </span>
                 </Link>
                 {/* <Link
-                  to="/news"
-                  className="px-5 md:px-6 py-2.5 md:py-3 bg-white text-sm md:text-base text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
-                >
-                  {_.landing_hero_cta_secondary || "Actualités Tech"}
-                </Link> */}
+            to="/news"
+            className="px-5 md:px-6 py-2.5 md:py-3 bg-white text-sm md:text-base text-primary border border-primary rounded-full font-medium hover:bg-primary-50 transition-all"
+              >
+            {_.landing_hero_cta_secondary || "Actualités Tech"}
+              </Link> */}
               </div>
             </div>
 
             {/* Animation/Illustration */}
             {/* Input animé pour recevoir des prospects gratuits */}
-            <div className="mt-8 md:mt-10 w-full max-w-md mx-auto md:mx-0">
-              <form onSubmit={handleSubmit} className="relative">
+            <div className="w-full max-w-md mx-auto md:ml-auto md:flex md:items-center md:h-full">
+              <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative group">
                   <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-400 to-teal-300 rounded-2xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
                   <div className="relative bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-xl">
@@ -342,13 +342,11 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                           !targetName.trim()
                         }
                         className={`w-full px-6 py-3.5 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2
-                            ${
-                              isSubmitting ||
-                              !companyName.trim() ||
-                              !targetName.trim()
-                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                : "bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                            }`}
+                  ${
+                    isSubmitting || !companyName.trim() || !targetName.trim()
+                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : "bg-gradient-to-r from-primary to-teal-400 hover:to-teal-300 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                  }`}
                       >
                         {isSubmitting ? (
                           <svg
@@ -677,7 +675,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
               </div>
 
               {/* Statistiques   */}
-              <div className="flex justify-center h-fit items-center">
+              <div className="flex justify-center md:py-20 h-fit items-center">
                 <div className="mt-12 md:mt-10 grid grid-col-1 md:grid-cols-3 gap-6 md:gap-12 text-center">
                   <div className="bg-white/90 backdrop-blur-sm p-6 md:p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
                     <div className="text-4xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 text-transparent bg-clip-text mb-3">
