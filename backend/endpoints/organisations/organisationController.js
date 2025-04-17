@@ -500,16 +500,16 @@ exports.getAllOrganisations = async (req, res) => {
     if (_end && (_start || _start == 0)) {
       limit = _end - _start;
     }
-    const allDataLength = await Organisation.find().count();
+    const allDataLength = await Organisation.find().count().allowDiskUse(true);
     const allQueryLength = await Organisation.find(queryObj)
       .sort({ dateAdded: -1, ...sort })
       .select(fields)
-      .count();
+      .count().allowDiskUse(true);
     const orgs = await Organisation.find(queryObj)
       .limit(limit * 1)
       .skip(_start ? _start : 0)
       .sort({ dateAdded: -1, ...sort })
-      .select(fields);
+      .select(fields).allowDiskUse(true);
     if (response_mode === "basic") {
       res.status(200).json(orgs);
     } else {
