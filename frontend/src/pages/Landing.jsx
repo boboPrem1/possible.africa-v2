@@ -1513,7 +1513,7 @@ export const Header = ({ page }) => {
         )}
       </AnimatePresence>
 
-      <div className="h-16 md:h-20 lg:h-24 max-w-7xl mx-auto flex justify-between items-center">
+      <div className="h-16 md:h-20 lg:h-24 mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-x-4 md:gap-x-10 flex-shrink-0">
           <a href="/" className="flex items-center">

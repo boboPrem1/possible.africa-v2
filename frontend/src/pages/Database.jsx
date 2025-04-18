@@ -312,8 +312,8 @@ function DatabaseContent() {
           {/* Stats cards - 3 colonnes sur grand écran  */}
           <div className="col-span-12 md:col-span-4 grid grid-cols-1 shadow-xl md:py-12 md:px-12 gap-5 w-full md:w-full h-auto">
             <div className="text-gray-700 text-sm font-medium mb-2 p-2">
-              Easily target and engage the right contacts, according to your
-              criteria - for faster, more strategic prospecting.
+              {_.database_cta ||
+                "Ciblez et engagez facilement les bons contacts, selon vos critères, pour une prospection plus rapide et plus stratégique"}
             </div>
             <div className="grid grid-cols-2 gap-5">
               <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
@@ -390,7 +390,7 @@ function DatabaseContent() {
               style={{ position: "relative", overflow: "hidden" }}
             >
               <h3 className="text-lg font-semibold text-center text-gray-800 mb-2">
-                {_.analytics_title || "Analyse des organisations"}
+                {_.database_analytics_title || "Analyse des organisations"}
               </h3>
               {!byRegionsData || !byTiersData ? (
                 <div className="flex-1 flex items-center justify-center text-gray-500">

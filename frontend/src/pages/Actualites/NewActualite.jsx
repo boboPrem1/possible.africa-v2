@@ -515,15 +515,17 @@ function News() {
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
                 <span className="inline bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
-                  Africa's movers and shakers,
+                  {_.news_cta_text_one || "The latest news from Africa,"}
                 </span>
                 <br />
-                <span className="inline">brought together for you</span>
+                <span className="inline">
+                  {_.news_cta_text_two || "brought together for you"}
+                </span>
               </h1>
 
               <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-3xl mx-auto">
-                Stay on top of trends, capture innovations and seize the best
-                opportunities
+                {_.news_cta_subtext ||
+                  "Stay on top of trends, capture innovations and seize the best opportunities"}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -535,7 +537,7 @@ function News() {
                   }}
                   className="px-8 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-all duration-300 flex items-center justify-center"
                 >
-                  {_.discover_news || "Discover News"}
+                  {_.news_cta_button || "Discover News"}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 ml-2"
