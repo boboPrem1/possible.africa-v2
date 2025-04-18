@@ -307,6 +307,10 @@ function News() {
   const [language, setLanguage] = useState(lang);
   const [languageChanging, setLanguageChanging] = useState(false);
   const [infiniteScrollIsFetching] = useState(false);
+  const [showHero, setShowHero] = useState(true);
+  const heroRef = useRef(null);
+  const newsContentRef = useRef(null);
+
   const [pageEq, dispatch] = useReducer(pageEqReducer, [
     { field: "possible", value: true },
     { field: "title", value: "" },
@@ -397,6 +401,35 @@ function News() {
     },
     [lang]
   );
+  // Add scroll listener to handle hero visibility
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+
+    // Reset hero visibility
+    setShowHero(true);
+    if (heroRef.current) {
+      heroRef.current.style.opacity = 1;
+    }
+    const handleScroll = () => {
+      if (!heroRef.current) return;
+
+      const scrollPosition = window.scrollY;
+      const heroHeight = heroRef.current.offsetHeight;
+
+      // Calculate opacity based on scroll position
+      const opacity = Math.max(0, 1 - scrollPosition / (heroHeight * 0.7));
+
+      // Apply opacity to hero section
+      heroRef.current.style.opacity = opacity;
+
+      // Hide hero completely when it's almost invisible
+      setShowHero(opacity > 0.05);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   if (isLoading) {
     return (
@@ -435,7 +468,123 @@ function News() {
   return (
     <>
       <Header page="/news" />
-      <div className="flex justify-center">
+      {/* Hero Section */}
+      {showHero && (
+        <div
+          ref={heroRef}
+          className="w-full transition-opacity duration-500 ease-out relative"
+          style={{
+            minHeight: "50vh",
+            transform: showHero ? "translateY(0)" : "translateY(-100%)",
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-primary/5 z-0"></div>
+
+          {/* Background Pattern */}
+          <div className="absolute inset-0 z-10 opacity-10">
+            <svg width="100%" height="100%">
+              <pattern
+                id="pattern-circles"
+                x="0"
+                y="0"
+                width="30"
+                height="30"
+                patternUnits="userSpaceOnUse"
+                patternContentUnits="userSpaceOnUse"
+              >
+                <circle
+                  id="pattern-circle"
+                  cx="10"
+                  cy="10"
+                  r="1.6"
+                  fill="#6366F1"
+                ></circle>
+              </pattern>
+              <rect
+                id="rect"
+                x="0"
+                y="0"
+                width="100%"
+                height="100%"
+                fill="url(#pattern-circles)"
+              ></rect>
+            </svg>
+          </div>
+
+          <div className="container mx-auto px-4 py-16 md:py-24 relative z-20">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
+                <span className="inline bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
+                  {_.news_cta_text_one || "The latest news from Africa,"}
+                </span>
+                <br />
+                <span className="inline">
+                  {_.news_cta_text_two || "brought together for you"}
+                </span>
+              </h1>
+
+              <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-3xl mx-auto">
+                {_.news_cta_subtext ||
+                  "Stay on top of trends, capture innovations and seize the best opportunities"}
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => {
+                    newsContentRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="px-8 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-all duration-300 flex items-center justify-center"
+                >
+                  {_.news_cta_button || "Discover News"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+
+                {pageEqS[1].value || pageEqS[2].value || pageEqS[3].value ? (
+                  <button
+                    onClick={() => {
+                      setPageEqS([
+                        { field: "possible", value: true },
+                        { field: "title", value: "" },
+                        { field: "airTags", value: "" },
+                        { field: "airLanguage", value: "" },
+                      ]);
+                      dispatch({ field: "reset", value: "" });
+                    }}
+                    className="px-8 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-gray-50 transition-all duration-300"
+                  >
+                    {_.reset_filters || "Reset Filters"}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setMobileFilterIsVisible(true)}
+                    className="px-8 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-gray-50 transition-all duration-300 md:hidden"
+                  >
+                    {_.filter_news || "Filter News"}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom fade effect */}
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+        </div>
+      )}
+
+      <div ref={newsContentRef} className="flex justify-center">
         {/* Filter Results Banner - Only shows when filters are active */}
         <div className="flex flex-col w-11/12">
           {(pageEqS[1].value || pageEqS[2].value || pageEqS[3].value) &&

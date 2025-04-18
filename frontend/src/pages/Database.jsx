@@ -35,9 +35,9 @@ function DatabaseContent() {
   // Fonction pour récupérer les paramètres depuis l'URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     // Récupérer loadCount
-    const loadCountParam = urlParams.get('loadCount');
+    const loadCountParam = urlParams.get("loadCount");
     if (loadCountParam) {
       try {
         const parsedValue = parseInt(loadCountParam, 10);
@@ -48,9 +48,9 @@ function DatabaseContent() {
         console.error("Erreur de conversion loadCount:", e);
       }
     }
-    
+
     // Récupérer currentPage (nombre de pages déjà chargées)
-    const pageParam = urlParams.get('page');
+    const pageParam = urlParams.get("page");
     if (pageParam) {
       try {
         const parsedPage = parseInt(pageParam, 10);
@@ -61,9 +61,9 @@ function DatabaseContent() {
         console.error("Erreur de conversion page:", e);
       }
     }
-    
+
     // Récupérer le pays sélectionné
-    const countryParam = urlParams.get('country');
+    const countryParam = urlParams.get("country");
     if (countryParam) {
       setSelectedCountry(countryParam);
     }
@@ -72,16 +72,20 @@ function DatabaseContent() {
   // Fonction pour mettre à jour l'URL avec tous les paramètres
   const updateUrlParams = (params) => {
     const newUrl = new URL(window.location.href);
-    
+
     // Mettre à jour les paramètres existants
     Object.entries(params).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         newUrl.searchParams.set(key, value.toString());
       }
     });
-    
+
     // Mettre à jour l'URL sans recharger la page
-    window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+    window.history.pushState(
+      { path: newUrl.toString() },
+      "",
+      newUrl.toString()
+    );
   };
 
   const handleLoadCountChange = (newValue) => {
@@ -90,7 +94,7 @@ function DatabaseContent() {
       updateUrlParams({ loadCount: newValue });
     }
   };
-  
+
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     updateUrlParams({ page: newPage });
@@ -104,7 +108,7 @@ function DatabaseContent() {
     } else {
       setSelectedCountry(countryName);
       updateUrlParams({ country: countryName });
-      
+
       // Add a small delay to ensure the filter is applied before scrolling
       setTimeout(() => {
         scrollToTable();
@@ -304,51 +308,57 @@ function DatabaseContent() {
     <>
       <Header page="/database" />
       <div className="flex justify-center py-8">
-        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-12 gap-x-6 gap-y-20 justify-items-center items-center">
-          {/* Stats cards - 3 colonnes sur grand écran */}
-          <div className="col-span-12 md:col-span-4 grid grid-cols-2 gap-5 w-full md:w-full h-auto">
-            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_total_organisations}
-              </div>
-              <div className="text-3xl font-bold mt-1">
-                {dashBoardData?.organisations?.all}
-              </div>
+        <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-12 gap-x-6 gap-y-10 md:gap-y-20 justify-items-center items-center">
+          {/* Stats cards - 3 colonnes sur grand écran  */}
+          <div className="col-span-12 md:col-span-4 grid grid-cols-1 shadow-xl md:py-12 md:px-12 gap-5 w-full md:w-full h-auto">
+            <div className="text-gray-700 text-sm font-medium mb-2 p-2">
+              {_.database_cta ||
+                "Ciblez et engagez facilement les bons contacts, selon vos critères, pour une prospection plus rapide et plus stratégique"}
             </div>
+            <div className="grid grid-cols-2 gap-5">
+              <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
+                <div className="text-gray-600 text-sm font-medium">
+                  {_.database_total_organisations}
+                </div>
+                <div className="text-3xl font-bold mt-1">
+                  {dashBoardData?.organisations?.all}
+                </div>
+              </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_sectors}
+              <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
+                <div className="text-gray-600 text-sm font-medium">
+                  {_.database_sectors}
+                </div>
+                <div className="text-3xl font-bold mt-1">
+                  {Object.keys(SUB_SECTORS).length}
+                </div>
               </div>
-              <div className="text-3xl font-bold mt-1">
-                {Object.keys(SUB_SECTORS).length}
-              </div>
-            </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_covered_countries}
+              <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
+                <div className="text-gray-600 text-sm font-medium">
+                  {_.database_covered_countries}
+                </div>
+                <div className="text-3xl font-bold mt-1">
+                  {Object.keys(COUNTRIES).length}
+                </div>
               </div>
-              <div className="text-3xl font-bold mt-1">
-                {Object.keys(COUNTRIES).length}
-              </div>
-            </div>
 
-            <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
-              <div className="text-gray-600 text-sm font-medium">
-                {_.database_sub_sectors}
-              </div>
-              <div className="text-3xl font-bold mt-1">
-                {Object.keys(SUB_SECTORS).reduce(
-                  (acc, sector) => acc + SUB_SECTORS[sector].length,
-                  0
-                )}
+              <div className="bg-green-50 rounded-lg p-5 w-full h-[120px]">
+                <div className="text-gray-600 text-sm font-medium">
+                  {_.database_sub_sectors}
+                </div>
+                <div className="text-3xl font-bold mt-1">
+                  {Object.keys(SUB_SECTORS).reduce(
+                    (acc, sector) => acc + SUB_SECTORS[sector].length,
+                    0
+                  )}
+                </div>
               </div>
             </div>
           </div>
 
           {/* Carte choroplèthe - 6 colonnes sur grand écran - maintenant au milieu */}
-          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-sm h-[550px] w-full">
+          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-sm h-[400px] md:h-[550px] w-full">
             <div className="bg-white rounded-lg overflow-hidden shadow-sm h-[550px] hidden md:block">
               <ResponsiveCloropleth
                 style={{
@@ -374,10 +384,13 @@ function DatabaseContent() {
           </div>
 
           {/* Donut chart - 3 colonnes sur grand écran */}
-          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-sm h-[450px] w-full">
-            <div className="p-4 h-full flex flex-col" style={{ position: "relative", overflow: "hidden" }}>
+          <div className="col-span-12 md:col-span-4 bg-white rounded-lg overflow-hidden shadow-xl h-[450px] w-full">
+            <div
+              className="p-4 h-full flex flex-col"
+              style={{ position: "relative", overflow: "hidden" }}
+            >
               <h3 className="text-lg font-semibold text-center text-gray-800 mb-2">
-                {_.analytics_title || "Analyse des organisations"}
+                {_.database_analytics_title || "Analyse des organisations"}
               </h3>
               {!byRegionsData || !byTiersData ? (
                 <div className="flex-1 flex items-center justify-center text-gray-500">
@@ -417,8 +430,8 @@ function DatabaseContent() {
                 </select>
               </div>
             </div> */}
-            <Organisations 
-              withoutHeader={true} 
+            <Organisations
+              withoutHeader={true}
               loadCount={loadCount}
               onLoadCountChange={handleLoadCountChange}
               currentPage={currentPage}

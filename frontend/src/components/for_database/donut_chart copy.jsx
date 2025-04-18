@@ -229,9 +229,9 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
           padAngle={1}
           cornerRadius={3}
           activeOuterRadiusOffset={8}
-          colors={{ scheme: "dark2" }} // Changed to dark2 color scheme
+          colors={{ scheme: "nivo" }}
           borderWidth={1}
-          borderColor={{ from: "color", modifiers: [["darker", 0.6]] }} // Darker border
+          borderColor={{ from: "color", modifiers: [["darker", 0.3]] }}
           enableArcLinkLabels={false}
           arcLabelsSkipAngle={10}
           arcLabelsRadiusOffset={0.65}
@@ -244,7 +244,7 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
                 width="40"
                 height="24"
                 rx="4"
-                fill="rgba(250, 250, 250, 0.0)" // Darker background for labels
+                fill="rgba(255, 255, 255, 1)"
               />
               <text
                 textAnchor="middle"
@@ -264,19 +264,19 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
             {
               anchor: "right",
               direction: "column",
-              translateX: 125,
+              translateX: 125, // Increased from 100 to 125 to add more spacing
               translateY: 0,
               itemWidth: 110,
               itemHeight: 20,
               itemsSpacing: 10,
-              itemTextColor: "#333", // Darker text color
+              itemTextColor: "#444",
               symbolSize: 15,
               symbolShape: "circle",
               effects: [
                 {
                   on: "hover",
                   style: {
-                    itemTextColor: "#205F54", // Darker hover color
+                    itemTextColor: "#2BB19C",
                     symbolSize: 17,
                   },
                 },
@@ -290,7 +290,7 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
                     borderRadius: "4px",
                     cursor: "pointer",
                     paddingLeft: "10px",
-                    borderLeft: "3px solid " + color, // Changed from border to borderLeft with color
+                    border: "5px solid #000000",
                   }}
                 >
                   <span
@@ -301,7 +301,7 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
                       backgroundColor: color,
                       borderRadius: "50%",
                       marginRight: 8,
-                      boxShadow: "0 0 3px rgba(0,0,0,0.4)", // Darker shadow
+                      boxShadow: "0 0 3px rgba(0,0,0,0.2)",
                     }}
                   />
                   <div style={{ display: "flex", flexDirection: "column" }}>
@@ -312,16 +312,14 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        color: "#333", // Darker text
+                        color: "#444",
                       }}
                     >
                       {label.length > 20
                         ? `${label.substring(0, 18)}...`
                         : label}
                     </span>
-                    <span style={{ fontSize: "10px", color: "#555" }}>
-                      {" "}
-                      // Darker secondary text
+                    <span style={{ fontSize: "10px", color: "#777" }}>
                       {value} ({((value / total) * 100).toFixed(1)}%)
                     </span>
                   </div>
@@ -332,14 +330,13 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
           tooltip={({ datum }) => (
             <div
               style={{
-                background: "#f8f8f8", // Slightly darker background
+                background: "white",
                 padding: "10px 14px",
-                border: "1px solid #ccc", // Darker border
+                border: "1px solid #e0e0e0",
                 borderRadius: "6px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.2)", // Darker shadow
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                 fontSize: "12px",
                 fontWeight: 500,
-                maxWidth: "120px",
                 zIndex: 999,
               }}
             >
@@ -365,18 +362,16 @@ export const DonutChart = ({ data, style, className, title, subtitle }) => {
                   <strong style={{ fontSize: "13px" }}>{datum.value}</strong>{" "}
                   {_?.organisations || "organisations"}
                 </span>
-                {/* <span
-                  style={{
-                    background: "#2a2a2a", // Dark background
-                    padding: "3px 8px",
-                    borderRadius: "12px",
-                    fontSize: "12px",
-                    fontWeight: "bold",
-                    color: "#fff", // White text for contrast
-                  }}
-                >
-                  {((datum.value / total) * 100).toFixed(1)}%
-                </span> */}
+                {/* <span style={{
+                          background: "#f5f5f5",
+                          padding: "3px 8px",
+                          borderRadius: "12px",
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          color: "#2BB19C"
+                        }}>
+                          {((datum.value / total) * 100).toFixed(1)}%
+                        </span> */}
               </div>
             </div>
           )}
@@ -420,9 +415,9 @@ export const ResponsiveCloropleth = ({
         data={data}
         features={features}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        colors="spectral" // Using spectral for richer, deeper colors
+        colors="nivo"
         domain={[0, 100000]}
-        unknownColor="#777777" // Darker gray for unknown areas
+        unknownColor="#666666"
         label="properties.name"
         key="properties.name"
         valueFormat=".2s"
@@ -440,91 +435,95 @@ export const ResponsiveCloropleth = ({
         }}
         defs={[
           {
+            id: "dots",
+            type: "patternDots",
+            background: "inherit",
+            color: "#38bcb2",
+            size: 4,
+            padding: 1,
+            stagger: true,
+          },
+          {
+            id: "lines",
+            type: "patternLines",
+            background: "inherit",
+            color: "#eed312",
+            rotation: -45,
+            lineWidth: 6,
+            spacing: 10,
+          },
+          {
             id: "gradient",
             type: "linearGradient",
             colors: [
               {
                 offset: 0,
-                color: "#358378", // Lighter dark green, less intense than before
+                color: "#124B42",
               },
               {
                 offset: 100,
-                color: "#42b0a4", // Medium primary color, slightly less intense
+                color: "inherit",
               },
             ],
           },
-          // Pattern for selected country
+          // Add pattern for selected country
           {
             id: "selectedCountry",
-            type: "linearGradient",
-            colors: [
-              {
-                offset: 0,
-                color: "#2BB19C", // Primary color
-              },
-              {
-                offset: 100,
-                color: "#3ECFB8", // Lighter shade
-              },
-            ],
-          },
-          // Define a set of solid colors for random assignment
-          ...Array.from({ length: 10 }, (_, i) => ({
-            id: `solid-${i}`,
             type: "patternLines",
-            background: [
-              "#2f4858",
-              "#33658a",
-              "#86bbd8",
-              "#758e4f",
-              "#f6ae2d",
-              "#5a5a5a",
-              "#4a6670",
-              "#5d4a66",
-              "#6b4a53",
-              "#4d724d",
-            ][i],
-            color: "rgba(255, 255, 255, 0.1)",
+            background: "rgba(43, 177, 156, 0.7)", // Primary color with transparency
+            color: "rgba(255, 255, 255, 0.7)",
             rotation: -45,
-            lineWidth: 1,
-            spacing: 8,
-          })),
+            lineWidth: 6,
+            spacing: 10,
+          },
         ]}
         fill={[
-          // Using solid colors instead of patterns
-          ...data.map((d, i) => ({
+          ...data.map((d) => ({
             match: {
               id: d.id,
             },
-            id: `solid-${i % 10}`, // Assign a color from our palette based on index
+            id: representations[
+              Math.floor(Math.random() * representations.length)
+            ],
           })),
-          // Add selected country highlighting if applicable
-          ...(selectedCountry
-            ? [
-                {
-                  match: {
-                    id: selectedCountry,
-                  },
-                  id: "selectedCountry",
-                },
-              ]
-            : []),
         ]}
+        // legends={[
+        //   {
+        //     anchor: "bottom-left",
+        //     direction: "column",
+        //     justify: true,
+        //     translateX: 100,
+        //     translateY: -100,
+        //     itemsSpacing: 5,
+        //     itemWidth: 120,
+        //     itemDirection: "left-to-right",
+        //     itemTextColor: "#444",
+        //     itemOpacity: 0.85,
+        //     symbolSize: 18,
+        //     title: _.map_legend_title || "Pays par nombre d'organisations",
+        //     effects: [
+        //       {
+        //         on: "hover",
+        //         style: {
+        //           itemTextColor: "#000",
+        //           itemOpacity: 1,
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ]}
         tooltip={({ feature }) => (
           <div
             style={{
-              background: "#f8f8f8", // Slightly darker background
-              padding: "10px 14px",
+              background: "white",
+              padding: "9px 12px",
               border: "1px solid #ccc",
-              borderRadius: "6px",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
-              fontSize: "12px",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
-            <strong style={{ fontSize: "14px", color: "#333" }}>
-              {feature.properties.name}
-            </strong>
-            <div style={{ marginTop: "4px", color: "#555" }}>
+            <strong>{feature.properties.name}</strong>
+            <div>
               {feature.value
                 ? `${feature.value} ${_.map_organisations || "organisations"}`
                 : _.map_no_data || "Aucune donnée"}
@@ -570,9 +569,9 @@ export const MobileResponsiveCloropleth = ({
         data={data}
         features={features}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        colors="spectral" // Using spectral for richer, deeper colors
+        colors="nivo"
         domain={[0, 100000]}
-        unknownColor="#777777" // Darker gray for unknown areas
+        unknownColor="#666666"
         label="properties.name"
         key="properties.name"
         valueFormat=".2s"
@@ -590,91 +589,72 @@ export const MobileResponsiveCloropleth = ({
         }}
         defs={[
           {
+            id: "dots",
+            type: "patternDots",
+            background: "inherit",
+            color: "#38bcb2",
+            size: 4,
+            padding: 1,
+            stagger: true,
+          },
+          {
+            id: "lines",
+            type: "patternLines",
+            background: "inherit",
+            color: "#eed312",
+            rotation: -45,
+            lineWidth: 6,
+            spacing: 10,
+          },
+          {
             id: "gradient",
             type: "linearGradient",
             colors: [
               {
                 offset: 0,
-                color: "#358378", // Lighter dark green, less intense than before
+                color: "#124B42",
               },
               {
                 offset: 100,
-                color: "#42b0a4", // Medium primary color, slightly less intense
+                color: "inherit",
               },
             ],
           },
-          // Pattern for selected country
+          // Add pattern for selected country
           {
             id: "selectedCountry",
-            type: "linearGradient",
-            colors: [
-              {
-                offset: 0,
-                color: "#2BB19C", // Primary color
-              },
-              {
-                offset: 100,
-                color: "#3ECFB8", // Lighter shade
-              },
-            ],
-          },
-          // Define a set of solid colors for random assignment
-          ...Array.from({ length: 10 }, (_, i) => ({
-            id: `solid-${i}`,
             type: "patternLines",
-            background: [
-              "#2f4858",
-              "#33658a",
-              "#86bbd8",
-              "#758e4f",
-              "#f6ae2d",
-              "#5a5a5a",
-              "#4a6670",
-              "#5d4a66",
-              "#6b4a53",
-              "#4d724d",
-            ][i],
-            color: "rgba(255, 255, 255, 0.1)",
+            background: "rgba(43, 177, 156, 0.7)", // Primary color with transparency
+            color: "rgba(255, 255, 255, 0.7)",
             rotation: -45,
-            lineWidth: 1,
-            spacing: 8,
-          })),
+            lineWidth: 6,
+            spacing: 10,
+          },
         ]}
         fill={[
-          // Using solid colors instead of patterns
-          ...data.map((d, i) => ({
-            match: {
-              id: d.id,
-            },
-            id: `solid-${i % 10}`, // Assign a color from our palette based on index
-          })),
-          // Add selected country highlighting if applicable
-          ...(selectedCountry
-            ? [
-                {
-                  match: {
-                    id: selectedCountry,
-                  },
-                  id: "selectedCountry",
-                },
-              ]
-            : []),
+          ...data.map((d) => {
+            return {
+              match: {
+                id: d.id,
+              },
+              id: representations[
+                Math.floor(Math.random() * representations.length)
+              ],
+            };
+          }),
         ]}
         tooltip={({ feature }) => (
           <div
             style={{
-              background: "#f8f8f8", // Slightly darker background
-              padding: "10px 14px",
+              background: "white",
+              padding: "9px 12px",
               border: "1px solid #ccc",
-              borderRadius: "6px",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
-              fontSize: "12px",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
-            <strong style={{ fontSize: "14px", color: "#333" }}>
-              {feature.properties.name}
-            </strong>
-            <div style={{ marginTop: "4px", color: "#555" }}>
+            <strong>{feature.properties.name}</strong>
+            <div>
               {feature.value
                 ? `${feature.value} ${_.map_organisations || "organisations"}`
                 : _.map_no_data || "Aucune donnée"}

@@ -843,32 +843,6 @@ function Organisations({
           <div className="min-h-[70vh] flex flex-col justify-start">
             {/* Show country filter indicator if active */}
             {/* {renderActiveCountryFilter()} */}
-            {/* Bouton pour ouvrir le modal des filtres */}
-            <div className="w-full flex justify-center md:justify-end items-center mb-4 relative">
-              <button
-                onClick={() => setShowFilterModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300 absolute top-5 right-1 z-30"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-sm font-bold">Filters</span>
-                {hasActiveFilters() && (
-                  <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-darkPrimary rounded-full">
-                    {pageEqS.filter((eq) => eq.value !== "").length}
-                  </span>
-                )}
-              </button>
-            </div>
 
             {/* Modal des filtres */}
             {showFilterModal && (
@@ -1037,7 +1011,39 @@ function Organisations({
                     <th className="text-start text-nowrap px-10 py-3">
                       {_.database_contact_person}
                     </th>
-                    <th className="text-start text-nowrap px-10 py-3"></th>
+                    <th className="text-start text-nowrap px-10 py-3">
+                      {" "}
+                      {/* Bouton pour ouvrir le modal des filtres */}
+                      <button
+                        onClick={() => setShowFilterModal(true)}
+                        className="flex items-center gap-0.5 px-2 py-2 bg-primary text-white rounded-full font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary active:scale-95 transition-all duration-300"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span className="text-sm font-bold">
+                          {" "}
+                          {_.news_btn_filter}
+                        </span>
+                        {hasActiveFilters() && (
+                          <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-darkPrimary rounded-full">
+                            {pageEqS.filter((eq) => eq.value !== "").length}
+                          </span>
+                        )}
+                      </button>
+                      {/* <div className="w-full flex justify-center md:justify-end items-center mb-4">
+
+                      </div> */}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1525,7 +1531,7 @@ const FilterUI = ({
     <div className="bg-white rounded-lg p-6 shadow-sm w-full max-w-4xl">
       <div className="mb-5 flex justify-between items-center">
         <h2 className="text-2xl font-bold text-primary">
-          {_.filters || "Filters"}
+          {_.news_btn_filter || "Filters"}
         </h2>
         <button
           onClick={() => setShowFilterModal(false)}
@@ -1571,8 +1577,8 @@ const FilterUI = ({
           {/* Country Filter */}
           <div className="filter-group relative">
             <CustumSelect
-              label={_.headquarter || "Country"}
-              placeholder={_.choose_country || "Choose a country"}
+              label={_.database_headquarter || "Country"}
+              placeholder={_.database_choose_country || "Choose a country"}
               value={pageEq[3].value}
               onChange={(e) => {
                 dispatch({
@@ -1582,7 +1588,9 @@ const FilterUI = ({
               }}
               className={pageEq[3].value ? "border-primary" : ""}
             >
-              <option value="">{_.choose_country || "Choose a country"}</option>
+              <option value="">
+                {_.database_choose_country || "Choose a country"}
+              </option>
               {/* Country options */}
               {countries.all.map((c) => (
                 <option key={c} value={c}>
@@ -1594,7 +1602,7 @@ const FilterUI = ({
               <button
                 onClick={() => dispatch({ field: "headquarter", value: "" })}
                 className="absolute right-10 top-[42px] text-gray-400 hover:text-red-500"
-                aria-label="Clear country filter"
+                aria-label={_.database_clear_country || "Clear country filter"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1617,15 +1625,15 @@ const FilterUI = ({
           {/* Sector Filter */}
           <div className="filter-group relative">
             <CustumSelect
-              label={_.sector || "Sector"}
-              placeholder={_.choose_sector || "Choose a sector"}
+              label={_.database_sector || "Sector"}
+              placeholder={_.database_choose_sector || "Choose a sector"}
               value={pageEq[5].value}
               onChange={(e) => {
                 dispatch({ field: "sector", value: e.target.value });
               }}
               className={pageEq[5].value ? "border-primary" : ""}
             >
-              <option value="">{_.choose_sector || "Choose a sector"}</option>
+              <option value="">{_.database_sector || "Choose a sector"}</option>
               <option value="All">All</option>
               <option value="Health">Health</option>
               <option value="Agribusiness">Agribusiness</option>
@@ -1648,7 +1656,7 @@ const FilterUI = ({
               <button
                 onClick={() => dispatch({ field: "sector", value: "" })}
                 className="absolute right-10 top-[42px] text-gray-400 hover:text-red-500"
-                aria-label="Clear sector filter"
+                aria-label={_.database_clear_sector || "Clear sector filter"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1689,7 +1697,7 @@ const FilterUI = ({
                 clipRule="evenodd"
               />
             </svg>
-            {_.advanced_filters || "Advanced Filters"}
+            {_.database_advanced_filters || "Advanced Filters"}
             {secondaryFilterActive && (
               <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-primary rounded-full">
                 {
@@ -1721,8 +1729,8 @@ const FilterUI = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 border-t pt-4 transition-all duration-300">
             {/* Organization Name */}
             <Input
-              label={_.name || "Organization Name"}
-              placeholder={_.enter_org_name || "Enter organization name"}
+              label={_.database_org_name || "Organization Name"}
+              placeholder={_.database_enter_org_name || "Enter organization name"}
               type="text"
               value={pageEq[0].value}
               onChange={(e) => {
@@ -1733,13 +1741,13 @@ const FilterUI = ({
             {/* Region */}
             <CustumSelect
               label={_.region || "Region"}
-              placeholder={_.choose_region || "Choose region"}
+              placeholder={_.database_choose_region || "Choose region"}
               value={pageEq[2].value}
               onChange={(e) => {
                 dispatch({ field: "region", value: e.target.value });
               }}
             >
-              <option value="">{_.choose_region || "Choose region"}</option>
+              <option value="">{_.database_choose_region || "Choose region"}</option>
               <option value="All">All</option>
               <option value="North Africa">North Africa</option>
               <option value="West Africa">West Africa</option>
@@ -1750,8 +1758,8 @@ const FilterUI = ({
 
             {/* Operating Countries */}
             <CustumSelect
-              label={_.operating_countries || "Operating Countries"}
-              placeholder={_.choose_country || "Choose a country"}
+              label={_.database_operating_countries || "Operating Countries"}
+              placeholder={_.database_choose_country || "Choose a country"}
               value={pageEq[4].value}
               onChange={(e) => {
                 dispatch({
@@ -1760,7 +1768,7 @@ const FilterUI = ({
                 });
               }}
             >
-              <option value="">{_.choose_country || "Choose a country"}</option>
+              <option value="">{_.database_choose_country || "Choose a country"}</option>
               <option value="All">All</option>
               {countries.all.map((c) => (
                 <option key={c} value={c}>
@@ -1772,8 +1780,8 @@ const FilterUI = ({
             {/* Sub-sector - Only show if sector is selected */}
             {pageEq[5].value && (
               <CustumSelect
-                label={_.sub_sector || "Sub-sector"}
-                placeholder={_.choose_sub_sector || "Choose sub-sector"}
+                label={_.database_sub_sector || "Sub-sector"}
+                placeholder={_.database_choose_sub_sector || "Choose sub-sector"}
                 value={pageEq[6].value}
                 onChange={(e) => {
                   dispatch({
@@ -1783,7 +1791,7 @@ const FilterUI = ({
                 }}
               >
                 <option value="">
-                  {_.choose_sub_sector || "Choose sub-sector"}
+                  {_.database_choose_sub_sector || "Choose sub-sector"}
                 </option>
                 {pageEq[5].value && subSectors[pageEq[5].value.toLowerCase()]
                   ? subSectors[pageEq[5].value.toLowerCase()].map((c) => (
@@ -1798,13 +1806,13 @@ const FilterUI = ({
             {/* Tier */}
             <CustumSelect
               label={_.tier || "Tier"}
-              placeholder={_.choose_tier || "Choose tier"}
+              placeholder={_.database_choose_tier || "Choose tier"}
               value={pageEq[10].value}
               onChange={(e) => {
                 dispatch({ field: "tier", value: e.target.value });
               }}
             >
-              <option value="">{_.choose_tier || "Choose tier"}</option>
+              <option value="">{_.database_choose_tier || "Choose tier"}</option>
               <option value="Global">Global</option>
               <option value="Panafrican">Panafrican</option>
               <option value="Startups">Startups</option>
@@ -1836,7 +1844,7 @@ const FilterUI = ({
               clipRule="evenodd"
             />
           </svg>
-          {_.apply_filters || "Apply Filters"}
+          {_.database_apply_filters || "Apply Filters"}
           {hasActiveFilters && (
             <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-primary bg-white rounded-full">
               {pageEq.filter((eq) => eq.value !== "").length}
@@ -1878,7 +1886,7 @@ const FilterUI = ({
               clipRule="evenodd"
             />
           </svg>
-          {_.reset || "Reset"}
+          {_.database_reset || "Reset"}
         </button>
       </div>
     </div>
