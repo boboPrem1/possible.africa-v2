@@ -26,10 +26,11 @@ const s3 = new S3({
   endpoint: endpointMap[AWS_REGION],
 });
 
+// acl: "public-read",
+
 const storage = multerS3({
   s3: s3,
   bucket: BUCKET_NAME,
-  acl: "public-read",
   metadata: function (req, file, cb) {
     cb(null, { fieldName: file.fieldname });
   },
