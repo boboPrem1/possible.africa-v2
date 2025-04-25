@@ -7,6 +7,15 @@ const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
 const BUCKET_NAME = process.env.BUCKET_NAME;
 const AWS_REGION = process.env.AWS_REGION;
 
+
+// ✅ Définir explicitement l’endpoint en fonction de la région
+const endpointMap = {
+  "af-south-1": "https://s3.af-south-1.amazonaws.com",
+  "us-east-1": "https://s3.amazonaws.com",
+  // ajoute d’autres si besoin
+};
+
+
 // S3 config
 const s3 = new S3({
   accessKeyId: ACCESS_KEY_ID,
