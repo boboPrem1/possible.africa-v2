@@ -33,7 +33,7 @@ import LogoExa from "../../assets/logoEXA.svg";
 import PossibleAfricaLogo from "../../assets/dashboard_logo.svg";
 import AfricanTechIndustry from "../../assets/african_tech_industry.webp";
 import LogoHyperlink from "../../assets/logo_hyperlink.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
@@ -69,28 +69,22 @@ function getPageEqValue(key, state) {
   }
 }
 
+// Modified pageEqReducer that also updates URL
 function pageEqReducer(state, action) {
-  let modifieState = [
-    { field: "possible", value: true },
-    { field: "title", value: "" },
-    { field: "airTags", value: "" },
-    { field: "airLanguage", value: "" },
-  ];
-  let titleValue = "";
-  let airLanguageValue = "";
-  let airTagsValue = "";
+  let newState = [...state];
+
   switch (action.field) {
     case "title":
-      state[1] = { ...state[1], value: action.value };
+      newState[1] = { ...state[1], value: action.value };
       break;
     case "airTags":
-      state[2] = { ...state[2], value: action.value };
+      newState[2] = { ...state[2], value: action.value };
       break;
     case "airLanguage":
-      state[3] = { ...state[3], value: action.value };
+      newState[3] = { ...state[3], value: action.value };
       break;
     case "reset":
-      state = [
+      newState = [
         { field: "possible", value: true },
         { field: "title", value: "" },
         { field: "airTags", value: "" },
@@ -98,17 +92,10 @@ function pageEqReducer(state, action) {
       ];
       break;
     default:
-      // console.log("undefined action");
       break;
   }
-  // console.log(state);
-  // return [
-  //   { field: "possible", value: true },
-  //   { field: "title", value: titleValue },
-  //   { field: "airTags", value: airTagsValue },
-  //   { field: "airLanguage", value: airLanguageValue },
-  // ];
-  return [...state];
+
+  return newState;
 }
 
 // Nouveau composant NewsCard avec un design amélioré
@@ -291,12 +278,18 @@ function News() {
   const langTrans = useContext(LangTransContext);
   const lang = langTrans.lang;
   const _ = langTrans._;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Initialize filter state from URL parameters
   const initialPageEq = [
     { field: "possible", value: true },
-    { field: "title", value: "" },
-    { field: "airTags", value: "" },
-    { field: "airLanguage", value: "" },
+    { field: "title", value: searchParams.get("title") || "" },
+    { field: "airTags", value: searchParams.get("tags") || "" },
+    { field: "airLanguage", value: searchParams.get("language") || "" },
   ];
+
   const [page, setPage] = useState(1);
   const [mobileFilterIsVisible, setMobileFilterIsVisible] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
@@ -304,87 +297,55 @@ function News() {
   const [pageS, setPageS] = useState(page + 1);
   const [engPage, setEngPage] = useState(1);
   const [frPage, setFrPage] = useState(1);
-  const [language, setLanguage] = useState(lang);
+  // Initialize language from URL or fallback to context language
+  const [language, setLanguage] = useState(searchParams.get("lang") || lang);
   const [languageChanging, setLanguageChanging] = useState(false);
   const [infiniteScrollIsFetching] = useState(false);
   const [showHero, setShowHero] = useState(true);
   const heroRef = useRef(null);
   const newsContentRef = useRef(null);
 
-  const [pageEq, dispatch] = useReducer(pageEqReducer, [
-    { field: "possible", value: true },
-    { field: "title", value: "" },
-    { field: "airTags", value: "" },
-    { field: "airLanguage", value: "" },
-  ]);
-  const [pageEqS, setPageEqS] = useState([
-    { field: "possible", value: true },
-    { field: "title", value: "" },
-    { field: "airTags", value: "" },
-    { field: "airLanguage", value: "" },
-  ]);
+  const [pageEq, dispatch] = useReducer(pageEqReducer, initialPageEq);
+  const [pageEqS, setPageEqS] = useState(initialPageEq);
   const [allTags, setAllTags] = useState([]);
   const tagScrollRefs = useRef({});
 
-  const {
-    data: allNews = [],
-    isLoading,
-    isFetching,
-    isError,
-    isSuccess,
-    error,
-    refetch,
-  } = useGetPostsQuery({
-    limit: firstLoad ? 10 * page : 10 * (page + 1),
-    page: firstLoad ? page : page + 1,
-    fields: [],
-    eq: pageEqS,
-  });
+  // Function to update URL parameters based on filter state
+  const updateUrlParams = useCallback((filters) => {
+    const params = new URLSearchParams();
 
-  // const {
-  //   data: allNewsLength,
-  //   isLoading: allNewsLengthIsLoading,
-  //   isFetching: allNewsLengthIsFetching,
-  //   refetch: refechAllNewsLength,
-  // } = useGetPostsQuery({
-  //   fields: [],
-  //   eq: pageEqS[0].value ? pageEqS : [],
-  // });
+    if (filters[1]?.value) params.set("title", filters[1].value);
+    if (filters[2]?.value) params.set("tags", filters[2].value);
+    if (filters[3]?.value) params.set("language", filters[3].value);
+    if (language !== lang) params.set("lang", language);
 
-  useEffect(() => {
-    if (page != pageS || pageEq.length) {
-      refetch();
-      // console.log(page, pageS);
-    } else {
-      // console.log(page, pageS);
+    // Only update if params have changed
+    if (params.toString() !== searchParams.toString()) {
+      setSearchParams(params);
     }
-  }, [isLoading, page, pageS]);
+  }, [language, lang, searchParams, setSearchParams]);
 
-  // Surveiller les changements de langue
-  useEffect(() => {
-    if (lang !== language) {
-      setLanguage(lang);
-      setLanguageChanging(true);
-      setFirstLoad(true);
-      refetch();
+  // Apply filters and update URL
+  const applyFilters = useCallback(() => {
+    setPageEqS([...pageEq]);
+    updateUrlParams(pageEq);
+  }, [pageEq, updateUrlParams]);
 
-      setTimeout(() => {
-        setLanguageChanging(false);
-      }, 1000);
-    }
-  }, [lang]);
+  // Reset filters and clear URL parameters
+  const resetFilters = useCallback(() => {
+    const resetState = [
+      { field: "possible", value: true },
+      { field: "title", value: "" },
+      { field: "airTags", value: "" },
+      { field: "airLanguage", value: "" },
+    ];
 
-  const scrollTags = (direction, postId) => {
-    if (tagScrollRefs.current[postId]) {
-      const scrollAmount = 150; // Ajuster selon besoin
-      if (direction === "left") {
-        tagScrollRefs.current[postId].scrollLeft -= scrollAmount;
-      } else {
-        tagScrollRefs.current[postId].scrollLeft += scrollAmount;
-      }
-    }
-  };
+    dispatch({ field: "reset", value: "" });
+    setPageEqS(resetState);
+    setSearchParams(new URLSearchParams());
+  }, [setSearchParams]);
 
+  // Modified filter change handler that updates UI state
   const handleFilterEqChange = useCallback(
     (field, value) => {
       dispatch({ field, value });
@@ -401,6 +362,80 @@ function News() {
     },
     [lang]
   );
+
+  // Sync URL parameters with filter state on component mount and URL changes
+  useEffect(() => {
+    const title = searchParams.get("title") || "";
+    const tags = searchParams.get("tags") || "";
+    const filterLanguage = searchParams.get("language") || "";
+    const urlLang = searchParams.get("lang");
+
+    const newFilters = [
+      { field: "possible", value: true },
+      { field: "title", value: title },
+      { field: "airTags", value: tags },
+      { field: "airLanguage", value: filterLanguage },
+    ];
+
+    if (
+      title !== pageEq[1].value || 
+      tags !== pageEq[2].value || 
+      filterLanguage !== pageEq[3].value
+    ) {
+      // Update internal state based on URL parameters
+      dispatch({ field: "title", value: title });
+      dispatch({ field: "airTags", value: tags });
+      dispatch({ field: "airLanguage", value: filterLanguage });
+      setPageEqS(newFilters);
+    }
+
+    // Update language if specified in URL
+    if (urlLang && urlLang !== language) {
+      setLanguage(urlLang);
+    }
+  }, [searchParams, location.search]);
+
+  // Watch for language changes and update URL
+  useEffect(() => {
+    if (lang !== language) {
+      setLanguage(lang);
+      setLanguageChanging(true);
+      setFirstLoad(true);
+
+      // Update language in URL
+      const params = new URLSearchParams(searchParams);
+      params.set("lang", lang);
+      setSearchParams(params);
+
+      refetch();
+
+      setTimeout(() => {
+        setLanguageChanging(false);
+      }, 1000);
+    }
+  }, [lang]);
+
+  const {
+    data: allNews = [],
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    error,
+    refetch,
+  } = useGetPostsQuery({
+    limit: firstLoad ? 10 * page : 10 * (page + 1),
+    page: firstLoad ? page : page + 1,
+    fields: [],
+    eq: pageEqS,
+  });
+
+  useEffect(() => {
+    if (page != pageS || pageEq.length) {
+      refetch();
+    }
+  }, [isLoading, page, pageS]);
+
   // Add scroll listener to handle hero visibility
   useEffect(() => {
     // Scroll to top when component mounts
@@ -554,15 +589,7 @@ function News() {
 
                 {pageEqS[1].value || pageEqS[2].value || pageEqS[3].value ? (
                   <button
-                    onClick={() => {
-                      setPageEqS([
-                        { field: "possible", value: true },
-                        { field: "title", value: "" },
-                        { field: "airTags", value: "" },
-                        { field: "airLanguage", value: "" },
-                      ]);
-                      dispatch({ field: "reset", value: "" });
-                    }}
+                    onClick={resetFilters}
                     className="px-8 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-gray-50 transition-all duration-300"
                   >
                     {_.reset_filters || "Reset Filters"}
@@ -616,7 +643,6 @@ function News() {
                           }
                         </span>{" "}
                         {_.news_shown}{" "}
-                        {/* {language === "fr" ? "en français" : "en anglais"} */}
                         {language === "eng" ? "in french" : "in english"}
                       </p>
                     </div>
@@ -654,15 +680,7 @@ function News() {
                           </div>
                         )}
                         <button
-                          onClick={() => {
-                            setPageEqS([
-                              { field: "possible", value: true },
-                              { field: "title", value: "" },
-                              { field: "airTags", value: "" },
-                              { field: "airLanguage", value: "" },
-                            ]);
-                            dispatch({ field: "reset", value: "" });
-                          }}
+                          onClick={resetFilters}
                           className="ml-1 bg-white text-gray-500 hover:text-danger rounded-full p-1 transition-colors"
                           aria-label="Reset filters"
                         >
@@ -742,7 +760,6 @@ function News() {
               alt=""
             />
           </div>
-          {/* <div className="mx-auto max-w-[1280px] bg-green-600 w-full min-h-[400px] grid grid-cols-[1fr_2fr_1fr] gap-x-5"> */}
           <div
             className={`md:hidden fixed top-0 bottom-0 left-0 right-0 bg-white w-[100vw] h-[100vh] z-[100] flex justify-center items-center ${
               mobileFilterIsVisible ? "" : "hidden"
@@ -753,7 +770,6 @@ function News() {
                 label={_.news_search_by_title}
                 placeholder={_.news_search_by_title_enter_a_title}
                 type="text"
-                // value={pageEq[1].value}
                 value={getPageEqValue("title", pageEq)}
                 onChange={(e) => {
                   dispatch({ field: "title", value: e.target.value });
@@ -810,7 +826,6 @@ function News() {
               <CustumSelect
                 label={_.news_search_language}
                 placeholder={_.news_search_language_choice}
-                // value={pageEq[3].value}
                 value={getPageEqValue("airLanguage", pageEq)}
                 onChange={(e) => {
                   dispatch({ field: "airLanguage", value: e.target.value });
@@ -824,7 +839,7 @@ function News() {
               <button
                 className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
                 onClick={() => {
-                  setPageEqS([...pageEq]);
+                  applyFilters();
                   setTimeout(() => {
                     setMobileFilterIsVisible(false);
                   }, 1000);
@@ -835,13 +850,7 @@ function News() {
               <button
                 className="w-full h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
                 onClick={() => {
-                  setPageEqS([
-                    { field: "possible", value: true },
-                    { field: "title", value: "" },
-                    { field: "airTags", value: "" },
-                    { field: "airLanguage", value: "" },
-                  ]);
-                  dispatch({ field: "reset", value: "" });
+                  resetFilters();
                   setTimeout(() => {
                     setMobileFilterIsVisible(false);
                   }, 1000);
@@ -891,7 +900,6 @@ function News() {
               <CustumSelect
                 label={_.news_search_language}
                 placeholder={_.news_search_language_choice}
-                // value={pageEq[3].value}
                 value={pageEq[3].value}
                 selectClassName="w-full border-[.5px] border-primary rounded-full"
                 containerClassName="w-full"
@@ -906,21 +914,13 @@ function News() {
 
               <button
                 className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-                onClick={() => setPageEqS([...pageEq])}
+                onClick={applyFilters}
               >
                 {_.news_btn_filter}
               </button>
               <button
                 className="w-full h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-                onClick={() => {
-                  setPageEqS([
-                    { field: "possible", value: true },
-                    { field: "title", value: "" },
-                    { field: "airTags", value: "" },
-                    { field: "airLanguage", value: "" },
-                  ]);
-                  dispatch({ field: "reset", value: "" });
-                }}
+                onClick={resetFilters}
               >
                 {_.news_btn_reset_filter}
               </button>
@@ -938,7 +938,6 @@ function News() {
                 )}
               </div>
             </div>
-            {/* <div></div> */}
             <div className="min-h-[400px] rounded-tr-[12px] flex flex-col gap-y-[30px] md:w-2/3">
               <div className="w-full min-h-40 bg-white border-t-[.5px] border-r-[.5px] border-primary relative flex flex-col justify-start items-center pb-[20px] rounded-tr-[12px]">
                 <span className="text-[16px] border-[.5px] border-primary bg-lightPrimary text-primary h-[30px] w-[130px] font-medium rounded-full flex justify-center items-start absolute -top-[14px] left-5">
