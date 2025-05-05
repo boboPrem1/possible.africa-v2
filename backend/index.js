@@ -355,14 +355,15 @@ app.get(API_URL_BASE, (req, res) => {
   });
 });
 
-cron.schedule("0 12 * * *", () => {
+// kijuhygtfrd
+cron.schedule("0 22 * * *", () => {
   cronAllPostFromAirtable();
   console.log(
     "cronAllPostFromAirtable executed at " + new Date().toISOString()
   );
 });
 
-cron.schedule("30 12 * * *", () => {
+cron.schedule("30 22 * * *", () => {
   cronOrganisationsFromAirtable();
   console.log(
     "cronAllOrganisationFromAirtable executed at " + new Date().toISOString()
