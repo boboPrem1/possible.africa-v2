@@ -9,22 +9,22 @@
 
 @font-face {
   font-family: "Regular";
-  src: url("../src/assets/fonts/Nexa-Regular.otf") format("opentype");
+  src: url("./assets/fonts/Nexa-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Bold";
-  src: url("../src/assets/fonts/Nexa\ Bold.otf") format("opentype");
+  src: url("./assets/fonts/Nexa Bold.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Heavy";
-  src: url("../src/assets/fonts/Nexa-Heavy.ttf") format("truetype");
+  src: url("./assets/fonts/Nexa-Heavy.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Light";
-  src: url("../src/assets/fonts/NexaLight.ttf") format("truetype");
+  src: url("./assets/fonts/NexaLight.ttf") format("truetype");
 }
 
 
@@ -32,7 +32,7 @@
 @layer base {
   @font-face {
     font-family: "Nexa";
-    src: url("/fonts/nexa/nexa-regular.otf") format("opentype");
+    src: url("./assets/fonts/Nexa-Regular.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -40,35 +40,35 @@
 
   @font-face {
     font-family: "Nexa";
-    src: url("/fonts/nexa/nexa-bold.otf") format("opentype");
+    src: url("./assets/fonts/Nexa Bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: "Nexa";
-    src: url("/fonts/nexa/Nexa Bold.otf") format("opentype");
+    src: url("./assets/fonts/Nexa Bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: "Nexa";
-    src: url("/fonts/nexa/nexa-regular.otf") format("opentype");
+    src: url("./assets/fonts/Nexa-Regular.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: "Nexa";
-    src: url("/fonts/nexa/NexaLight.otf") format("truetype");
+    src: url("./assets/fonts/NexaLight.ttf") format("truetype");
     font-weight: 300;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: "Nexa";
-    src: url("/fonts/nexa/ExtraLight.otf") format("truetype");
+    src: url("./assets/fonts/Nexa-ExtraLight.ttf") format("truetype");
     font-weight: 200;
     font-style: normal;
     font-display: swap;
