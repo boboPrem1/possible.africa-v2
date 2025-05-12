@@ -17,7 +17,10 @@ import ApplicantList from "./pages/ApplicantList.jsx";
 import OneAgendaTemplate from "./components/OneAgendaTemplate.jsx";
 import OneActualite from "./pages/OneActualite.jsx";
 import OneOrganisation from "./pages/OneOrganisationNew.jsx";
-
+import ConsultingHome from "./components/pyramid-africa/consulting-home.tsx";
+import Consultant from "./components/pyramid-africa/consultant.tsx";
+import Client from "./components/pyramid-africa/client.tsx";
+import Contact from "./components/pyramid-africa/contact-us.tsx"
 
 const existingLang = sessionStorage.getItem("lang");
 
@@ -78,6 +81,12 @@ function App() {
                 </Route>
                 <Route path="/pyramid">
                   <Route index path="/pyramid" element={<PyramidLanding />} />
+                </Route>
+                <Route path="/consulting">
+                  <Route index path="/consulting" element={<ConsultingHome />} />
+                  <Route path="/consulting/consultant" element={<Consultant />} />
+                  <Route path="/consulting/contact" element={<Contact />} />
+                  <Route path="/consulting/clients" element={<Client />} />
                 </Route>
                 <Route path="/applicantList">
                   <Route

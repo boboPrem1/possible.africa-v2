@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
 @font-face {
   font-family: "Regular";
   src: url("../src/assets/fonts/Nexa-Regular.otf") format("opentype");
@@ -21,6 +26,79 @@
   font-family: "Light";
   src: url("../src/assets/fonts/NexaLight.ttf") format("truetype");
 }
+
+
+
+@layer base {
+  @font-face {
+    font-family: "Nexa";
+    src: url("/fonts/nexa/nexa-regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Nexa";
+    src: url("/fonts/nexa/nexa-bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Nexa";
+    src: url("/fonts/nexa/Nexa Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Nexa";
+    src: url("/fonts/nexa/nexa-regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Nexa";
+    src: url("/fonts/nexa/NexaLight.otf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Nexa";
+    src: url("/fonts/nexa/ExtraLight.otf") format("truetype");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary-gray: #242827;
+  }
+}
+
+body {
+  color: var(--foreground);
+  font-family: "Nexa", Arial, Helvetica, sans-serif;
+}
+
+.text-primary-gray {
+  color: var(--primary-gray);
+}
+
 
 @keyframes loading {
   0% {
