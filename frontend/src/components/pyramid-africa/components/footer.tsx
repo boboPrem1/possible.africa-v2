@@ -34,7 +34,7 @@ const Footer = () => {
           <div className="flex flex-col gap-6 w-full">
             <h3 className="text-[#242827] font-medium">Quick Links</h3>
             <div className="flex flex-col gap-4">
-              <h4 className="text-[#242827] font-light">Consulting</h4>
+              <h4 className="text-[#242827] font-light">Consulting</h4> 
               <h4 className="text-[#242827] font-light">New tracking</h4>
               <h4 className="text-[#242827] font-light">Lead generation</h4>
               <h4 className="text-[#242827] font-light">CRM</h4>
