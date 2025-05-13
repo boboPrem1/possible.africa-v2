@@ -3,16 +3,27 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Card from "./components/card";
 import { Link } from "react-router-dom";
+// @ts-ignore
 import myriad from "../../assets/consulting/myriad.png";
+// @ts-ignore
 import joro from "../../assets/consulting/joro.png";
+// @ts-ignore
 import transsion from "../../assets/consulting/transsion.png";
+// @ts-ignore
 import cegid from "../../assets/consulting/cegid.png";
+// @ts-ignore
 import nomad from "../../assets/consulting/nomad.png";
+// @ts-ignore
 import inclusivity from "../../assets/consulting/inclusivity.png";
+// @ts-ignore
 import africaTechIndustry from "../../assets/consulting/africaTechIndustry.jpg";
+// @ts-ignore
 import lauchAfrica from "../../assets/consulting/lauchAfrica.png";
+// @ts-ignore
 import magma from "../../assets/consulting/magma.png";
+// @ts-ignore
 import prepayNation from "../../assets/consulting/prepayNation.jpg";
+// @ts-ignore
 import dlocal from "../../assets/consulting/d-local.png";
 
 const Client = () => {
