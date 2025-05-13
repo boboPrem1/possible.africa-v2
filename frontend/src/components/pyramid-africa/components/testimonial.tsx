@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TestimonialCard from "./TestimonialCard";
 
 // @ts-ignore
@@ -58,9 +58,37 @@ export default function Testimonials() {
   ];
 
   const [startIndex, setStartIndex] = useState(0);
-
-  const visibleCards = 3;
+  const [visibleCards, setVisibleCards] = useState(3);
   const totalCards = testimonials.length;
+
+  // Update visible cards based on screen size
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      if (window.innerWidth < 640) { // mobile
+        setVisibleCards(1);
+      } else if (window.innerWidth < 1024) { // tablet
+        setVisibleCards(2);
+      } else { // desktop
+        setVisibleCards(3);
+      }
+    };
+
+    // Set initial value
+    updateVisibleCards();
+
+    // Update on resize
+    window.addEventListener('resize', updateVisibleCards);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', updateVisibleCards);
+  }, []);
+
+  // Handle edge case when resizing window
+  useEffect(() => {
+    if (startIndex > totalCards - visibleCards) {
+      setStartIndex(Math.max(0, totalCards - visibleCards));
+    }
+  }, [visibleCards, totalCards, startIndex]);
 
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(prev - 1, 0));
@@ -69,6 +97,9 @@ export default function Testimonials() {
   const handleNext = () => {
     setStartIndex((prev) => Math.min(prev + 1, totalCards - visibleCards));
   };
+
+  const isPrevDisabled = startIndex === 0;
+  const isNextDisabled = startIndex >= totalCards - visibleCards;
 
   return (
     <section className="bg-[#F1F8F7] py-16 px-4 sm:px-6 overflow-hidden">
@@ -85,20 +116,18 @@ export default function Testimonials() {
             <button
               onClick={handlePrev}
               className={`w-10 h-10 border-2 border-[#2BB19C] rounded-full text-[#2BB19C] flex items-center justify-center hover:bg-[#2BB19C] hover:text-white transition ${
-                startIndex === 0 ? "opacity-50 cursor-not-allowed" : ""
+                isPrevDisabled ? "opacity-50 cursor-not-allowed" : ""
               }`}
-              disabled={startIndex === 0}
+              disabled={isPrevDisabled}
             >
               <img src={Arrow} alt="Previous" className="rotate-180 w-4" />
             </button>
             <button
               onClick={handleNext}
               className={`w-10 h-10 border-2 border-[#2BB19C] rounded-full text-[#2BB19C] flex items-center justify-center hover:bg-[#2BB19C] hover:text-white transition ${
-                startIndex >= totalCards - visibleCards
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
+                isNextDisabled ? "opacity-50 cursor-not-allowed" : ""
               }`}
-              disabled={startIndex >= totalCards - visibleCards}
+              disabled={isNextDisabled}
             >
               <img src={Arrow} alt="Next" className="w-4" />
             </button>
@@ -114,50 +143,16 @@ export default function Testimonials() {
               width: `${(totalCards * 100) / visibleCards}%`,
             }}
           >
-            <div className="w-full sm:w-1/2 lg:w-fit shrink-0 px-2">
-              <TestimonialCard
-                quote={testimonials[0].quote}
-                imageSrc={testimonials[0].imageSrc}
-                name={testimonials[0].name}
-                headline={testimonials[0].headline}
-              />
-            </div>
-            
-            <div className="w-full sm:w-1/2 lg:w-fit shrink-0 px-2">
-              <TestimonialCard
-                quote={testimonials[1].quote}
-                imageSrc={testimonials[1].imageSrc}
-                name={testimonials[1].name}
-                headline={testimonials[1].headline}
-              />
-            </div>
-            
-            <div className="w-full sm:w-1/2 lg:w-fit shrink-0 px-2">
-              <TestimonialCard
-                quote={testimonials[2].quote}
-                imageSrc={testimonials[2].imageSrc}
-                name={testimonials[2].name}
-                headline={testimonials[2].headline}
-              />
-            </div>
-            
-            <div className="w-full sm:w-1/2 lg:w-fit shrink-0 px-2">
-              <TestimonialCard
-                quote={testimonials[3].quote}
-                imageSrc={testimonials[3].imageSrc}
-                name={testimonials[3].name}
-                headline={testimonials[3].headline}
-              />
-            </div>
-            
-            <div className="w-full sm:w-1/2 lg:w-fit shrink-0 px-2">
-              <TestimonialCard
-                quote={testimonials[4].quote}
-                imageSrc={testimonials[4].imageSrc}
-                name={testimonials[4].name}
-                headline={testimonials[4].headline}
-              />
-            </div>
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="w-full sm:w-1/2 lg:w-fit shrink-0 sm:px-2">
+                <TestimonialCard
+                  quote={testimonial.quote}
+                  imageSrc={testimonial.imageSrc}
+                  name={testimonial.name}
+                  headline={testimonial.headline}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

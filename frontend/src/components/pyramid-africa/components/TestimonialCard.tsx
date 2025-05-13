@@ -16,7 +16,7 @@ export default function TestimonialCard({
   headline,
 }: TestimonialCardProps) {
   return (
-    <div className="bg-white rounded-xl p-6 max-w-sm shadow-sm">
+    <div className="bg-white rounded-xl p-3 sm:p-6 max-w-xs sm:max-w-sm shadow-sm">
       <p className="text-gray-800 text-sm leading-relaxed">
         "
         {quote ||
@@ -30,7 +30,7 @@ export default function TestimonialCard({
           alt={name || "John Doe"}
           width={40}
           height={40}
-          className="rounded-full"
+          className="rounded-full"  
         />
         <div>
           <p className="text-sm font-medium text-gray-900">
