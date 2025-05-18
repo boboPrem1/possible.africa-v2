@@ -107,9 +107,9 @@ export default function Testimonials() {
         {/* Left Section */}
         <div className="w-full md:w-auto flex flex-col justify-between items-center md:items-start text-center md:text-left">
           <h2 className="text-3xl sm:text-4xl font-bold leading-tight text-black mb-6">
-            Our <br className="hidden md:block" />
-            Customers <br className="hidden md:block" />
-            Speak
+          Client <br className="hidden md:block" />
+          Success <br className="hidden md:block" />
+          Stories
           </h2>
 
           <div className="flex gap-3">

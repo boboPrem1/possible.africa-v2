@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Services = () => {
   return (
-    <div className="py-16 px-4 sm:px-6 flex justify-center">
+    <div className="py-8 px-4 sm:px-6 flex justify-center">
       <div className="max-w-6xl w-full flex flex-col items-center gap-12">
         <h1 className="text-3xl sm:text-4xl lg:text-[40px] text-center font-bold text-black">
           Our Consulting Services
@@ -46,7 +46,7 @@ const Services = () => {
         </div>
 
         <Link to="/consulting/contact" className="px-8 py-3 sm:px-10 sm:py-4 bg-[#2BB19C] rounded-full text-white text-lg sm:text-xl lg:text-2xl font-bold">
-          Work with us
+          Contact Us
         </Link>
       </div>
     </div>

@@ -27,7 +27,8 @@ import Star from "../../assets/icons/star.svg";
 import tagSolid from "../../assets/icons/tag-solid.svg";
 import filterSolid from "../../assets/icons/filter-solid.svg";
 import xmarkSolid from "../../assets/icons/xmark-solid.svg";
-import { Footer, Header } from "../Landing.jsx";
+import Header from "../../components/pyramid-africa/components/header";
+import Footer from "../../components/pyramid-africa/components/footer";
 import { LangTransContext } from "../../langTransContext.js";
 import LogoExa from "../../assets/logoEXA.svg";
 import PossibleAfricaLogo from "../../assets/dashboard_logo.svg";
@@ -128,13 +129,13 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
       }
       target={post.airMedia === "Possible Africa" ? null : "_blank"}
       rel="noopener noreferrer"
-      className="group w-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden relative mt-6 block min-h-[220px]"
+      className="group w-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden relative mt-2 block min-h-[180px]"
     >
       <div className="w-full h-full bg-gradient-to-br from-white to-gray-50">
         {/* En-tête avec logo et informations */}
-        <div className="p-5 flex items-start gap-4 border-b border-gray-100">
+        <div className="p-2 flex items-start gap-1 border-b border-gray-100">
           <div className="relative">
-            <div className="h-12 w-12 rounded-xl overflow-hidden bg-white shadow-sm ring-1 ring-gray-100">
+            <div className="h-8 w-8 rounded-xl overflow-hidden bg-white shadow-sm ring-1 ring-gray-100">
               <img
                 src={
                   socialMedias.includes(post?.airLogo)
@@ -152,16 +153,16 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
               <img
                 src={Star}
                 alt="Star possible"
-                className="absolute -top-2 -right-2 w-6 h-6 animate-[wiggle_1s_ease-in-out_infinite]"
+                className="absolute -top-1.5 -right-1.5 w-4 h-4 animate-[wiggle_1s_ease-in-out_infinite]"
               />
             )}
           </div>
 
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-lg text-gray-900 truncate">
+            <h3 className="font-semibold text-[13px] text-gray-900 truncate mt-0 mb-1">
               {post.airMedia}
             </h3>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-1 text-xs text-gray-500">
               <span>
                 {_.news_published_on} {date}
               </span>
@@ -174,8 +175,8 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
         </div>
 
         {/* Contenu principal */}
-        <div className="p-5">
-          <h2 className="text-xl font-bold text-primary group-hover:text-darkPrimary transition-colors duration-200 line-clamp-2 mb-4">
+        <div className="p-2">
+          <h2 className="text-[1rem] font-bold text-primary group-hover:text-darkPrimary transition-colors duration-200 line-clamp-2 mb-1">
             {post.title}
           </h2>
 
@@ -189,12 +190,12 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
                     e.stopPropagation();
                     scrollTags("left", post.id || `${language}-${index}`);
                   }}
-                  className="bg-white/80 backdrop-blur-sm shadow-md rounded-full w-8 h-8 flex items-center justify-center hover:bg-white focus:outline-none text-primary transition-all duration-200"
+                  className="bg-white/80 backdrop-blur-sm shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-white focus:outline-none text-primary transition-all duration-200"
                   aria-label="Défiler vers la gauche"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="h-3 w-3"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -214,7 +215,7 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
                   (tagScrollRefs.current[post.id || `${language}-${index}`] =
                     el)
                 }
-                className="flex gap-2 overflow-x-auto px-10 py-3 scrollbar-hide"
+                className="flex gap-0.5 overflow-x-auto px-7 py-1 scrollbar-hide"
                 style={{
                   scrollBehavior: "smooth",
                   scrollbarWidth: "none",
@@ -230,10 +231,10 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
                 {post?.airTags?.split(", ")?.map((tag) => (
                   <div
                     key={tag}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-full border border-gray-200 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                    className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-gray-50 rounded-full border border-gray-200 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                   >
-                    <img src={tagSolid} className="w-4 h-4" alt="Tag" />
-                    <span className="text-sm font-medium whitespace-nowrap">
+                    <img src={tagSolid} className="w-2.5 h-2.5" alt="Tag" />
+                    <span className="text-xs font-medium whitespace-nowrap">
                       {tag}
                     </span>
                   </div>
@@ -247,12 +248,12 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
                     e.stopPropagation();
                     scrollTags("right", post.id || `${language}-${index}`);
                   }}
-                  className="bg-white/80 backdrop-blur-sm shadow-md rounded-full w-8 h-8 flex items-center justify-center hover:bg-white focus:outline-none text-primary transition-all duration-200"
+                  className="bg-white/80 backdrop-blur-sm shadow-md rounded-full w-6 h-6 flex items-center justify-center hover:bg-white focus:outline-none text-primary transition-all duration-200"
                   aria-label="Défiler vers la droite"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="h-3 w-3"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -469,7 +470,7 @@ function News() {
   if (isLoading) {
     return (
       <>
-        <Header page="/news" />
+        <Header shadow page="/news" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
@@ -489,7 +490,7 @@ function News() {
   if (isError || error) {
     return (
       <>
-        <Header page="/news" />
+        <Header shadow page="/news" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <NoData />
@@ -502,114 +503,9 @@ function News() {
 
   return (
     <>
-      <Header page="/news" />
+      <Header shadow page="/news" />
       {/* Hero Section */}
-      {showHero && (
-        <div
-          ref={heroRef}
-          className="w-full transition-opacity duration-500 ease-out relative"
-          style={{
-            minHeight: "50vh",
-            transform: showHero ? "translateY(0)" : "translateY(-100%)",
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-primary/5 z-0"></div>
-
-          {/* Background Pattern */}
-          <div className="absolute inset-0 z-10 opacity-10">
-            <svg width="100%" height="100%">
-              <pattern
-                id="pattern-circles"
-                x="0"
-                y="0"
-                width="30"
-                height="30"
-                patternUnits="userSpaceOnUse"
-                patternContentUnits="userSpaceOnUse"
-              >
-                <circle
-                  id="pattern-circle"
-                  cx="10"
-                  cy="10"
-                  r="1.6"
-                  fill="#6366F1"
-                ></circle>
-              </pattern>
-              <rect
-                id="rect"
-                x="0"
-                y="0"
-                width="100%"
-                height="100%"
-                fill="url(#pattern-circles)"
-              ></rect>
-            </svg>
-          </div>
-
-          <div className="container mx-auto px-4 py-16 md:py-24 relative z-20">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
-                <span className="inline bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
-                  {_.news_cta_text_one || "The latest news from Africa,"}
-                </span>
-                <br />
-                <span className="inline">
-                  {_.news_cta_text_two || "brought together for you"}
-                </span>
-              </h1>
-
-              <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-3xl mx-auto">
-                {_.news_cta_subtext ||
-                  "Stay on top of trends, capture innovations and seize the best opportunities"}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={() => {
-                    newsContentRef.current?.scrollIntoView({
-                      behavior: "smooth",
-                    });
-                  }}
-                  className="px-8 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-all duration-300 flex items-center justify-center"
-                >
-                  {_.news_cta_button || "Discover News"}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 ml-2"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-
-                {pageEqS[1].value || pageEqS[2].value || pageEqS[3].value ? (
-                  <button
-                    onClick={resetFilters}
-                    className="px-8 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-gray-50 transition-all duration-300"
-                  >
-                    {_.reset_filters || "Reset Filters"}
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setMobileFilterIsVisible(true)}
-                    className="px-8 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-gray-50 transition-all duration-300 md:hidden"
-                  >
-                    {_.filter_news || "Filter News"}
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom fade effect */}
-          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
-        </div>
-      )}
+      
 
       <div ref={newsContentRef} className="flex justify-center">
         {/* Filter Results Banner - Only shows when filters are active */}
@@ -943,6 +839,7 @@ function News() {
                 <span className="text-[16px] border-[.5px] border-primary bg-lightPrimary text-primary h-[30px] w-[130px] font-medium rounded-full flex justify-center items-start absolute -top-[14px] left-5">
                   <span className="font-semibold">{_.news_more_recent}</span>
                 </span>
+                <span className="p-2"></span>
                 {/* One card in recents part */}
                 {language === "fr"
                   ? allNews

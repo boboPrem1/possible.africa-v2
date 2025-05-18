@@ -10,7 +10,7 @@ import Testimonials from "./components/testimonial";
 export default function ConsultingHome() {
   return (
     <main>
-      <Header></Header>
+      <Header page="/consulting"></Header>
       <Hero></Hero>
       <Services></Services>
       <Clients></Clients>

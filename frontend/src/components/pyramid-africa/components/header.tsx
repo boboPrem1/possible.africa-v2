@@ -4,42 +4,108 @@ import { Link } from "react-router-dom";
 
 import logo from "../../../assets/consulting/logo.svg";
 
-const Header = () => {
+const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEcosystemOpen, setIsEcosystemOpen] = useState(false);
 
   return (
-    <header className="w-full px-6 md:px-10 py-4 md:py-6 flex items-center justify-between relative">
-      {/* Logo */}
-      <a href="/consulting">
-        <img src={logo} alt="Logo" className="h-8 md:h-10 lg:h-16" />
-      </a>
+    <header className={`w-full px-6 md:px-10 py-4 md:py-6 flex items-center justify-between relative md:gap-10 ${shadow ? "shadow-lg" : ""}`}>
+      <div className="flex items-center justify-start w-full gap-x-10">
+        {/* Logo */}
+        <a href="/consulting">
+          <img src={logo} alt="Logo" className="h-8 md:h-10 lg:h-16" />
+        </a>
 
-      {/* Desktop Nav */}
-      <nav className="hidden lg:flex gap-10 text-primary-gray text-lg items-center font-light">
-        <a href="">Advisory</a>
-        <a href="https://possible.africa/news" target="_blank">News tracking</a>
-        <a href="https://possible.africa/database" target="_blank">Lead generation</a>
-        <a href="https://pyramid.possible.africa" target="_blank">CRM</a>
-        <div className="relative group">
-          <button 
-            className="flex items-center gap-1 text-primary-gray text-lg font-light focus:outline-none"
-            onClick={() => setIsEcosystemOpen(!isEcosystemOpen)}
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex gap-10 text-primary-gray text-lg items-center font-light">
+          <Link
+            to="/consulting"
+            className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+              page === "/consulting"
+                ? "text-primary font-semibold after:w-full"
+                : "text-gray-700 after:w-0"
+            }`}
           >
-            Ecosystem
-            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-            <a href="https://yprlink.africa" target="_blank" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">yprlink.africa</a>
-            <a href="https://www.africantechindustry.com/african-tech-industry" target="_blank" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">African Tech Industry</a>
+            Advisory
+          </Link>
+          <Link
+            to="/news"
+            className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+              page === "/news"
+                ? "text-primary font-semibold after:w-full"
+                : "text-gray-700 after:w-0"
+            }`}
+          >
+            News tracking
+          </Link>
+          <Link
+            to="/database"
+            className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+              page === "/database"
+                ? "text-primary font-semibold after:w-full"
+                : "text-gray-700 after:w-0"
+            }`}
+          >
+            Lead generation
+          </Link>
+          <Link
+            to="https://pyramid.possible.africa"
+            target="_blank"
+            className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
+              page === "/crm"
+                ? "text-primary font-semibold after:w-full"
+                : "text-gray-700 after:w-0"
+            }`}
+          >
+            CRM
+          </Link>
+          <div className="relative group">
+            <button
+              className="flex items-center gap-1 text-primary-gray text-lg font-light focus:outline-none font-medium"
+              onClick={() => setIsEcosystemOpen(!isEcosystemOpen)}
+            >
+              Ecosystem
+              <svg
+                className="w-4 h-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+              <a
+                href="https://yprlink.africa"
+                target="_blank"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                yprlink.africa
+              </a>
+              <a
+                href="https://www.africantechindustry.com/african-tech-industry"
+                target="_blank"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                African Tech Industry
+              </a>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       {/* Connexion Button */}
-      <Link to="https://pyramid.possible.africa/auth/login" target="_blank" className="hidden lg:block px-8 py-3 bg-[#2BB19C] rounded-full text-white text-lg font-bold">
+      <Link
+        to="https://pyramid.possible.africa/auth/login"
+        target="_blank"
+        className="hidden lg:block px-8 py-3 bg-[#2BB19C] rounded-full text-white text-lg font-bold justify-self-end"
+      >
         Connexion
       </Link>
 
@@ -57,37 +123,74 @@ const Header = () => {
           <a href="" className="text-gray-700 text-base">
             Advisory
           </a>
-          <a href="https://possible.africa/news" target="_blank" className="text-gray-700 text-base">
+          <a
+            href="https://possible.africa/news"
+            target="_blank"
+            className="text-gray-700 text-base"
+          >
             News tracking
           </a>
-          <a href="https://possible.africa/database" target="_blank" className="text-gray-700 text-base">
+          <a
+            href="https://possible.africa/database"
+            target="_blank"
+            className="text-gray-700 text-base"
+          >
             Lead generation
           </a>
-          <a href="https://pyramid.possible.africa" target="_blank" className="text-gray-700 text-base">
+          <a
+            href="https://pyramid.possible.africa"
+            target="_blank"
+            className="text-gray-700 text-base"
+          >
             CRM
           </a>
           <div className="w-full">
-            <button 
+            <button
               onClick={() => setIsEcosystemOpen(!isEcosystemOpen)}
               className="flex items-center justify-between w-full text-gray-700 text-base"
             >
               Ecosystem
-              <svg className={`w-4 h-4 transition-transform ${isEcosystemOpen ? 'transform rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+              <svg
+                className={`w-4 h-4 transition-transform ${
+                  isEcosystemOpen ? "transform rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
               </svg>
             </button>
             {isEcosystemOpen && (
               <div className="pl-4 mt-2 flex flex-col gap-2">
-                <a href="https://yprlink.africa" target="_blank" className="text-gray-700 text-base">
+                <a
+                  href="https://yprlink.africa"
+                  target="_blank"
+                  className="text-gray-700 text-base"
+                >
                   yprlink.africa
                 </a>
-                <a href="https://www.africantechindustry.com/african-tech-industry" target="_blank" className="text-gray-700 text-base">
+                <a
+                  href="https://www.africantechindustry.com/african-tech-industry"
+                  target="_blank"
+                  className="text-gray-700 text-base"
+                >
                   African Tech Industry
                 </a>
               </div>
             )}
           </div>
-          <Link to="https://pyramid.possible.africa/auth/login" target="_blank" className="mt-4 w-full px-6 py-3 bg-[#2BB19C] text-white rounded-full text-base font-semibold">
+          <Link
+            to="https://pyramid.possible.africa/auth/login"
+            target="_blank"
+            className="mt-4 w-full px-6 py-3 bg-[#2BB19C] text-white rounded-full text-base font-semibold"
+          >
             Connexion
           </Link>
         </div>

@@ -18,8 +18,7 @@ const Footer = () => {
         <div className="col-span-1 sm:col-span-2 flex flex-col gap-8 max-w-[400px] mb-8 sm:mb-0 w-full">
           <img className="w-28" src={logo} alt="" />
           <p className="text-[#242827] font-normal ">
-            Pyramid.Africa is your ultimate sales intelligence platform, helping
-            businesses across Africa connect, grow, and thrive.
+          Expand in Africa, a leader in Africa's consulting industry, combines its experience, network and innovation capabilities to support its clients in all phases of their African expansion, from strategy to implementation.
           </p>
           <div className="flex gap-6">
             {/* <img className="w-6" src={fb} alt="" /> */}
@@ -60,9 +59,9 @@ const Footer = () => {
                 Senegal | Ivory Coast | Nigeria | South Africa | Morocco | Egypt
               </h4>
               <h4 className="text-[#242827] font-light break-words">
-                support@expandinafrica.africa
+                 admin@expand-in-africa.com
               </h4>
-              <h4 className="text-[#242827] font-light">+123-456-7890</h4>
+              {/* <h4 className="text-[#242827] font-light">+225 07 00 00 00 00</h4> */}
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ const Clients = () => {
 
 
   return (
-    <div className="py-16 px-4 sm:px-6 flex justify-center">
+    <div className="py-8 px-4 sm:px-6 flex justify-center">
       <div className="max-w-6xl w-full flex flex-col gap-12 justify-center items-center">
         <h1 className="text-3xl sm:text-4xl lg:text-[40px] text-center font-bold text-black">
           Client Success Stories

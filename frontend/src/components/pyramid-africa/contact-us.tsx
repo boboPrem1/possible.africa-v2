@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 const Contact = () => {
   return (
     <div>
-      <Header />
-      <div className="bg-[#F4FBFA] py-36 flex justify-center">
+      <Header page="/consulting" />
+      <div className="bg-[#F4FBFA] py-28 flex justify-center">
         <div className="max-w-[880px] gap-14 flex flex-col justify-center items-center">
         <div className="flex flex-row gap-1">
           <Link to="/consulting" className="text-grayDarkest font-medium">Home</Link>
@@ -25,9 +25,9 @@ const Contact = () => {
 
       {/* Contact Form */}
       <div className="w-full max-w-2xl mx-auto p-6 py-20">
-        <h2 className="text-[32px] sm:text-[40px] font-nexa font-bold mb-20 text-center text-black">
+        {/* <h2 className="text-[32px] sm:text-[40px] font-nexa font-bold mb-20 text-center text-black">
         Contact
-        </h2>
+        </h2> */}
 
         <form className="space-y-6 text-black font-light flex flex-col items-center">
           <div className="flex flex-col sm:flex-row gap-8 w-full">

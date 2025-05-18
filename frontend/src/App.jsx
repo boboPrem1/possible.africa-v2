@@ -69,7 +69,7 @@ function App() {
                   <Route index path="/waitlist" element={<Waitlist />} />
                 </Route>
                 <Route path="/">
-                  <Route index path="/" element={<Landing />} />
+                  <Route index path="/" element={<News />} />
                 </Route>
                 <Route path="/database">
                   <Route index path="/database" element={<Database />} />

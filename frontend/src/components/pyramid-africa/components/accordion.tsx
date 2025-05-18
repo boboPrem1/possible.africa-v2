@@ -9,22 +9,35 @@ const Accordion = () => {
   const accordionData = [
     {
       id: 1,
-      title: "What services do you offer?",
+      title: "Mutualized Services",
       content:
-        "We offer a comprehensive range of services including consulting, development, strategy, and implementation. Our team specializes in helping businesses transform their operations through innovative solutions tailored to their specific needs and challenges.",
+        "Access lead generation, CRM, quoting tools, and billing — all ready for you",
     },
     {
       id: 2,
-      title: "How does your pricing work?",
+      title: "Keep Your Independence",
       content:
-        "Our pricing is structured to provide maximum value while remaining transparent and flexible. We offer different tiers of service packages as well as custom solutions based on the scope and requirements of your project. Contact us for a personalized quote tailored to your specific needs.",
-    },
-    {
-      id: 3,
-      title: "What is your approach to projects?",
-      content:
-        "We follow a collaborative and iterative approach to all our projects. After an initial consultation to understand your needs, we develop a strategic plan, implement solutions with regular check-ins, and provide ongoing support and optimization. Our focus is on delivering measurable results that align with your business objectives.",
-    },
+        "You choose your projects and clients, while benefiting from a shared ecosystem.",
+      },
+      {
+        id: 3,
+        title: "Grow With Us",
+        content:
+          "A portion of revenue is reinvested to support the community — profits are shared annually.",
+      },
+      {
+        id: 4,
+        title: "Pan-African Network",
+        content:
+          "Collaborate with experienced consultants across multiple countries and sectors.",
+      },
+      {
+        id: 5,
+        title: "Backed by a Brand",
+        content:
+          "Operate under a trusted name with a powerful story and impactful results."
+      },
+
   ];
 
   // Toggle function for accordion

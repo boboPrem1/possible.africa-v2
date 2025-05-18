@@ -29,8 +29,8 @@ import dlocal from "../../assets/consulting/d-local.png";
 const Client = () => {
   return (
     <div>
-      <Header />
-      <div className="bg-[#F4FBFA] py-36 flex justify-center">
+      <Header page="/consulting" />
+      <div className="bg-[#F4FBFA] py-28 flex justify-center">
         <div className="max-w-[750px] gap-12 flex flex-col justify-center items-center">
           <div className="flex flex-row gap-1">
             <Link to="/consulting" className="text-grayDarkest font-medium">
