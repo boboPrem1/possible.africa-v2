@@ -119,7 +119,7 @@ class CustomUtils {
     //   queryObj.countries = { $in: countriesArray };
     // }
 
-    
+
     // Gestion du filtre pays
     // if (query.countries) {
     //   delete queryObj["countries"];
@@ -138,7 +138,15 @@ class CustomUtils {
         !(value.length === 24 && /^[a-f0-9]+$/i.test(value))
       ) {
         if (value.length > 0) {
-          queryObj[key] = { $regex: new RegExp(value, "i") };
+          if (key === "countries") {
+            // Si le champ est "countries", on le traite différemment
+            const countries = value;
+            delete queryObj[key];
+
+            queryObj['content'] = { $regex: new RegExp(countries, "i") };
+          } else {
+            queryObj[key] = { $regex: new RegExp(value, "i") };
+          }
         } else {
           delete queryObj[key];
         }
