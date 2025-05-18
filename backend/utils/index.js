@@ -49,14 +49,53 @@ class CustomUtils {
       "super",
       "strong",
     ];
-    const username = `${
-      usernameSlugs[Math.round(Math.random() * 9)]
-    }_${generatedNumber}`;
+    const username = `${usernameSlugs[Math.round(Math.random() * 9)]
+      }_${generatedNumber}`;
     return username;
   };
 
+  // static advancedQuery = (query) => {
+  //   const queryObj = { ...query };
+  //   console.log("queryObj", queryObj);
+  //   const excludedFields = [
+  //     "page",
+  //     "sort",
+  //     "limit",
+  //     "fields",
+  //     "_end",
+  //     "_start",
+  //     "possible",
+  //     "response_mode",  
+  //   ];
+
+  //   // country array filter
+  //   if (queryObj.countries) {
+  //     const countries = queryObj.countries.split(",");
+  //     queryObj.countries = { $in: countries };
+  //   }
+
+  //   excludedFields.forEach((element) => {
+  //     delete queryObj[element];
+  //   });
+
+  //   const queryObjKeys = Object.keys(queryObj);
+  //   queryObjKeys.map((item) => {
+  //     if (!(queryObj[item].length === 24 && queryObj[item].includes("64"))) {
+  //       if (queryObj[item].length > 0) {
+  //         const regex = new RegExp(queryObj[item], "i");
+  //         // console.log(regex);
+  //         queryObj[item] = { $regex: regex };
+  //       } else {
+  //         delete queryObj[item];
+  //       }
+  //     }
+  //   });
+  //   return queryObj;
+  // };
+
   static advancedQuery = (query) => {
     const queryObj = { ...query };
+
     const excludedFields = [
       "page",
       "sort",
@@ -65,26 +104,40 @@ class CustomUtils {
       "_end",
       "_start",
       "possible",
-      "response_mode"
+      "response_mode",
     ];
-    excludedFields.forEach((element) => {
-      delete queryObj[element];
+
+    // Exclusion des champs non liés au filtrage
+    excludedFields.forEach((field) => {
+      delete queryObj[field];
     });
 
-    const queryObjKeys = Object.keys(queryObj);
-    queryObjKeys.map((item) => {
-      if (!(queryObj[item].length === 24 && queryObj[item].includes("64"))) {
-        if (queryObj[item].length > 0) {
-          const regex = new RegExp(queryObj[item], "i");
-          // console.log(regex);
-          queryObj[item] = { $regex: regex };
+    // Gestion du filtre pays
+    if (query.countries) {
+      const countriesArray = query.countries.split(",");
+      queryObj.countries = { $in: countriesArray };
+    }
+
+    // Transformation des champs restants en regex, sauf ObjectID (présumé)
+    for (const key of Object.keys(queryObj)) {
+      const value = queryObj[key];
+
+      // On ignore les objets (comme $in) ou les vrais ObjectIds (présumés ici par format)
+      if (
+        typeof value === "string" &&
+        !(value.length === 24 && /^[a-f0-9]+$/i.test(value))
+      ) {
+        if (value.length > 0) {
+          queryObj[key] = { $regex: new RegExp(value, "i") };
         } else {
-          delete queryObj[item];
+          delete queryObj[key];
         }
       }
-    });
+    }
+
     return queryObj;
   };
+
 
   static advancedQueryAirtable = (query) => {
     const queryObj = { ...query };
