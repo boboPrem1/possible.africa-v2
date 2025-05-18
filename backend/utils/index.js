@@ -113,10 +113,20 @@ class CustomUtils {
     });
 
     // Gestion du filtre pays
-    if (query.countries) {
-      const countriesArray = query.countries.split(",");
-      queryObj.countries = { $in: countriesArray };
-    }
+    // if (query.countries) {
+    //   delete queryObj["countries"];
+    //   const countriesArray = query.countries.split(",");
+    //   queryObj.countries = { $in: countriesArray };
+    // }
+
+    
+    // Gestion du filtre pays
+    // if (query.countries) {
+    //   delete queryObj["countries"];
+    //   queryObj.content = { $regex: new RegExp(query.countries, "i") };
+    //   // const countriesArray = query.countries.split(",");
+    //   // queryObj.countries = { $in: countriesArray };
+    // }
 
     // Transformation des champs restants en regex, sauf ObjectID (présumé)
     for (const key of Object.keys(queryObj)) {
