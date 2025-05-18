@@ -144,7 +144,14 @@ class CustomUtils {
             delete queryObj[key];
 
             queryObj['title'] = { $regex: new RegExp(countries, "i") };
-          } else {
+          } else if (key === 'airTags') {
+            // Si le champ est "tags", on le traite différemment
+            const tagsArray = value.split(",");
+
+            queryObj['airTags'] = { $in: tagsArray };
+          } else
+            
+            {
             queryObj[key] = { $regex: new RegExp(value, "i") };
           }
         } else {
