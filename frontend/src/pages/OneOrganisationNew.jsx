@@ -20,7 +20,8 @@ import option_icon from "../assets/icons/option_icon.png";
 
 import basil_settings_adjust from "../assets/icons/basil_settings-adjust-outline.svg";
 import filter_reset from "../assets/icons/filter-reset-icon.svg";
-import { Footer, Header } from "./Landing";
+import Header from "../components/pyramid-africa/components/header";
+import Footer from "../components/pyramid-africa/components/footer";
 import { Link, useParams } from "react-router-dom";
 import NoData from "../utils/NoData";
 import { useGetOrganisationByNameQuery } from "../features/api/apiSlice";

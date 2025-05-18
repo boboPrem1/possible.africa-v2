@@ -7,7 +7,8 @@ import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import { Parse } from "../utils/htmlParser.jsx";
 import { useGetPostBySlugQuery } from "../features/api/apiSlice.js";
 import { useEffect } from "react";
-import { Header } from "../pages/Landing.jsx";
+import Header from "../components/pyramid-africa/components/header";
+import Footer from "../components/pyramid-africa/components/footer";
 import Loader from "../assets/icons/loader.svg";
 import NoData from "../utils/NoData.jsx";
 import DOMPurify from "dompurify";
@@ -46,6 +47,7 @@ function OneActualite({ iconSx, backUrl, events }) {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }
@@ -58,6 +60,7 @@ function OneActualite({ iconSx, backUrl, events }) {
             <NoData />
           </div>
         </div>
+        <Footer />
       </>
     );
   }
@@ -241,6 +244,7 @@ function OneActualite({ iconSx, backUrl, events }) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
