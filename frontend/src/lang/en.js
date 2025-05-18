@@ -40,7 +40,7 @@ export const en_trans = {
     "Yprlink is a competition that offers African startups the unique opportunity to benefit from strategic support",
   news_search_by_title: "Search by title",
   news_search_by_title_enter_a_title: "Enter post's title .",
-  news_search_by_tag: "Search by tag",
+  news_search_by_tag: "Search by keyword",
   news_search_by_tag_enter_a_tag: "Enter one of the post's tags .",
   news_search_language: "Post writing language",
   news_search_language_choice: "Choice a language",

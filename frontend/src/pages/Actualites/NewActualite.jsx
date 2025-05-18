@@ -34,7 +34,12 @@ import LogoExa from "../../assets/logoEXA.svg";
 import PossibleAfricaLogo from "../../assets/dashboard_logo.svg";
 import AfricanTechIndustry from "../../assets/african_tech_industry.webp";
 import LogoHyperlink from "../../assets/logo_hyperlink.png";
-import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
@@ -57,6 +62,43 @@ const socialMedias = [
 ];
 const logoPlaceholder =
   "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
+
+  const tagList = [
+    "Fintech",
+    "Edtech",
+    "Healthtech",
+    "Agritech",
+    "E-commerce",
+    "Insurtech",
+    "Media & Content",
+    "Telco",
+    "Banking",
+    "Logistics",
+    "Energy & Climate",
+  ];
+
+  const countryList = [
+    "Nigeria",
+    "Kenya",
+    "South Africa",
+    "Egypt",
+    "Ghana",
+    "Rwanda",
+    "Senegal",
+    "Côte d'Ivoire",
+    "Uganda",
+    "Tanzania",
+    "Zambia",
+    "Morocco",
+    "Tunisia",
+    "Cameroon",
+    "Mauritius",
+    "Ethiopia",
+    "Democratic Republic of Congo",
+    "Benin",
+    "Togo",
+    "Algeria",
+  ];
 
 function getPageEqValue(key, state) {
   if (state.length) {
@@ -81,15 +123,23 @@ function pageEqReducer(state, action) {
     case "airTags":
       newState[2] = { ...state[2], value: action.value };
       break;
-    case "airLanguage":
+    case "airMedia":
       newState[3] = { ...state[3], value: action.value };
+      break;
+    case "airLanguage":
+      newState[4] = { ...state[4], value: action.value };
+      break;
+    case "countries":
+      newState[5] = { ...state[5], value: action.value };
       break;
     case "reset":
       newState = [
         { field: "possible", value: true },
         { field: "title", value: "" },
         { field: "airTags", value: "" },
+        { field: "airMedia", value: "" },
         { field: "airLanguage", value: "" },
+        { field: "countries", value: "" },
       ];
       break;
     default:
@@ -129,7 +179,7 @@ const NewsCard = ({ post, index, language, _, tagScrollRefs }) => {
       }
       target={post.airMedia === "Possible Africa" ? null : "_blank"}
       rel="noopener noreferrer"
-      className="group w-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden relative mt-2 block min-h-[180px]"
+      className="group w-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden relative mt-2 block p-2"
     >
       <div className="w-full h-full bg-gradient-to-br from-white to-gray-50">
         {/* En-tête avec logo et informations */}
@@ -282,13 +332,21 @@ function News() {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedTags, setSelectedTags] = useState(searchParams.get("tags") || "");
+  const [selectedCountries, setSelectedCountries] = useState(
+    searchParams.get("countries") || ""
+  );
+
+  
 
   // Initialize filter state from URL parameters
   const initialPageEq = [
     { field: "possible", value: true },
     { field: "title", value: searchParams.get("title") || "" },
     { field: "airTags", value: searchParams.get("tags") || "" },
+    { field: "airMedia", value: searchParams.get("media") || "" },
     { field: "airLanguage", value: searchParams.get("language") || "" },
+    { field: "countries", value: searchParams.get("countries") || "" },
   ];
 
   const [page, setPage] = useState(1);
@@ -312,19 +370,24 @@ function News() {
   const tagScrollRefs = useRef({});
 
   // Function to update URL parameters based on filter state
-  const updateUrlParams = useCallback((filters) => {
-    const params = new URLSearchParams();
+  const updateUrlParams = useCallback(
+    (filters) => {
+      const params = new URLSearchParams();
 
-    if (filters[1]?.value) params.set("title", filters[1].value);
-    if (filters[2]?.value) params.set("tags", filters[2].value);
-    if (filters[3]?.value) params.set("language", filters[3].value);
-    if (language !== lang) params.set("lang", language);
+      if (filters[1]?.value) params.set("title", filters[1].value);
+      if (filters[2]?.value) params.set("tags", filters[2].value);
+      if (filters[3]?.value) params.set("media", filters[3].value);
+      if (filters[4]?.value) params.set("language", filters[4].value);
+      if (filters[5]?.value) params.set("countries", filters[5].value);
+      if (language !== lang) params.set("lang", language);
 
-    // Only update if params have changed
-    if (params.toString() !== searchParams.toString()) {
-      setSearchParams(params);
-    }
-  }, [language, lang, searchParams, setSearchParams]);
+      // Only update if params have changed
+      if (params.toString() !== searchParams.toString()) {
+        setSearchParams(params);
+      }
+    },
+    [language, lang, searchParams, setSearchParams]
+  );
 
   // Apply filters and update URL
   const applyFilters = useCallback(() => {
@@ -338,11 +401,15 @@ function News() {
       { field: "possible", value: true },
       { field: "title", value: "" },
       { field: "airTags", value: "" },
+      { field: "airMedia", value: "" },
       { field: "airLanguage", value: "" },
+      { field: "countries", value: "" },
     ];
 
     dispatch({ field: "reset", value: "" });
     setPageEqS(resetState);
+    setSelectedTags([]);
+    setSelectedCountries([]);
     setSearchParams(new URLSearchParams());
   }, [setSearchParams]);
 
@@ -364,29 +431,83 @@ function News() {
     [lang]
   );
 
+  
+  const handleTagClick = (tag) => {
+    if (selectedTags != tag) {
+      // Créer la nouvelle liste sans le tag sélectionné
+      // const updatedTags = selectedTags.filter((t) => t !== tag);
+      setSelectedTags(tag);
+      dispatch({ field: "airTags", value: tag });
+      
+      // Mettre à jour les paramètres d'URL
+      const params = new URLSearchParams(searchParams);
+      params.set("tags", tag);
+      setSearchParams(params);
+    } else {
+      // Créer la nouvelle liste avec le nouveau tag
+      setSelectedTags('');
+      dispatch({ field: "airTags", value: '' });
+      
+      // Mettre à jour les paramètres d'URL
+      const params = new URLSearchParams(searchParams);
+      params.set("tags", '');
+      setSearchParams(params);
+    }
+  };
+
+  const handleCountryClick = (country) => {
+    if (selectedCountries != country) {
+      // Créer la nouvelle liste sans le pays sélectionné
+      setSelectedCountries(country);
+      dispatch({ field: "countries", value: country });
+      
+      // Mettre à jour les paramètres d'URL
+      const params = new URLSearchParams(searchParams);
+      params.set("countries", country);
+      setSearchParams(params);
+    } else {
+      // Créer la nouvelle liste avec le nouveau pays
+      setSelectedCountries('');
+      dispatch({ field: "countries", value: '' });
+      
+      // Mettre à jour les paramètres d'URL
+      const params = new URLSearchParams(searchParams);
+      params.set("countries", '');
+      setSearchParams(params);
+    }
+  };
+
   // Sync URL parameters with filter state on component mount and URL changes
   useEffect(() => {
     const title = searchParams.get("title") || "";
     const tags = searchParams.get("tags") || "";
+    const media = searchParams.get("media") || "";
     const filterLanguage = searchParams.get("language") || "";
+    const countries = searchParams.get("countries") || "";
     const urlLang = searchParams.get("lang");
 
     const newFilters = [
       { field: "possible", value: true },
       { field: "title", value: title },
       { field: "airTags", value: tags },
+      { field: "airMedia", value: media },
       { field: "airLanguage", value: filterLanguage },
+      { field: "countries", value: countries },
     ];
 
     if (
-      title !== pageEq[1].value || 
-      tags !== pageEq[2].value || 
-      filterLanguage !== pageEq[3].value
+      title !== pageEq[1].value ||
+      tags !== pageEq[2].value ||
+      media !== pageEq[3].value ||
+      filterLanguage !== pageEq[4].value ||
+      countries !== pageEq[5].value
     ) {
       // Update internal state based on URL parameters
       dispatch({ field: "title", value: title });
       dispatch({ field: "airTags", value: tags });
       dispatch({ field: "airLanguage", value: filterLanguage });
+      dispatch({ field: "airMedia", value: media });
+      dispatch({ field: "countries", value: countries });
       setPageEqS(newFilters);
     }
 
@@ -394,7 +515,7 @@ function News() {
     if (urlLang && urlLang !== language) {
       setLanguage(urlLang);
     }
-  }, [searchParams, location.search]);
+  }, [searchParams, location.search, selectedTags, selectedCountries]);
 
   // Watch for language changes and update URL
   useEffect(() => {
@@ -505,7 +626,6 @@ function News() {
     <>
       <Header shadow page="/news" />
       {/* Hero Section */}
-      
 
       <div ref={newsContentRef} className="flex justify-center">
         {/* Filter Results Banner - Only shows when filters are active */}
@@ -662,7 +782,7 @@ function News() {
             }`}
           >
             <div className="absolute min-h-[400px] max-h-[100vh] flex justify-start flex-col items-center gap-5 border-[.5px] rounded-[12px] border-primary p-5 ">
-              <Input
+              {/* <Input
                 label={_.news_search_by_title}
                 placeholder={_.news_search_by_title_enter_a_title}
                 type="text"
@@ -670,7 +790,7 @@ function News() {
                 onChange={(e) => {
                   dispatch({ field: "title", value: e.target.value });
                 }}
-              />
+              /> */}
               <Input
                 label={_.news_search_by_tag}
                 placeholder={_.news_search_by_tag_enter_a_tag}
@@ -681,7 +801,17 @@ function News() {
                 }}
               />
 
-              <div className="flex gap-2">
+              <Input
+                label={_.news_search_by_media || "Search by media"}
+                placeholder={_.news_search_by_media_enter_a_media || "Enter a media name"}
+                type="text"
+                value={getPageEqValue("airMedia", pageEq)}
+                onChange={(e) => {
+                  dispatch({ field: "airMedia", value: e.target.value });
+                }}
+              />
+
+              {/* <div className="flex gap-2">
                 <button
                   className={`text-sm font-medium px-4 py-2 rounded-full ${
                     language === "fr"
@@ -718,8 +848,8 @@ function News() {
                 >
                   {_.news_english}
                 </button>
-              </div>
-              <CustumSelect
+              </div> */}
+              {/* <CustumSelect
                 label={_.news_search_language}
                 placeholder={_.news_search_language_choice}
                 value={getPageEqValue("airLanguage", pageEq)}
@@ -730,7 +860,7 @@ function News() {
                 <option value="">{_.news_search_language_choice}</option>
                 <option value="ENG">English</option>
                 <option value="FR">Français</option>
-              </CustumSelect>
+              </CustumSelect> */}
 
               <button
                 className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
@@ -771,7 +901,7 @@ function News() {
           </div>
           <div className="mx-auto bg-transparent w-11/12 mt-10 text-darkGray lg:flex lg:gap-x-8">
             <div className="absolute md:sticky w-1/3 top-10 min-h-[400px] max-h-[95vh] overflow-x-scroll hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5 ">
-              <Input
+              {/* <Input
                 label={_.news_search_by_title}
                 placeholder={_.news_search_by_title_enter_a_title}
                 type="text"
@@ -780,6 +910,17 @@ function News() {
                 containerClassName="w-full"
                 onChange={(e) => {
                   dispatch({ field: "title", value: e.target.value });
+                }}
+              /> */}
+              <Input
+                label={_.news_search_by_media || "Search by media"}
+                placeholder={_.news_search_by_media_enter_a_media || "Enter a media name"}
+                type="text"
+                value={pageEq[3].value}
+                inputClassName="w-full border-[.5px] border-primary rounded-full"
+                containerClassName="w-full"
+                onChange={(e) => {
+                  dispatch({ field: "airMedia", value: e.target.value });
                 }}
               />
               <Input
@@ -793,7 +934,19 @@ function News() {
                   dispatch({ field: "airTags", value: e.target.value });
                 }}
               />
-              <CustumSelect
+              <Input
+                label={_.news_search_by_country || "Search by country"}
+                placeholder={_.news_search_by_country_enter_a_country || "Enter a country name"}
+                type="text"
+                value={pageEq[5].value}
+                inputClassName="w-full border-[.5px] border-primary rounded-full"
+                containerClassName="w-full"
+                onChange={(e) => {
+                  dispatch({ field: "countries", value: e.target.value });
+                }}
+              />
+
+              {/* <CustumSelect
                 label={_.news_search_language}
                 placeholder={_.news_search_language_choice}
                 value={pageEq[3].value}
@@ -806,7 +959,7 @@ function News() {
                 <option value="">{_.news_search_language_choice}</option>
                 <option value="ENG">Anglais</option>
                 <option value="FR">Français</option>
-              </CustumSelect>
+              </CustumSelect> */}
 
               <button
                 className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
@@ -820,6 +973,33 @@ function News() {
               >
                 {_.news_btn_reset_filter}
               </button>
+
+              {/* Somes tags */}
+
+              <div className="flex flex-wrap gap-2">
+                <h1 className="text-lg font-bold w-full">Somes tags</h1>
+                {tagList.map((tag, index) => (
+                  <button key={index} className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${selectedTags.includes(tag) ? "!bg-primary text-white" : ""}`}
+                    onClick={() => handleTagClick(tag)}
+                  >
+                    <span>{tag}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Sommes countries */}
+
+              <div className="flex flex-wrap gap-2">
+                <h1 className="text-lg font-bold w-full">Somes countries</h1>
+                {countryList.map((country, index) => (
+                  <button key={index} className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${selectedCountries.includes(country) ? "!bg-primary text-white" : ""}`}
+                    onClick={() => handleCountryClick(country)}
+                  >
+                    <span>{country}</span>
+                  </button>
+                ))}
+              </div>
+
               <div className="flex justify-center items-center w-full">
                 {isFetching && (
                   <img
