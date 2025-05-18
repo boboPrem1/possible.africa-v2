@@ -143,7 +143,7 @@ class CustomUtils {
             const countries = value;
             delete queryObj[key];
 
-            queryObj['content'] = { $regex: new RegExp(countries, "i") };
+            queryObj['title'] = { $regex: new RegExp(countries, "i") };
           } else {
             queryObj[key] = { $regex: new RegExp(value, "i") };
           }
