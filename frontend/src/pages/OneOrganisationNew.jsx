@@ -20,8 +20,6 @@ import option_icon from "../assets/icons/option_icon.png";
 
 import basil_settings_adjust from "../assets/icons/basil_settings-adjust-outline.svg";
 import filter_reset from "../assets/icons/filter-reset-icon.svg";
-import Header from "../components/pyramid-africa/components/header";
-import Footer from "../components/pyramid-africa/components/footer";
 import { Link, useParams } from "react-router-dom";
 import NoData from "../utils/NoData";
 import { useGetOrganisationByNameQuery } from "../features/api/apiSlice";
@@ -30,6 +28,7 @@ import Loader from "../assets/icons/loader.svg";
 import ArrowLeftSolidCustomIcon from "../components/icons/ArrowLeftSolidCustomIcon";
 import SimilarOrganizations from "../components/SimilarOrganizations";
 import { LangTransContext } from "../langTransContext";
+import { Footer, Header } from "./Landing";
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
@@ -72,7 +71,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
   if (isLoading) {
     return (
       <>
-        <Header page="/news" />
+        <Header page="/network" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
@@ -93,7 +92,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
   if (isError) {
     return (
       <>
-        <Header page="/news" />
+        <Header page="/network" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <NoData />

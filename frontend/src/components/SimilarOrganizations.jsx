@@ -66,7 +66,7 @@ const SimilarOrganizations = ({ sector, currentOrgId, currentOrgName }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {similarOrgs.map((org) => (
           <Link
-            to={`/database/${org.name}`}
+            to={`/network/${org.name}`}
             key={org.id}
             className="bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md p-4 transition-all duration-300 hover:translate-y-[-2px]"
           >

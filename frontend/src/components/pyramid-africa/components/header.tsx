@@ -39,9 +39,9 @@ const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
             News tracking
           </Link>
           <Link
-            to="/database"
+            to="/network"
             className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-              page === "/database"
+              page === "/network"
                 ? "text-primary font-semibold after:w-full"
                 : "text-gray-700 after:w-0"
             }`}
@@ -131,7 +131,7 @@ const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
             News tracking
           </a>
           <a
-            href="https://possible.africa/database"
+            href="https://possible.africa/network"
             target="_blank"
             className="text-gray-700 text-base"
           >

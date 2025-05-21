@@ -71,9 +71,9 @@ function App() {
                 <Route path="/">
                   <Route index path="/" element={<News />} />
                 </Route>
-                <Route path="/database">
-                  <Route index path="/database" element={<Database />} />
-                  <Route path="/database/:name" element={<OneOrganisation />} />
+                <Route path="/network">
+                  <Route index path="/network" element={<Database />} />
+                  <Route path="/network/:name" element={<OneOrganisation />} />
                 </Route>
                 <Route path="/news">
                   <Route index path="/news" element={<News />} />
@@ -82,12 +82,12 @@ function App() {
                 <Route path="/pyramid">
                   <Route index path="/pyramid" element={<PyramidLanding />} />
                 </Route>
-                <Route path="/consulting">
+                {/* <Route path="/consulting">
                   <Route index path="/consulting" element={<ConsultingHome />} />
                   <Route path="/consulting/consultant" element={<Consultant />} />
                   <Route path="/consulting/contact" element={<Contact />} />
                   <Route path="/consulting/clients" element={<Client />} />
-                </Route>
+                </Route> */}
                 <Route path="/applicantList">
                   <Route
                     index

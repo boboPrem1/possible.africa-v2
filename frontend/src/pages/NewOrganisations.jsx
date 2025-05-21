@@ -1288,7 +1288,7 @@ function Tr({ org, date, _ }) {
         <span className="flex justify-start gap-x-3 items-center">
           <Link
             className="inline-flex"
-            to={`/database/${org.name}`}
+            to={`/network/${org.name}`}
             onClick={() => {
               // Mémoriser l'id de l'organisation dans l'URL
               const newUrl = new URL(window.location.href);
@@ -1394,7 +1394,7 @@ function Tr({ org, date, _ }) {
             </Link>
             <Link
               className="inline-flex w-full"
-              to={`/database/${org.name}`}
+              to={`/network/${org.name}`}
               onClick={() => {
                 // Mémoriser l'id de l'organisation dans l'URL
                 const newUrl = new URL(window.location.href);

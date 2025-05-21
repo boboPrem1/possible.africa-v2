@@ -27,8 +27,6 @@ import Star from "../../assets/icons/star.svg";
 import tagSolid from "../../assets/icons/tag-solid.svg";
 import filterSolid from "../../assets/icons/filter-solid.svg";
 import xmarkSolid from "../../assets/icons/xmark-solid.svg";
-import Header from "../../components/pyramid-africa/components/header";
-import Footer from "../../components/pyramid-africa/components/footer";
 import { LangTransContext } from "../../langTransContext.js";
 import LogoExa from "../../assets/logoEXA.svg";
 import PossibleAfricaLogo from "../../assets/dashboard_logo.svg";
@@ -40,6 +38,7 @@ import {
   useLocation,
   useSearchParams,
 } from "react-router-dom";
+import { Footer, Header } from "../Landing.jsx";
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
@@ -591,7 +590,7 @@ function News() {
   if (isLoading) {
     return (
       <>
-        <Header shadow page="/news" />
+        <Header page="/news" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">

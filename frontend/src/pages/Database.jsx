@@ -14,14 +14,14 @@ import SectorSubsectorSelector from "../components/for_database/sector_sub_secto
 import SectorSelector from "../components/for_database/sector_selector";
 import Logo from "../assets/LogoPossible.png";
 import Loader from "../assets/icons/loader.svg";
-import Footer from "../components/pyramid-africa/components/footer";
-import Header from "../components/pyramid-africa/components/header";
+
 import Organisations from "./NewOrganisations";
 import { LangTransContext } from "../langTransContext";
 import {
   FilterProvider,
   useFilter,
 } from "../components/for_database/FilterContext";
+import { Footer, Header } from "./Landing";
 
 function DatabaseContent() {
   const { selectedCountry, setSelectedCountry, scrollToTable } = useFilter();
@@ -287,7 +287,7 @@ function DatabaseContent() {
   if (!dashBoardData) {
     return (
       <>
-        <Header shadow />
+        <Header />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
@@ -307,7 +307,7 @@ function DatabaseContent() {
 
   return (
     <>
-      <Header shadow page="/database" />
+      <Header page="/network" />
       <div className="flex justify-center py-8">
         <div className="grid w-11/12 max-w-9xl mx-auto grid-cols-12 gap-x-6 gap-y-10 md:gap-y-20 justify-items-center items-center">
           {/* Stats cards - 3 colonnes sur grand écran  */}

@@ -193,7 +193,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
   if (!dashBoardData) {
     return (
       <>
-        <Header page="database" />
+        <Header page="network" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
@@ -628,7 +628,7 @@ Retourne uniquement le JSON, sans texte additionnel.`;
                   {_.landing_org_cta}
                 </span>
                 <a
-                  href="/database"
+                  href="/network"
                   className="flex justify-end items-center self-center gap-x-3"
                 >
                   <span className="text-nowrap">{_.landing_view_more}</span>
@@ -1138,7 +1138,7 @@ const Organisation = ({ org }) => {
   return (
     <Link
       key={org.id}
-      to={`/database/${org.name}`}
+      to={`/network/${org.name}`}
       className="flex justify-between items-center gap-x-2.5 bg-[#D9D9D9]/20 rounded-md min-h-18 p-2.5"
     >
       <div className="w-12 h-12 flex justify-center items-center self-start bg-custom-white rounded">
@@ -1430,7 +1430,7 @@ export const Header = ({ page }) => {
                 </button>
               </div>
               <div className="flex flex-col py-4 overflow-y-auto">
-                <Link
+                {/* <Link
                   to="/"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
                     page === "/"
@@ -1439,7 +1439,7 @@ export const Header = ({ page }) => {
                   }`}
                 >
                   {_.header_link_home}
-                </Link>
+                </Link> */}
                 <Link
                   to="/news"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
@@ -1451,9 +1451,9 @@ export const Header = ({ page }) => {
                   {_.header_link_news}
                 </Link>
                 <Link
-                  to="/database"
+                  to="/network"
                   className={`flex items-center pl-6 py-3.5 hover:bg-primary-50 transition-colors ${
-                    page === "/database"
+                    page === "/network"
                       ? "font-bold text-primary border-l-4 border-primary"
                       : "border-l-4 border-transparent"
                   }`}
@@ -1528,7 +1528,7 @@ export const Header = ({ page }) => {
         {/* Navigation - Desktop */}
         <div className="hidden lg:flex items-center justify-start flex-grow">
           <nav className="flex space-x-8 lg:ml-8 xl:space-x-2 mr-8">
-            <Link
+            {/* <Link
               to="/"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
                 page === "/"
@@ -1537,7 +1537,7 @@ export const Header = ({ page }) => {
               }`}
             >
               {_.header_link_home}
-            </Link>
+            </Link> */}
             <Link
               to="/news"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
@@ -1549,9 +1549,9 @@ export const Header = ({ page }) => {
               {_.header_link_news}
             </Link>
             <Link
-              to="/database"
+              to="/network"
               className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-                page === "/database"
+                page === "/network"
                   ? "text-primary font-semibold after:w-full"
                   : "text-gray-700 after:w-0"
               }`}
@@ -1721,7 +1721,7 @@ export const Footer = () => {
             <ul className="space-y-2 text-center md:text-start">
               <li>
                 <a
-                  href="/database"
+                  href="/network"
                   className="text-gray-600 hover:text-primary text-sm"
                 >
                   {_.footer_database || "Database"}
