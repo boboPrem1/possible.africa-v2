@@ -7,11 +7,10 @@ import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import { Parse } from "../utils/htmlParser.jsx";
 import { useGetPostBySlugQuery } from "../features/api/apiSlice.js";
 import { useEffect } from "react";
-import Header from "../components/pyramid-africa/components/header";
-import Footer from "../components/pyramid-africa/components/footer";
 import Loader from "../assets/icons/loader.svg";
 import NoData from "../utils/NoData.jsx";
 import DOMPurify from "dompurify";
+import { Footer, Header } from "./Landing.jsx";
 
 function OneActualite({ iconSx, backUrl, events }) {
   const { slug } = useParams();
@@ -35,7 +34,7 @@ function OneActualite({ iconSx, backUrl, events }) {
   if (isLoading) {
     return (
       <>
-        <Header page="/news" />
+        <Header page="/" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
@@ -54,7 +53,7 @@ function OneActualite({ iconSx, backUrl, events }) {
   if (isError || error) {
     return (
       <>
-        <Header page="/news" />
+        <Header page="/" />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <NoData />
@@ -69,7 +68,7 @@ function OneActualite({ iconSx, backUrl, events }) {
 
   return (
     <>
-      <Header />
+      <Header page="/" />
       <div className="container mx-auto max-w-screen-xl p-0">
         <div className="flex ml-10">
           <ArrowLeftSolidCustomIcon
