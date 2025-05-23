@@ -439,20 +439,32 @@ function News() {
       // const updatedTags = selectedTags.filter((t) => t !== tag);
       setSelectedTags(tag);
       dispatch({ field: "airTags", value: tag });
+      setPageEqS([...pageEq, { field: "airTags", value: tag }]);
       
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
       params.set("tags", tag);
       setSearchParams(params);
+
+      window.location.reload();
+
+      // Lancer la recherche
+      // applyFilters();
     } else {
       // Créer la nouvelle liste avec le nouveau tag
       setSelectedTags('');
       dispatch({ field: "airTags", value: '' });
+      setPageEqS([...pageEq, { field: "airTags", value: '' }]);
       
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
       params.set("tags", '');
       setSearchParams(params);
+
+      window.location.reload();
+
+      // Lancer la recherche
+      // applyFilters();
     }
   };
 
@@ -461,20 +473,31 @@ function News() {
       // Créer la nouvelle liste sans le pays sélectionné
       setSelectedCountries(country);
       dispatch({ field: "countries", value: country });
+      setPageEqS([...pageEq, { field: "countries", value: country }]);
       
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
       params.set("countries", country);
       setSearchParams(params);
+
+      window.location.reload();
+      // Lancer la recherche
+      // applyFilters();
     } else {
       // Créer la nouvelle liste avec le nouveau pays
       setSelectedCountries('');
       dispatch({ field: "countries", value: '' });
+      setPageEqS([...pageEq, { field: "countries", value: '' }]);
       
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
       params.set("countries", '');
       setSearchParams(params);
+
+      window.location.reload();
+
+      // Lancer la recherche
+      // applyFilters();
     }
   };
 
@@ -978,7 +1001,7 @@ function News() {
               {/* Somes tags */}
 
               <div className="flex flex-wrap gap-2">
-                <h1 className="text-lg font-bold w-full">Somes tags</h1>
+                <h1 className="text-lg font-bold w-full">Tags</h1>
                 {tagList.map((tag, index) => (
                   <button key={index} className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${selectedTags.includes(tag) ? "!bg-primary text-white" : ""}`}
                     onClick={() => handleTagClick(tag)}
@@ -991,7 +1014,7 @@ function News() {
               {/* Sommes countries */}
 
               <div className="flex flex-wrap gap-2">
-                <h1 className="text-lg font-bold w-full">Somes countries</h1>
+                <h1 className="text-lg font-bold w-full">Countries</h1>
                 {countryList.map((country, index) => (
                   <button key={index} className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${selectedCountries.includes(country) ? "!bg-primary text-white" : ""}`}
                     onClick={() => handleCountryClick(country)}
