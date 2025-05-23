@@ -43,7 +43,7 @@ const Clients = () => {
         </div>
 
         <Link
-          to="/consulting/clients"
+          to="https://expand-in-africa.com//clients"
           className="px-8 py-3 sm:px-10 sm:py-4 border border-[#2BB19C] text-[#2BB19C] rounded-full text-lg sm:text-xl lg:text-2xl font-bold cursor-pointer"
         >
           See all Clients

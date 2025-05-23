@@ -73,7 +73,7 @@ const Footer = () => {
 
       <div className="flex flex-col sm:flex-row justify-between px-4 sm:px-[52px] pt-8 pb-10 bg-[#F4FBFA] gap-4">
         <p className="text-black font-light text-center sm:text-left">
-          © {new Date().getFullYear()} Expand in Africa. All rights reserved.
+          © {new Date().getFullYear()} Expand in Africa. Powered by Possible Africa. All rights reserved.
         </p>
         <div className="flex gap-4 text-black font-light justify-center sm:justify-end">
           <a href="">Terms of Service</a>

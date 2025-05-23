@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 const Contact = () => {
   return (
     <div>
-      <Header page="/consulting" />
+      <Header page="https://expand-in-africa.com/" />
       <div className="bg-[#F4FBFA] py-28 flex justify-center">
         <div className="max-w-[880px] gap-14 flex flex-col justify-center items-center">
         <div className="flex flex-row gap-1">
-          <Link to="/consulting" className="text-grayDarkest font-medium">Home</Link>
+          <Link to="https://expand-in-africa.com/" className="text-grayDarkest font-medium">Home</Link>
           <span>{">"}</span>
-          <Link to="/consulting/contact" className="text-[#2BB19C] font-bold">Contact Us</Link>
+          <Link to="https://expand-in-africa.com//contact" className="text-[#2BB19C] font-bold">Contact Us</Link>
         </div>
         <h1 className="text-[40px] sm:text-[55px] text-center font-bold leading-16 text-transparent bg-clip-text bg-gradient-to-r from-[#111B21] to-[#2BB19C]">
           Contact Us

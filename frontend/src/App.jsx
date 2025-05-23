@@ -82,11 +82,11 @@ function App() {
                 <Route path="/pyramid">
                   <Route index path="/pyramid" element={<PyramidLanding />} />
                 </Route>
-                {/* <Route path="/consulting">
-                  <Route index path="/consulting" element={<ConsultingHome />} />
-                  <Route path="/consulting/consultant" element={<Consultant />} />
-                  <Route path="/consulting/contact" element={<Contact />} />
-                  <Route path="/consulting/clients" element={<Client />} />
+                {/* <Route path="https://expand-in-africa.com/">
+                  <Route index path="https://expand-in-africa.com/" element={<ConsultingHome />} />
+                  <Route path="https://expand-in-africa.com//consultant" element={<Consultant />} />
+                  <Route path="https://expand-in-africa.com//contact" element={<Contact />} />
+                  <Route path="https://expand-in-africa.com//clients" element={<Client />} />
                 </Route> */}
                 <Route path="/applicantList">
                   <Route

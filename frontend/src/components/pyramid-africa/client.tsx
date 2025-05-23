@@ -29,15 +29,15 @@ import dlocal from "../../assets/consulting/d-local.png";
 const Client = () => {
   return (
     <div>
-      <Header page="/consulting" />
+      <Header page="https://expand-in-africa.com/" />
       <div className="bg-[#F4FBFA] py-28 flex justify-center">
         <div className="max-w-[750px] gap-12 flex flex-col justify-center items-center">
           <div className="flex flex-row gap-1">
-            <Link to="/consulting" className="text-grayDarkest font-medium">
+            <Link to="https://expand-in-africa.com/" className="text-grayDarkest font-medium">
               Home
             </Link>
             <span>{">"}</span>
-            <Link to="/consulting/clients" className="text-[#2BB19C] font-bold">
+            <Link to="https://expand-in-africa.com//clients" className="text-[#2BB19C] font-bold">
               Clients
             </Link>
           </div>

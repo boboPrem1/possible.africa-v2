@@ -12,16 +12,16 @@ const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
     <header className={`w-full px-6 md:px-10 py-4 md:py-6 flex items-center justify-between relative md:gap-10 ${shadow ? "shadow-lg" : ""}`}>
       <div className="flex items-center justify-start w-full gap-x-10">
         {/* Logo */}
-        <a href="/consulting">
+        <a href="https://expand-in-africa.com/">
           <img src={logo} alt="Logo" className="h-8 md:h-10 lg:h-16" />
         </a>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex gap-10 text-primary-gray text-lg items-center font-light">
           <Link
-            to="/consulting"
+            to="https://expand-in-africa.com/"
             className={`relative font-medium px-2 py-1.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all after:duration-300 hover:after:w-full after:bg-primary ${
-              page === "/consulting"
+              page === "https://expand-in-africa.com/"
                 ? "text-primary font-semibold after:w-full"
                 : "text-gray-700 after:w-0"
             }`}

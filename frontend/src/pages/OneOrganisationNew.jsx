@@ -28,7 +28,8 @@ import Loader from "../assets/icons/loader.svg";
 import ArrowLeftSolidCustomIcon from "../components/icons/ArrowLeftSolidCustomIcon";
 import SimilarOrganizations from "../components/SimilarOrganizations";
 import { LangTransContext } from "../langTransContext";
-import { Footer, Header } from "./Landing";
+import { Footer } from "./Landing";
+import Header from "../components/pyramid-africa/components/header";
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",
@@ -71,7 +72,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
   if (isLoading) {
     return (
       <>
-        <Header page="/network" />
+        <Header page="/network" shadow={true} />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
@@ -92,7 +93,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
   if (isError) {
     return (
       <>
-        <Header page="/network" />
+        <Header page="/network" shadow={true} />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <NoData />
@@ -106,7 +107,7 @@ export default function OneOrganisation({ iconSx, backUrl }) {
 
   return (
     <>
-      <Header />
+      <Header page="/network" shadow={true} />
       <div className="container mx-auto max-w-screen-xl px-4 py-8">
         {/* En-tête avec bouton retour et titre */}
         <div className="flex items-center mb-8">
@@ -114,13 +115,13 @@ export default function OneOrganisation({ iconSx, backUrl }) {
             onClick={() => {
               // Vérifier si nous avons un paramètre focusOrgId dans l'URL de référence
               const referrer = document.referrer;
-              if (referrer && referrer.includes('/database')) {
+              if (referrer && referrer.includes('/network')) {
                 // Si on vient de la page de base de données, on retourne avec le paramètre focusOrgId
                 window.history.back();
               } else {
                 // Sinon, on redirige vers la page de base de données avec un paramètre pour mettre en évidence cette organisation
                 const orgId = `org-row-${data.id || data.name.replace(/\s+/g, '-').toLowerCase()}`;
-                const databaseUrl = new URL(`${window.location.origin}/database`);
+                const databaseUrl = new URL(`${window.location.origin}/network`);
                 databaseUrl.searchParams.set('focusOrgId', orgId);
                 window.location.href = databaseUrl.toString();
               }

@@ -38,7 +38,9 @@ import {
   useLocation,
   useSearchParams,
 } from "react-router-dom";
-import { Footer, Header } from "../Landing.jsx";
+import Header from "../../components/pyramid-africa/components/header";
+import { Footer } from "../Landing";
+
 
 const socialMedias = [
   "https://api.possible.africa/storage/logos/wwwlinkedincom.jpg",

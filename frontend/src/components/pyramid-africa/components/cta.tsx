@@ -19,7 +19,7 @@ const CTA = () => {
             </p>
           </div>
           <Link
-            to="/consulting/consultant"
+            to="https://expand-in-africa.com//consultant"
             className="px-8 py-3 sm:px-10 sm:py-4 border border-white text-white rounded-full text-lg sm:text-xl lg:text-2xl font-bold cursor-pointer"
           >
             Learn more

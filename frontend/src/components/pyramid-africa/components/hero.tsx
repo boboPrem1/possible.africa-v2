@@ -17,7 +17,7 @@ const Hero = () => {
           strategy to implementation.
         </p>
 
-        <Link to="/consulting/contact" className="px-8 py-3 sm:px-10 sm:py-4 bg-[#2BB19C] rounded-full text-white text-lg sm:text-xl lg:text-2xl font-bold cursor-pointer">
+        <Link to="https://expand-in-africa.com//contact" className="px-8 py-3 sm:px-10 sm:py-4 bg-[#2BB19C] rounded-full text-white text-lg sm:text-xl lg:text-2xl font-bold cursor-pointer">
           Contact Us
         </Link>
       </div>
