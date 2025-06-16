@@ -10,7 +10,8 @@ import { useEffect } from "react";
 import Loader from "../assets/icons/loader.svg";
 import NoData from "../utils/NoData.jsx";
 import DOMPurify from "dompurify";
-import { Footer, Header } from "./Landing.jsx";
+import Header from "../../components/pyramid-africa/components/header";
+import { Footer } from "../Landing";
 
 function OneActualite({ iconSx, backUrl, events }) {
   const { slug } = useParams();
@@ -78,8 +79,8 @@ function OneActualite({ iconSx, backUrl, events }) {
           />
         </div>
 
-        <div className="w-full pl-10">
-          <img
+        <div className="w-full py-2">
+          {/* <img
             className="w-full mb-5"
             src="https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741354259963-PARTNERS%20BAND.jpg"
             alt="Possible africa partners"
@@ -87,7 +88,7 @@ function OneActualite({ iconSx, backUrl, events }) {
               e.target.onerror = null;
               e.target.src = "/placeholder_org.jpeg";
             }}
-          />
+          /> */}
         </div>
 
         <div className="flex flex-col md:flex-row py-0">
