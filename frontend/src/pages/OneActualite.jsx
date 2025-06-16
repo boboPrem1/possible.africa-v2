@@ -10,8 +10,8 @@ import { useEffect } from "react";
 import Loader from "../assets/icons/loader.svg";
 import NoData from "../utils/NoData.jsx";
 import DOMPurify from "dompurify";
-import Header from "../../components/pyramid-africa/components/header";
-import { Footer } from "../Landing";
+import Header from "./../components/pyramid-africa/components/header";
+import { Footer } from "./Landing";
 
 function OneActualite({ iconSx, backUrl, events }) {
   const { slug } = useParams();
