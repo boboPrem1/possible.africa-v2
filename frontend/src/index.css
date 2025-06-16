@@ -409,7 +409,7 @@ h6 {
 }
 
 .table-gallery th, .table-gallery td {
-  padding: 10px!important;
+  padding: 25px!important;
   height: auto!important;
   background: #fff;
   border-radius: 12px;
@@ -419,7 +419,7 @@ h6 {
 }
 
 .table-gallery tr{
-  height: 200px!important;
+  height: auto!important;
 }
 
 .table-gallery tr, .table-gallery table {
@@ -440,6 +440,6 @@ h6 {
 }
 
 .table-gallery td img:hover {
-  transform: scale(1.08) rotate(-2deg);
+  transform: scale(1.05) rotate(-1deg);
   box-shadow: 0 6px 24px rgba(0,0,0,0.15);
 }
