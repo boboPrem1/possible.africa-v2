@@ -123,7 +123,7 @@ function OneActualite({ iconSx, backUrl, events }) {
 
                   </div> */}
                   <div className="flex justify-start items-center gap-2">
-                    {data.airTags.split(", ").map((tag) => {
+                    {data && data?.airTags?.split(", ").map((tag) => {
                       return (
                         <span className="inline-block h-8 px-3 rounded-md bg-primary text-white text-sm text-gray-500 flex items-center justify-center capitalize font-medium">
                           {tag}
