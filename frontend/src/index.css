@@ -395,3 +395,51 @@ h6 {
 .social-icon-hover:hover svg {
   animation: bounce 0.6s ease infinite;
 }
+
+
+.table-gallery {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 16px;
+  /* background: #fafafa; */
+  border-radius: 16px;
+  /* box-shadow: 0 4px 24px rgba(0,0,0,0.07); */
+  overflow: hidden;
+  margin: 24px 0;
+}
+
+.table-gallery th, .table-gallery td {
+  padding: 10px!important;
+  height: auto!important;
+  background: #fff;
+  border-radius: 12px;
+  text-align: center;
+  vertical-align: middle;
+  transition: box-shadow 0.2s;
+}
+
+.table-gallery tr{
+  height: 200px!important;
+}
+
+.table-gallery tr, .table-gallery table {
+  height: auto!important;
+}
+
+.table-gallery td:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: #f0f4ff;
+}
+
+.table-gallery td img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.table-gallery td img:hover {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}

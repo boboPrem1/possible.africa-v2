@@ -70,7 +70,7 @@ function OneActualite({ iconSx, backUrl, events }) {
   return (
     <>
       <Header page="/" />
-      <div className="container mx-auto max-w-screen-xl p-0">
+      <div className="container mx-auto p-0">
         <div className="flex ml-10">
           <ArrowLeftSolidCustomIcon
             sx={iconSx}
@@ -230,7 +230,7 @@ function OneActualite({ iconSx, backUrl, events }) {
               <div
                 dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
                 id="tinymce"
-                className="mce-content-body "
+                className="mce-content-body table-gallery"
               />
             </main>
 
