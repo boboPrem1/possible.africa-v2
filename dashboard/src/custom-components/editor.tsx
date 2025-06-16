@@ -48,7 +48,7 @@ export default function TinyMCEEditor({
             "wordcount",
           ],
           toolbar:
-            "undo redo | casechange blocks | visualblocks image link bold italic backcolor | " +
+            "undo redo | casechange blocks | visualblocks image link bold italic forecolor backcolor | " +
             "alignleft aligncenter alignright alignjustify | " +
             "bullist numlist checklist outdent indent | removeformat wordcount media insertdatetime | preview fullscreen charmap table help",
           content_style:
