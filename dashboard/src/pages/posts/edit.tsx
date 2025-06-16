@@ -108,7 +108,16 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
 
   async function onSubmitCapture(values: any) {
     let contentToSend = "";
-    let imgTags = editorContent?.match(/<img[^>]+src="([^">]+)"/g);
+
+    const matches = [...editorContent.matchAll(/<img[^>]+src="([^">]+)"/g)];
+
+    const imgTags = matches
+      .map((match) => match[1]) // extraire le src
+      .filter(
+        (src) =>
+          !src.startsWith("https://possibleafricacrms3.s3.amazonaws.com/") &&
+          !src.startsWith("http://possibleafricacrms3.s3.amazonaws.com/")
+      );
 
     if (imgTags && imgTags.length > 0) {
       let imgs = imgTags.map((imgTag) => {
@@ -230,7 +239,6 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
 
     // console.log(queryResult.isFetching);
   }, [postsData, queryResult.isFetching, uploadLoading]);
-
 
   useEffect(() => {
     if (imageUrl) {
