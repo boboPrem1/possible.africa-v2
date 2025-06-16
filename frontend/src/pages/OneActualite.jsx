@@ -140,7 +140,11 @@ function OneActualite({ iconSx, backUrl, events }) {
                     <div className="flex justify-start items-center gap-2">
                       <img
                         className="w-6 h-6 rounded-full"
-                        src="https://possibledotafrica.s3.eu-west-3.amazonaws.com/users/images/1741772042908-1739889775930.jpg"
+                        src="https://possibleafricacrms3.s3.amazonaws.com/users/images/1750015949754-1747644796252.jpeg"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/placeholder_org.jpeg";
+                        }}
                         alt="Author avatar"
                       />
                       <span className="font-medium text-sm">
