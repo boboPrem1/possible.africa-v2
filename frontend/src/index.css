@@ -398,8 +398,6 @@ h6 {
 
 
 .table-gallery {
-  display: block;
-  overflow-x: auto;
   width: 100%;
   border-collapse: separate;
   border-spacing: 16px;
@@ -418,9 +416,6 @@ h6 {
   text-align: center;
   vertical-align: middle;
   transition: box-shadow 0.2s;
-  min-width: 100px;
-  max-width: 200px;
-  word-break: break-word;
 }
 
 .table-gallery tr{
@@ -437,10 +432,6 @@ h6 {
 }
 
 .table-gallery td img {
-  width: 100%;
-  height: auto;
-  /* max-width: 120px;
-  max-height: 120px; */
   display: block;
   margin: 0 auto;
   border-radius: 10px;
@@ -451,22 +442,4 @@ h6 {
 .table-gallery td img:hover {
   transform: scale(1.08) rotate(-2deg);
   box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-}
-
-@media (max-width: 600px) {
-  .table-gallery {
-    border-spacing: 6px;
-    margin: 8px 0;
-  }
-  .table-gallery th, .table-gallery td {
-    padding: 4px!important;
-    font-size: 0.95em;
-  }
-  .table-gallery tr {
-    height: 100px!important;
-  }
-  .table-gallery td img {
-    max-width: 70px;
-    max-height: 70px;
-  }
 }
