@@ -40,6 +40,7 @@ import {
 } from "react-router-dom";
 import Header from "../../components/pyramid-africa/components/header";
 import { Footer } from "../Landing";
+import LogoPossibleAfrica from "../../assets/LogoPossible.png";
 
 
 const socialMedias = [
@@ -64,42 +65,42 @@ const socialMedias = [
 const logoPlaceholder =
   "https://api.possible.africa/storage/logos/placeholder_org.jpeg";
 
-  const tagList = [
-    "Fintech",
-    "Edtech",
-    "Healthtech",
-    "Agritech",
-    "E-commerce",
-    "Insurtech",
-    "Media & Content",
-    "Telco",
-    "Banking",
-    "Logistics",
-    "Energy & Climate",
-  ];
+const tagList = [
+  "Fintech",
+  "Edtech",
+  "Healthtech",
+  "Agritech",
+  "E-commerce",
+  "Insurtech",
+  "Media & Content",
+  "Telco",
+  "Banking",
+  "Logistics",
+  "Energy & Climate",
+];
 
-  const countryList = [
-    "Nigeria",
-    "Kenya",
-    "South Africa",
-    "Egypt",
-    "Ghana",
-    "Rwanda",
-    "Senegal",
-    "Côte d'Ivoire",
-    "Uganda",
-    "Tanzania",
-    "Zambia",
-    "Morocco",
-    "Tunisia",
-    "Cameroon",
-    "Mauritius",
-    "Ethiopia",
-    "Democratic Republic of Congo",
-    "Benin",
-    "Togo",
-    "Algeria",
-  ];
+const countryList = [
+  "Nigeria",
+  "Kenya",
+  "South Africa",
+  "Egypt",
+  "Ghana",
+  "Rwanda",
+  "Senegal",
+  "Côte d'Ivoire",
+  "Uganda",
+  "Tanzania",
+  "Zambia",
+  "Morocco",
+  "Tunisia",
+  "Cameroon",
+  "Mauritius",
+  "Ethiopia",
+  "Democratic Republic of Congo",
+  "Benin",
+  "Togo",
+  "Algeria",
+];
 
 function getPageEqValue(key, state) {
   if (state.length) {
@@ -333,12 +334,12 @@ function News() {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedTags, setSelectedTags] = useState(searchParams.get("tags") || "");
+  const [selectedTags, setSelectedTags] = useState(
+    searchParams.get("tags") || ""
+  );
   const [selectedCountries, setSelectedCountries] = useState(
     searchParams.get("countries") || ""
   );
-
-  
 
   // Initialize filter state from URL parameters
   const initialPageEq = [
@@ -432,7 +433,6 @@ function News() {
     [lang]
   );
 
-  
   const handleTagClick = (tag) => {
     if (selectedTags != tag) {
       // Créer la nouvelle liste sans le tag sélectionné
@@ -440,7 +440,7 @@ function News() {
       setSelectedTags(tag);
       dispatch({ field: "airTags", value: tag });
       setPageEqS([...pageEq, { field: "airTags", value: tag }]);
-      
+
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
       params.set("tags", tag);
@@ -452,13 +452,13 @@ function News() {
       // applyFilters();
     } else {
       // Créer la nouvelle liste avec le nouveau tag
-      setSelectedTags('');
-      dispatch({ field: "airTags", value: '' });
-      setPageEqS([...pageEq, { field: "airTags", value: '' }]);
-      
+      setSelectedTags("");
+      dispatch({ field: "airTags", value: "" });
+      setPageEqS([...pageEq, { field: "airTags", value: "" }]);
+
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
-      params.set("tags", '');
+      params.set("tags", "");
       setSearchParams(params);
 
       window.location.reload();
@@ -474,7 +474,7 @@ function News() {
       setSelectedCountries(country);
       dispatch({ field: "countries", value: country });
       setPageEqS([...pageEq, { field: "countries", value: country }]);
-      
+
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
       params.set("countries", country);
@@ -485,13 +485,13 @@ function News() {
       // applyFilters();
     } else {
       // Créer la nouvelle liste avec le nouveau pays
-      setSelectedCountries('');
-      dispatch({ field: "countries", value: '' });
-      setPageEqS([...pageEq, { field: "countries", value: '' }]);
-      
+      setSelectedCountries("");
+      dispatch({ field: "countries", value: "" });
+      setPageEqS([...pageEq, { field: "countries", value: "" }]);
+
       // Mettre à jour les paramètres d'URL
       const params = new URLSearchParams(searchParams);
-      params.set("countries", '');
+      params.set("countries", "");
       setSearchParams(params);
 
       window.location.reload();
@@ -650,7 +650,126 @@ function News() {
     <>
       <Header shadow page="/news" />
       {/* Hero Section */}
+      {showHero && (
+        <div
+          ref={heroRef}
+          className="w-full transition-opacity duration-500 ease-out relative"
+          style={{
+            minHeight: "50vh",
+            transform: showHero ? "translateY(0)" : "translateY(-100%)",
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-primary/5 z-0"></div>
 
+          {/* Background Pattern */}
+          <div className="absolute inset-0 z-10 opacity-10">
+            <svg width="100%" height="100%">
+              <pattern
+                id="pattern-circles"
+                x="0"
+                y="0"
+                width="30"
+                height="30"
+                patternUnits="userSpaceOnUse"
+                patternContentUnits="userSpaceOnUse"
+              >
+                <circle
+                  id="pattern-circle"
+                  cx="10"
+                  cy="10"
+                  r="1.6"
+                  fill="#6366F1"
+                ></circle>
+              </pattern>
+              <rect
+                id="rect"
+                x="0"
+                y="0"
+                width="100%"
+                height="100%"
+                fill="url(#pattern-circles)"
+              ></rect>
+            </svg>
+          </div>
+
+          <div className="container mx-auto px-4 py-16 md:py-24 relative z-20">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
+                <span className="inline bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
+                  {_.news_cta_text_one || "The latest news from Africa,"}
+                </span>
+                <br />
+                <span className="inline">
+                  {_.news_cta_text_two || "brought together for you"}
+                </span>
+              </h1>
+
+              <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-3xl mx-auto">
+                {_.news_cta_subtext ||
+                  "Stay on top of trends, capture innovations and seize the best opportunities"}
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => {
+                    newsContentRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="px-8 py-3 bg-primary text-white rounded-full font-medium hover:bg-darkPrimary transition-all duration-300 flex items-center justify-center"
+                >
+                  {_.news_cta_button || "Discover News"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+
+                {pageEqS[1].value || pageEqS[2].value || pageEqS[3].value ? (
+                  <button
+                    onClick={resetFilters}
+                    className="px-8 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-gray-50 transition-all duration-300"
+                  >
+                    {_.reset_filters || "Reset Filters"}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setMobileFilterIsVisible(true)}
+                    className="px-8 py-3 bg-white text-primary border border-primary rounded-full font-medium hover:bg-gray-50 transition-all duration-300 md:hidden"
+                  >
+                    {_.filter_news || "Filter News"}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom fade effect */}
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+
+          {/* Powered By Possible Africa */}
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex items-center gap-2">
+            <span className="text-xs md:text-base font-extrabold tracking-widest text-primary drop-shadow-lg uppercase" style={{letterSpacing: '0.15em'}}>
+              Powered By
+            </span>
+            <span className="text-xs md:text-base font-extrabold tracking-widest text-blue-500 drop-shadow-lg uppercase bg-transparent px-2 py-1 rounded-full animate-pulse duration-1000" style={{letterSpacing: '0.15em'}}>
+            <img
+              src={LogoPossibleAfrica}
+              alt="Possible Africa"
+              className="h-10 mb-4 mx-auto md:mx-0"
+            />
+            </span>
+          </div>
+        </div>
+      )}
       <div ref={newsContentRef} className="flex justify-center">
         {/* Filter Results Banner - Only shows when filters are active */}
         <div className="flex flex-col w-11/12">
@@ -806,15 +925,42 @@ function News() {
             }`}
           >
             <div className="absolute min-h-[400px] max-h-[100vh] flex justify-start flex-col items-center gap-5 border-[.5px] rounded-[12px] border-primary p-5 ">
-              {/* <Input
-                label={_.news_search_by_title}
-                placeholder={_.news_search_by_title_enter_a_title}
-                type="text"
-                value={getPageEqValue("title", pageEq)}
-                onChange={(e) => {
-                  dispatch({ field: "title", value: e.target.value });
-                }}
-              /> */}
+              {/* Somes tags */}
+
+              <div className="flex flex-wrap gap-2">
+                <h1 className="text-lg font-bold w-full">Tags</h1>
+                {tagList.map((tag, index) => (
+                  <button
+                    key={index}
+                    className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${
+                      selectedTags.includes(tag) ? "!bg-primary text-white" : ""
+                    }`}
+                    onClick={() => handleTagClick(tag)}
+                  >
+                    <span>{tag}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Sommes countries */}
+
+              <div className="flex flex-wrap gap-2">
+                <h1 className="text-lg font-bold w-full">Countries</h1>
+                {countryList.map((country, index) => (
+                  <button
+                    key={index}
+                    className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${
+                      selectedCountries.includes(country)
+                        ? "!bg-primary text-white"
+                        : ""
+                    }`}
+                    onClick={() => handleCountryClick(country)}
+                  >
+                    <span>{country}</span>
+                  </button>
+                ))}
+              </div>
+
               <Input
                 label={_.news_search_by_tag}
                 placeholder={_.news_search_by_tag_enter_a_tag}
@@ -825,66 +971,17 @@ function News() {
                 }}
               />
 
-              <Input
+              {/* <Input
                 label={_.news_search_by_media || "Search by media"}
-                placeholder={_.news_search_by_media_enter_a_media || "Enter a media name"}
+                placeholder={
+                  _.news_search_by_media_enter_a_media || "Enter a media name"
+                }
                 type="text"
                 value={getPageEqValue("airMedia", pageEq)}
                 onChange={(e) => {
                   dispatch({ field: "airMedia", value: e.target.value });
                 }}
-              />
-
-              {/* <div className="flex gap-2">
-                <button
-                  className={`text-sm font-medium px-4 py-2 rounded-full ${
-                    language === "fr"
-                      ? "bg-primary text-white"
-                      : "bg-gray-100 text-primary"
-                  }`}
-                  onClick={() => {
-                    setLanguage("fr");
-                    refetch();
-                    if (languageChanging) return;
-                    setLanguageChanging(true);
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 1000);
-                  }}
-                >
-                  {_.news_french}
-                </button>
-                <button
-                  className={`text-sm font-medium px-4 py-2 rounded-full ${
-                    language === "en"
-                      ? "bg-primary text-white"
-                      : "bg-gray-100 text-primary"
-                  }`}
-                  onClick={() => {
-                    setLanguage("en");
-                    refetch();
-                    if (languageChanging) return;
-                    setLanguageChanging(true);
-                    setTimeout(() => {
-                      setLanguageChanging(false);
-                    }, 1000);
-                  }}
-                >
-                  {_.news_english}
-                </button>
-              </div> */}
-              {/* <CustumSelect
-                label={_.news_search_language}
-                placeholder={_.news_search_language_choice}
-                value={getPageEqValue("airLanguage", pageEq)}
-                onChange={(e) => {
-                  dispatch({ field: "airLanguage", value: e.target.value });
-                }}
-              >
-                <option value="">{_.news_search_language_choice}</option>
-                <option value="ENG">English</option>
-                <option value="FR">Français</option>
-              </CustumSelect> */}
+              /> */}
 
               <button
                 className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
@@ -925,85 +1022,16 @@ function News() {
           </div>
           <div className="mx-auto bg-transparent w-11/12 mt-10 text-darkGray lg:flex lg:gap-x-8">
             <div className="absolute md:sticky w-1/3 top-10 min-h-[400px] max-h-[95vh] overflow-x-scroll hidden lg:flex lg:justify-start lg:flex-col lg:items-center lg:gap-5 lg:border-[.5px] rounded-[12px] lg:border-primary lg:p-5 ">
-              {/* <Input
-                label={_.news_search_by_title}
-                placeholder={_.news_search_by_title_enter_a_title}
-                type="text"
-                value={pageEq[1].value}
-                inputClassName="w-full border-[.5px] border-primary rounded-full"
-                containerClassName="w-full"
-                onChange={(e) => {
-                  dispatch({ field: "title", value: e.target.value });
-                }}
-              /> */}
-              <Input
-                label={_.news_search_by_media || "Search by media"}
-                placeholder={_.news_search_by_media_enter_a_media || "Enter a media name"}
-                type="text"
-                value={pageEq[3].value}
-                inputClassName="w-full border-[.5px] border-primary rounded-full"
-                containerClassName="w-full"
-                onChange={(e) => {
-                  dispatch({ field: "airMedia", value: e.target.value });
-                }}
-              />
-              <Input
-                label={_.news_search_by_tag}
-                placeholder={_.news_search_by_tag_enter_a_tag}
-                type="text"
-                value={pageEq[2].value}
-                inputClassName="w-full border-[.5px] border-primary rounded-full"
-                containerClassName="w-full"
-                onChange={(e) => {
-                  dispatch({ field: "airTags", value: e.target.value });
-                }}
-              />
-              <Input
-                label={_.news_search_by_country || "Search by country"}
-                placeholder={_.news_search_by_country_enter_a_country || "Enter a country name"}
-                type="text"
-                value={pageEq[5].value}
-                inputClassName="w-full border-[.5px] border-primary rounded-full"
-                containerClassName="w-full"
-                onChange={(e) => {
-                  dispatch({ field: "countries", value: e.target.value });
-                }}
-              />
-
-              {/* <CustumSelect
-                label={_.news_search_language}
-                placeholder={_.news_search_language_choice}
-                value={pageEq[3].value}
-                selectClassName="w-full border-[.5px] border-primary rounded-full"
-                containerClassName="w-full"
-                onChange={(e) => {
-                  dispatch({ field: "airLanguage", value: e.target.value });
-                }}
-              >
-                <option value="">{_.news_search_language_choice}</option>
-                <option value="ENG">Anglais</option>
-                <option value="FR">Français</option>
-              </CustumSelect> */}
-
-              <button
-                className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-                onClick={applyFilters}
-              >
-                {_.news_btn_filter}
-              </button>
-              <button
-                className="w-full h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
-                onClick={resetFilters}
-              >
-                {_.news_btn_reset_filter}
-              </button>
-
               {/* Somes tags */}
 
               <div className="flex flex-wrap gap-2">
                 <h1 className="text-lg font-bold w-full">Tags</h1>
                 {tagList.map((tag, index) => (
-                  <button key={index} className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${selectedTags.includes(tag) ? "!bg-primary text-white" : ""}`}
+                  <button
+                    key={index}
+                    className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${
+                      selectedTags.includes(tag) ? "!bg-primary text-white" : ""
+                    }`}
                     onClick={() => handleTagClick(tag)}
                   >
                     <span>{tag}</span>
@@ -1016,12 +1044,74 @@ function News() {
               <div className="flex flex-wrap gap-2">
                 <h1 className="text-lg font-bold w-full">Countries</h1>
                 {countryList.map((country, index) => (
-                  <button key={index} className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${selectedCountries.includes(country) ? "!bg-primary text-white" : ""}`}
+                  <button
+                    key={index}
+                    className={`bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ${
+                      selectedCountries.includes(country)
+                        ? "!bg-primary text-white"
+                        : ""
+                    }`}
                     onClick={() => handleCountryClick(country)}
                   >
                     <span>{country}</span>
                   </button>
                 ))}
+              </div>
+
+              {/* <Input
+                label={_.news_search_by_media || "Search by media"}
+                placeholder={
+                  _.news_search_by_media_enter_a_media || "Enter a media name"
+                }
+                type="text"
+                value={pageEq[3].value}
+                inputClassName="w-full border-[.5px] border-primary rounded-full"
+                containerClassName="w-full"
+                onChange={(e) => {
+                  dispatch({ field: "airMedia", value: e.target.value });
+                }}
+              /> */}
+
+              <Input
+                label={_.news_search_by_tag}
+                placeholder={_.news_search_by_tag_enter_a_tag}
+                type="text"
+                value={pageEq[2].value}
+                inputClassName="w-full border-[.5px] border-primary rounded-full"
+                containerClassName="w-full"
+                onChange={(e) => {
+                  dispatch({ field: "airTags", value: e.target.value });
+                }}
+              />
+
+              {/* <Input
+                label={_.news_search_by_country || "Search by country"}
+                placeholder={
+                  _.news_search_by_country_enter_a_country ||
+                  "Enter a country name"
+                }
+                type="text"
+                value={pageEq[5].value}
+                inputClassName="w-full border-[.5px] border-primary rounded-full"
+                containerClassName="w-full"
+                onChange={(e) => {
+                  dispatch({ field: "countries", value: e.target.value });
+                }}
+              /> */}
+
+              <div className="flex justify-between w-full gap-3">
+                <button
+                  className="w-full h-[45px] bg-primary rounded-full text-lg font-bold text-white hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
+                  onClick={applyFilters}
+                >
+                  {_.news_btn_filter}
+                </button>
+                <button
+                  className="w-full h-[45px] bg-transparent rounded-full text-lg text-primary border-2 border-primary hover:text-white font-bold hover:bg-gradient-to-r hover:from-primary hover:to-darkPrimary hover:border-none active:scale-95 transition-all duration-300"
+                  onClick={resetFilters}
+                >
+                  {_.news_btn_reset_filter}
+                </button>
               </div>
 
               <div className="flex justify-center items-center w-full">

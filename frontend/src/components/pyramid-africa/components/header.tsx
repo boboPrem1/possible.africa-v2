@@ -36,7 +36,7 @@ const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
                 : "text-gray-700 after:w-0"
             }`}
           >
-            News tracking
+            Media tracker
           </Link>
           <Link
             to="/network"
@@ -104,9 +104,9 @@ const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
       <Link
         to="https://pyramid.possible.africa/auth/login"
         target="_blank"
-        className="hidden lg:block px-8 py-3 bg-[#2BB19C] rounded-full text-white text-lg font-bold justify-self-end"
+        className="hidden lg:block px-8 py-3 bg-[#2BB19C] rounded-full text-white text-lg font-bold justify-self-end text-nowrap"
       >
-        Connexion
+        Go To App
       </Link>
 
       {/* Hamburger Icon */}
@@ -128,7 +128,7 @@ const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
             target="_blank"
             className="text-gray-700 text-base"
           >
-            News tracking
+            Media tracker
           </a>
           <a
             href="https://possible.africa/network"
@@ -189,9 +189,9 @@ const Header = ({ page, shadow }: { page?: string, shadow?: boolean }) => {
           <Link
             to="https://pyramid.possible.africa/auth/login"
             target="_blank"
-            className="mt-4 w-full px-6 py-3 bg-[#2BB19C] text-white rounded-full text-base font-semibold"
+            className="mt-4 w-full px-6 py-3 bg-[#2BB19C] text-white rounded-full text-base font-semibold text-nowrap"
           >
-            Connexion
+            Go To App
           </Link>
         </div>
       )}

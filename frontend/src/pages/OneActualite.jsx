@@ -35,7 +35,7 @@ function OneActualite({ iconSx, backUrl, events }) {
   if (isLoading) {
     return (
       <>
-        <Header page="/" />
+        <Header page="/news" shadow />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <div className="h-[400px] w-full m-auto flex justify-center items-center">
@@ -54,7 +54,7 @@ function OneActualite({ iconSx, backUrl, events }) {
   if (isError || error) {
     return (
       <>
-        <Header page="/" />
+        <Header page="/news" shadow />
         <div className="flex justify-center">
           <div className="flex flex-col w-11/12">
             <NoData />
@@ -69,7 +69,7 @@ function OneActualite({ iconSx, backUrl, events }) {
 
   return (
     <>
-      <Header page="/" />
+      <Header page="/news" shadow />
       <div className="container mx-auto p-0">
         <div className="flex ml-10">
           <ArrowLeftSolidCustomIcon
