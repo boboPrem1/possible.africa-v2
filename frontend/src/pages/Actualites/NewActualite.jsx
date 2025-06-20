@@ -652,18 +652,19 @@ function News() {
       {/* Hero Section */}
       {showHero && (
         <div
-          ref={heroRef}
-          className="w-full transition-opacity duration-500 ease-out relative"
+          // ref={heroRef}
+          className="w-full flex flex-col justify-center items-center transition-opacity duration-500 ease-out relative"
           style={{
-            minHeight: "50vh",
             transform: showHero ? "translateY(0)" : "translateY(-100%)",
+            paddingTop: "24px",
+            paddingBottom: "24px",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-primary/5 z-0"></div>
 
           {/* Background Pattern */}
           <div className="absolute inset-0 z-10 opacity-10">
-            <svg width="100%" height="100%">
+            <svg width="100%" height="auto">
               <pattern
                 id="pattern-circles"
                 x="0"
@@ -692,7 +693,7 @@ function News() {
             </svg>
           </div>
 
-          <div className="container mx-auto px-4 py-16 md:py-24 relative z-20">
+          <div className="container mx-auto px-4 relative z-20">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
                 <span className="inline bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
@@ -709,7 +710,7 @@ function News() {
                   "Stay on top of trends, capture innovations and seize the best opportunities"}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => {
                     newsContentRef.current?.scrollIntoView({
@@ -748,15 +749,15 @@ function News() {
                     {_.filter_news || "Filter News"}
                   </button>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
 
           {/* Bottom fade effect */}
-          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+          {/* <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div> */}
 
           {/* Powered By Possible Africa */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex items-center gap-2">
+          <div className="z-30 flex items-center gap-2">
             <span className="text-xs md:text-base font-extrabold tracking-widest text-primary drop-shadow-lg uppercase" style={{letterSpacing: '0.15em'}}>
               Powered By
             </span>
