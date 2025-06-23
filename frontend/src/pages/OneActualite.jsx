@@ -155,9 +155,9 @@ function OneActualite({ iconSx, backUrl, events }) {
                       {formatDate(data.createdAt)}
                     </span>
                   </div>
-                  <div className="w-full h-auto border overflow-hidden rounded-lg">
+                  <div className="w-full h-auto shadow-sm overflow-hidden rounded-lg flex justify-start items-center">
                     <img
-                      className="w-full"
+                      className="w-full max-w-xs md:max-w-md lg:max-w-lg max-h-80 object-contain"
                       src={data?.image}
                       alt={data?.image}
                       onError={(e) => {
