@@ -176,7 +176,7 @@ io.on("connection", (socket) => {
           "transcriptionCompleted",
           "Transcription terminée et fichier fermé"
         );
-        
+
         fs.unlinkSync(path.join(transcriptionStream.path));
       });
     }
@@ -275,9 +275,9 @@ const icpsRoutes = require("./endpoints/organisations/airtableIcpRoutes.js");
 // Middleware
 //
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Authorization', 'Content-Type']
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Authorization', 'Content-Type']
 }));
 // app.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", [
@@ -389,6 +389,14 @@ cron.schedule("30 22 * * *", () => {
 // });
 
 // Start server
-server.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
-connection(URL_CONNECT_DEV);
+const startServer = async () => {
+  try {
+    await connection(URL_CONNECT_DEV);
+    server.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+  } catch (error) {
+    console.error("Failed to connect to the database", error);
+  }
+};
+
+startServer();
 // module.exports.io = io;
