@@ -27,7 +27,7 @@ export const apiSlice = createApi({
     prepareHeaders: (headers, { getState }) => {
       headers.set("authorization", `ApiKey ${api_key}`);
       headers.set("content-type", "application/json");
-      headers.set("Access-Control-Allow-Origin", "*");
+      // headers.set("Access-Control-Allow-Origin", "*");
       return headers;
     },
   }),
